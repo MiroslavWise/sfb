@@ -1,0 +1,59 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-touch-callout: none;
+}
+
+body {
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    tap-highlight-color: transparent;
+    touch-action: manipulation;
+    background: var(--background);
+}
+
+button {
+    cursor: pointer;
+}
+
+ul,
+form,
+aside,
+textarea {
+    list-style: none;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+
+    &::-webkit-scrollbar {
+        display: none !important;
+    }
+}
+
+input,
+textarea,
+select {
+    background: var(--background-input) !important;
+    @media screen and (max-width: 768px) {
+        font-size: 14px;
+        font-family: inherit;
+    }
+    &:focus {
+        @media (max-width: 768px) {
+            font-size: 14px;
+        }
+    }
+}
+
+p,
+a,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    letter-spacing: 0px;
+    font-style: normal;
+}
