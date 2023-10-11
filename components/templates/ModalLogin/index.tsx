@@ -1,0 +1,76 @@
+"use client"
+
+import { motion } from "framer-motion"
+
+import {
+    LoginFormComponent,
+    LoginHeaderFooterComponent,
+} from "./components/login"
+import {
+    RegisterFormComponent,
+    RegisterHeaderFooterComponent,
+} from "./components/register"
+
+import { useEnter } from "@/store/state/useEnter"
+
+import styles from "./styles/style.module.scss"
+import { useState } from "react"
+import Image from "next/image"
+
+export const ModalLogin = () => {
+    const { visible } = useEnter()
+    const [isLogin, setIsLogin] = useState(true)
+
+    return visible ? (
+        <motion.div
+            className={styles.wrapper}
+            data-visible={visible}
+            initial={{ opacity: 0, visibility: "hidden" }}
+            animate={{ opacity: 1, visibility: "visible" }}
+            exit={{ opacity: 0, visibility: "hidden" }}
+            transition={{ duration: 0.5 }}
+        >
+            <motion.section
+                initial={{ opacity: 0, visibility: "hidden", top: "20%" }}
+                animate={{ opacity: 1, visibility: "visible", top: "50%" }}
+                exit={{ opacity: 0, visibility: "hidden" }}
+                transition={{ duration: 0.4 }}
+            >
+                <article>
+                    {isLogin ? (
+                        <LoginHeaderFooterComponent />
+                    ) : (
+                        <RegisterHeaderFooterComponent />
+                    )}
+                    <Image
+                        src="/svg/logo.svg"
+                        alt="logo"
+                        width={54}
+                        height={25}
+                    />
+                </article>
+                <div data-forms>
+                    <nav>
+                        <a
+                            data-active={isLogin}
+                            onClick={() => setIsLogin(true)}
+                        >
+                            Войти на сайт
+                        </a>
+                        <a
+                            data-active={!isLogin}
+                            onClick={() => setIsLogin(false)}
+                        >
+                            Зарегистрироваться
+                        </a>
+                    </nav>
+                    {isLogin ? (
+                        <LoginFormComponent />
+                    ) : (
+                        <RegisterFormComponent />
+                    )}
+                </div>
+            </motion.section>
+        </motion.div>
+    ) : null
+}
