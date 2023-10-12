@@ -1,11 +1,16 @@
 :root {
     --main-black: #262626;
     --main-primary: #2f80ed;
+    --main-success: #1b9a18;
 
     --main-gray-linear: linear-gradient(77deg, #ebf1f8 -1.58%, #dde5ef 101.05%);
 
-    --transition: all 0.3s easy-in-out 0.01s;
+    --transition: all 0.3s ease-in-out;
     --gray-500: #667085;
+
+    --main-red: #eb5757;
+    --main-purple: #673386;
+    --main-yellow: #ffbf29;
 }
 
 * {
@@ -32,16 +37,9 @@ body {
     margin: 0 !important;
 
     & > main {
-        min-height: 10px;
-    }
-
-    & > footer {
         width: 100%;
-        padding: 60px 100px 40px;
+        height: auto;
         background: var(--main-gray-linear);
-        display: flex;
-        flex-direction: column;
-        gap: 40px;
     }
 }
 

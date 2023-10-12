@@ -18,7 +18,7 @@ import { useState } from "react"
 import Image from "next/image"
 
 export const ModalLogin = () => {
-    const { visible } = useEnter()
+    const { visible, dispatch } = useEnter()
     const [isLogin, setIsLogin] = useState(true)
 
     return visible ? (
@@ -36,6 +36,14 @@ export const ModalLogin = () => {
                 exit={{ opacity: 0, visibility: "hidden" }}
                 transition={{ duration: 0.4 }}
             >
+                <Image
+                    src="/svg/x-close.svg"
+                    alt="x-close"
+                    width={24}
+                    height={24}
+                    data-close
+                    onClick={() => dispatch({ visible: false })}
+                />
                 <article>
                     {isLogin ? (
                         <LoginHeaderFooterComponent />

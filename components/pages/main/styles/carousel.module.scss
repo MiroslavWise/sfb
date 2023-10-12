@@ -1,0 +1,14 @@
+.wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    padding: 100px 20px;
+
+    & > section {
+        max-width: 1440px;
+        width: 100%;
+    }
+}

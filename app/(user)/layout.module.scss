@@ -1,0 +1,86 @@
+.wrapper {
+    width: 100%;
+    padding: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 78px;
+
+    & > aside {
+        max-width: 250px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 70px;
+
+        & > [data-links="true"] {
+            padding-left: 20px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+
+            & > li {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 8px;
+                filter: grayscale(0.7);
+                transition: var(--transition);
+
+                &:not(&[data-active="true"]) {
+                    cursor: pointer;
+                }
+
+                & > img {
+                    height: 22px;
+                    width: 22px;
+                }
+
+                & > p {
+                    color: var(--main-primary);
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: normal;
+                }
+
+                & > [data-count="true"] {
+                    height: 20px;
+                    min-width: 30px;
+                    padding: 0 5px;
+                    border-radius: 8px;
+                    background-color: var(--main-success);
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+
+                    & > span {
+                        color: #fff;
+                        font-size: 12px;
+                        font-style: normal;
+                        font-weight: 600;
+                        line-height: 120%;
+                        text-transform: capitalize;
+                    }
+                }
+
+                &[data-active="true"] {
+                    filter: grayscale(0);
+                }
+            }
+        }
+    }
+
+    & > [data-link-profile="true"] {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 30px;
+    }
+}

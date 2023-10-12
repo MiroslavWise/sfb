@@ -1,0 +1,29 @@
+.container {
+    background: #fff;
+    cursor: pointer;
+    height: 80px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 30px;
+
+    & > section {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: min-content;
+        gap: 16px;
+
+        & > p {
+            color: var(--gray-500);
+            leading-trim: both;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 15px; /* 75% */
+            white-space: nowrap;
+        }
+    }
+}
