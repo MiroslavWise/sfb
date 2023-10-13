@@ -12,10 +12,12 @@
     },
     "dependencies": {
         "@ant-design/cssinjs": "^1.17.2",
+        "@apollo/client": "^3.8.5",
         "@reduxjs/toolkit": "^1.9.7",
         "antd": "^5.10.0",
         "dayjs": "^1.11.10",
         "framer-motion": "^10.16.4",
+        "graphql": "^16.8.1",
         "i18next": "^23.5.1",
         "i18next-browser-languagedetector": "^7.1.0",
         "jsonwebtoken": "^9.0.2",

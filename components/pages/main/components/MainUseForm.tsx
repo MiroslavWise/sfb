@@ -7,6 +7,7 @@ import { motion } from "framer-motion"
 import { FormPurchase } from "./form-purchase"
 
 import styles from "../styles/main-use-form.module.scss"
+import { ComponentSpoiler } from "./ComponentSpoiler"
 
 export const ComponentMainUseFormMainPage = () => {
     const [state, setState] = useState<"start" | "purchase" | "sale">("start")
@@ -72,6 +73,7 @@ export const ComponentMainUseFormMainPage = () => {
                         <h4>введите данные товара, который хотите купить</h4>
                     </header>
                     <FormPurchase setState={setState} />
+                    <ComponentSpoiler />
                 </motion.div>
             ) : null}
             {state === "sale" ? (
@@ -87,6 +89,7 @@ export const ComponentMainUseFormMainPage = () => {
                         <h4>введите данные товара, который хотите продать</h4>
                     </header>
                     <FormPurchase setState={setState} />
+                    <ComponentSpoiler />
                 </motion.div>
             ) : null}
         </div>

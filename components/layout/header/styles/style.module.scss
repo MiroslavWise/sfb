@@ -72,5 +72,29 @@
                 line-height: normal;
             }
         }
+
+        & > [data-profile-link="true"] {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+
+            & > img {
+                height: 45px;
+                width: 45px;
+                border-radius: 22.5px;
+                object-fit: cover;
+            }
+
+            & > p {
+                color: var(--main-black);
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 191.023%;
+                white-space: nowrap;
+            }
+        }
     }
 }
