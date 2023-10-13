@@ -29,6 +29,6 @@
         "**/*.tsx",
         ".next/types/**/*.ts",
         "server.js"
-    ],
+, "app/(user)/proposals/change/[uuid]"    ],
     "exclude": ["node_modules"]
 }

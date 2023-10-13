@@ -5,6 +5,7 @@ import { Inter } from "next/font/google"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 
+import StyledComponentsRegistry from "@/helpers/lib/AntdRegistry"
 const Provider = dynamic(() => import("@/context/provider"), { ssr: false })
 
 import "@/scss/init.scss"
@@ -24,11 +25,13 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={cx(inter.className)}>
-                <Provider>
-                    <Header />
-                    <main>{children}</main>
-                    <Footer />
-                </Provider>
+                <StyledComponentsRegistry>
+                    <Provider>
+                        <Header />
+                        <main>{children}</main>
+                        <Footer />
+                    </Provider>
+                </StyledComponentsRegistry>
             </body>
         </html>
     )
