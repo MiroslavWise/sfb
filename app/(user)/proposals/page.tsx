@@ -6,6 +6,11 @@ export default function Proposals() {
     return (
         <article>
             <ItemProposalsPage />
+            <ItemProposalsPage />
+            <ItemProposalsPage />
+            <ItemProposalsPage />
+            <ItemProposalsPage />
+            <ItemProposalsPage />
         </article>
     )
 }

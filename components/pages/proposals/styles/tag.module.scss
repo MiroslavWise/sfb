@@ -1,0 +1,19 @@
+.container {
+    width: min-content;
+    padding: 13px 27px;
+    height: 35px;
+    border-radius: 18px;
+    background: var(--main-black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & > span {
+        color: #fff;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 120%;
+        white-space: nowrap;
+    }
+}
