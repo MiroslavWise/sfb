@@ -1,23 +1,47 @@
 "use client"
 
+import { useEffect } from "react"
 import Image from "next/image"
+import dayjs, { Dayjs } from "dayjs"
 import { useForm } from "react-hook-form"
+import { useMutation, useQuery } from "@apollo/client"
 
+import { me } from "@/apollo/query"
+import { updateProfile } from "@/apollo/mutation"
 import { usePush } from "@/helpers/hooks/usePush"
-import { Dayjs } from "dayjs"
 
 export default function ChangeData() {
     const { handlePush } = usePush()
+    const { data, refetch } = useQuery(me)
     const {
         register,
         formState: { errors },
         handleSubmit,
         setError,
         setValue,
-    } = useForm<IValues>({})
+    } = useForm<IValues>()
+
+    useEffect(() => {
+        setValue("email", data?.me?.email)
+        setValue("phone", data?.me?.phone)
+        setValue("fullName", data?.me?.fullName)
+        setValue("address", data?.me?.address)
+    }, [data?.me])
+
+    const [update] = useMutation(updateProfile)
 
     function onSubmit(values: IValues) {
-        handlePush("/profile")
+        update({
+            variables: {
+                fullName: values?.fullName,
+                phone: values.phone,
+                address: values?.address,
+            },
+        }).finally(() => {
+            refetch().finally(() => {
+                handlePush("/profile")
+            })
+        })
     }
 
     return (
@@ -37,61 +61,30 @@ export default function ChangeData() {
                     <span>
                         <input
                             type="text"
-                            data-red={!!errors.username}
-                            placeholder="Введите свой ник"
-                            {...register("username", {
-                                required: true,
-                                minLength: 5,
-                            })}
+                            data-red={!!errors.fullName}
+                            placeholder="Введите своё полное имя"
+                            {...register("fullName", { required: true })}
                         />
-                        {errors.username ? <i>Обязательное поле</i> : null}
+                        {errors?.fullName ? <i>Обязательное поле</i> : null}
                     </span>
-                    <div data-row>
-                        <span>
-                            <input
-                                type="text"
-                                data-red={!!errors.firsName}
-                                placeholder="Введите своё имя"
-                                {...register("firsName", { required: true })}
-                            />
-                            {errors?.firsName ? <i>Обязательное поле</i> : null}
-                        </span>
-                        <span>
-                            <input
-                                type="text"
-                                placeholder="Введите своё отчество"
-                                {...register("middleName", { required: false })}
-                            />
-                        </span>
-                    </div>
-                    <div data-row>
-                        <span>
-                            <input
-                                type="text"
-                                data-red={!!errors.lastName}
-                                placeholder="Введите свою фамилию"
-                                {...register("lastName", { required: true })}
-                            />
-                            {errors?.lastName ? <i>Обязательное поле</i> : null}
-                        </span>
-                        <span>
-                            <input
-                                type="text"
-                                data-red={!!errors.birthday}
-                                placeholder="Введите своё отчество"
-                                {...register("birthday", { required: true })}
-                            />
-                            {errors?.birthday ? <i>Обязательное поле</i> : null}
-                        </span>
-                    </div>
+                    <span>
+                        <input
+                            type="text"
+                            data-red={!!errors.address}
+                            placeholder="Введите свой адресс"
+                            {...register("address", { required: true })}
+                        />
+                        {errors?.address ? <i>Обязательное поле</i> : null}
+                    </span>
                     <span>
                         <input
                             type="email"
                             data-red={!!errors?.email}
                             placeholder="Введите свой Email"
+                            disabled
                             {...register("email", {
-                                required: true,
-                                minLength: 5,
+                                // required: true,
+                                // minLength: 5,
                             })}
                         />
                         {errors?.email ? <i>Обязательное поле</i> : null}
@@ -129,13 +122,12 @@ export default function ChangeData() {
 
 interface IValues {
     username: string
-    firsName: string
-    lastName: string
-    middleName: string
+    fullName: string
     birthday: Date | Dayjs | string
     country: string
     district: string
     city: string
     email: string
     phone: string
+    address: string
 }

@@ -30,6 +30,39 @@ const auth = {
             }
         }
     `,
+    userRegistration: gql`
+        mutation (
+            $email: String!
+            $isSeller: Boolean!
+            $password: String!
+            $phone: String!
+        ) {
+            userRegistration(
+                email: $email
+                isSeller: $isSeller
+                password: $password
+                phone: $phone
+            ) {
+                ok
+                user {
+                    id
+                    email
+                    fullName
+                    photo
+                    birthday
+                    phone
+                    isStaff
+                    isActive
+                    isAdmin
+                    isSuperuser
+                }
+                errors {
+                    field
+                    messages
+                }
+            }
+        }
+    `,
 }
 
 import client from "./initApollo"
@@ -47,4 +80,17 @@ export const serviceAuth = {
             variables: { refreshToken },
         })
     },
+    register({ email, isSeller, password, phone }: IValuesRegister) {
+        return client.mutate({
+            mutation: auth.userRegistration,
+            variables: { email, isSeller, password, phone },
+        })
+    },
+}
+
+export interface IValuesRegister {
+    email: string
+    isSeller: boolean
+    password: string
+    phone: string
 }

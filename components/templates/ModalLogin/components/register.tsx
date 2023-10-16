@@ -3,14 +3,35 @@ import { motion } from "framer-motion"
 import { useForm } from "react-hook-form"
 
 import { useEnter } from "@/store/state/useEnter"
+import { serviceAuth } from "@/helpers/services/serviceAuth"
+import { useAuth } from "@/store/state/useAuth"
 
 export const RegisterFormComponent = () => {
     const { visible } = useEnter()
-    const { register, setError, setValue, setFocus } = useForm<IValues>({})
+    const { login } = useAuth()
+    const { register, setError, setValue, setFocus, formState, handleSubmit } =
+        useForm<IValues>({})
 
     useEffect(() => {
         if (visible) setFocus("login")
     }, [visible])
+
+    function submit(values: IValues) {
+        serviceAuth
+            .register({
+                email: values?.login?.trim()?.toLowerCase()!,
+                phone: values?.number?.trim()!,
+                password: values?.password?.trim()!,
+                isSeller: true,
+            })
+            .then((response) => {
+                if (response?.data?.userRegistration?.ok) {
+                    login(values?.login?.trim()!, values?.password!)
+                }
+            })
+    }
+
+    const omSubmit = handleSubmit(submit)
 
     return (
         <motion.form
@@ -18,15 +39,16 @@ export const RegisterFormComponent = () => {
             animate={{ opacity: 1, visibility: "visible" }}
             exit={{ opacity: 0, visibility: "hidden" }}
             transition={{ duration: 0.5 }}
+            onSubmit={omSubmit}
         >
             <div data-inputs>
                 <input
-                    placeholder="Электронная почта или телефон"
+                    placeholder="Электронная почта"
                     {...register("login", { required: true })}
                     type="email"
                 />
                 <input
-                    placeholder="Электронная почта или телефон"
+                    placeholder="Телефон"
                     {...register("number", { required: true })}
                     type="text"
                 />
