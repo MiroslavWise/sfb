@@ -85,7 +85,7 @@ export const ComponentMainUseFormMainPage = () => {
                     transition={{ duration: 0.3 }}
                 >
                     <header>
-                        <h2>Вы продающий</h2>
+                        <h2>Вы продавец</h2>
                         <h4>введите данные товара, который хотите продать</h4>
                     </header>
                     <FormPurchase setState={setState} />
