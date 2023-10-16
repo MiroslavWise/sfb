@@ -1,6 +1,9 @@
 import type { FC } from "react"
 
-export interface IItemHeaderCurrentMyProposals {}
+export interface IItemHeaderCurrentMyProposals {
+    value: string | number
+    label: string
+}
 
 export interface IItemProposalsPage {}
 
