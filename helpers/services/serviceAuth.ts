@@ -11,7 +11,6 @@ const auth = {
                 user {
                     id
                     fullName
-                    iin
                     isAdmin
                     isActive
                     isSuperuser
