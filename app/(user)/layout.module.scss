@@ -82,5 +82,34 @@
         flex-direction: column;
         justify-content: flex-start;
         gap: 30px;
+
+        & > footer {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+
+            & > button {
+                width: 180px;
+                height: 45px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                border: none !important;
+                outline: none !important;
+                background: var(--main-black);
+                border-radius: 7px;
+
+                & > span {
+                    color: #fff;
+                    text-align: center;
+                    font-size: 13px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: normal;
+                }
+            }
+        }
     }
 }

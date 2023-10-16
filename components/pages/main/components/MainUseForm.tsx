@@ -73,7 +73,7 @@ export const ComponentMainUseFormMainPage = () => {
                         <h4>введите данные товара, который хотите купить</h4>
                     </header>
                     <FormPurchase setState={setState} />
-                    <ComponentSpoiler />
+                    {/* <ComponentSpoiler /> */}
                 </motion.div>
             ) : null}
             {state === "sale" ? (
@@ -89,7 +89,7 @@ export const ComponentMainUseFormMainPage = () => {
                         <h4>введите данные товара, который хотите продать</h4>
                     </header>
                     <FormPurchase setState={setState} />
-                    <ComponentSpoiler />
+                    {/* <ComponentSpoiler /> */}
                 </motion.div>
             ) : null}
         </div>
