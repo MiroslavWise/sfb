@@ -13,6 +13,7 @@ export default function ChangePassword() {
         handleSubmit,
         setError,
         setValue,
+        watch,
     } = useForm<IValues>({})
 
     function onSubmit(values: IValues) {
@@ -34,26 +35,39 @@ export default function ChangePassword() {
                 <section>
                     <span>
                         <input
-                            type="email"
+                            type="password"
                             placeholder="Введите текущий пароль*"
                             {...register("current_password", {
                                 required: true,
                             })}
                         />
+                        {errors?.current_password ? (
+                            <i>{errors?.current_password?.message}</i>
+                        ) : null}
                     </span>
                     <span>
                         <input
-                            type="email"
+                            type="password"
                             placeholder="Создать пароль*"
                             {...register("new_password", { required: true })}
                         />
                     </span>
                     <span>
                         <input
-                            type="email"
+                            type="password"
                             placeholder="Подтвердить пароль*"
-                            {...register("new_2_password", { required: true })}
+                            {...register("new_2_password", {
+                                required: true,
+                                validate: (value) => {
+                                    if (watch("new_password") !== value) {
+                                        return "Ваши пароли не совпадают"
+                                    }
+                                },
+                            })}
                         />
+                        {errors?.new_2_password ? (
+                            <i>{errors?.new_2_password?.message}</i>
+                        ) : null}
                     </span>
                 </section>
                 <footer>

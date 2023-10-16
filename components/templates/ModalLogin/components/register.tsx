@@ -9,8 +9,15 @@ import { useAuth } from "@/store/state/useAuth"
 export const RegisterFormComponent = () => {
     const { visible } = useEnter()
     const { login } = useAuth()
-    const { register, setError, setValue, setFocus, formState, handleSubmit } =
-        useForm<IValues>({})
+    const {
+        register,
+        setError,
+        setValue,
+        setFocus,
+        formState: { errors },
+        handleSubmit,
+        watch,
+    } = useForm<IValues>({})
 
     useEffect(() => {
         if (visible) setFocus("login")
@@ -59,7 +66,14 @@ export const RegisterFormComponent = () => {
                 />
                 <input
                     placeholder="Пароль"
-                    {...register("password_", { required: true })}
+                    {...register("password_", {
+                        required: true,
+                        validate: (value) => {
+                            if (watch("password") !== value) {
+                                return "Ваши пароли не совпадают"
+                            }
+                        },
+                    })}
                     type="password"
                 />
             </div>
