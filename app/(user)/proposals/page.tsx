@@ -8,7 +8,7 @@ import {
 export default function Proposals() {
     return (
         <>
-            <HeaderMyProposals />
+            {/* <HeaderMyProposals /> */}
             <article>
                 <ItemProposalsPage />
                 <ItemProposalsPage />

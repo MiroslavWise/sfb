@@ -6,6 +6,18 @@ export const ITEMS_ASIDE_LEFT = (values: IValuesData): IItemsAsideLeft[] => [
         count: 3,
     },
     {
+        value: "/my-requests",
+        label: "Мои запросы",
+        icon: "/svg/proposals.svg",
+        count: 3,
+    },
+    {
+        value: "/my-products",
+        label: "Мои товары",
+        icon: "/svg/proposals.svg",
+        count: 3,
+    },
+    {
         value: "/messages",
         label: "Сообщения",
         icon: "/svg/messages.svg",

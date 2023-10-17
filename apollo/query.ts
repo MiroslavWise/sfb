@@ -16,3 +16,39 @@ export const me = gql`
         }
     }
 `
+
+export const categories = gql`
+    query {
+        categoryList {
+            id
+            name
+            iconName
+        }
+    }
+`
+
+export const regions = gql`
+    query {
+        regionList {
+            id
+            name
+        }
+    }
+`
+
+export const areas = gql`
+    query {
+        areaList {
+            id
+            name
+        }
+    }
+`
+export const city = gql`
+    query {
+        cityList {
+            id
+            name
+        }
+    }
+`

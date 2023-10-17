@@ -7,7 +7,7 @@ import { serviceAuth } from "@/helpers/services/serviceAuth"
 import { useAuth } from "@/store/state/useAuth"
 
 export const RegisterFormComponent = () => {
-    const { visible } = useEnter()
+    const { visible, dispatch } = useEnter()
     const { login } = useAuth()
     const {
         register,
@@ -33,7 +33,11 @@ export const RegisterFormComponent = () => {
             })
             .then((response) => {
                 if (response?.data?.userRegistration?.ok) {
-                    login(values?.login?.trim()!, values?.password!)
+                    login(values?.login?.trim()!, values?.password!).then(
+                        () => {
+                            dispatch({ visible: false })
+                        },
+                    )
                 }
             })
     }
