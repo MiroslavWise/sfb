@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client"
+import { PRODUCT } from "./fragment"
 
 export const me = gql`
     query {
@@ -49,6 +50,18 @@ export const city = gql`
         cityList {
             id
             name
+        }
+    }
+`
+
+export const productList = gql`
+    ${PRODUCT}
+    query ($offset: Int) {
+        productRequestList(limit: 10, offset: $offset) {
+            totalCount
+            results {
+                ...product
+            }
         }
     }
 `

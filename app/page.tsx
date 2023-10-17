@@ -1,9 +1,10 @@
 import {
     ComponentCarouselMainPage,
-    ComponentBackGroundVideoMainPage,
+    // ComponentBackGroundVideoMainPage,
     ComponentCarouselBannerMainPage,
     ComponentMainUseFormMainPage,
 } from "@/components/pages/main"
+import Exchange from "./exchange/page"
 
 import styles from "./page.module.scss"
 
@@ -12,7 +13,8 @@ export default function Page() {
         <div className={styles.wrapper}>
             <ComponentMainUseFormMainPage />
             <ComponentCarouselBannerMainPage type="main" />
-            <ComponentBackGroundVideoMainPage />
+            {/* <ComponentBackGroundVideoMainPage /> */}
+            <Exchange />
             <ComponentCarouselMainPage />
         </div>
     )

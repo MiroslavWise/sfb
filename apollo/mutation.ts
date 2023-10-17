@@ -19,3 +19,14 @@ export const updateProfile = gql`
         }
     }
 `
+
+export const createProduct = gql`
+    mutation ($categoryId: UUID, $name: String) {
+        productRequestCreate(input: { categoryId: $categoryId, name: $name }) {
+            ok
+            product {
+                id
+            }
+        }
+    }
+`

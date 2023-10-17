@@ -37,8 +37,6 @@ export const FormPurchase = ({
         }
     }
 
-    console.log("watch: ", watch("id"))
-
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <section>

@@ -104,7 +104,7 @@ export const RegisterHeaderFooterComponent = () => {
             exit={{ opacity: 0, visibility: "hidden" }}
             transition={{ duration: 0.5 }}
         >
-            <h2>Регистрация покупателя</h2>
+            <h2>Регистрация пользователя</h2>
             <h3>здесь должен быть текст маркетологи напишут</h3>
         </motion.div>
     )
