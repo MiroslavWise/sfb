@@ -30,6 +30,10 @@
             & > p {
                 color: #fff;
             }
+
+            & > [data-replace="true"] {
+                cursor: pointer;
+            }
         }
         &:not(&[data-active="true"]) {
             cursor: pointer;

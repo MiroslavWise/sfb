@@ -6,7 +6,6 @@ export const me = gql`
             id
             email
             fullName
-            birthday
             photo
             phone
             address

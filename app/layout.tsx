@@ -7,12 +7,12 @@ import type { IChildrenProps } from "@/types/types"
 import { Footer } from "@/components/layout/footer"
 import { Header } from "@/components/layout/header"
 
-import StyledComponentsRegistry from "@/helpers/lib/AntdRegistry"
 const Provider = dynamic(() => import("@/context/provider"), { ssr: false })
 
 import { cx } from "@/helpers/lib/cx"
 
 import "@/scss/init.scss"
+import "@coreui/coreui/dist/css/coreui.min.css"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -24,13 +24,11 @@ export default function RootLayout({ children }: IChildrenProps) {
     return (
         <html lang="ru">
             <body className={cx(inter.className)}>
-                <StyledComponentsRegistry>
-                    <Provider>
-                        <Header />
-                        <main>{children}</main>
-                        <Footer />
-                    </Provider>
-                </StyledComponentsRegistry>
+                <Provider>
+                    <Header />
+                    <main>{children}</main>
+                    <Footer />
+                </Provider>
             </body>
         </html>
     )

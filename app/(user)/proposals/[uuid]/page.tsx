@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation"
 
-export default function ProposalsChangeUUID() {
+export default function ProposalsUUID() {
     const { uuid } = useParams()
 
     return <></>

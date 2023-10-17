@@ -1,4 +1,4 @@
-import { Select } from "antd"
+import Select from "react-select"
 import {
     ChangeEvent,
     Dispatch,
@@ -21,9 +21,11 @@ export const FormPurchase = ({
         watch,
         handleSubmit,
         formState: { errors },
-    } = useForm<IValues>({})
+    } = useForm<IValues>({ defaultValues: { id: null } })
 
     function onSubmit(values: IValues) {}
+
+    console.log("watch: ", watch("id"))
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -38,10 +40,12 @@ export const FormPurchase = ({
                         <i>Обязательное поле(мин 5 символов)</i>
                     ) : null}
                 </span>
-                <span>
+                <span {...register("id", { required: true })}>
                     <Select
-                        options={[{ label: "asdfasdf", value: "asdf" }]}
-                        size="large"
+                        options={[{ label: "asdfasdf", value: 1 }]}
+                        onChange={(event) => {
+                            setValue("id", event?.value! || null)
+                        }}
                         placeholder="Выберите категорию товара"
                     />
                     {errors?.id ? <i>Выберите категорию товара</i> : null}
@@ -72,6 +76,6 @@ export const FormPurchase = ({
 
 interface IValues {
     name: string
-    id: string | number
+    id: string | number | null
     files: File[]
 }
