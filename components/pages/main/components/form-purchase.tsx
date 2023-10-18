@@ -53,7 +53,7 @@ export const FormPurchase = ({
                     .then((response) => {
                         if (response?.data) {
                             handlePush(
-                                `/my-products/change?product-id=${response?.data?.productCreate?.product?.id}`,
+                                `/my-requests/change?request-id=${response?.data?.productRequestCreate?.productRequest?.id}`,
                             )
                         }
                     })
@@ -69,7 +69,7 @@ export const FormPurchase = ({
                     .then((response) => {
                         if (response?.data) {
                             handlePush(
-                                `/my-requests/change?request-id=${response?.data?.productCreate?.productRequest?.id}`,
+                                `/my-products/change?product-id=${response?.data?.productCreate?.product?.id}`,
                             )
                         }
                     })

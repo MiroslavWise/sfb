@@ -72,7 +72,7 @@ export const ComponentMainUseFormMainPage = () => {
                         <h2>Вы покупатель</h2>
                         <h4>введите данные товара, который хотите купить</h4>
                     </header>
-                    <FormPurchase setState={setState} state="purchase" />
+                    <FormPurchase setState={setState} state={state} />
                     {/* <ComponentSpoiler /> */}
                 </motion.div>
             ) : null}
@@ -88,7 +88,7 @@ export const ComponentMainUseFormMainPage = () => {
                         <h2>Вы продавец</h2>
                         <h4>введите данные товара, который хотите продать</h4>
                     </header>
-                    <FormPurchase setState={setState} state="sale" />
+                    <FormPurchase setState={setState} state={state} />
                     {/* <ComponentSpoiler /> */}
                 </motion.div>
             ) : null}
