@@ -1,11 +1,16 @@
 import { gql } from "@apollo/client"
 
+export const AUTHOR = gql`
+    fragment author on UserType {
+        id
+        fullName
+    }
+`
+
 export const PHOTOS_REQUEST = gql`
     fragment photosRequest on ProductRequestPhotoType {
         id
         photo
-        isMain
-        isActive
         photoUrl
     }
 `
@@ -14,14 +19,12 @@ export const PHOTOS = gql`
     fragment photos on ProductPhotoType {
         id
         photo
-        isMain
-        isActive
         photoUrl
     }
 `
 
 export const PRODUCT = gql`
-    ${PHOTOS}
+    ${AUTHOR}
     fragment product on ProductType {
         id
         category {
@@ -32,8 +35,7 @@ export const PRODUCT = gql`
         description
         price
         author {
-            id
-            fullName
+            ...author
         }
         city {
             id
@@ -41,13 +43,12 @@ export const PRODUCT = gql`
         }
         commercial
         isActive
-        photoListUrl {
-            ...photos
-        }
+        draft
     }
 `
 
 export const PRODUCT_REQUEST = gql`
+    ${AUTHOR}
     fragment productRequest on ProductRequestType {
         id
         category {
@@ -58,8 +59,7 @@ export const PRODUCT_REQUEST = gql`
         description
         price
         author {
-            id
-            fullName
+            ...author
         }
         city {
             id

@@ -4,10 +4,10 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-start;
-    gap: 20px 20px;
+    gap: 16px 16px;
 
     & > li {
-        padding: 15px 20px;
+        padding: 8px 16px;
         border-radius: 7px;
         background: #fff;
         width: min-content;
@@ -15,6 +15,7 @@
         flex-direction: row;
         align-items: center;
         gap: 16px;
+        cursor: pointer;
 
         & > p {
             width: min-content;
@@ -34,9 +35,6 @@
             & > [data-replace="true"] {
                 cursor: pointer;
             }
-        }
-        &:not(&[data-active="true"]) {
-            cursor: pointer;
         }
     }
 }

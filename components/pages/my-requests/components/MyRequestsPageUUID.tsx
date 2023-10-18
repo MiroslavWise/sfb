@@ -1,19 +1,24 @@
 "use client"
 
 import Image from "next/image"
-import { useMutation, useQuery } from "@apollo/client"
+import { useMemo } from "react"
 import { useSearchParams } from "next/navigation"
+import { useMutation, useQuery } from "@apollo/client"
 
-import type { IRequestProductRoot } from "../types/types"
+import type { IPhotoProductRequestData } from "@/types/types"
+import type { IRequestProductRoot } from "@/types/types"
 
+import { PhotoStage } from "@/components/common/PhotoStage"
 import { TagCategory } from "../../proposals/components/TagCategory"
 
 import { usePush } from "@/helpers/hooks/usePush"
-import { queryProductRequestById } from "@/apollo/query"
+import {
+    queryPhotosProductRequestById,
+    queryProductRequestById,
+} from "@/apollo/query"
+import { mutateUpdateProductRequestDraft } from "@/apollo/mutation"
 
 import styles from "../styles/page-uuid.module.scss"
-import { mutateUpdateProductRequestDraft } from "@/apollo/mutation"
-import { PhotoStage } from "./PhotoStage"
 
 export const MyRequestsPageUUID = () => {
     const uuid = useSearchParams().get("request-id")
@@ -22,6 +27,12 @@ export const MyRequestsPageUUID = () => {
     const [mutateDraft] = useMutation(mutateUpdateProductRequestDraft)
     const { data, loading, refetch } = useQuery<IRequestProductRoot>(
         queryProductRequestById,
+        {
+            variables: { id: uuid },
+        },
+    )
+    const { data: dataPhotos } = useQuery<IPhotoProductRequestData>(
+        queryPhotosProductRequestById,
         {
             variables: { id: uuid },
         },
@@ -44,11 +55,26 @@ export const MyRequestsPageUUID = () => {
         }
     }
 
+    const images = useMemo(() => {
+        if (
+            !dataPhotos?.productRequestById ||
+            !Array.isArray(dataPhotos?.productRequestById?.photoListUrl)
+        ) {
+            return []
+        }
+        return dataPhotos?.productRequestById?.photoListUrl
+            ?.filter((item) => item.photoUrl)
+            ?.map((item, index) => ({
+                item: item,
+                index: index,
+            }))
+    }, [dataPhotos?.productRequestById])
+
     if (loading || !productRequestById) return null
 
     return (
         <div className={styles.wrapper}>
-            <PhotoStage />
+            <PhotoStage images={images} />
             <div data-description>
                 <div data-sub-description>
                     <div data-title>

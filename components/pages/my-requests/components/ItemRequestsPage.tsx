@@ -2,7 +2,7 @@
 
 import dayjs from "dayjs"
 import Image from "next/image"
-import { useEffect, useId, useMemo, useRef, useState } from "react"
+import { memo, useEffect, useId, useMemo, useRef, useState } from "react"
 
 import type { TItemProposalsPage } from "../../proposals/types/types"
 
@@ -10,7 +10,7 @@ import { usePush } from "@/helpers/hooks/usePush"
 
 import styles from "../styles/item.module.scss"
 
-export const ItemRequestsPage: TItemProposalsPage = (props) => {
+const $ItemRequestsPage: TItemProposalsPage = (props) => {
     const {
         id,
         author: { fullName },
@@ -129,3 +129,5 @@ export const ItemRequestsPage: TItemProposalsPage = (props) => {
         </section>
     )
 }
+
+export const ItemRequestsPage = memo($ItemRequestsPage)

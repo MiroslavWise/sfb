@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client"
-import { PRODUCT, PRODUCT_REQUEST, PHOTOS_REQUEST } from "./fragment"
+import { PRODUCT, PRODUCT_REQUEST, PHOTOS_REQUEST, PHOTOS } from "./fragment"
 
 export const me = gql`
     query {
@@ -70,6 +70,30 @@ export const productRequestListMe = gql`
     }
 `
 
+export const productRequestListMe_ID_NAME = gql`
+    query {
+        productRequestListMe {
+            totalCount
+            results {
+                id
+                name
+            }
+        }
+    }
+`
+
+export const productListMe_ID_NAME = gql`
+    query {
+        productListMe(draft: false) {
+            totalCount
+            results {
+                id
+                name
+            }
+        }
+    }
+`
+
 export const queryProductListMe = gql`
     ${PRODUCT}
     query ($offset: Int) {
@@ -104,6 +128,17 @@ export const queryPhotosProductRequestById = gql`
         productRequestById(id: $id) {
             photoListUrl {
                 ...photosRequest
+            }
+        }
+    }
+`
+
+export const queryPhotosProductById = gql`
+    ${PHOTOS}
+    query ($id: UUID!) {
+        productById(id: $id) {
+            photoListUrl {
+                ...photos
             }
         }
     }

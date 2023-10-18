@@ -1,5 +1,5 @@
+import { IRequestProduct } from "@/types/types"
 import type { FC } from "react"
-import { IRequestProduct } from "../../my-requests/types/types"
 
 export interface IItemHeaderCurrentMyProposals {
     value: string | number

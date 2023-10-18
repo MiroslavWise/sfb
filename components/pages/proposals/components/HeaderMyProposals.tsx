@@ -1,34 +1,35 @@
+"use client"
+
 import { ItemHeaderCurrentMyProposals } from "./ItemHeaderCurrentMyProposals"
 
 import styles from "../styles/header-my-proposals.module.scss"
+import { useQuery } from "@apollo/client"
+import { productListMe_ID_NAME } from "@/apollo/query"
 
 export const HeaderMyProposals = () => {
+    const { data } = useQuery<{
+        productListMe: {
+            totalCount: number
+            results: {
+                id: string
+                name: string
+            }[]
+        }
+    }>(productListMe_ID_NAME)
+
+    const { productListMe } = data ?? {}
+
     return (
         <ul className={styles.header}>
-            <ItemHeaderCurrentMyProposals
-                value={"qwerqwer"}
-                label="Гипсокартон (Стена/Потолок)"
-            />
-            <ItemHeaderCurrentMyProposals
-                value={"фыва"}
-                label="Смартфон Apple iPhone 14"
-            />
-            <ItemHeaderCurrentMyProposals
-                value={"dfgsdfhdfh"}
-                label="185/60R14 82Q Tunga Nord"
-            />
-            <ItemHeaderCurrentMyProposals
-                value={"qwet ert egsdgf"}
-                label="Бампер Toyota Land Cruiser Prado"
-            />
-            <ItemHeaderCurrentMyProposals
-                value={"wer ert egsdgf"}
-                label="Renault megane3"
-            />
-            <ItemHeaderCurrentMyProposals
-                value={"qwet edfasrt egsdgf"}
-                label="Противотуманные фары"
-            />
+            {Array.isArray(productListMe?.results)
+                ? productListMe?.results?.map((item) => (
+                      <ItemHeaderCurrentMyProposals
+                          label={item.name}
+                          key={`${item.id}-proposals`}
+                          value={item.id}
+                      />
+                  ))
+                : null}
         </ul>
     )
 }

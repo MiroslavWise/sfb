@@ -1,7 +1,7 @@
 "use client"
 
 import { useQuery } from "@apollo/client"
-import type { IRequestProduct } from "../types/types"
+import type { IRequestProduct } from "@/types/types"
 
 import { ItemRequestsPage } from "./ItemRequestsPage"
 

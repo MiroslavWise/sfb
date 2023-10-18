@@ -1,19 +1,24 @@
 "use client"
 
+import Image from "next/image"
+import { useMemo } from "react"
 import { useSearchParams } from "next/navigation"
-import { queryProductById } from "@/apollo/query"
-import { usePush } from "@/helpers/hooks/usePush"
 import { useMutation, useQuery } from "@apollo/client"
+
+import type { IPhotoProductData } from "@/types/types"
+
+import { PhotoStage } from "@/components/common/PhotoStage"
+import { TagCategory } from "../../proposals/components/TagCategory"
+
+import { usePush } from "@/helpers/hooks/usePush"
 import { mutateUpdateProductDraft } from "@/apollo/mutation"
-// import { PhotoStage } from "../../my-requests/components/PhotoStage"
+import { queryPhotosProductById, queryProductById } from "@/apollo/query"
 
 import styles from "../styles/page-uuid.module.scss"
-import { TagCategory } from "../../proposals/components/TagCategory"
-import Image from "next/image"
 
 export const MyProductPageUUID = () => {
-    const uuid = useSearchParams().get("product-id")
     const { handlePush } = usePush()
+    const uuid = useSearchParams().get("product-id")
 
     const [mutateDraft] = useMutation(mutateUpdateProductDraft)
 
@@ -21,6 +26,12 @@ export const MyProductPageUUID = () => {
         variables: { id: uuid },
     })
     const { productById } = data ?? {}
+    const { data: dataPhotos } = useQuery<IPhotoProductData>(
+        queryPhotosProductById,
+        {
+            variables: { id: uuid },
+        },
+    )
 
     console.log("productById: ", productById)
 
@@ -32,7 +43,7 @@ export const MyProductPageUUID = () => {
         if (productById?.draft) {
             mutateDraft({
                 variables: {
-                    productRequestId: uuid,
+                    productId: uuid,
                 },
             }).finally(() => {
                 refetch().finally(() => {})
@@ -40,10 +51,25 @@ export const MyProductPageUUID = () => {
         }
     }
 
+    const images = useMemo(() => {
+        if (
+            !dataPhotos?.productById ||
+            !Array.isArray(dataPhotos?.productById?.photoListUrl)
+        ) {
+            return []
+        }
+        return dataPhotos?.productById?.photoListUrl
+            ?.filter((item) => item.photoUrl)
+            ?.map((item, index) => ({
+                item: item,
+                index: index,
+            }))
+    }, [dataPhotos?.productById])
+
     return (
         <>
             <div className={styles.wrapper}>
-                {/* <PhotoStage /> */}
+                <PhotoStage images={images} />
                 <div data-description>
                     <div data-sub-description>
                         <div data-title>

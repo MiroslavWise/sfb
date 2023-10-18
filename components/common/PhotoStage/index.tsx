@@ -1,44 +1,19 @@
 "use client"
 
 import Image from "next/image"
+import { useState, memo } from "react"
 import { motion } from "framer-motion"
-import { useMemo, useState } from "react"
-import { useQuery } from "@apollo/client"
-import { useSearchParams } from "next/navigation"
 
-import type { IPhotoRequestData } from "@/types/types"
+import type { IPhoto } from "@/types/types"
 
-import { queryPhotosProductRequestById } from "@/apollo/query"
+import styles from "./style.module.scss"
 
-export const PhotoStage = () => {
-    const uuid = useSearchParams().get("request-id")
-
-    const { data: dataPhotos } = useQuery<IPhotoRequestData>(
-        queryPhotosProductRequestById,
-        {
-            variables: { id: uuid },
-        },
-    )
-
+const $PhotoStage = (props: { images: { item: IPhoto; index: number }[] }) => {
+    const { images } = props ?? {}
     const [indexCurrent, setIndexCurrent] = useState<number>(0)
 
-    const images = useMemo(() => {
-        if (
-            !dataPhotos?.productRequestById ||
-            !Array.isArray(dataPhotos?.productRequestById?.photoListUrl)
-        ) {
-            return []
-        }
-        return dataPhotos?.productRequestById?.photoListUrl
-            ?.filter((item) => item.photoUrl)
-            ?.map((item, index) => ({
-                item: item,
-                index: index,
-            }))
-    }, [dataPhotos?.productRequestById])
-
     return (
-        <div data-images>
+        <div className={styles.wrapper}>
             {images.length ? (
                 <motion.div
                     data-image
@@ -89,3 +64,5 @@ export const PhotoStage = () => {
         </div>
     )
 }
+
+export const PhotoStage = memo($PhotoStage)

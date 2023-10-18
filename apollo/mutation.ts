@@ -116,17 +116,14 @@ export const mutateUpdateProductRequestDraft = gql`
 `
 
 export const mutateUpdateProductDraft = gql`
-    mutation ($productRequestId: UUID!) {
-        productUpdate(
-            input: { draft: false }
-            productId: $productId
-        ) {
+    mutation ($productId: UUID!) {
+        productUpdate(input: { draft: false }, productId: $productId) {
             ok
         }
     }
 `
 
-export const updateProduct = gql`
+export const mutateUpdateProduct = gql`
     mutation (
         $productId: UUID!
         $categoryId: UUID

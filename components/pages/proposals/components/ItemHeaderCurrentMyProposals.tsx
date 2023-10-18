@@ -1,28 +1,33 @@
 "use client"
 
+import { memo, useMemo } from "react"
+import Image from "next/image"
 import { useSearchParams } from "next/navigation"
-import { TItemHeaderCurrentMyProposals } from "../types/types"
+
+import type { TItemHeaderCurrentMyProposals } from "../types/types"
 
 import { usePush } from "@/helpers/hooks/usePush"
-import { MouseEventHandler, useMemo } from "react"
-import Image from "next/image"
 
-export const ItemHeaderCurrentMyProposals: TItemHeaderCurrentMyProposals = ({
+const $ItemHeaderCurrentMyProposals: TItemHeaderCurrentMyProposals = ({
     value,
     label,
 }) => {
     const { handleReplace, handlePush } = usePush()
-    const productId = useSearchParams()?.get("product-id")
+    const productId = useSearchParams()?.get("request-id")
 
     const active = useMemo(() => {
         return productId === value
     }, [productId])
 
     function handle() {
-        handleReplace(`/proposals?product-id=${value}`)
+        if (value !== productId) {
+            handleReplace(`/proposals?request-id=${value}`)
+        } else {
+            handleReplace(`/proposals`)
+        }
     }
     function edit() {
-        handlePush(`/proposals/${value}/change`)
+        handlePush(`/my-products/change?product-id=${value}`)
     }
 
     return (
@@ -59,3 +64,5 @@ export const ItemHeaderCurrentMyProposals: TItemHeaderCurrentMyProposals = ({
         </li>
     )
 }
+
+export const ItemHeaderCurrentMyProposals = memo($ItemHeaderCurrentMyProposals)
