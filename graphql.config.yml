@@ -1,0 +1,8 @@
+schema: schema.graphql
+extensions:
+  endpoints:
+    Default GraphQL Endpoint:
+      url: http://pizzahome.asuscomm.com:8095/graphql/
+      headers:
+        user-agent: JS GraphQL
+      introspect: true

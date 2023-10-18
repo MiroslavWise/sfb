@@ -2,7 +2,7 @@
 
 import {
     HeaderMyProposals,
-    ItemProposalsPage,
+    // ItemRequestsPage,
 } from "@/components/pages/proposals"
 
 export default function Proposals() {
@@ -10,12 +10,12 @@ export default function Proposals() {
         <>
             {/* <HeaderMyProposals /> */}
             <article>
-                <ItemProposalsPage />
-                <ItemProposalsPage />
-                <ItemProposalsPage />
-                <ItemProposalsPage />
-                <ItemProposalsPage />
-                <ItemProposalsPage />
+                {/* <ItemRequestsPage />
+                <ItemRequestsPage />
+                <ItemRequestsPage />
+                <ItemRequestsPage />
+                <ItemRequestsPage />
+                <ItemRequestsPage /> */}
             </article>
         </>
     )

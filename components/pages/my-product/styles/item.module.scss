@@ -1,6 +1,5 @@
 .container {
     position: relative;
-    max-width: 940px;
     width: 100%;
     height: 150px;
     background: #fff;
@@ -22,11 +21,19 @@
         background: #fcfcfc;
         border-right: 1px solid #e4e4e4;
         border-radius: 7px 0 0 7px;
+        overflow: hidden;
 
-        & > img {
+        & > [data-null="true"] {
             width: auto;
             height: 100%;
-            object-fit: contain;
+            background: var(--gray-300);
+            backdrop-filter: 5px;
+        }
+
+        & > img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
     }
 
@@ -100,6 +107,13 @@
             flex-direction: row;
             align-items: center;
             gap: 8px;
+
+            & > img {
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
 
             & > div {
                 width: 38px;

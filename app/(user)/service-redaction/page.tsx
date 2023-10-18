@@ -1,6 +1,6 @@
 "use client"
 
-import { useParams, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 
 import styles from "./page.module.scss"
 import { useForm } from "react-hook-form"
@@ -9,10 +9,12 @@ import Image from "next/image"
 import Select from "react-select"
 import { usePush } from "@/helpers/hooks/usePush"
 import { useEffect } from "react"
+import { useQuery } from "@apollo/client"
+import { queryProductRequestById } from "@/apollo/query"
 
 export default function ProposalsChangeUUID() {
-    const { uuid } = useParams()
     const id = useSearchParams().get("product-id")
+    const { data } = useQuery(queryProductRequestById, { variables: { id: id } })
     const { handlePush } = usePush()
     const {
         register,
@@ -22,8 +24,6 @@ export default function ProposalsChangeUUID() {
         formState: { errors },
     } = useForm<IValues>({})
 
-    console.log("uuid: ", uuid)
-
     function submit(values: IValues) {}
 
     const onSubmit = handleSubmit(submit)
@@ -31,6 +31,8 @@ export default function ProposalsChangeUUID() {
     function cancel() {
         handlePush(`/proposals`)
     }
+
+    
 
     useEffect(() => {
         if (!id) {

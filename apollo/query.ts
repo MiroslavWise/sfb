@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client"
-import { PRODUCT } from "./fragment"
+import { PRODUCT, PRODUCT_REQUEST, PHOTOS_REQUEST } from "./fragment"
 
 export const me = gql`
     query {
@@ -54,14 +54,87 @@ export const city = gql`
     }
 `
 
-export const productList = gql`
+export const productRequestListMe = gql`
+    ${PRODUCT_REQUEST}
+    query ($offset: Int) {
+        productRequestListMe(limit: 20, offset: $offset) {
+            totalCount
+            results {
+                ...productRequest
+                photoListUrl {
+                    id
+                    photoUrl
+                }
+            }
+        }
+    }
+`
+
+export const queryProductListMe = gql`
     ${PRODUCT}
+    query ($offset: Int) {
+        productListMe(limit: 20, offset: $offset) {
+            totalCount
+            results {
+                ...product
+                photoListUrl {
+                    id
+                    photoUrl
+                }
+            }
+        }
+    }
+`
+
+export const productRequestList = gql`
+    ${PRODUCT_REQUEST}
     query ($offset: Int) {
         productRequestList(limit: 10, offset: $offset) {
             totalCount
             results {
+                ...productRequest
+            }
+        }
+    }
+`
+
+export const queryPhotosProductRequestById = gql`
+    ${PHOTOS_REQUEST}
+    query ($id: UUID!) {
+        productRequestById(id: $id) {
+            photoListUrl {
+                ...photosRequest
+            }
+        }
+    }
+`
+
+export const queryProductList = gql`
+    ${PRODUCT}
+    query ($offset: Int) {
+        productList(limit: 10, offset: $offset) {
+            totalCount
+            results {
                 ...product
             }
+        }
+    }
+`
+
+export const queryProductById = gql`
+    ${PRODUCT}
+    query ($id: UUID!) {
+        productById(id: $id) {
+            ...product
+        }
+    }
+`
+
+export const queryProductRequestById = gql`
+    ${PRODUCT_REQUEST}
+    query ($id: UUID!) {
+        productRequestById(id: $id) {
+            ...productRequest
         }
     }
 `
