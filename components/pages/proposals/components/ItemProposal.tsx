@@ -35,7 +35,7 @@ const $ItemProposal = (props: IProductOfferItem) => {
     }
 
     return (
-        <div className={styles.container} onClick={handle}>
+        <div className={styles.container} onClick={handle} data-item>
             <div
                 data-image-container
                 onClick={(event) => {

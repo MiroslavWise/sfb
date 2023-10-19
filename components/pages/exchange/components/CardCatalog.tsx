@@ -15,7 +15,7 @@ export const CardCatalog: TItemsMainCatalog = ({ label, img, value }) => {
 
     return (
         <div data-card onClick={handle}>
-            <Image src={img} alt={img} width={200} height={200} />
+            <Image src={img} alt={img} width={200} height={200} unoptimized />
             <p>{label}</p>
         </div>
     )

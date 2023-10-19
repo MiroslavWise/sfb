@@ -79,3 +79,5 @@ export interface IProductOfferListRoot {
         results: IProductOfferItem[]
     }
 }
+
+export type TTabsDetailsRequest = "main" | "proposals" | "testimonials"

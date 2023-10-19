@@ -1,23 +1,28 @@
 "use client"
 
 import Image from "next/image"
-import { useMemo } from "react"
+import { motion } from "framer-motion"
+import { useMemo, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { useMutation, useQuery } from "@apollo/client"
 
 import type { IPhotoProductData } from "@/types/types"
-
+import { TabsDetails } from "@/components/common/tabs-details"
 import { PhotoStage } from "@/components/common/PhotoStage"
 import { TagCategory } from "../../proposals/components/TagCategory"
+import type { IItemTab } from "@/components/common/tabs-details/types"
 
+import { ITEMS_TABS } from "../constants/tabs"
 import { usePush } from "@/helpers/hooks/usePush"
 import { mutateUpdateProductDraft } from "@/apollo/mutation"
 import { queryPhotosProductById, queryProductById } from "@/apollo/query"
 
 import styles from "../styles/page-uuid.module.scss"
+import { ProposalsMeUUID } from "./ProposalsMeUUID"
 
 export const MyProductPageUUID = () => {
     const { handlePush } = usePush()
+    const [tab, setTab] = useState<IItemTab>(ITEMS_TABS[0])
     const uuid = useSearchParams().get("product-id")
 
     const [mutateDraft] = useMutation(mutateUpdateProductDraft)
@@ -32,8 +37,6 @@ export const MyProductPageUUID = () => {
             variables: { id: uuid },
         },
     )
-
-    console.log("productById: ", productById)
 
     function handleChange() {
         handlePush(`/my-products/change?product-id=${uuid}`)
@@ -77,15 +80,21 @@ export const MyProductPageUUID = () => {
     }, [data?.productById])
 
     return (
-        <>
-            <div className={styles.wrapper}>
-                <PhotoStage images={images} />
-                <div data-description>
-                    <div data-sub-description>
-                        <div data-title>
-                            <h1>{productById?.name}</h1>
-                            <p>г. Алматы</p>
-                        </div>
+        <div className={styles.wrapper}>
+            <header>
+                <h1>{productById?.name}</h1>
+            </header>
+            <TabsDetails items={ITEMS_TABS} set={setTab} current={tab} />
+            {tab.value === "main" ? (
+                <motion.section
+                    initial={{ opacity: 0, visibility: "hidden" }}
+                    animate={{ opacity: 1, visibility: "visible" }}
+                    exit={{ opacity: 0, visibility: "hidden" }}
+                    transition={{ duration: 0.3 }}
+                >
+                    <PhotoStage images={images} />
+                    <article>
+                        <h2>{productById?.description}</h2>
                         <div data-tags>
                             {productById?.category?.id ? (
                                 <TagCategory
@@ -93,22 +102,7 @@ export const MyProductPageUUID = () => {
                                 />
                             ) : null}
                         </div>
-                        <div data-short-description>
-                            <h4>
-                                Краткое описание <sup>*</sup>
-                            </h4>
-                            <a>
-                                {productById?.description || (
-                                    <i>Описания нет</i>
-                                )}
-                            </a>
-                        </div>
-                    </div>
-                    <div data-author-price>
                         <div data-price-block>
-                            <h5>
-                                Стоимость <sup>*</sup>
-                            </h5>
                             {productById?.price ? (
                                 <h3>{productById?.price} ₸</h3>
                             ) : (
@@ -137,9 +131,13 @@ export const MyProductPageUUID = () => {
                                 </button>
                             ) : null}
                         </footer>
-                    </div>
-                </div>
-            </div>
-        </>
+                    </article>
+                </motion.section>
+            ) : tab.value === "proposals" ? (
+                <ProposalsMeUUID />
+            ) : tab.value === "testimonials" ? (
+                <div />
+            ) : null}
+        </div>
     )
 }
