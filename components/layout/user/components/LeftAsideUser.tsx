@@ -17,6 +17,11 @@ export const LeftAsideUser = () => {
     const { handlePush } = usePush()
     const { data } = useQuery<IQueryTotalCountProfileAside>(
         queryTotalCountProfileAside,
+        {
+            defaultOptions: {},
+            fetchPolicy: "cache-first",
+            initialFetchPolicy: "cache-first",
+        },
     )
 
     return (

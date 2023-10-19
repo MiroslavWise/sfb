@@ -11,6 +11,7 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        gap: 20px;
         justify-content: space-between;
         background-color: #fff;
         border-radius: 7px;
@@ -19,8 +20,69 @@
             color: var(--main-black);
             font-size: 36px;
             font-style: normal;
-            font-weight: 600;
+            font-weight: 500;
             line-height: 110%;
+            letter-spacing: -0.5px;
+            white-space: nowrap;
+        }
+
+        & > [data-buttons="true"] {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+
+            & > button {
+                padding: 15px 23px;
+                height: 40px;
+                width: min-content;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                border: none !important;
+                border-radius: 7px;
+
+                & > span {
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 600 !important;
+                    line-height: normal;
+                    white-space: nowrap;
+                }
+
+                &[data-black-border="true"] {
+                    border: 2px solid var(--main-black) !important;
+                    background: #fff;
+
+                    & > span {
+                        color: var(--main-black);
+                    }
+                    & > img {
+                        filter: invert(1);
+                    }
+                }
+
+                &[data-black="true"] {
+                    border: 2px solid var(--main-black) !important;
+                    background: var(--main-black);
+
+                    & > span {
+                        color: #fff;
+                    }
+                }
+
+                & > [data-not="true"] {
+                    background: transparent;
+
+                    & > span {
+                        color: var(--main-black);
+                        text-decoration-line: underline;
+                    }
+                }
+            }
         }
     }
 
@@ -71,65 +133,6 @@
                     color: var(--error-500);
                     font-size: 13px;
                     font-weight: 400;
-                }
-            }
-
-            & > footer {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                gap: 15px;
-                width: 100%;
-
-                & > button {
-                    padding: 15px 23px;
-                    height: 45px;
-                    width: min-content;
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 8px;
-                    border: none !important;
-                    border-radius: 7px;
-
-                    & > span {
-                        font-size: 14px;
-                        font-style: normal;
-                        font-weight: 600 !important;
-                        line-height: normal;
-                        white-space: nowrap;
-                    }
-
-                    &[data-black-border="true"] {
-                        border: 2px solid var(--main-black) !important;
-                        background: #fff;
-
-                        & > span {
-                            color: var(--main-black);
-                        }
-                        & > img {
-                            filter: invert(1);
-                        }
-                    }
-
-                    &[data-black="true"] {
-                        border: 2px solid var(--main-black) !important;
-                        background: var(--main-black);
-
-                        & > span {
-                            color: #fff;
-                        }
-                    }
-
-                    & > [data-not="true"] {
-                        background: transparent;
-
-                        & > span {
-                            color: var(--main-black);
-                            text-decoration-line: underline;
-                        }
-                    }
                 }
             }
         }

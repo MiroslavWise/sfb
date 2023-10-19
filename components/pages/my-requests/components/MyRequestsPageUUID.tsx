@@ -91,6 +91,28 @@ export const MyRequestsPageUUID = () => {
         <div className={styles.wrapper}>
             <header>
                 <h1>{productRequestById?.name}</h1>
+                <div data-buttons>
+                    <button data-black-border onClick={handleChange}>
+                        <span>Редактировать</span>
+                        <Image
+                            src="/svg/replace.svg"
+                            alt="replace"
+                            width={20}
+                            height={20}
+                        />
+                    </button>
+                    {productRequestById?.draft && isDataFull ? (
+                        <button data-black onClick={handlePublish}>
+                            <span>Опубликовать</span>
+                            <Image
+                                src="/svg/globe-06.svg"
+                                alt="globe-06"
+                                width={20}
+                                height={20}
+                            />
+                        </button>
+                    ) : null}
+                </div>
             </header>
             <TabsDetails items={ITEMS_TABS} set={setTab} current={tab} />
             {tab.value === "main" ? (
@@ -117,28 +139,6 @@ export const MyRequestsPageUUID = () => {
                                 <i>Предположительная цена не выставлена</i>
                             )}
                         </div>
-                        <footer>
-                            <button data-black-border onClick={handleChange}>
-                                <span>Редактировать</span>
-                                <Image
-                                    src="/svg/replace.svg"
-                                    alt="replace"
-                                    width={20}
-                                    height={20}
-                                />
-                            </button>
-                            {productRequestById?.draft && isDataFull ? (
-                                <button data-black onClick={handlePublish}>
-                                    <span>Опубликовать</span>
-                                    <Image
-                                        src="/svg/globe-06.svg"
-                                        alt="globe-06"
-                                        width={20}
-                                        height={20}
-                                    />
-                                </button>
-                            ) : null}
-                        </footer>
                     </article>
                 </motion.section>
             ) : null}

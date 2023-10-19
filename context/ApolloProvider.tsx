@@ -40,9 +40,15 @@ export const client = (value?: string) =>
         ssrMode: true,
         uri: CONFIG_ENV.urlGraphQL,
         link: links(value!),
-        cache: new InMemoryCache(),
+        cache: new InMemoryCache({}),
         credentials: "include",
         connectToDevTools: true,
+        defaultOptions: {
+            watchQuery: {
+                nextFetchPolicy: "cache-first",
+            },
+            
+        },
     })
 
 export const ApolloProviderContext = ({ children }: IChildrenProps) => {
