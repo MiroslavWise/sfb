@@ -36,7 +36,13 @@ const $ItemProposal = (props: IProductOfferItem) => {
 
     return (
         <div className={styles.container} onClick={handle}>
-            <div data-image-container>
+            <div
+                data-image-container
+                onClick={(event) => {
+                    event.stopPropagation()
+                    event.preventDefault()
+                }}
+            >
                 {imagesRequest.length ? (
                     <Image
                         src={

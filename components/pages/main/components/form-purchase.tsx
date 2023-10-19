@@ -1,16 +1,18 @@
-import Select from "react-select"
-import { Dispatch, SetStateAction, useId, useState } from "react"
-import { useMutation, useQuery } from "@apollo/client"
+import Image from "next/image"
 import { useForm } from "react-hook-form"
+import { CFormSelect } from "@coreui/react"
+import { useMutation, useQuery } from "@apollo/client"
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react"
 
-import { categories } from "@/apollo/query"
-import { useAuth } from "@/store/state/useAuth"
-import { useEnter } from "@/store/state/useEnter"
-import { usePush } from "@/helpers/hooks/usePush"
 import {
     createProductRequestSmall,
     createProductSmall,
 } from "@/apollo/mutation"
+import { categories } from "@/apollo/query"
+import { useAuth } from "@/store/state/useAuth"
+import { useEnter } from "@/store/state/useEnter"
+import { usePush } from "@/helpers/hooks/usePush"
+import { uploadFile } from "@/helpers/services/fetch"
 
 export const FormPurchase = ({
     setState,
@@ -19,7 +21,8 @@ export const FormPurchase = ({
     setState: Dispatch<SetStateAction<"start" | "purchase" | "sale">>
     state: "start" | "purchase" | "sale"
 }) => {
-    const [fileString, setFileString] = useState<string[]>([])
+    const [filesString, setFilesString] = useState<string[]>([])
+    const [files, setFiles] = useState<File[]>([])
     const { token } = useAuth()
     const { dispatch } = useEnter()
     const [isLoading, setIsLoading] = useState(false)
@@ -52,9 +55,22 @@ export const FormPurchase = ({
                 })
                     .then((response) => {
                         if (response?.data) {
-                            handlePush(
-                                `/my-requests/change?request-id=${response?.data?.productRequestCreate?.productRequest?.id}`,
-                            )
+                            const id =
+                                response?.data?.productRequestCreate
+                                    ?.productRequest?.id
+                            Promise.all([
+                                ...files.map((item) =>
+                                    uploadFile(item, {
+                                        type: "product-request/photo-upload/",
+                                        id: id,
+                                        idType: "product_request_id",
+                                    }),
+                                ),
+                            ]).finally(() => {
+                                handlePush(
+                                    `/my-requests/change?request-id=${id}`,
+                                )
+                            })
                         }
                     })
                     .finally(() => {})
@@ -68,12 +84,43 @@ export const FormPurchase = ({
                 })
                     .then((response) => {
                         if (response?.data) {
-                            handlePush(
-                                `/my-products/change?product-id=${response?.data?.productCreate?.product?.id}`,
-                            )
+                            const id =
+                                response?.data?.productCreate?.product?.id
+                            Promise.all([
+                                ...files.map((item) =>
+                                    uploadFile(item, {
+                                        type: "product/photo-upload/",
+                                        id: id,
+                                        idType: "product_id",
+                                    }),
+                                ),
+                            ]).finally(() => {
+                                handlePush(
+                                    `/my-products/change?product-id=${id}`,
+                                )
+                            })
                         }
                     })
                     .finally(() => {})
+            }
+        }
+    }
+
+    function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
+        const files = event.target.files
+        if (files?.length) {
+            for (let i = 0; i < files.length; i++) {
+                if (files[i]) {
+                    const reader = new FileReader()
+                    reader.onloadend = () => {
+                        setFilesString((prev) => [
+                            ...prev,
+                            reader.result as string,
+                        ])
+                    }
+                    reader.readAsDataURL(files[i])
+                    setFiles((prev) => [...prev, files[i]])
+                }
             }
         }
     }
@@ -92,7 +139,7 @@ export const FormPurchase = ({
                     ) : null}
                 </span>
                 <span>
-                    <Select
+                    <CFormSelect
                         {...register("id", { required: true })}
                         options={
                             Array.isArray(data?.categoryList)
@@ -102,25 +149,30 @@ export const FormPurchase = ({
                                   }))
                                 : []
                         }
-                        isLoading={loading}
-                        onChange={(event: any) => {
-                            setValue("id", event?.value! || null)
-                        }}
                         placeholder="Выберите категорию товара"
                     />
                     {errors?.id ? <i>Выберите категорию товара</i> : null}
                 </span>
-                {/* <span data-file>
-                    <input
-                        type="file"
-                        multiple
-                        {...register("files", { required: false })}
-                    />
+                <span data-file>
+                    <input type="file" multiple onChange={handleImageChange} />
                     <label>
                         Нажмите или перетащите фото товара в эту область, чтобы
                         загрузить (.png, .jpeg, .jpg)
                     </label>
-                </span> */}
+                </span>
+                {filesString.length ? (
+                    <div data-files>
+                        {filesString?.map((item) => (
+                            <Image
+                                src={item}
+                                alt={item}
+                                width={500}
+                                height={500}
+                                unoptimized
+                            />
+                        ))}
+                    </div>
+                ) : null}
             </section>
             <div data-buttons>
                 <button data-default onClick={() => setState("start")}>

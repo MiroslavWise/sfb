@@ -82,6 +82,10 @@
                 background: #fff;
                 border-radius: 7px;
 
+                & > [data-select="true"] {
+                    width: 100%;
+                }
+
                 & > input {
                     width: 100%;
                     border: none !important;

@@ -1,11 +1,12 @@
 "use client"
 
-import { ChangeEvent, useEffect, useState } from "react"
-import Select from "react-select"
 import Image from "next/image"
 import { useForm } from "react-hook-form"
 import { useSearchParams } from "next/navigation"
+import { ChangeEvent, useEffect, useState } from "react"
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client"
+
+import { CFormSelect } from "@coreui/react"
 
 import type { IProductRoot } from "@/types/types"
 import type { IPhotoProductData } from "@/types/types"
@@ -157,9 +158,6 @@ export const MyProductPageChange = () => {
         }
     }
 
-    console.log("files: ", files)
-    console.log("filesString: ", filesString)
-
     if (loading || isLoadCategories) return null
 
     return (
@@ -220,7 +218,9 @@ export const MyProductPageChange = () => {
                         ) : null}
                     </span>
                     <span>
-                        <Select
+                        <CFormSelect
+                            data-select
+                            aria-label="category"
                             {...register("category", { required: true })}
                             options={
                                 Array.isArray(dataCategories?.categoryList)
@@ -232,12 +232,7 @@ export const MyProductPageChange = () => {
                                       )
                                     : []
                             }
-                            defaultValue={productById?.category?.id}
-                            isLoading={isLoadCategories}
-                            onChange={(event: any) => {
-                                setValue("category", event?.value!)
-                            }}
-                            className={styles["react-select"]}
+                            size="sm"
                             placeholder="Категория товара"
                         />
                         {errors.category ? (

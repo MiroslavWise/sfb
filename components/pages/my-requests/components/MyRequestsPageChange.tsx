@@ -1,11 +1,11 @@
 "use client"
 
-import { ChangeEvent, useEffect, useState } from "react"
-import Select from "react-select"
 import Image from "next/image"
-import { useMutation, useQuery, useLazyQuery } from "@apollo/client"
 import { useForm } from "react-hook-form"
+import { CFormSelect } from "@coreui/react"
 import { useSearchParams } from "next/navigation"
+import { ChangeEvent, useEffect, useState } from "react"
+import { useMutation, useQuery, useLazyQuery } from "@apollo/client"
 
 import type { IRequestProductRoot } from "@/types/types"
 import type { IPhotoProductRequestData } from "@/types/types"
@@ -216,9 +216,10 @@ export const MyRequestsPageChange = () => {
                         ) : null}
                     </span>
                     <span>
-                        <Select
+                        <CFormSelect
+                            data-select
+                            aria-label="category"
                             {...register("category", { required: true })}
-                            className={styles["react-select"]}
                             options={
                                 Array.isArray(dataCategories?.categoryList)
                                     ? dataCategories?.categoryList?.map(
@@ -229,16 +230,7 @@ export const MyRequestsPageChange = () => {
                                       )
                                     : []
                             }
-                            inputValue={
-                                dataCategories?.categoryList?.find(
-                                    (item: any) =>
-                                        item?.id === watch("category"),
-                                )?.name!
-                            }
-                            isLoading={isLoadCategories}
-                            onChange={(event: any) => {
-                                setValue("category", event?.value!)
-                            }}
+                            size="sm"
                             placeholder="Категория товара"
                         />
                         {errors.category ? (

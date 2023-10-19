@@ -1,11 +1,11 @@
 "use client"
 
 import { useSearchParams } from "next/navigation"
-
-import styles from "./page.module.scss"
+import { MessagesChatUUID } from "@/components/pages/messages/layout/MessagesChatUUID"
 
 export default function Messages() {
     const id = useSearchParams().get("chat-id")
 
-    return <div></div>
+    if (id) return <MessagesChatUUID id={id} />
+    return <div />
 }

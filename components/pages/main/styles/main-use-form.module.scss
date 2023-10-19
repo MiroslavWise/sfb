@@ -192,6 +192,23 @@
                             }
                         }
                     }
+
+                    & > [data-files="true"] {
+                        width: 100%;
+                        display: grid;
+                        grid-template-columns: repeat(4, calc(25% - 6px));
+                        gap: 8px 8px;
+
+                        & > img {
+                            width: 100%;
+                            height: auto;
+                            object-fit: cover;
+                            aspect-ratio: 1/1;
+                            border-radius: 7px;
+                            border: 2px dashed var(--gray-500);
+                            background: transparent;
+                        }
+                    }
                 }
                 & > [data-buttons="true"] {
                     width: 100%;
