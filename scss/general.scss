@@ -148,11 +148,13 @@ button {
     cursor: pointer;
 }
 
+*,
 ul,
 form,
 aside,
 textarea,
 section,
+nav,
 article {
     list-style: none;
     scrollbar-width: none !important;

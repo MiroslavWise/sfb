@@ -2,12 +2,14 @@
 
 import { useMemo } from "react"
 import { useTranslation } from "react-i18next"
+import { usePathname } from "next/navigation"
 
 import { usePush } from "@/helpers/hooks/usePush"
 
 import { ButtonLogin } from "./ButtonLogin"
 
 export const Navigation = () => {
+    const pathname = usePathname()
     const { i18n } = useTranslation()
     const { handlePush } = usePush()
 
@@ -24,15 +26,33 @@ export const Navigation = () => {
 
     return (
         <nav>
-            <a onClick={() => handlePush("/about")}>О компании</a>
-            <a onClick={() => handlePush("/exchange")}>Биржа</a>
-            <a onClick={() => handlePush("/faq")}>FAQ</a>
-            <a onClick={() => handlePush("/contacts")}>Контакты</a>
-            {lang ? (
-                <a data-lang onClick={handleLanguage}>
-                    {lang}
-                </a>
-            ) : null}
+            <li
+                onClick={() => handlePush("/about")}
+                data-active={pathname.includes("/about")}
+            >
+                <a>О компании</a>
+            </li>
+            <li
+                onClick={() => handlePush("/exchange")}
+                data-active={pathname.includes("/exchange")}
+            >
+                <a>Биржа</a>
+            </li>
+            <li
+                onClick={() => handlePush("/faq")}
+                data-active={pathname.includes("/faq")}
+            >
+                <a>FAQ</a>
+            </li>
+            <li
+                onClick={() => handlePush("/contacts")}
+                data-active={pathname.includes("/contacts")}
+            >
+                <a>Контакты</a>
+            </li>
+            <li data-lang onClick={handleLanguage}>
+                <a>{lang}</a>
+            </li>
             <ButtonLogin />
         </nav>
     )

@@ -1,7 +1,7 @@
 "use client"
 
-import Image from "next/image"
 import styles from "../styles/search-bar.module.scss"
+
 import { FilterMain } from "./FilterMain"
 
 export const SearchBar = () => {

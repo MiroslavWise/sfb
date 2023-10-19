@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import Select from "react-select"
 import Image from "next/image"
-import { useMutation, useQuery } from "@apollo/client"
+import { useMutation, useQuery, useLazyQuery } from "@apollo/client"
 import { useForm } from "react-hook-form"
 import { useSearchParams } from "next/navigation"
 
@@ -14,7 +14,10 @@ import { MiniPhoto } from "../../proposals"
 
 import { usePush } from "@/helpers/hooks/usePush"
 import { uploadFile } from "@/helpers/services/fetch"
-import { mutateUpdateProductRequest } from "@/apollo/mutation"
+import {
+    createProductRequestFull,
+    mutateUpdateProductRequest,
+} from "@/apollo/mutation"
 import {
     categories,
     queryPhotosProductRequestById,
@@ -25,20 +28,23 @@ import styles from "../styles/change.module.scss"
 
 export const MyRequestsPageChange = () => {
     const uuid = useSearchParams().get("request-id")
+    const [files, setFiles] = useState<File[]>([])
+    const [filesString, setFilesString] = useState<string[]>([])
     const { data: dataCategories, loading: isLoadCategories } =
         useQuery(categories)
     const { handlePush } = usePush()
-    const { data, loading, refetch } = useQuery<IRequestProductRoot>(
+    const [use, { data, loading, refetch }] = useLazyQuery<IRequestProductRoot>(
         queryProductRequestById,
         {
             variables: { id: uuid },
         },
     )
-    const { data: dataPhotos, refetch: refetchPhotos } =
-        useQuery<IPhotoProductRequestData>(queryPhotosProductRequestById, {
+    const [usePhoto, { data: dataPhotos, refetch: refetchPhotos }] =
+        useLazyQuery<IPhotoProductRequestData>(queryPhotosProductRequestById, {
             variables: { id: uuid },
         })
     const [update] = useMutation(mutateUpdateProductRequest)
+    const [create] = useMutation(createProductRequestFull)
     const { productRequestById } = data ?? {}
     const {
         register,
@@ -47,29 +53,94 @@ export const MyRequestsPageChange = () => {
         setValue,
         formState: { errors },
     } = useForm<IValues>({})
-    function submit(values: IValues) {
-        console.log("values: ", values)
-        const data = {
-            productRequestId: uuid,
+    async function submit(values: IValues) {
+        const data: Record<string, any> = {
             categoryId: values.category,
             name: values.title,
             description: values.description,
             price: +values.price,
         }
-        console.log("values data: ", data)
-        update({
-            variables: { ...data },
-        }).finally(() => {
-            refetch().finally(() => {
-                cancel()
+        if (uuid) {
+            data.productRequestId = uuid!
+            Promise.all([
+                ...files.map((item) =>
+                    uploadFile(item, {
+                        type: "product-request/photo-upload/",
+                        id: uuid!,
+                        idType: "product_request_id",
+                    }),
+                ),
+                update({
+                    variables: { ...data },
+                }),
+            ]).then(() => {
+                Promise.all([refetchPhotos(), refetch()]).then(() => {
+                    cancel(uuid)
+                })
             })
-        })
+        } else {
+            create({
+                variables: {
+                    ...data,
+                },
+            }).then(async (response) => {
+                const id =
+                    response?.data?.productRequestCreate?.productRequest?.id
+                Promise.all([
+                    ...files.map((item) =>
+                        uploadFile(item, {
+                            type: "product-request/photo-upload/",
+                            id: id!,
+                            idType: "product_request_id",
+                        }),
+                    ),
+                ]).then(async () => {
+                    Promise.all([
+                        use({
+                            variables: {
+                                id: id,
+                            },
+                        }),
+                        usePhoto({
+                            variables: {
+                                id: id,
+                            },
+                        }),
+                    ]).finally(() => {
+                        cancel(id)
+                    })
+                })
+            })
+        }
     }
 
     const onSubmit = handleSubmit(submit)
 
-    function cancel() {
-        handlePush(`/my-requests?request-id=${uuid}`)
+    function cancel(uuid: string) {
+        if (uuid) {
+            handlePush(`/my-requests?request-id=${uuid}`)
+        } else {
+            handlePush(`/my-requests`)
+        }
+    }
+
+    function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
+        const files = event.target.files
+        if (files?.length) {
+            for (let i = 0; i < files.length; i++) {
+                if (files[i]) {
+                    const reader = new FileReader()
+                    reader.onloadend = () => {
+                        setFilesString((prev) => [
+                            ...prev,
+                            reader.result as string,
+                        ])
+                    }
+                    reader.readAsDataURL(files[i])
+                    setFiles((prev) => [...prev, files[i]])
+                }
+            }
+        }
     }
 
     useEffect(() => {
@@ -81,6 +152,13 @@ export const MyRequestsPageChange = () => {
         }
     }, [productRequestById])
 
+    useEffect(() => {
+        if (uuid) {
+            use()
+            usePhoto()
+        }
+    }, [uuid])
+
     if (loading || !data) return null
 
     return (
@@ -89,33 +167,27 @@ export const MyRequestsPageChange = () => {
                 <h1>Редактировать запрос</h1>
                 <form onSubmit={onSubmit}>
                     <h3>Основная информация</h3>
-                    <div data-photos {...register("files")}>
+                    {Array.isArray(
+                        dataPhotos?.productRequestById?.photoListUrl,
+                    ) && dataPhotos?.productRequestById?.photoListUrl.length ? (
+                        <div data-photos>
+                            {dataPhotos?.productRequestById?.photoListUrl
+                                ?.filter((item) => item?.photoUrl)
+                                ?.map((item) => (
+                                    <MiniPhoto
+                                        src={item.photoUrl}
+                                        key={item.id + item.photo}
+                                    />
+                                ))}
+                        </div>
+                    ) : null}
+                    <div data-photos>
                         <div data-input-file>
                             <input
+                                {...register("files")}
                                 type="file"
                                 multiple
-                                onChange={(event) => {
-                                    if (event?.target && event.target.files) {
-                                        const files = event.target.files!
-                                        Promise.all([
-                                            ...Array.from(files).map((item) =>
-                                                uploadFile(item, {
-                                                    type: "product-request/photo-upload/",
-                                                    id: uuid!,
-                                                    idType: "product_request_id",
-                                                }),
-                                            ),
-                                        ]).then((responses) => {
-                                            console.log(
-                                                "responses: ",
-                                                responses,
-                                            )
-                                            requestAnimationFrame(() => {
-                                                refetchPhotos()
-                                            })
-                                        })
-                                    }
-                                }}
+                                onChange={handleImageChange}
                             />
                             <Image
                                 src="/svg/plus.svg"
@@ -124,17 +196,13 @@ export const MyRequestsPageChange = () => {
                                 height={80}
                             />
                         </div>
-                        {Array.isArray(
-                            dataPhotos?.productRequestById?.photoListUrl,
-                        )
-                            ? dataPhotos?.productRequestById?.photoListUrl
-                                  ?.filter((item) => item?.photoUrl)
-                                  ?.map((item) => (
-                                      <MiniPhoto
-                                          src={item.photoUrl}
-                                          key={item.id + item.photo}
-                                      />
-                                  ))
+                        {filesString?.length && files?.length
+                            ? filesString?.map((item, index) => (
+                                  <MiniPhoto
+                                      src={item}
+                                      key={`${index}-${item}`}
+                                  />
+                              ))
                             : null}
                     </div>
                     <span>
@@ -195,7 +263,7 @@ export const MyRequestsPageChange = () => {
                         <button data-primary type="submit">
                             <span>Сохранить</span>
                         </button>
-                        <button data-default onClick={cancel}>
+                        <button data-default onClick={() => cancel(uuid!)}>
                             <span>Отмена</span>
                         </button>
                     </footer>

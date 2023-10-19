@@ -1,12 +1,15 @@
 "use client"
 
 import { useQuery } from "@apollo/client"
+import { useSearchParams } from "next/navigation"
+
+import type { IProductOfferListRoot } from "@/types/types"
+
+import { HeaderMyProposals } from "@/components/pages/proposals"
+import { FilterMain } from "@/components/pages/exchange/components/FilterMain"
+import { ItemProposal } from "@/components/pages/proposals/components/ItemProposal"
 
 import { queryProductOfferList } from "@/apollo/query-offers"
-import { HeaderMyProposals } from "@/components/pages/proposals"
-import { IProductOfferListRoot } from "@/types/types"
-import { ItemProposal } from "@/components/pages/proposals/components/ItemProposal"
-import { useSearchParams } from "next/navigation"
 
 export default function Proposals() {
     const productId = useSearchParams()?.get("request-id")
@@ -24,6 +27,10 @@ export default function Proposals() {
     return (
         <>
             <HeaderMyProposals />
+            <div data-main-filter>
+                <FilterMain label="Весь Казахстан" />
+                <FilterMain label="Цена" />
+            </div>
             <article>
                 {Array.isArray(productOfferList?.results)
                     ? productOfferList?.results?.map((item) => (

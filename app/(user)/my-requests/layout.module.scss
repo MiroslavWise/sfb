@@ -4,6 +4,41 @@
     flex-direction: column;
     gap: 30px;
 
+    & > [data-header-main="true"] {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 16px;
+
+        & > [data-create="true"] {
+            width: 180px;
+            height: 45px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            border: none !important;
+            outline: none !important;
+            background: var(--main-black);
+            border-radius: 7px;
+
+            &:focus,
+            &:hover {
+                outline: 1px solid #3b3a3ab9 !important;
+            }
+
+            & > span {
+                color: #fff;
+                text-align: center;
+                font-size: 13px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: normal;
+            }
+        }
+    }
+
     & > article {
         width: 100%;
         display: flex;

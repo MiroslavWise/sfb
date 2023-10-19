@@ -10,6 +10,17 @@ export const updateProfile = gql`
     }
 `
 
+export const createProductRequestEmpty = gql`
+    mutation {
+        productRequestCreate(input: { draft: true }) {
+            ok
+            productRequest {
+                id
+            }
+        }
+    }
+`
+
 export const createProductRequestSmall = gql`
     mutation ($categoryId: UUID, $name: String) {
         productRequestCreate(
@@ -39,7 +50,7 @@ export const createProductRequestFull = gql`
             }
         ) {
             ok
-            product {
+            productRequest {
                 id
             }
         }
