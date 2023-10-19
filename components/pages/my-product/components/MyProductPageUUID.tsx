@@ -66,6 +66,16 @@ export const MyProductPageUUID = () => {
             }))
     }, [dataPhotos?.productById])
 
+    const isDataFull = useMemo(() => {
+        const item = data?.productById
+        return (
+            !!item?.category?.id &&
+            !!item?.name &&
+            !!item?.description &&
+            !!item?.price
+        )
+    }, [data?.productById])
+
     return (
         <>
             <div className={styles.wrapper}>
@@ -115,7 +125,7 @@ export const MyProductPageUUID = () => {
                                     height={20}
                                 />
                             </button>
-                            {productById?.draft ? (
+                            {productById?.draft && isDataFull ? (
                                 <button data-black onClick={handlePublish}>
                                     <span>Опубликовать</span>
                                     <Image

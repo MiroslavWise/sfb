@@ -1,9 +1,9 @@
 "use client"
 
+import { useState } from "react"
 import Image from "next/image"
 
 import type { IFilterMain } from "../types/types"
-import { useState } from "react"
 
 export const FilterMain = ({ label }: IFilterMain) => {
     const [active, setActive] = useState(false)

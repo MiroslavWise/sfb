@@ -37,30 +37,6 @@ const $ItemProduct: TItemProposalsPage = (props) => {
     }, [photoListUrl])
     const [currentPhoto, setCurrentPhoto] = useState<number>(0)
 
-    useEffect(() => {
-        const length = images.length
-        if (!length) {
-            return
-        } else {
-            if (!isInterval.current) {
-                console.log("length interval")
-                const interval = setInterval(() => {
-                    setCurrentPhoto((prev) => {
-                        if (prev === length - 1) {
-                            return 0
-                        } else {
-                            return prev + 1
-                        }
-                    })
-                }, 4)
-                isInterval.current = true
-                return () => {
-                    clearInterval(interval)
-                }
-            }
-        }
-    }, [images])
-
     return (
         <section
             className={styles.container}

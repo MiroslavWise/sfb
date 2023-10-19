@@ -1,0 +1,31 @@
+.container {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    gap: 16px 16px;
+    flex-wrap: wrap;
+
+    & > [data-filter="true"] {
+        width: min-content;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+
+        p {
+            white-space: nowrap;
+            color: var(--main-black);
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        & > img {
+            &[data-active="true"] {
+                transform: rotate(180deg);
+            }
+        }
+    }
+}

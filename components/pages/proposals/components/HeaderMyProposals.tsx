@@ -1,10 +1,12 @@
 "use client"
 
+import { useQuery } from "@apollo/client"
+
 import { ItemHeaderCurrentMyProposals } from "./ItemHeaderCurrentMyProposals"
 
-import styles from "../styles/header-my-proposals.module.scss"
-import { useQuery } from "@apollo/client"
 import { productListMe_ID_NAME } from "@/apollo/query"
+
+import styles from "../styles/header-my-proposals.module.scss"
 
 export const HeaderMyProposals = () => {
     const { data } = useQuery<{
@@ -15,7 +17,9 @@ export const HeaderMyProposals = () => {
                 name: string
             }[]
         }
-    }>(productListMe_ID_NAME)
+    }>(productListMe_ID_NAME, {
+        partialRefetch: false,
+    })
 
     const { productListMe } = data ?? {}
 

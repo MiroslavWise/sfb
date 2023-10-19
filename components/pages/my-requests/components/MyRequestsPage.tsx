@@ -7,6 +7,7 @@ import { ItemRequestsPage } from "./ItemRequestsPage"
 
 import { productRequestListMe } from "@/apollo/query"
 import { usePush } from "@/helpers/hooks/usePush"
+import { Filter } from "@/components/common/filters"
 
 export function MyRequestsPage() {
     const { data, loading } = useQuery(productRequestListMe, {
@@ -28,6 +29,7 @@ export function MyRequestsPage() {
                     <span>Создать</span>
                 </button>
             </header>
+            <Filter />
             <article>
                 {Array.isArray(data?.productRequestListMe?.results)
                     ? data?.productRequestListMe?.results?.map(

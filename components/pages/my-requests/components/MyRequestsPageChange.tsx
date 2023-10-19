@@ -159,7 +159,7 @@ export const MyRequestsPageChange = () => {
         }
     }, [uuid])
 
-    if (loading || !data) return null
+    if (loading || isLoadCategories) return null
 
     return (
         <div className={styles.wrapper}>

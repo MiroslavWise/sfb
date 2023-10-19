@@ -70,6 +70,16 @@ export const MyRequestsPageUUID = () => {
             }))
     }, [dataPhotos?.productRequestById])
 
+    const isDataFull = useMemo(() => {
+        const item = data?.productRequestById
+        return (
+            !!item?.category?.id &&
+            !!item?.name &&
+            !!item?.description &&
+            !!item?.price
+        )
+    }, [data?.productRequestById])
+
     if (loading || !productRequestById) return null
 
     return (

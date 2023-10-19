@@ -160,7 +160,7 @@ export const MyProductPageChange = () => {
     console.log("files: ", files)
     console.log("filesString: ", filesString)
 
-    if (loading || !productById || isLoadCategories) return null
+    if (loading || isLoadCategories) return null
 
     return (
         <div className={styles.wrapper}>
