@@ -1,0 +1,8 @@
+version: '3.7'
+services:
+  sfb-market:
+    container_name: sfb-market
+    image: sfb-market:latest
+    ports:
+      - 4500:4500
+    restart: always
