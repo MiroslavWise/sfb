@@ -84,13 +84,13 @@ export const MyRequestsPageUUID = () => {
 
     return (
         <div className={styles.wrapper}>
-            <PhotoStage images={images} />
-            <div data-description>
-                <div data-sub-description>
-                    <div data-title>
-                        <h1>{productRequestById?.name}</h1>
-                        <p>г. Алматы</p>
-                    </div>
+            <header>
+                <h1>{productRequestById?.name}</h1>
+            </header>
+            <section>
+                <PhotoStage images={images} />
+                <article>
+                    <h2>{productRequestById?.description}</h2>
                     <div data-tags>
                         {productRequestById?.category?.id ? (
                             <TagCategory
@@ -98,22 +98,7 @@ export const MyRequestsPageUUID = () => {
                             />
                         ) : null}
                     </div>
-                    <div data-short-description>
-                        <h4>
-                            Краткое описание <sup>*</sup>
-                        </h4>
-                        <a>
-                            {productRequestById?.description || (
-                                <i>Описания нет</i>
-                            )}
-                        </a>
-                    </div>
-                </div>
-                <div data-author-price>
                     <div data-price-block>
-                        <h5>
-                            Стоимость <sup>*</sup>
-                        </h5>
                         {productRequestById?.price ? (
                             <h3>{productRequestById?.price} ₸</h3>
                         ) : (
@@ -130,7 +115,7 @@ export const MyRequestsPageUUID = () => {
                                 height={20}
                             />
                         </button>
-                        {productRequestById?.draft ? (
+                        {productRequestById?.draft && isDataFull ? (
                             <button data-black onClick={handlePublish}>
                                 <span>Опубликовать</span>
                                 <Image
@@ -142,8 +127,8 @@ export const MyRequestsPageUUID = () => {
                             </button>
                         ) : null}
                     </footer>
-                </div>
-            </div>
+                </article>
+            </section>
         </div>
     )
 }
