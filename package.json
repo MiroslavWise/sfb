@@ -11,10 +11,8 @@
         "lint": "next lint"
     },
     "dependencies": {
-        "@ant-design/cssinjs": "^1.17.2",
         "@apollo/client": "^3.8.5",
         "@coreui/react": "^5.0.0-alpha.3",
-        "@reduxjs/toolkit": "^1.9.7",
         "dayjs": "^1.11.10",
         "framer-motion": "^10.16.4",
         "graphql": "^16.8.1",

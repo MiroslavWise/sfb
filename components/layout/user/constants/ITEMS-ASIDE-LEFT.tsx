@@ -1,27 +1,27 @@
 export const ITEMS_ASIDE_LEFT = (values: IValuesData): IItemsAsideLeft[] => [
-    {
-        value: "/proposals",
-        label: "Предложения",
-        icon: "/svg/proposals.svg",
-        count: 3,
-    },
+    // {
+    //     value: "/proposals",
+    //     label: "Предложения",
+    //     icon: "/svg/proposals.svg",
+    //     count: 3,
+    // },
     {
         value: "/my-requests",
         label: "Мои запросы",
         icon: "/svg/proposals.svg",
-        count: 3,
+        count: values?.countMyRequests || 0,
     },
     {
         value: "/my-products",
         label: "Мои товары",
         icon: "/svg/proposals.svg",
-        count: 3,
+        count: values?.countMyProducts || 0,
     },
     {
         value: "/messages",
         label: "Сообщения",
         icon: "/svg/messages.svg",
-        count: 15,
+        count: values?.constMessages || 0,
     },
     {
         value: "/my-orders",
@@ -44,4 +44,8 @@ interface IItemsAsideLeft {
     count: number | null
 }
 
-interface IValuesData {}
+interface IValuesData {
+    countMyRequests?: number
+    countMyProducts?: number
+    constMessages?: number
+}

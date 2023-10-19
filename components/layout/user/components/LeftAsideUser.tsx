@@ -1,19 +1,32 @@
 "use client"
 
-import { usePush } from "@/helpers/hooks/usePush"
-import { ITEMS_ASIDE_LEFT } from "../constants/ITEMS-ASIDE-LEFT"
 import Image from "next/image"
+import { useQuery } from "@apollo/client"
 import { usePathname } from "next/navigation"
+
+import type { IQueryTotalCountProfileAside } from "@/types/total"
+
 import { ComponentCarouselBannerMainPage } from "@/components/pages/main"
+
+import { usePush } from "@/helpers/hooks/usePush"
+import { queryTotalCountProfileAside } from "@/apollo/query"
+import { ITEMS_ASIDE_LEFT } from "../constants/ITEMS-ASIDE-LEFT"
 
 export const LeftAsideUser = () => {
     const pathname = usePathname()
     const { handlePush } = usePush()
+    const { data } = useQuery<IQueryTotalCountProfileAside>(
+        queryTotalCountProfileAside,
+    )
 
     return (
         <aside>
             <ul data-links>
-                {ITEMS_ASIDE_LEFT({}).map((item) => (
+                {ITEMS_ASIDE_LEFT({
+                    constMessages: data?.chatList?.totalCount,
+                    countMyProducts: data?.productListMe?.totalCount,
+                    countMyRequests: data?.productRequestListMe?.totalCount,
+                }).map((item) => (
                     <li
                         key={`${item.value}-profile-link`}
                         onClick={() => handlePush(item.value)}

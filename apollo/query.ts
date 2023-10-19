@@ -173,3 +173,17 @@ export const queryProductRequestById = gql`
         }
     }
 `
+
+export const queryTotalCountProfileAside = gql`
+    query {
+        productListMe {
+            totalCount
+        }
+        productRequestListMe {
+            totalCount
+        }
+        chatList {
+            totalCount
+        }
+    }
+`
