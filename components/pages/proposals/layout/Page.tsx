@@ -6,12 +6,11 @@ import { useSearchParams } from "next/navigation"
 import type { IProductOfferListRoot } from "@/types/types"
 
 import { ItemProposal } from "../components/ItemProposal"
-import { HeaderMyProposals } from "../components/HeaderMyProposals"
 
 import { queryProductOfferList } from "@/apollo/query-offers"
 import { Filter } from "@/components/common/filters"
 
-export default function PageProposals() {
+export function PageProposals() {
     const productId = useSearchParams()?.get("request-id")
     const { data, loading } = useQuery<IProductOfferListRoot>(
         queryProductOfferList,
@@ -26,7 +25,6 @@ export default function PageProposals() {
 
     return (
         <>
-            {/* <HeaderMyProposals /> */}
             <Filter />
             <article>
                 {Array.isArray(productOfferList?.results)

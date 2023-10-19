@@ -5,6 +5,7 @@ import { memo, useMemo, useState } from "react"
 import { IProductOfferItem } from "@/types/types"
 
 import { useAuth } from "@/store/state/useAuth"
+import { usePush } from "@/helpers/hooks/usePush"
 
 import styles from "../styles/item-proposal.module.scss"
 
@@ -13,8 +14,7 @@ const $ItemProposal = (props: IProductOfferItem) => {
     const { id, product, productRequest } = props ?? {}
     const { id: userId } = user ?? {}
     const [state, setState] = useState(0)
-
-    console.log("productRequest: ", productRequest)
+    const { handleReplace } = usePush()
 
     const imagesRequest = useMemo(() => {
         if (!productRequest?.photoListUrl?.length) {
@@ -30,8 +30,12 @@ const $ItemProposal = (props: IProductOfferItem) => {
         )
     }, [productRequest?.photoListUrl])
 
+    function handle() {
+        handleReplace(`/proposals?proposal-id=${productRequest?.id}`)
+    }
+
     return (
-        <div className={styles.container}>
+        <div className={styles.container} onClick={handle}>
             <div data-image-container>
                 {imagesRequest.length ? (
                     <Image
@@ -62,6 +66,18 @@ const $ItemProposal = (props: IProductOfferItem) => {
                     </div>
                 ) : null}
             </div>
+            <section>
+                <article>
+                    <h2>{productRequest?.name}</h2>
+                    <h2 data-price>{productRequest?.price} ₸</h2>
+                </article>
+                <article>
+                    <div data-category>
+                        <p>{productRequest?.category?.name}</p>
+                    </div>
+                    <a>г. Алматы, Советский р-он</a>
+                </article>
+            </section>
         </div>
     )
 }
