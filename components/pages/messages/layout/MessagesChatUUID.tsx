@@ -15,8 +15,10 @@ import { mutateChatMessageCreate } from "@/apollo/mutation"
 
 import styles from "../styles/chat-uuid.module.scss"
 import { useSocket } from "@/context/WebSocketContext"
+import { useSearchParams } from "next/navigation"
 
-const $MessagesChatUUID = ({ id }: { id: string }) => {
+const $MessagesChatUUID = () => {
+    const id = useSearchParams().get("chat-id")
     const { user } = useAuth()
     const { readyState, getWebSocket } = useSocket()
     const { id: userId } = user ?? {}
@@ -77,14 +79,14 @@ const $MessagesChatUUID = ({ id }: { id: string }) => {
             const data = JSON.parse(event?.data)
             console.log("data: ", data)
             if (
-                data?.type === "new_message" &&
-                data?.sender?.id !== userId &&
-                data?.chat_id === id
+                data?.data?.type === "new_message" &&
+                data?.data?.chat_id === id &&
+                data?.data?.sender?.id !== userId
             ) {
                 refetch()
             }
         }
-        if (readyState === 1) {
+        if (readyState === 1 && id && userId) {
             getWebSocket()?.addEventListener("message", messageListener)
 
             return () => {
