@@ -10,7 +10,7 @@ export interface IAuthState {
     expiration: number | undefined
     user:
         | {
-              id: number
+              id: string
               fullName: string
               isAdmin: boolean
               isActive: boolean

@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import { useEnter } from "@/store/state/useEnter"
 import { serviceAuth } from "@/helpers/services/serviceAuth"
 import { useAuth } from "@/store/state/useAuth"
+import { InputPassword } from "@/components/common/input-password"
 
 export const RegisterFormComponent = () => {
     const { visible, dispatch } = useEnter()
@@ -63,12 +64,11 @@ export const RegisterFormComponent = () => {
                     {...register("number", { required: true })}
                     type="text"
                 />
-                <input
+                <InputPassword
                     placeholder="Пароль"
                     {...register("password", { required: true })}
-                    type="password"
                 />
-                <input
+                <InputPassword
                     placeholder="Пароль"
                     {...register("password_", {
                         required: true,
@@ -78,7 +78,7 @@ export const RegisterFormComponent = () => {
                             }
                         },
                     })}
-                    type="password"
+                    error={errors.password_?.message}
                 />
             </div>
             <button type="submit" data-submit>

@@ -1,5 +1,6 @@
 "use client"
 
+import { memo } from "react"
 import Image from "next/image"
 import { useQuery } from "@apollo/client"
 import { usePathname } from "next/navigation"
@@ -12,7 +13,7 @@ import { usePush } from "@/helpers/hooks/usePush"
 import { queryTotalCountProfileAside } from "@/apollo/query"
 import { ITEMS_ASIDE_LEFT } from "../constants/ITEMS-ASIDE-LEFT"
 
-export const LeftAsideUser = () => {
+const $LeftAsideUser = () => {
     const pathname = usePathname()
     const { handlePush } = usePush()
     const { data } = useQuery<IQueryTotalCountProfileAside>(
@@ -56,3 +57,5 @@ export const LeftAsideUser = () => {
         </aside>
     )
 }
+
+export const LeftAsideUser = memo($LeftAsideUser)

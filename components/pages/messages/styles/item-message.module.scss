@@ -1,0 +1,139 @@
+//containerItemUserMessage
+
+@mixin container {
+    position: relative;
+    width: 100%;
+    display: inline-flex;
+    gap: 12px;
+    z-index: 2;
+}
+
+.avatar {
+    position: sticky;
+    top: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    object-fit: cover;
+}
+
+.containerItemUserMessage {
+    @include container();
+    justify-content: flex-start;
+
+    .messages {
+        align-items: flex-start;
+        .blockMessage {
+            background: var(--background-input);
+            border-radius: 12px 12px 12px 2px;
+
+            &.only {
+                border-radius: 12px 12px 12px 12px;
+            }
+            &.end {
+                border-radius: 2px 12px 12px 12px;
+            }
+            &.middle {
+                border-radius: 2px 12px 12px 2px;
+            }
+            &.start {
+                border-radius: 12px 12px 12px 2px;
+            }
+
+            p {
+                color: var(--gray-900);
+            }
+        }
+    }
+
+    &.mobile {
+        .blockMessage {
+            // width: 100%;
+            // max-width: 100%;
+            min-width: 1px;
+        }
+    }
+}
+
+//containerItemMyMessage
+
+.containerItemMyMessage {
+    @include container();
+    justify-content: flex-end;
+
+    .messages {
+        align-items: flex-end;
+        .blockMessage {
+            background: var(--primary-500);
+            border-radius: 12px 12px 2px 12px;
+
+            &.only {
+                border-radius: 12px 12px 12px 12px;
+            }
+            &.end {
+                border-radius: 12px 2px 12px 12px;
+            }
+            &.middle {
+                border-radius: 12px 2px 2px 12px;
+            }
+            &.start {
+                border-radius: 12px 12px 2px 12px;
+            }
+
+            p {
+                color: var(--supporting-white);
+            }
+
+            .time {
+                color: var(--gray-400);
+            }
+        }
+    }
+
+    &.mobile {
+        .blockMessage {
+            max-width: 100%;
+            min-width: 1px;
+        }
+    }
+}
+
+.messages {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 3px;
+}
+
+.blockMessage {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px 16px;
+    max-width: 63%;
+    // min-width: 393px;
+    min-height: 60px;
+
+    p {
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px;
+        letter-spacing: -0.5px;
+        // padding-right: 50px;
+    }
+}
+
+.time {
+    color: var(--gray-400);
+    bottom: 10px;
+    right: 16px;
+    text-align: right;
+    font-size: 10px !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    line-height: 14px !important;
+    letter-spacing: -0.5px;
+    padding: 0 !important;
+}

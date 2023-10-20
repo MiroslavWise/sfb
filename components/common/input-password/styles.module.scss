@@ -1,0 +1,75 @@
+.container {
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    & > [data-visible-img="true"] {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%);
+        z-index: 3;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out 0.01s;
+
+        & > svg {
+            transition: all 0.4s;
+        }
+        & > svg > path {
+            stroke: #000;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: all 0.4s;
+        }
+
+        &[data-visible-value="true"] {
+            transition: all 0.4s;
+            svg {
+                transition: all 0.4s;
+                path {
+                    d: path(
+                        "M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    );
+                }
+            }
+        }
+    }
+
+    & > input {
+        width: 100%;
+        color: var(--main-black);
+        padding: 12px;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 120%;
+        border: none;
+        transition: border-color 250ms;
+        z-index: 1;
+        border-radius: 5px;
+        height: 50px;
+        background: #ebf1f8 !important;
+
+        transition: all 0.3s ease-in-out 0.01s;
+
+        &:focus {
+            outline: none;
+            border-bottom-color: #777;
+        }
+
+        &::placeholder {
+            color: var(--gray-500);
+        }
+        & > i {
+            color: red;
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 120%;
+        }
+    }
+}

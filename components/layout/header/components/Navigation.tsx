@@ -1,6 +1,7 @@
 "use client"
 
-import { useMemo } from "react"
+import Image from "next/image"
+import { memo, useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import { usePathname } from "next/navigation"
 
@@ -8,9 +9,8 @@ import { MENU_ITEMS } from "../constants/menu"
 import { usePush } from "@/helpers/hooks/usePush"
 
 import { ButtonLogin } from "./ButtonLogin"
-import Image from "next/image"
 
-export const Navigation = () => {
+const $Navigation = () => {
     const pathname = usePathname()
     const { i18n } = useTranslation()
     const { handlePush } = usePush()
@@ -38,39 +38,9 @@ export const Navigation = () => {
                     <span>{item.label}</span>
                 </li>
             ))}
-        </nav>
-    )
-
-    return (
-        <nav>
-            <li
-                onClick={() => handlePush("/about")}
-                data-active={pathname.includes("/about")}
-            >
-                <a>О компании</a>
-            </li>
-            <li
-                onClick={() => handlePush("/exchange")}
-                data-active={pathname.includes("/exchange")}
-            >
-                <a>Биржа</a>
-            </li>
-            <li
-                onClick={() => handlePush("/faq")}
-                data-active={pathname.includes("/faq")}
-            >
-                <a>FAQ</a>
-            </li>
-            <li
-                onClick={() => handlePush("/contacts")}
-                data-active={pathname.includes("/contacts")}
-            >
-                <a>Контакты</a>
-            </li>
-            <li data-lang onClick={handleLanguage}>
-                <a>{lang}</a>
-            </li>
             <ButtonLogin />
         </nav>
     )
 }
+
+export const Navigation = memo($Navigation)

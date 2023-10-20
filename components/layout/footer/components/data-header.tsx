@@ -11,6 +11,7 @@ export const FooterComponentDataHeader = () => {
             <div data-social-links>
                 {LINKS_SOCIAL.map((item) => (
                     <Image
+                        key={item.src}
                         src={item.src}
                         alt={item.alt}
                         width={40}

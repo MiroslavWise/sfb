@@ -1,28 +1,37 @@
 "use client"
 
-import { usePush } from "@/helpers/hooks/usePush"
-import { useId } from "react"
+import { memo, useMemo } from "react"
+import { useQuery } from "@apollo/client"
 
-export const LeftChats = () => {
-    const id = useId()
-    const { handlePush } = usePush()
+import type { IQueryChatList } from "@/types/chat"
+
+import { ItemListChats } from "./ItemListChats"
+
+import { queryChatList } from "@/apollo/chat"
+
+const $LeftChats = () => {
+    const { data } = useQuery<IQueryChatList>(queryChatList)
+
+    const items = useMemo(() => {
+        return data?.chatList?.results || []
+    }, [data?.chatList?.results])
+
+    const length = useMemo(() => {
+        return data?.chatList?.totalCount || 0
+    }, [data?.chatList?.results])
 
     return (
         <aside>
             <header>
-                <h2>Сообщения</h2>
+                <h2>Чаты {length}</h2>
             </header>
             <ul>
-                <li
-                    onClick={() => {
-                        handlePush(`/messages?id-chat=${id}`)
-                    }}
-                >
-                    <div>
-                        <div data-header></div>
-                    </div>
-                </li>
+                {items.map((item, index) => (
+                    <ItemListChats key={`${item.id}-chats`} {...item} />
+                ))}
             </ul>
         </aside>
     )
 }
+
+export const LeftChats = memo($LeftChats)

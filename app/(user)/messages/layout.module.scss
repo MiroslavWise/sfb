@@ -19,7 +19,7 @@
             position: sticky;
             top: 0;
             width: 100%;
-            height: 78px;
+            height: 58px;
             padding: 20px;
             display: flex;
             flex-direction: row;
@@ -48,22 +48,114 @@
 
             & > li {
                 width: 100%;
-                height: fit-content;
+                position: relative;
+                height: auto;
+                padding: 16px;
+                background: transparent;
+                transition: all 0.3s ease-in-out;
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
                 cursor: pointer;
+                transition: all 0.3s ease-in-out 0.01s;
 
-                & > [data-header="true"] {
-                    width: 100%;
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: space-between;
+                &[data-last="true"] {
                     border-bottom: 1px solid var(--gray-300);
                 }
+                &[data-active="true"] {
+                    background: var(--primary-200);
+                    cursor: default;
+                }
 
-                & > div {
+                & > sup {
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    color: var(--gray-500);
+                    font-size: 9px;
+                    font-style: normal;
+                    font-weight: 400;
+                }
+
+                & > header {
+                    display: inline-flex;
+                    justify-content: flex-start;
+                    gap: 8px;
+                    background: transparent;
+                    width: calc(100%);
+
+                    & > [data-null-image="true"] {
+                        width: 38px;
+                        height: 38px;
+                        padding: 19px;
+                        border-radius: 19px;
+                        background: var(--main-black);
+                    }
+
+                    & > img {
+                        width: 38px;
+                        height: 38px;
+                        border-radius: 19px;
+                        object-fit: cover;
+                        aspect-ratio: 1/1;
+                        border-radius: 8px;
+                    }
+
+                    & > [data-name-commodity="true"] {
+                        display: flex;
+                        height: auto;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        align-items: flex-start;
+                        h4 {
+                            color: var(--main-black);
+                            font-size: 16px;
+                            font-style: normal;
+                            font-weight: 600;
+                            letter-spacing: -0.5px;
+                        }
+
+                        & > span {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            gap: 4px;
+
+                            & > img {
+                                filter: invert(0.5);
+                            }
+
+                            & > i {
+                                color: var(--gray-500);
+                                font-size: 12px;
+                                font-style: normal;
+                                font-weight: 500;
+                                text-overflow: ellipsis;
+                                line-clamp: 1;
+                                -webkit-line-clamp: 1;
+                                overflow: hidden;
+                                -webkit-box-orient: vertical;
+                                display: -webkit-box;
+                            }
+                        }
+                    }
+                }
+
+                & > section {
                     width: 100%;
-                    padding: 20px 16px;
 
-                    & > [data-header="true"] {
+                    & > p {
+                        color: var(--main-black);
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 500;
+                        letter-spacing: -0.5px;
+                        text-overflow: ellipsis;
+                        line-clamp: 2;
+                        -webkit-line-clamp: 2;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        display: -webkit-box;
                     }
                 }
             }
