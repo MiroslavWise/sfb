@@ -75,6 +75,8 @@ export const PRODUCT_REQUEST = gql`
 `
 
 export const CHAT = gql`
+    ${PHOTOS}
+    ${PHOTOS_REQUEST}
     fragment chat on ChatProductRequestType {
         createdAt
         updatedAt
@@ -82,10 +84,18 @@ export const CHAT = gql`
         product {
             id
             name
+            price
+            photoListUrl {
+                ...photos
+            }
         }
         productRequest {
             id
             name
+            price
+            photoListUrl {
+                ...photosRequest
+            }
         }
         seller {
             id

@@ -1,17 +1,18 @@
-import { IAuthor } from "./types"
+import { IAuthor, IPhoto } from "./types"
+
+export interface IChatProduct {
+    id: string
+    name: string
+    price: number
+    photoListUrl: IPhoto[]
+}
 
 export interface IChatItem {
     createdAt: Date
     updatedAt: Date
     id: string
-    product: {
-        id: string
-        name: string
-    }
-    productRequest: {
-        id: string
-        name: string
-    }
+    product: IChatProduct
+    productRequest: IChatProduct
     seller: {
         id: string
         fullName: string

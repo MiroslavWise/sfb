@@ -1,6 +1,6 @@
 .wrapper {
     position: sticky;
-    top: 0;
+    top: calc(3px + 107px);
     width: 100%;
     display: flex;
     flex-direction: row;

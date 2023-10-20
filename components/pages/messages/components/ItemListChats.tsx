@@ -80,12 +80,6 @@ const $ItemListChats = (props: IChatItem) => {
                     </span>
                 </div>
             </header>
-            {/* <section>
-                <p>
-                    Hey Olivia, Katherine sent me over the latest doc. I just
-                    have a quick question about the...
-                </p>
-            </section> */}
         </li>
     )
 }

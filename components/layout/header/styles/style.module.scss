@@ -30,19 +30,19 @@
             flex-direction: row;
             align-items: center;
             justify-content: center;
+            gap: 4px;
             overflow: hidden;
             cursor: pointer;
             & > a {
                 text-align: center;
                 position: relative;
                 color: var(--main-black);
-                font-size: 14px;
+                font-size: 16px;
                 font-style: normal;
-                font-weight: 600;
-                line-height: 191.023%;
-                text-transform: capitalize;
+                font-weight: 500;
                 cursor: pointer;
                 align-items: center;
+                white-space: nowrap;
             }
 
             &[data-lang="true"] {

@@ -2,19 +2,19 @@ import { IMenuItems } from "../types/types"
 
 export const MENU_ITEMS: IMenuItems[] = [
     {
-        label: "Присоединиться",
+        label: "Стать партнёром",
         value: "/about",
-        icon: "/svg/menu/partner.svg",
+        icon: "/svg/menu/check-verified-01.svg",
     },
     {
         label: "Помощь",
         value: "/contacts",
-        icon: "/svg/menu/help.svg",
+        icon: "/svg/menu/help-circle.svg",
     },
     {
         label: "Избранное",
         value: "/faq",
-        icon: "/svg/menu/wish.svg",
+        icon: "/svg/menu/star-06.svg",
     },
     // {
     //     label: "Профиль",

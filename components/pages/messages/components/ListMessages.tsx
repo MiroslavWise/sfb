@@ -60,7 +60,10 @@ const $ListMessages: TListMessages = ({ messages, dataUser }) => {
                 if (ulChat.current) {
                     if (numberIdMessage.current !== messages?.at(-1)?.id) {
                         const top = ulChat.current.scrollHeight
-                        ulChat.current.scroll({ top: top, behavior: "smooth" })
+                        ulChat.current.scroll({
+                            top: top + 150,
+                            behavior: "smooth",
+                        })
                         numberIdMessage.current = messages?.at(-1)?.id!
                     }
                 }

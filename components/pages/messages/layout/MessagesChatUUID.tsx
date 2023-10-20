@@ -1,9 +1,10 @@
 "use client"
 
 import { useForm } from "react-hook-form"
-import { memo, useEffect, useState } from "react"
+import { memo, useEffect, useMemo, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { useMutation, useQuery } from "@apollo/client"
+import { motion } from "framer-motion"
 
 import type { IDataUser } from "../types/types"
 import type { IQueryCatId, IQueryChatMessageByChatId } from "@/types/chat"
@@ -16,6 +17,7 @@ import { queryChatById, queryChatMessageByChatId } from "@/apollo/chat"
 import { mutateChatMessageCreate } from "@/apollo/mutation"
 
 import styles from "../styles/chat-uuid.module.scss"
+import Image from "next/image"
 
 const $MessagesChatUUID = () => {
     const id = useSearchParams().get("chat-id")
@@ -83,9 +85,6 @@ const $MessagesChatUUID = () => {
             }
         }
     }, [dataChatInfo, userId])
-
-    const onSubmit = handleSubmit(submit)
-
     useEffect(() => {
         const messageListener = (event: any) => {
             const data = JSON.parse(event?.data)
@@ -107,8 +106,72 @@ const $MessagesChatUUID = () => {
         }
     }, [readyState, userId])
 
+    const infoCommodity = useMemo(() => {
+        const chat = dataChatInfo?.chatById
+
+        if (chat && userId) {
+            if (chat?.buyer?.id === userId) {
+                return chat?.product
+            } else {
+                return chat?.productRequest
+            }
+        }
+    }, [dataChatInfo?.chatById, userId])
+    const [value, setValue] = useState(0)
+
+    function handleValue(index: number) {
+        console.log("data-active: ", index)
+        setValue(index)
+    }
+
+    const onSubmit = handleSubmit(submit)
+
     return (
         <article className={styles.wrapper}>
+            {infoCommodity ? (
+                <motion.header
+                    initial={{ opacity: 0, visibility: "hidden" }}
+                    animate={{ opacity: 1, visibility: "visible" }}
+                    exit={{ opacity: 0, visibility: "hidden" }}
+                    transition={{ duration: 0.3 }}
+                >
+                    {infoCommodity?.photoListUrl?.length ? (
+                        <div data-photos>
+                            {infoCommodity?.photoListUrl
+                                ?.slice(0, 4)
+                                ?.map((item, index) => (
+                                    <Image
+                                        data-active={value === index}
+                                        onClick={(event) => {
+                                            event.stopPropagation()
+                                            event.preventDefault()
+                                            handleValue(index)
+                                        }}
+                                        key={`${item.id}-phtoosasf---`}
+                                        src={item.photoUrl!}
+                                        alt="---"
+                                        width={150}
+                                        height={150}
+                                        unoptimized
+                                    />
+                                ))}
+                        </div>
+                    ) : null}
+                    <div data-info>
+                        <h2>{infoCommodity?.name}</h2>
+                        <h1>{`${infoCommodity?.price} ₸` || "Договорная"} </h1>
+                    </div>
+                    <button data-path>
+                        <span>Перейти</span>
+                        <Image
+                            src="/svg/share-06.svg"
+                            alt="share"
+                            width={18}
+                            height={18}
+                        />
+                    </button>
+                </motion.header>
+            ) : null}
             <ListMessages
                 messages={data?.chatMessageByChatId?.results || []}
                 dataUser={dataUser}
