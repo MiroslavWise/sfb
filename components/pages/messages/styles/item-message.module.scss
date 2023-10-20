@@ -8,18 +8,17 @@
     z-index: 2;
 }
 
-.avatar {
-    position: sticky;
-    top: 0;
-    width: 32px;
-    height: 32px;
-    border-radius: 16px;
-    object-fit: cover;
-}
-
 .containerItemUserMessage {
     @include container();
     justify-content: flex-start;
+    & > img {
+        position: sticky;
+        top: 0;
+        width: 32px;
+        height: 32px;
+        border-radius: 16px;
+        object-fit: cover;
+    }
 
     .messages {
         align-items: flex-start;
@@ -48,8 +47,6 @@
 
     &.mobile {
         .blockMessage {
-            // width: 100%;
-            // max-width: 100%;
             min-width: 1px;
         }
     }
@@ -60,11 +57,19 @@
 .containerItemMyMessage {
     @include container();
     justify-content: flex-end;
+    & > img {
+        position: sticky;
+        top: 0;
+        width: 32px;
+        height: 32px;
+        border-radius: 16px;
+        object-fit: cover;
+    }
 
     .messages {
         align-items: flex-end;
         .blockMessage {
-            background: var(--primary-500);
+            background: var(--main-black);
             border-radius: 12px 12px 2px 12px;
 
             &.only {
@@ -128,11 +133,11 @@
 .time {
     color: var(--gray-400);
     bottom: 10px;
-    right: 16px;
+    right: 12px;
     text-align: right;
     font-size: 10px !important;
     font-style: normal;
-    font-weight: 400 !important;
+    font-weight: 600 !important;
     line-height: 14px !important;
     letter-spacing: -0.5px;
     padding: 0 !important;

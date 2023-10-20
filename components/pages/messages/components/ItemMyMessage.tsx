@@ -31,7 +31,13 @@ const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
                     </div>
                 ))}
             </div>
-            <Image src={photo} alt="avatar" className={styles.avatar} />
+            <Image
+                src={photo!}
+                alt="avatar"
+                className={styles.avatar}
+                width={200}
+                height={200}
+            />
         </li>
     )
 }

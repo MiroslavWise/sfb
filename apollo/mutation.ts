@@ -155,3 +155,15 @@ export const mutateUpdateProduct = gql`
         }
     }
 `
+
+export const mutateChatMessageCreate = gql`
+    mutation ($chatId: UUID!, $text: String!) {
+        chatMessageCreate(chatId: $chatId, text: $text) {
+            ok
+            errors {
+                field
+                messages
+            }
+        }
+    }
+`

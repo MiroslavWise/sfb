@@ -17,6 +17,7 @@ export interface IPhoto {
 export interface IAuthor {
     id: string
     fullName: string
+    photo: string
 }
 export interface IPhotoList {
     photoListUrl: IPhoto[]

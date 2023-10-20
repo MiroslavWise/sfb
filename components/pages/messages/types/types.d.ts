@@ -2,7 +2,7 @@ import { IItemChatMessageByChatId } from "@/types/chat"
 import type { FC } from "react"
 
 interface IItemMessage {
-    photo: string
+    photo: string | null
     messages: {
         id: number | string
         message: string
@@ -13,13 +13,15 @@ interface IItemTime {
     time: string
 }
 
+export interface IDataUser {
+    id: string | null
+    photo: string | null
+    fullName: string | null
+}
+
 interface IListMessages {
     messages: IItemChatMessageByChatId[]
-    dataUser: {
-        id: string
-        photo: string
-        fullName: string
-    }
+    dataUser: IDataUser
 }
 
 export type TItemTime = FC<IItemTime>

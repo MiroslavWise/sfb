@@ -1,11 +1,8 @@
 import dayjs from "dayjs"
-import { useId } from "react"
 
 import { IItemChatMessageByChatId } from "@/types/chat"
 
 function useJoinMessage() {
-    const idMessage = useId()
-
     function join(
         item_messages: IItemChatMessageByChatId[],
     ): IReturnMessages[] {
@@ -31,16 +28,15 @@ function useJoinMessage() {
                         time: dayjs(message.createdAt).format("DD.MM.YYYY"),
                     })
                 }
-                // if (items.at(-1)?.emitterId === message?.emitterId) {
-                if (items.at(-1)?.emitterId === "qwerqqwer") {
+                if (items.at(-1)?.emitterId === message?.author?.id) {
                     items.at(-1)?.messages?.push({
                         message: message?.text || "",
-                        id: `${message?.id}-${idMessage}`,
+                        id: message?.id,
                         time: message?.createdAt,
                     })
                 } else {
                     items.push({
-                        emitterId: message?.createdAt.toString()!,
+                        emitterId: message?.author?.id!,
                         id: message.id,
                         type: "messages",
                         messages: [
@@ -54,7 +50,7 @@ function useJoinMessage() {
                 }
             })
         }
-
+        console.log("items messages: ", items)
         return items
     }
 

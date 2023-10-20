@@ -15,9 +15,9 @@ const $ListMessages: TListMessages = ({ messages, dataUser }) => {
     const { id: userId } = user ?? {}
     const ulChat = useRef<HTMLUListElement>(null)
     const numberIdMessage = useRef<string | null>(null)
-    const [height, setHeight] = useState(0)
 
     const messagesJoin: ReactNode = useMemo(() => {
+        console.log("dataUser: ", dataUser)
         if (Array.isArray(messages)) {
             return join(messages).map((item, index) => {
                 if (item.emitterId === userId && item.type === "messages") {
@@ -30,7 +30,7 @@ const $ListMessages: TListMessages = ({ messages, dataUser }) => {
                     )
                 }
                 if (
-                    Number(item.emitterId) === Number(dataUser?.id!) &&
+                    item.emitterId === dataUser?.id &&
                     item.type === "messages"
                 ) {
                     return (

@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client"
+import { AUTHOR } from "./fragment"
 
 export const queryChatList = gql`
     query {
@@ -32,6 +33,7 @@ export const queryChatList = gql`
 `
 
 export const queryChatMessageByChatId = gql`
+    ${AUTHOR}
     query ($chatId: UUID!) {
         chatMessageByChatId(chatId: $chatId) {
             totalCount
@@ -41,6 +43,9 @@ export const queryChatMessageByChatId = gql`
                 id
                 text
                 isRead
+                author {
+                    ...author
+                }
             }
         }
     }

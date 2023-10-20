@@ -1,3 +1,5 @@
+import { IAuthor } from "./types"
+
 export interface IChatItemList {
     createdAt: Date
     updatedAt: Date
@@ -35,6 +37,7 @@ export interface IItemChatMessageByChatId {
     id: string
     text: string
     isRead: boolean
+    author: IAuthor
 }
 
 export interface IQueryChatMessageByChatId {

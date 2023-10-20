@@ -4,6 +4,7 @@ export const AUTHOR = gql`
     fragment author on UserType {
         id
         fullName
+        photo
     }
 `
 

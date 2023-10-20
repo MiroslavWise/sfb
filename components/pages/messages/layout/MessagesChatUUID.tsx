@@ -1,21 +1,32 @@
 "use client"
 
-import { memo } from "react"
-import { useQuery } from "@apollo/client"
+import { memo, useEffect, useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
+import { useMutation, useQuery } from "@apollo/client"
 
+import type { IDataUser } from "../types/types"
 import type { IQueryChatMessageByChatId } from "@/types/chat"
 
 import { ListMessages } from "../components/ListMessages"
 
+import { useAuth } from "@/store/state/useAuth"
 import { queryChatMessageByChatId } from "@/apollo/chat"
+import { mutateChatMessageCreate } from "@/apollo/mutation"
 
 import styles from "../styles/chat-uuid.module.scss"
 
 const $MessagesChatUUID = ({ id }: { id: string }) => {
+    const { user } = useAuth()
+    const { id: userId } = user ?? {}
     const { reset, watch, register, handleSubmit } = useForm<IValues>({})
-
-    const { data, loading, refetch } = useQuery<IQueryChatMessageByChatId>(
+    const [loading, setLoading] = useState(false)
+    const [createMessage] = useMutation(mutateChatMessageCreate)
+    const [dataUser, setDataUser] = useState<IDataUser>({
+        id: null,
+        photo: null,
+        fullName: null,
+    })
+    const { data, refetch } = useQuery<IQueryChatMessageByChatId>(
         queryChatMessageByChatId,
         {
             variables: {
@@ -25,16 +36,39 @@ const $MessagesChatUUID = ({ id }: { id: string }) => {
     )
 
     function submit(values: IValues) {
-        console.log("values: ", values)
-        refetch()
-        reset()
+        if (!loading) {
+            setLoading(true)
+            createMessage({
+                variables: {
+                    chatId: id!,
+                    text: values?.text!,
+                },
+            })
+                .then((response) => {
+                    console.log("response message: ", response?.data)
+                })
+                .finally(() => {
+                    setLoading(false)
+                    reset()
+                    refetch()
+                })
+        }
     }
 
-    const dataUser = {
-        id: "qwe",
-        photo: "/png/photo.png",
-        fullName: "|.|.|.|.|",
-    }
+    useEffect(() => {
+        if (data?.chatMessageByChatId && userId) {
+            const user = data?.chatMessageByChatId?.results?.find(
+                (item) => item?.author?.id !== userId,
+            )?.author
+            if (user) {
+                setDataUser({
+                    id: user?.id,
+                    fullName: user?.fullName,
+                    photo: user?.photo,
+                })
+            }
+        }
+    }, [data?.chatMessageByChatId, userId])
 
     const onSubmit = handleSubmit(submit)
 
