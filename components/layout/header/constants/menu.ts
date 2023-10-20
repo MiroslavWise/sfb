@@ -16,9 +16,9 @@ export const MENU_ITEMS: IMenuItems[] = [
         value: "/faq",
         icon: "/svg/menu/wish.svg",
     },
-    {
-        label: "Профиль",
-        value: "/profile",
-        icon: "/svg/menu/profile.svg",
-    },
+    // {
+    //     label: "Профиль",
+    //     value: "/profile",
+    //     icon: "/svg/menu/profile.svg",
+    // },
 ]

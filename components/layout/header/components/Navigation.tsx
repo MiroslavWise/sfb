@@ -37,6 +37,35 @@ const $Navigation = () => {
                     <span>{item.label}</span>
                 </li>
             ))}
+            <div data-chat-notification>
+                <Image
+                    src="/svg/menu/message-notification-circle.svg"
+                    alt="icon"
+                    width={24}
+                    height={24}
+                    onClick={() => {
+                        handlePush("/messages")
+                    }}
+                />
+                <Image
+                    src="/svg/menu/bell-03.svg"
+                    alt="icon"
+                    width={24}
+                    height={24}
+                    onClick={() => {
+                        handlePush("/notifications")
+                    }}
+                />
+                <Image
+                    src="/svg/menu/user-02.svg"
+                    alt="icon"
+                    width={24}
+                    height={24}
+                    onClick={() => {
+                        handlePush("/profile")
+                    }}
+                />
+            </div>
             <ButtonLogin />
         </nav>
     )

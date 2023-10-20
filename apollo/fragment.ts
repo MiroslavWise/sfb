@@ -45,6 +45,7 @@ export const PRODUCT = gql`
         commercial
         isActive
         draft
+        quantity
     }
 `
 
@@ -69,5 +70,32 @@ export const PRODUCT_REQUEST = gql`
         commercial
         isActive
         draft
+        quantity
+    }
+`
+
+export const CHAT = gql`
+    fragment chat on ChatProductRequestType {
+        createdAt
+        updatedAt
+        id
+        product {
+            id
+            name
+        }
+        productRequest {
+            id
+            name
+        }
+        seller {
+            id
+            fullName
+            photo
+        }
+        buyer {
+            id
+            fullName
+            photo
+        }
     }
 `

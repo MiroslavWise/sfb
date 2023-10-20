@@ -100,6 +100,7 @@ export const mutateUpdateProductRequest = gql`
         $name: String
         $description: String
         $price: Float
+        $quantity: Int
     ) {
         productRequestUpdate(
             input: {
@@ -107,6 +108,7 @@ export const mutateUpdateProductRequest = gql`
                 name: $name
                 description: $description
                 price: $price
+                quantity: $quantity
             }
             productRequestId: $productRequestId
         ) {
@@ -141,6 +143,7 @@ export const mutateUpdateProduct = gql`
         $name: String
         $description: String
         $price: Float
+        $quantity: Int
     ) {
         productUpdate(
             input: {
@@ -148,6 +151,7 @@ export const mutateUpdateProduct = gql`
                 name: $name
                 description: $description
                 price: $price
+                quantity: $quantity
             }
             productId: $productId
         ) {

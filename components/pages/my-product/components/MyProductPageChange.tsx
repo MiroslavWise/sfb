@@ -59,6 +59,7 @@ export const MyProductPageChange = () => {
             name: values.title,
             description: values.description,
             price: +values.price,
+            quantity: +values.quantity! || 1,
         }
         if (uuid) {
             data.productId = uuid!
@@ -127,6 +128,7 @@ export const MyProductPageChange = () => {
             setValue("description", productById?.description)
             setValue("price", productById?.price)
             setValue("category", productById?.category?.id)
+            setValue("quantity", productById?.quantity)
         }
     }, [productById])
 
@@ -251,6 +253,15 @@ export const MyProductPageChange = () => {
                         />
                         {errors.price ? <i>Заполните цену товара</i> : null}
                     </span>
+                    <span>
+                        <input
+                            type="number"
+                            defaultValue={1}
+                            {...register("quantity", { required: true })}
+                            placeholder="Количество товаров"
+                            />
+                            {errors.quantity ? <i>Введите кол-во товаров</i> : null}
+                    </span>
                     <footer>
                         <button data-primary type="submit">
                             <span>Сохранить</span>
@@ -277,4 +288,5 @@ interface IValues {
     type: string | number
     description: string
     price: number | string
+    quantity: number | null
 }

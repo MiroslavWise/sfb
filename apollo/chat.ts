@@ -1,32 +1,13 @@
 import { gql } from "@apollo/client"
-import { AUTHOR } from "./fragment"
+import { AUTHOR, CHAT } from "./fragment"
 
 export const queryChatList = gql`
+    ${CHAT}
     query {
         chatList {
             totalCount
             results {
-                createdAt
-                updatedAt
-                id
-                product {
-                    id
-                    name
-                }
-                productRequest {
-                    id
-                    name
-                }
-                seller {
-                    id
-                    fullName
-                    photo
-                }
-                buyer {
-                    id
-                    fullName
-                    photo
-                }
+                ...chat
             }
         }
     }
@@ -47,6 +28,15 @@ export const queryChatMessageByChatId = gql`
                     ...author
                 }
             }
+        }
+    }
+`
+
+export const queryChatById = gql`
+    ${CHAT}
+    query ($chatId: UUID!) {
+        chatById(chatId: $chatId) {
+            ...chat
         }
     }
 `

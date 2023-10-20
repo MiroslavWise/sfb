@@ -60,6 +60,7 @@ export interface IRequestProduct {
         id: string
         photoUrl: string
     }[]
+    quantity
 }
 
 export interface IProduct extends IRequestProduct {}

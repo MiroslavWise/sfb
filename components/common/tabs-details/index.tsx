@@ -7,7 +7,7 @@ import Image from "next/image"
 
 export const TabsDetails: TTabsDetails = ({ items, current, set }) => {
     return (
-        <div className={styles.container}>
+        <div className={styles.container} data-tabs>
             <ul>
                 {items.map((item) => (
                     <li

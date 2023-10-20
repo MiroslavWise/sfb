@@ -1,34 +1,39 @@
 "use client"
 
-import { memo, useEffect, useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
+import { memo, useEffect, useState } from "react"
+import { useSearchParams } from "next/navigation"
 import { useMutation, useQuery } from "@apollo/client"
 
 import type { IDataUser } from "../types/types"
-import type { IQueryChatMessageByChatId } from "@/types/chat"
+import type { IQueryCatId, IQueryChatMessageByChatId } from "@/types/chat"
 
 import { ListMessages } from "../components/ListMessages"
 
 import { useAuth } from "@/store/state/useAuth"
-import { queryChatMessageByChatId } from "@/apollo/chat"
+import { useSocket } from "@/context/WebSocketContext"
+import { queryChatById, queryChatMessageByChatId } from "@/apollo/chat"
 import { mutateChatMessageCreate } from "@/apollo/mutation"
 
 import styles from "../styles/chat-uuid.module.scss"
-import { useSocket } from "@/context/WebSocketContext"
-import { useSearchParams } from "next/navigation"
 
 const $MessagesChatUUID = () => {
     const id = useSearchParams().get("chat-id")
     const { user } = useAuth()
     const { readyState, getWebSocket } = useSocket()
     const { id: userId } = user ?? {}
-    const { reset, watch, register, handleSubmit } = useForm<IValues>({})
+    const { reset, register, handleSubmit } = useForm<IValues>({})
     const [loading, setLoading] = useState(false)
     const [createMessage] = useMutation(mutateChatMessageCreate)
     const [dataUser, setDataUser] = useState<IDataUser>({
         id: null,
         photo: null,
         fullName: null,
+    })
+    const { data: dataChatInfo } = useQuery<IQueryCatId>(queryChatById, {
+        variables: {
+            chatId: id,
+        },
     })
     const { data, refetch } = useQuery<IQueryChatMessageByChatId>(
         queryChatMessageByChatId,
@@ -58,19 +63,26 @@ const $MessagesChatUUID = () => {
     }
 
     useEffect(() => {
-        if (data?.chatMessageByChatId && userId) {
-            const user = data?.chatMessageByChatId?.results?.find(
-                (item) => item?.author?.id !== userId,
-            )?.author
-            if (user) {
+        if (dataChatInfo?.chatById && userId) {
+            if (dataChatInfo?.chatById?.buyer?.id === userId) {
+                const user = dataChatInfo?.chatById?.seller
                 setDataUser({
                     id: user?.id,
                     fullName: user?.fullName,
                     photo: user?.photo,
                 })
+                return
+            } else {
+                const user = dataChatInfo?.chatById?.buyer
+                setDataUser({
+                    id: user?.id,
+                    fullName: user?.fullName,
+                    photo: user?.photo,
+                })
+                return
             }
         }
-    }, [data?.chatMessageByChatId, userId])
+    }, [dataChatInfo, userId])
 
     const onSubmit = handleSubmit(submit)
 

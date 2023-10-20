@@ -188,3 +188,26 @@ export const queryTotalCountProfileAside = gql`
         }
     }
 `
+
+export const queryNotificationList = gql`
+    query {
+        notificationList {
+            totalCount
+            results {
+                createdAt
+                updatedAt
+                id
+                target {
+                    id
+                }
+                fromUser {
+                    id
+                }
+                redirectUrl
+                redirectShortUrl
+                verb
+                isRead
+            }
+        }
+    }
+`

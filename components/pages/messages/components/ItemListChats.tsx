@@ -3,14 +3,14 @@
 import { memo, useMemo } from "react"
 import { useSearchParams } from "next/navigation"
 
-import type { IChatItemList } from "@/types/chat"
+import type { IChatItem } from "@/types/chat"
 
 import { useAuth } from "@/store/state/useAuth"
 import { usePush } from "@/helpers/hooks/usePush"
 import Image from "next/image"
 import dayjs from "dayjs"
 
-const $ItemListChats = (props: IChatItemList) => {
+const $ItemListChats = (props: IChatItem) => {
     const { user } = useAuth()
     const { id, buyer, seller, product, productRequest, updatedAt } =
         props ?? {}
@@ -80,12 +80,12 @@ const $ItemListChats = (props: IChatItemList) => {
                     </span>
                 </div>
             </header>
-            <section>
+            {/* <section>
                 <p>
                     Hey Olivia, Katherine sent me over the latest doc. I just
                     have a quick question about the...
                 </p>
-            </section>
+            </section> */}
         </li>
     )
 }

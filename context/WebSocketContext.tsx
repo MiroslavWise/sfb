@@ -30,7 +30,10 @@ export const WebSocketContext = ({ children }: IChildrenProps) => {
             const events = (event: any) => {
                 const data = JSON.parse(event?.data)?.data
 
-                if (data?.type === "new_message") {
+                if (
+                    data?.type === "new_message" &&
+                    data?.sender?.id !== user?.id
+                ) {
                     const qwer = () =>
                         toast(
                             `Тебе новое сообщение от ${data?.sender?.full_name}`,

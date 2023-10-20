@@ -1,16 +1,27 @@
 "use client"
 
+import { useState } from "react"
 import { useQuery } from "@apollo/client"
 
-import { queryProductListMe } from "@/apollo/query"
+import { IProductOfferListRoot } from "@/types/types"
+
 import { ItemProduct } from "./ItemProduct"
-import { usePush } from "@/helpers/hooks/usePush"
 import { Filter } from "@/components/common/filters"
+import { TabsDetails } from "@/components/common/tabs-details"
+
+import { usePush } from "@/helpers/hooks/usePush"
+import { queryProductListMe } from "@/apollo/query"
+import { queryProductOfferList } from "@/apollo/query-offers"
+import { ITEMS_TABS } from "@/app/(user)/my-products/constants"
+import { ItemProposal } from "../../proposals/components/ItemProposal"
 
 export function MyProductsPage() {
     const { data } = useQuery(queryProductListMe)
+    const { data: dataOffers } = useQuery<IProductOfferListRoot>(
+        queryProductOfferList,
+    )
     const { handlePush } = usePush()
-
+    const [tab, setTab] = useState(ITEMS_TABS[0])
     return (
         <>
             <header data-header-main>
@@ -24,10 +35,17 @@ export function MyProductsPage() {
                 </button>
             </header>
             <Filter />
+            <TabsDetails items={ITEMS_TABS} current={tab} set={setTab} />
             <article>
-                {Array.isArray(data?.productListMe?.results)
+                {Array.isArray(data?.productListMe?.results) &&
+                tab.value === "main"
                     ? data?.productListMe?.results?.map((item: any) => (
                           <ItemProduct key={`${item.id}-product`} {...item} />
+                      ))
+                    : Array.isArray(dataOffers?.productOfferList?.results) &&
+                      tab.value === "proposals"
+                    ? dataOffers?.productOfferList?.results?.map((item) => (
+                          <ItemProposal key={`${item.id}-key---`} {...item} />
                       ))
                     : null}
             </article>

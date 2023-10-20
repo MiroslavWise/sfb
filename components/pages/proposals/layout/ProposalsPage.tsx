@@ -107,7 +107,7 @@ export const ProposalsPageUUID = () => {
                     </div>
                     <footer>
                         <button data-black-border onClick={handleCreateChat}>
-                            <span>Чат</span>
+                            <span>Написать покупателю</span>
                             <Image
                                 src="/svg/message-plus-circle.svg"
                                 alt="message-plus-circle"

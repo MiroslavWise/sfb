@@ -1,6 +1,6 @@
 import { IAuthor } from "./types"
 
-export interface IChatItemList {
+export interface IChatItem {
     createdAt: Date
     updatedAt: Date
     id: string
@@ -27,8 +27,12 @@ export interface IChatItemList {
 export interface IQueryChatList {
     chatList: {
         totalCount: number
-        results: IChatItemList[]
+        results: IChatItem[]
     }
+}
+
+export interface IQueryCatId {
+    chatById: IChatItem
 }
 
 export interface IItemChatMessageByChatId {

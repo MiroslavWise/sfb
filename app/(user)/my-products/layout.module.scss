@@ -39,6 +39,10 @@
         }
     }
 
+    & > [data-tabs="true"] {
+        padding-left: 0;
+    }
+
     & > article {
         width: 100%;
         display: flex;

@@ -11,9 +11,9 @@ export const ITEMS_TABS: IItemTab[] = [
         value: "proposals",
         icon: "/svg/tabs/proposals.svg",
     },
-    {
-        label: "Отзывы",
-        value: "testimonials",
-        icon: "/svg/tabs/testimonials.svg",
-    },
+    // {
+    //     label: "Отзывы",
+    //     value: "testimonials",
+    //     icon: "/svg/tabs/testimonials.svg",
+    // },
 ]
