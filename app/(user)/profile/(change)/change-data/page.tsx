@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import dayjs, { Dayjs } from "dayjs"
 import { useForm } from "react-hook-form"
@@ -9,15 +9,18 @@ import { useMutation, useQuery } from "@apollo/client"
 import { me } from "@/apollo/query"
 import { updateProfile } from "@/apollo/mutation"
 import { usePush } from "@/helpers/hooks/usePush"
+import { uploadFile } from "@/helpers/services/fetch"
 
 export default function ChangeData() {
     const { handlePush } = usePush()
     const { data, refetch } = useQuery(me)
+    const [filesString, setFilesString] = useState<string | null>(null)
+    const [files, setFiles] = useState<File | null>(null)
+
     const {
         register,
         formState: { errors },
         handleSubmit,
-        setError,
         setValue,
     } = useForm<IValues>()
 
@@ -27,17 +30,21 @@ export default function ChangeData() {
         setValue("fullName", data?.me?.fullName)
         setValue("address", data?.me?.address)
     }, [data?.me])
-
     const [update] = useMutation(updateProfile)
 
     function onSubmit(values: IValues) {
-        update({
-            variables: {
-                fullName: values?.fullName,
-                phone: values.phone,
-                address: values?.address,
-            },
-        }).finally(() => {
+        Promise.all([
+            files
+                ? uploadFile(files!, { type: "user/photo-upload/" })
+                : Promise.resolve(),
+            update({
+                variables: {
+                    fullName: values?.fullName,
+                    phone: values.phone,
+                    address: values?.address,
+                },
+            }),
+        ]).finally(() => {
             refetch().finally(() => {
                 handlePush("/profile")
             })
@@ -57,6 +64,42 @@ export default function ChangeData() {
                 <h2>Изменить контактные данные</h2>
             </header>
             <form onSubmit={handleSubmit(onSubmit)}>
+                <div data-uploads>
+                    {filesString || data?.me?.photo ? (
+                        <Image
+                            data-photo-avatar
+                            src={filesString || data?.me?.photo}
+                            alt="avatar"
+                            width={200}
+                            height={200}
+                            unoptimized
+                        />
+                    ) : null}
+                    <span>
+                        <input
+                            type="file"
+                            onChange={(event) => {
+                                event.stopPropagation()
+                                event.preventDefault()
+                                const file = event?.target?.files?.[0]
+                                if (file) {
+                                    const reader = new FileReader()
+                                    reader.onloadend = () => {
+                                        setFilesString(reader.result as string)
+                                    }
+                                    reader.readAsDataURL(file)
+                                    setFiles(file as File)
+                                }
+                            }}
+                        />
+                        <Image
+                            src="/svg/plus.svg"
+                            alt="plus"
+                            height={50}
+                            width={50}
+                        />
+                    </span>
+                </div>
                 <section>
                     <span>
                         <input
@@ -82,10 +125,7 @@ export default function ChangeData() {
                             data-red={!!errors?.email}
                             placeholder="Введите свой Email"
                             disabled
-                            {...register("email", {
-                                // required: true,
-                                // minLength: 5,
-                            })}
+                            {...register("email", {})}
                         />
                         {errors?.email ? <i>Обязательное поле</i> : null}
                     </span>

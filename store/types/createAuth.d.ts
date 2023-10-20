@@ -1,3 +1,5 @@
+import { DispatchWithoutAction } from "react"
+
 export type TAuthStateType = "SignIn" | "Main" | "Gates"
 
 export interface IReturnDataAuthToken {
@@ -22,6 +24,7 @@ export interface IAuthState {
 }
 
 export interface IAuthAction {
+    updateUser: DispatchWithoutAction
     login: (email: string, password: string) => Promise<IReturnDataAuthToken>
     refresh: () => Promise<IReturnDataAuthToken>
     out: () => Promise<void>

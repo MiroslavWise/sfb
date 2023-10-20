@@ -18,6 +18,7 @@ export const useAuth = create(
     persist<TUseAuth>(
         (set, get) => ({
             ...initialState,
+            updateUser() {},
             async login(email, password) {
                 try {
                     const response = await serviceAuth.login(
@@ -158,7 +159,7 @@ export const useAuth = create(
                         ...state,
                         ...initialState,
                         state: "SignIn",
-                    }))
+                    })),
                 )
             },
         }),

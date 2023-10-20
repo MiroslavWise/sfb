@@ -2,7 +2,7 @@
 
 import dayjs from "dayjs"
 import Image from "next/image"
-import { memo, useEffect, useId, useMemo, useRef, useState } from "react"
+import { memo, useMemo } from "react"
 
 import type { TItemProposalsPage } from "../../proposals/types/types"
 
@@ -13,14 +13,12 @@ import styles from "../styles/item.module.scss"
 const $ItemProduct: TItemProposalsPage = (props) => {
     const {
         id,
-        author: { fullName },
+        author: { fullName, photo },
         name,
         price,
         category,
         photoListUrl,
     } = props ?? {}
-    const idUse = useId()
-    const isInterval = useRef(false)
 
     const { handlePush } = usePush()
 
@@ -35,7 +33,6 @@ const $ItemProduct: TItemProposalsPage = (props) => {
                 index: index,
             }))
     }, [photoListUrl])
-    const [currentPhoto, setCurrentPhoto] = useState<number>(0)
 
     return (
         <section
@@ -47,14 +44,8 @@ const $ItemProduct: TItemProposalsPage = (props) => {
             <div data-image>
                 {images.length ? (
                     <Image
-                        src={
-                            images.find((item) => item.index === currentPhoto)
-                                ?.file?.photoUrl!
-                        }
-                        alt={
-                            images.find((item) => item.index === currentPhoto)
-                                ?.file?.id!
-                        }
+                        src={images[0]?.file?.photoUrl!}
+                        alt={images[0]?.file?.id!}
                         width={300}
                         height={300}
                         unoptimized
@@ -75,10 +66,10 @@ const $ItemProduct: TItemProposalsPage = (props) => {
             </div>
             <div data-author>
                 <div data-avatar-name>
-                    {images.length ? (
+                    {photo ? (
                         <Image
-                            src={images[0]?.file?.photoUrl}
-                            alt={images[0]?.file?.id}
+                            src={photo}
+                            alt={photo}
                             width={300}
                             height={300}
                             unoptimized
@@ -91,7 +82,7 @@ const $ItemProduct: TItemProposalsPage = (props) => {
                 <div data-rating>
                     {[1, 2, 3, 4, 5].map((item) => (
                         <Image
-                            key={`${item}-${idUse}`}
+                            key={`${item}-ite,`}
                             src="/svg/shape.svg"
                             alt="shape"
                             width={16}

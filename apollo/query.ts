@@ -14,6 +14,7 @@ export const me = gql`
             isAdmin
             isSeller
             isSuperuser
+            photo
         }
     }
 `

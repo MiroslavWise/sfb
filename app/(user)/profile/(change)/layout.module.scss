@@ -75,6 +75,46 @@
             gap: 40px;
             padding-left: 75px;
 
+            & > [data-uploads="true"] {
+                display: flex;
+                flex-direction: row;
+                align-items: flex-end;
+                gap: 16px;
+
+                & > span {
+                    position: relative;
+                    width: min-content;
+                    width: 100px;
+                    height: 100px;
+                    overflow: hidden;
+                    border: 2px dashed var(--gray-400);
+                    border-radius: 7px;
+                    & > input {
+                        opacity: 0;
+                        width: 100px;
+                        height: 100px;
+                        cursor: pointer;
+                    }
+
+                    & > img {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        pointer-events: none;
+                    }
+                }
+
+                & > [data-photo-avatar="true"] {
+                    width: 200px;
+                    height: 200px;
+                    object-fit: cover;
+                    border-radius: 7px;
+                    border: 2px dashed var(--gray-400);
+                    overflow: hidden;
+                }
+            }
+
             & > h3 {
                 white-space: nowrap;
                 color: var(--main-black);

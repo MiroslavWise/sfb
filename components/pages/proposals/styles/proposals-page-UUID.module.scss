@@ -234,7 +234,7 @@
                     & > span {
                         font-size: 14px;
                         font-style: normal;
-                        font-weight: 600 !important;
+                        font-weight: 700 !important;
                         line-height: normal;
                         white-space: nowrap;
                     }
@@ -247,7 +247,6 @@
                             color: var(--main-black);
                         }
                         & > img {
-                            filter: invert(1);
                         }
                     }
 

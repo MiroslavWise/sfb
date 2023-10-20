@@ -1,33 +1,42 @@
 "use client"
 
-import { useQuery } from "@apollo/client"
+import { useMemo } from "react"
+import Image from "next/image"
 import { useSearchParams } from "next/navigation"
+import { useMutation, useQuery } from "@apollo/client"
+
+import type {
+    IPhotoProductRequestData,
+    IRequestProductRoot,
+} from "@/types/types"
+
+import { TagCategory } from "../components/TagCategory"
+import { PhotoStage } from "@/components/common/PhotoStage"
 
 import {
     queryPhotosProductRequestById,
     queryProductRequestById,
 } from "@/apollo/query"
+import { mutateChatCreate } from "@/apollo/mutation"
 
 import styles from "../styles/proposals-page-UUID.module.scss"
-import { PhotoStage } from "@/components/common/PhotoStage"
-import { useMemo } from "react"
-import { IPhotoProductRequestData, IRequestProductRoot } from "@/types/types"
-import Image from "next/image"
-import { TagCategory } from "../components/TagCategory"
+import { usePush } from "@/helpers/hooks/usePush"
 
 export const ProposalsPageUUID = () => {
     const id = useSearchParams().get("proposal-id")
-
+    const { handlePush } = usePush()
+    const [productId, productRequestId] = id?.split(":") ?? []
     const { data, loading } = useQuery<IRequestProductRoot>(
         queryProductRequestById,
         {
-            variables: { id },
+            variables: { id: productRequestId },
         },
     )
+    const [create] = useMutation(mutateChatCreate)
     const { productRequestById } = data ?? {}
     const { data: dataPhotos, loading: loadingPhotos } =
         useQuery<IPhotoProductRequestData>(queryPhotosProductRequestById, {
-            variables: { id },
+            variables: { id: productRequestId },
         })
 
     const images = useMemo(() => {
@@ -44,6 +53,23 @@ export const ProposalsPageUUID = () => {
                 index: index,
             }))
     }, [dataPhotos?.productRequestById])
+
+    function handleCreateChat() {
+        create({
+            variables: {
+                productId: productId,
+                productRequestId: productRequestId,
+            },
+        })
+            .then((response) => {
+                if (response.data?.chatCreate?.ok) {
+                    const chatId = response?.data?.chatCreate?.chat?.id
+                    console.log("chatId: ", chatId)
+                    handlePush(`/messages?chat-id=${chatId}`)
+                }
+            })
+            .finally(() => {})
+    }
 
     return (
         <div className={styles.wrapper}>
@@ -79,7 +105,17 @@ export const ProposalsPageUUID = () => {
                             <i>Предположительная цена не выставлена</i>
                         )}
                     </div>
-                    <footer></footer>
+                    <footer>
+                        <button data-black-border onClick={handleCreateChat}>
+                            <span>Чат</span>
+                            <Image
+                                src="/svg/message-plus-circle.svg"
+                                alt="message-plus-circle"
+                                width={20}
+                                height={20}
+                            />
+                        </button>
+                    </footer>
                 </div>
             </div>
         </div>

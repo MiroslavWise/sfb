@@ -22,13 +22,14 @@ export const uploadFile = async (file: File, type: ITypeInterface) => {
         myHeaders.append("Authorization", `JWT ${token()}`)
 
         const formData = new FormData()
-        formData.append(type.idType, type.id)
-        formData.append("file", file, file.name)
+        if (type.idType && type.id) {
+            formData.append(type.idType, type.id)
+        }
+        formData.append("file", file)
         const response = await fetch(`${URL}/api/v1/${type.type}`, {
             method: "POST",
             headers: myHeaders,
             body: formData,
-            redirect: "follow",
         })
 
         const data = await response.json()
@@ -53,12 +54,13 @@ export const uploadFile = async (file: File, type: ITypeInterface) => {
 
 interface ITypeInterface {
     type: TTypeFileURL
-    idType: TTypeFileProductId
-    id: string
+    idType?: TTypeFileProductId
+    id?: string
 }
 
 export type TTypeFileURL =
     | "product/photo-upload/"
     | "product-request/photo-upload/"
+    | "user/photo-upload/"
 
 export type TTypeFileProductId = "product_id" | "product_request_id"

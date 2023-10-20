@@ -31,7 +31,9 @@ const $ItemProposal = (props: IProductOfferItem) => {
     }, [productRequest?.photoListUrl])
 
     function handle() {
-        handleReplace(`/proposals?proposal-id=${productRequest?.id}`)
+        handleReplace(
+            `/proposals?proposal-id=${product?.id}:${productRequest?.id}`,
+        )
     }
 
     return (
