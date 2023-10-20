@@ -39,7 +39,6 @@ export const FormPurchase = ({
     } = useForm<IValues>({ defaultValues: { id: null } })
 
     function onSubmit(values: IValues) {
-        console.log("values: ", values)
         if (!token) {
             dispatch({ visible: true })
             return

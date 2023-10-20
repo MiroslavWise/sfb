@@ -10,7 +10,6 @@ import { Filter } from "@/components/common/filters"
 export function MyProductsPage() {
     const { data } = useQuery(queryProductListMe)
     const { handlePush } = usePush()
-    console.log("queryProductListMe ", data)
 
     return (
         <>

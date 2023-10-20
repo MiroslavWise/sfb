@@ -23,10 +23,8 @@ export const LoginFormComponent = () => {
     }, [visible])
 
     function onSubmit(values: IValues) {
-        console.log("login: ", values)
         login(values.login?.trim()!, values?.password?.trim()!).then(
             (response) => {
-                console.log("values: ", response)
                 if (response.ok) {
                     dispatch({ visible: false })
                     return

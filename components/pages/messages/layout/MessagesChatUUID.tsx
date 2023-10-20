@@ -14,9 +14,11 @@ import { queryChatMessageByChatId } from "@/apollo/chat"
 import { mutateChatMessageCreate } from "@/apollo/mutation"
 
 import styles from "../styles/chat-uuid.module.scss"
+import { useSocket } from "@/context/WebSocketContext"
 
 const $MessagesChatUUID = ({ id }: { id: string }) => {
     const { user } = useAuth()
+    const { readyState, getWebSocket } = useSocket()
     const { id: userId } = user ?? {}
     const { reset, watch, register, handleSubmit } = useForm<IValues>({})
     const [loading, setLoading] = useState(false)
@@ -44,9 +46,7 @@ const $MessagesChatUUID = ({ id }: { id: string }) => {
                     text: values?.text!,
                 },
             })
-                .then((response) => {
-                    console.log("response message: ", response?.data)
-                })
+                .then((response) => {})
                 .finally(() => {
                     setLoading(false)
                     reset()
@@ -71,6 +71,27 @@ const $MessagesChatUUID = ({ id }: { id: string }) => {
     }, [data?.chatMessageByChatId, userId])
 
     const onSubmit = handleSubmit(submit)
+
+    useEffect(() => {
+        const messageListener = (event: any) => {
+            const data = JSON.parse(event?.data)
+            console.log("data: ", data)
+            if (
+                data?.type === "new_message" &&
+                data?.sender?.id !== userId &&
+                data?.chat_id === id
+            ) {
+                refetch()
+            }
+        }
+        if (readyState === 1) {
+            getWebSocket()?.addEventListener("message", messageListener)
+
+            return () => {
+                getWebSocket()?.removeEventListener("message", messageListener)
+            }
+        }
+    }, [readyState, userId])
 
     return (
         <article className={styles.wrapper}>

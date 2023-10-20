@@ -7,6 +7,7 @@ import type { TChildrenProps } from "@/types/types"
 import { Toast } from "@/components/layout/toast"
 import { ModalLogin } from "@/components/templates"
 import { ApolloProviderContext } from "./ApolloProvider"
+import { WebSocketContext } from "./WebSocketContext"
 
 import { useAuth } from "@/store/state/useAuth"
 
@@ -22,9 +23,11 @@ const Provider: TChildrenProps = ({ children }) => {
 
     return (
         <ApolloProviderContext>
-            <ModalLogin />
-            {children}
-            <Toast />
+            <WebSocketContext>
+                <ModalLogin />
+                {children}
+                <Toast />
+            </WebSocketContext>
         </ApolloProviderContext>
     )
 }

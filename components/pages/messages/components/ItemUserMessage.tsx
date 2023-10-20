@@ -14,7 +14,17 @@ import styles from "../styles/item-message.module.scss"
 const $ItemUserMessage: TItemMessage = ({ photo, messages }) => {
     return (
         <li className={styles.containerItemUserMessage}>
-            <Image src={photo!} alt="avatar" width={250} height={250} />
+            {photo ? (
+                <Image
+                    src={photo!}
+                    alt="avatar"
+                    width={250}
+                    height={250}
+                    unoptimized
+                />
+            ) : (
+                <div data-not-avatar />
+            )}
             <div className={styles.messages}>
                 {messages?.map((item, index) => (
                     <div

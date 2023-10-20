@@ -50,7 +50,6 @@ function useJoinMessage() {
                 }
             })
         }
-        console.log("items messages: ", items)
         return items
     }
 

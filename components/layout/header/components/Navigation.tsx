@@ -22,7 +22,6 @@ const $Navigation = () => {
     }, [i18n.language])
 
     function handleLanguage() {
-        console.log("handleLanguage: ", i18n.language)
         i18n.changeLanguage(i18n.language === "ru" ? "kz" : "ru")
     }
 

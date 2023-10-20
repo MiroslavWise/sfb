@@ -54,7 +54,6 @@ export const MyProductPageChange = () => {
     } = useForm<IValues>({})
 
     function submit(values: IValues) {
-        console.log("values: ", values)
         const data: Record<string, any> = {
             categoryId: values.category,
             name: values.title,
@@ -63,7 +62,6 @@ export const MyProductPageChange = () => {
         }
         if (uuid) {
             data.productId = uuid!
-            console.log("values data: ", data)
             Promise.all([
                 ...files.map((item) =>
                     uploadFile(item, {

@@ -31,13 +31,17 @@ const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
                     </div>
                 ))}
             </div>
-            <Image
-                src={photo!}
-                alt="avatar"
-                className={styles.avatar}
-                width={200}
-                height={200}
-            />
+            {photo ? (
+                <Image
+                    src={photo!}
+                    alt="avatar"
+                    width={200}
+                    height={200}
+                    unoptimized
+                />
+            ) : (
+                <div data-not-avatar />
+            )}
         </li>
     )
 }
