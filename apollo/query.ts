@@ -191,7 +191,7 @@ export const queryTotalCountProfileAside = gql`
 
 export const queryNotificationList = gql`
     query {
-        notificationList {
+        notificationList(isRead: false) {
             totalCount
             results {
                 createdAt
@@ -208,6 +208,14 @@ export const queryNotificationList = gql`
                 verb
                 isRead
             }
+        }
+    }
+`
+
+export const queryNotificationTotal = gql`
+    query {
+        notificationList(isRead: false) {
+            totalCount
         }
     }
 `

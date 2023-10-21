@@ -8,6 +8,7 @@ import { ItemRequestsPage } from "./ItemRequestsPage"
 import { productRequestListMe } from "@/apollo/query"
 import { usePush } from "@/helpers/hooks/usePush"
 import { Filter } from "@/components/common/filters"
+import Image from "next/image"
 
 export function MyRequestsPage() {
     const { data, loading } = useQuery(productRequestListMe, {
@@ -27,6 +28,12 @@ export function MyRequestsPage() {
                     }}
                 >
                     <span>Создать</span>
+                    <Image
+                        src="/svg/plus-circle.svg"
+                        alt="plus"
+                        width={22}
+                        height={22}
+                    />
                 </button>
             </header>
             <Filter />

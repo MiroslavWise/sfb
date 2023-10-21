@@ -182,3 +182,11 @@ export const mutateChatCreate = gql`
         }
     }
 `
+
+export const mutateNotificationReadAll = gql`
+    mutation {
+        notificationReadAll {
+            ok
+        }
+    }
+`

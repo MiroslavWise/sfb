@@ -10,6 +10,7 @@ import { usePush } from "@/helpers/hooks/usePush"
 
 import { ButtonLogin } from "./ButtonLogin"
 import { useAuth } from "@/store/state/useAuth"
+import { ProfilePanel } from "./ProfilePanel"
 
 const $Navigation = () => {
     const pathname = usePathname()
@@ -39,37 +40,7 @@ const $Navigation = () => {
                     <a>{item.label}</a>
                 </li>
             ))}
-            {state === "Main" ? (
-                <div data-chat-notification>
-                    <Image
-                        src="/svg/menu/message-notification-circle.svg"
-                        alt="icon"
-                        width={24}
-                        height={24}
-                        onClick={() => {
-                            handlePush("/messages")
-                        }}
-                    />
-                    <Image
-                        src="/svg/menu/bell-03.svg"
-                        alt="icon"
-                        width={24}
-                        height={24}
-                        onClick={() => {
-                            handlePush("/notifications")
-                        }}
-                    />
-                    <Image
-                        src="/svg/menu/user-02.svg"
-                        alt="icon"
-                        width={24}
-                        height={24}
-                        onClick={() => {
-                            handlePush("/profile")
-                        }}
-                    />
-                </div>
-            ) : null}
+            {state === "Main" ? <ProfilePanel /> : null}
             <ButtonLogin />
         </nav>
     )

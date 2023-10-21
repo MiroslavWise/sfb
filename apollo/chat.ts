@@ -40,3 +40,11 @@ export const queryChatById = gql`
         }
     }
 `
+
+export const queryChatTotalCount = gql`
+    query {
+        chatList {
+            totalCount
+        }
+    }
+`

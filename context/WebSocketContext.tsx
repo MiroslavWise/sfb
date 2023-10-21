@@ -8,6 +8,7 @@ import { toast } from "react-toastify"
 import { CONFIG_ENV } from "@/helpers/config/ENV"
 import useWebSocket, { ReadyState } from "react-use-websocket"
 import { WebSocketLike } from "react-use-websocket/dist/lib/types"
+import { useSearchParams } from "next/navigation"
 
 const CreateContext = createContext<ISocket>({
     readyState: null,
@@ -21,6 +22,7 @@ interface ISocket {
 
 export const WebSocketContext = ({ children }: IChildrenProps) => {
     const { token, user } = useAuth()
+    const chatId = useSearchParams().get("chat-id")
     const [chanel, setChanel] = useState<WebSocket | null | any>(null)
 
     const { readyState, getWebSocket } = useWebSocket(chanel)
@@ -32,7 +34,8 @@ export const WebSocketContext = ({ children }: IChildrenProps) => {
 
                 if (
                     data?.type === "new_message" &&
-                    data?.sender?.id !== user?.id
+                    data?.sender?.id !== user?.id &&
+                    chatId !== data?.chat_id
                 ) {
                     const qwer = () =>
                         toast(
@@ -57,7 +60,7 @@ export const WebSocketContext = ({ children }: IChildrenProps) => {
                 getWebSocket()?.removeEventListener("message", events)
             }
         }
-    }, [readyState, user])
+    }, [readyState, user, chatId])
 
     useEffect(() => {
         if (token) {

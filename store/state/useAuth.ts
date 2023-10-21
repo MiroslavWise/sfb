@@ -195,8 +195,11 @@ function decodeJwt(token: string): number | undefined {
 }
 
 function isTokenExpired(exp: number | undefined) {
+    console.log("Date.now(): ", Date.now() / 1000)
+    console.log("exp: ", exp)
     if (exp !== undefined) {
         const currentTime: number = Math.floor(Date.now() / 1000)
+        console.log("isTokenExpired.now(): ", exp < currentTime)
         return exp < currentTime
     }
 }

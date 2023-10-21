@@ -33,6 +33,7 @@
             gap: 4px;
             overflow: hidden;
             cursor: pointer;
+
             & > a {
                 text-align: center;
                 position: relative;
@@ -114,6 +115,44 @@
             & > img {
                 cursor: pointer;
             }
+
+            & > [data-notification="true"] {
+                position: relative;
+                height: 24px;
+                width: 24px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+
+                & > [data-count="true"] {
+                    position: absolute;
+                    top: -2px;
+                    right: -2px;
+                    background: var(--warning-600);
+                    height: 12px;
+                    width: 12px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 6px;
+                    z-index: 2;
+
+                    &[data-chat="true"] {
+                        background: var(--success-600);
+                        outline: 0px solid var(--success-500);
+                        animation: pulsar 2s ease-in-out infinite;
+                    }
+
+                    & > span {
+                        font-weight: 600;
+                        color: #fff;
+                        font-size: 8px;
+                        margin: 0 !important;
+                        padding: 0 !important;
+                    }
+                }
+            }
         }
 
         & > [data-login="true"] {
@@ -167,5 +206,17 @@
                 white-space: nowrap;
             }
         }
+    }
+}
+
+@keyframes pulsar {
+    0% {
+        outline: 0px solid var(--success-500);
+    }
+    50% {
+        outline: 2px solid var(--success-100);
+    }
+    100% {
+        outline: 0px solid var(--success-500);
     }
 }

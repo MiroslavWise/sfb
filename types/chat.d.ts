@@ -51,3 +51,26 @@ export interface IQueryChatMessageByChatId {
         results: IItemChatMessageByChatId[]
     }
 }
+
+export interface IItemNotification {
+    createdAt: Date
+    updatedAt: Date
+    id: string
+    target: {
+        id: string
+    } | null
+    fromUser: {
+        id: string
+    } | null
+    redirectUrl: string
+    redirectShortUrl: string
+    verb: string
+    isRead: boolean
+}
+
+export interface IQueryNotifications {
+    notificationList: {
+        totalCount: number
+        results: IItemNotification[]
+    }
+}

@@ -14,6 +14,7 @@ import { queryProductListMe } from "@/apollo/query"
 import { queryProductOfferList } from "@/apollo/query-offers"
 import { ITEMS_TABS } from "@/app/(user)/my-products/constants"
 import { ItemProposal } from "../../proposals/components/ItemProposal"
+import Image from "next/image"
 
 export function MyProductsPage() {
     const { data } = useQuery(queryProductListMe)
@@ -32,6 +33,12 @@ export function MyProductsPage() {
                     }}
                 >
                     <span>Создать</span>
+                    <Image
+                        src="/svg/plus-circle.svg"
+                        alt="plus"
+                        width={22}
+                        height={22}
+                    />
                 </button>
             </header>
             <Filter />

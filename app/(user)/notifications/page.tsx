@@ -1,14 +1,28 @@
 "use client"
 
 import Image from "next/image"
-import { useQuery } from "@apollo/client"
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client"
 
-import { queryNotificationList } from "@/apollo/query"
+import { ItemNotification } from "@/components/pages/notifications"
+
+import { IQueryNotifications } from "@/types/chat"
+import { mutateNotificationReadAll } from "@/apollo/mutation"
+import { queryNotificationList, queryNotificationTotal } from "@/apollo/query"
 
 import styles from "./style.module.scss"
 
 export default function Notifications() {
-    const { data } = useQuery(queryNotificationList)
+    const { data, refetch, loading } = useQuery<IQueryNotifications>(
+        queryNotificationList,
+    )
+    const [allReading] = useMutation(mutateNotificationReadAll)
+    const [reading] = useLazyQuery(queryNotificationTotal)
+
+    function handle() {
+        allReading().finally(() => {
+            Promise.all([reading(), refetch()])
+        })
+    }
 
     console.log("data: ", data)
 
@@ -16,7 +30,7 @@ export default function Notifications() {
         <main className={styles.wrapper}>
             <header>
                 <h1>Уведомления</h1>
-                <button data-all-reading>
+                <button data-all-reading onClick={handle}>
                     <span>Прочитать всё</span>
                     <Image
                         src="/svg/bell-minus.svg"
@@ -26,7 +40,15 @@ export default function Notifications() {
                     />
                 </button>
             </header>
-            <section></section>
+            <section>
+                {data?.notificationList?.results?.length ? (
+                    data?.notificationList?.results?.map((item) => (
+                        <ItemNotification key={`${item?.id}`} {...item} />
+                    ))
+                ) : !loading ? (
+                    <h2>У вас нет непрочитанных уведомлений</h2>
+                ) : null}
+            </section>
         </main>
     )
 }
