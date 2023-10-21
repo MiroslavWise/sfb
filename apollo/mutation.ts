@@ -190,3 +190,11 @@ export const mutateNotificationReadAll = gql`
         }
     }
 `
+
+export const mutateReadNotification = gql`
+    mutation ($notificationId: UUID!) {
+        notificationReadById(notificationId: $notificationId) {
+            ok
+        }
+    }
+`

@@ -12,6 +12,7 @@ import type { IProductRoot } from "@/types/types"
 import type { IPhotoProductData } from "@/types/types"
 
 import { MiniPhoto } from "../../proposals"
+import { Input } from "@/components/common/input"
 
 import { usePush } from "@/helpers/hooks/usePush"
 import { uploadFile } from "@/helpers/services/fetch"
@@ -158,6 +159,8 @@ export const MyProductPageChange = () => {
         }
     }
 
+    console.log("watch(title): ", watch("title"))
+
     if (loading || isLoadCategories) return null
 
     return (
@@ -207,16 +210,20 @@ export const MyProductPageChange = () => {
                               ))
                             : null}
                     </div>
-                    <span>
-                        <input
-                            type="text"
-                            {...register("title", { required: true })}
-                            placeholder="Название товара"
-                        />
-                        {errors.title ? (
-                            <i>Обязательно заполните название товара</i>
-                        ) : null}
-                    </span>
+                    <Input
+                        value={watch("title")}
+                        label="Название товара"
+                        error={
+                            errors.title
+                                ? "Обязательно заполните название товара"
+                                : null
+                        }
+                        type="text"
+                        {...register("title", { required: true })}
+                        onChange={(event) =>
+                            setValue("title", event.target.value)
+                        }
+                    />
                     <span>
                         <CFormSelect
                             data-select
@@ -245,23 +252,28 @@ export const MyProductPageChange = () => {
                             {...register("description", { required: false })}
                         />
                     </span>
-                    <span>
-                        <input
-                            type="number"
-                            {...register("price", { required: true })}
-                            placeholder="Цена товара"
-                        />
-                        {errors.price ? <i>Заполните цену товара</i> : null}
-                    </span>
-                    <span>
-                        <input
-                            type="number"
-                            defaultValue={1}
-                            {...register("quantity", { required: true })}
-                            placeholder="Количество товаров"
-                            />
-                            {errors.quantity ? <i>Введите кол-во товаров</i> : null}
-                    </span>
+                    <Input
+                        value={watch("price")}
+                        label="Цена товара"
+                        error={errors.price ? "Заполните цену товарa" : null}
+                        min={0}
+                        type="number"
+                        {...register("price", { required: true })}
+                        onChange={(event) =>
+                            setValue("price", event.target.value)
+                        }
+                    />
+                    <Input
+                        value={watch("quantity")!}
+                        label="Количество товаров"
+                        error={errors.quantity}
+                        type="number"
+                        min={0}
+                        {...register("quantity", { required: true })}
+                        onChange={(event) =>
+                            setValue("quantity", event.target.value)
+                        }
+                    />
                     <footer>
                         <button data-primary type="submit">
                             <span>Сохранить</span>
@@ -288,5 +300,5 @@ interface IValues {
     type: string | number
     description: string
     price: number | string
-    quantity: number | null
+    quantity: number | string
 }

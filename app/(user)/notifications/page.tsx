@@ -24,8 +24,6 @@ export default function Notifications() {
         })
     }
 
-    console.log("data: ", data)
-
     return (
         <main className={styles.wrapper}>
             <header>

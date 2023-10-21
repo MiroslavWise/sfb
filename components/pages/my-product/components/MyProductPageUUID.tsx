@@ -6,7 +6,10 @@ import { useMemo, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { useMutation, useQuery } from "@apollo/client"
 
-import type { IPhotoProductData } from "@/types/types"
+import type { IPhotoProductData, IProductRoot } from "@/types/types"
+
+import { ProposalsMeUUID } from "./ProposalsMeUUID"
+import { TagAmount } from "@/components/common/tag-amount"
 import { TabsDetails } from "@/components/common/tabs-details"
 import { PhotoStage } from "@/components/common/PhotoStage"
 import { TagCategory } from "../../proposals/components/TagCategory"
@@ -18,7 +21,6 @@ import { mutateUpdateProductDraft } from "@/apollo/mutation"
 import { queryPhotosProductById, queryProductById } from "@/apollo/query"
 
 import styles from "../styles/page-uuid.module.scss"
-import { ProposalsMeUUID } from "./ProposalsMeUUID"
 
 export const MyProductPageUUID = () => {
     const { handlePush } = usePush()
@@ -27,7 +29,7 @@ export const MyProductPageUUID = () => {
 
     const [mutateDraft] = useMutation(mutateUpdateProductDraft)
 
-    const { data, loading, refetch } = useQuery(queryProductById, {
+    const { data, loading, refetch } = useQuery<IProductRoot>(queryProductById, {
         variables: { id: uuid },
     })
     const { productById } = data ?? {}
@@ -131,6 +133,7 @@ export const MyProductPageUUID = () => {
                                 <i>Предположительная цена не выставлена</i>
                             )}
                         </div>
+                        <TagAmount count={productById?.quantity} />
                     </article>
                 </motion.section>
             ) : tab.value === "proposals" ? (

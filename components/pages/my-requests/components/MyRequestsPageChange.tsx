@@ -11,6 +11,7 @@ import type { IRequestProductRoot } from "@/types/types"
 import type { IPhotoProductRequestData } from "@/types/types"
 
 import { MiniPhoto } from "../../proposals"
+import { Input } from "@/components/common/input"
 
 import { usePush } from "@/helpers/hooks/usePush"
 import { uploadFile } from "@/helpers/services/fetch"
@@ -207,16 +208,20 @@ export const MyRequestsPageChange = () => {
                               ))
                             : null}
                     </div>
-                    <span>
-                        <input
-                            type="text"
-                            {...register("title", { required: true })}
-                            placeholder="Название товара"
-                        />
-                        {errors.title ? (
-                            <i>Обязательно заполните название товара</i>
-                        ) : null}
-                    </span>
+                    <Input
+                        value={watch("title")!}
+                        label="Название товара"
+                        type="text"
+                        {...register("title", { required: true })}
+                        error={
+                            errors.title
+                                ? "Обязательно заполните название товара"
+                                : null
+                        }
+                        onChange={(event) =>
+                            setValue("title", event.target.value)
+                        }
+                    />
                     <span>
                         <CFormSelect
                             data-select
@@ -245,23 +250,28 @@ export const MyRequestsPageChange = () => {
                             {...register("description", { required: false })}
                         />
                     </span>
-                    <span>
-                        <input
-                            type="number"
-                            {...register("price", { required: true })}
-                            placeholder="Цена товара"
-                        />
-                        {errors.price ? <i>Заполните цену товара</i> : null}
-                    </span>
-                    <span>
-                        <input
-                            type="number"
-                            defaultValue={1}
-                            {...register("quantity", { required: true })}
-                            placeholder="Количество товаров"
-                        />
-                        {errors.price ? <i>Введите кол-во товаров</i> : null}
-                    </span>
+                    <Input
+                        value={watch("price")!}
+                        label="Цена товара"
+                        type="number"
+                        {...register("price", { required: true })}
+                        error={errors.price ? "Заполните цену товара" : null}
+                        onChange={(event) =>
+                            setValue("price", event.target.value)
+                        }
+                    />
+                    <Input
+                        value={watch("quantity")!}
+                        label="Количество товаров"
+                        type="number"
+                        {...register("quantity", { required: true })}
+                        error={
+                            errors.quantity ? "Введите кол-во товаров" : null
+                        }
+                        onChange={(event) =>
+                            setValue("quantity", event.target.value)
+                        }
+                    />
                     <footer>
                         <button data-primary type="submit">
                             <span>Сохранить</span>
@@ -283,5 +293,5 @@ interface IValues {
     type: string | number
     description: string
     price: number | string
-    quantity: number | null
+    quantity: number | string
 }

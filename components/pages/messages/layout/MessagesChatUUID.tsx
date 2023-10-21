@@ -1,10 +1,11 @@
 "use client"
 
+import Image from "next/image"
+import { motion } from "framer-motion"
 import { useForm } from "react-hook-form"
-import { memo, useEffect, useMemo, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { useMutation, useQuery } from "@apollo/client"
-import { motion } from "framer-motion"
+import { memo, useEffect, useMemo, useState } from "react"
 
 import type { IDataUser } from "../types/types"
 import type { IQueryCatId, IQueryChatMessageByChatId } from "@/types/chat"
@@ -12,18 +13,19 @@ import type { IQueryCatId, IQueryChatMessageByChatId } from "@/types/chat"
 import { ListMessages } from "../components/ListMessages"
 
 import { useAuth } from "@/store/state/useAuth"
+import { usePush } from "@/helpers/hooks/usePush"
 import { useSocket } from "@/context/WebSocketContext"
-import { queryChatById, queryChatMessageByChatId } from "@/apollo/chat"
 import { mutateChatMessageCreate } from "@/apollo/mutation"
+import { queryChatById, queryChatMessageByChatId } from "@/apollo/chat"
 
 import styles from "../styles/chat-uuid.module.scss"
-import Image from "next/image"
 
 const $MessagesChatUUID = () => {
     const id = useSearchParams().get("chat-id")
     const { user } = useAuth()
     const { readyState, getWebSocket } = useSocket()
     const { id: userId } = user ?? {}
+    const { handlePush } = usePush()
     const { reset, register, handleSubmit } = useForm<IValues>({})
     const [loading, setLoading] = useState(false)
     const [createMessage] = useMutation(mutateChatMessageCreate)
@@ -126,6 +128,19 @@ const $MessagesChatUUID = () => {
 
     const onSubmit = handleSubmit(submit)
 
+    function handleInfo() {
+        if (userId && dataChatInfo) {
+            const chat = dataChatInfo?.chatById
+            if (chat?.buyer?.id !== userId) {
+                handlePush(`/more-details?product-id=${chat?.product?.id}`)
+            } else {
+                handlePush(
+                    `/proposals?proposal-id=${chat?.product?.id}:${chat?.productRequest?.id}`,
+                )
+            }
+        }
+    }
+
     return (
         <article className={styles.wrapper}>
             {infoCommodity ? (
@@ -161,7 +176,7 @@ const $MessagesChatUUID = () => {
                         <h2>{infoCommodity?.name}</h2>
                         <h1>{`${infoCommodity?.price} ₸` || "Договорная"} </h1>
                     </div>
-                    <button data-path>
+                    <button data-path onClick={handleInfo}>
                         <span>Перейти</span>
                         <Image
                             src="/svg/share-06.svg"

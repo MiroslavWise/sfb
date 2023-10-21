@@ -6,11 +6,13 @@ import { useMemo, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { useMutation, useQuery } from "@apollo/client"
 
-import type { IRequestProductRoot, TTabsDetailsRequest } from "@/types/types"
 import type { IPhotoProductRequestData } from "@/types/types"
 import type { IItemTab } from "@/components/common/tabs-details/types"
+import type { IRequestProductRoot, TTabsDetailsRequest } from "@/types/types"
 
+import { TagAmount } from "@/components/common/tag-amount"
 import { PhotoStage } from "@/components/common/PhotoStage"
+import { TabsDetails } from "@/components/common/tabs-details"
 import { TagCategory } from "../../proposals/components/TagCategory"
 
 import {
@@ -19,7 +21,6 @@ import {
 } from "@/apollo/query"
 import { ITEMS_TABS } from "../constants/tabs"
 import { usePush } from "@/helpers/hooks/usePush"
-import { TabsDetails } from "@/components/common/tabs-details"
 import { mutateUpdateProductRequestDraft } from "@/apollo/mutation"
 
 import styles from "../styles/page-uuid.module.scss"
@@ -139,6 +140,7 @@ export const MyRequestsPageUUID = () => {
                                 <i>Предположительная цена не выставлена</i>
                             )}
                         </div>
+                        <TagAmount count={productRequestById?.quantity} />
                     </article>
                 </motion.section>
             ) : null}
