@@ -138,20 +138,12 @@
                     gap: 10px;
                 }
 
-                & > [data-row="true"] > span,
-                & > span {
-                    width: 100%;
-                    display: flex;
-                    flex-direction: column;
-                    gap: 2px;
+                & > span,
+                & > [data-selector="true"] {
+                    background: var(--main-gray-linear);
+                }
 
-                    & > i {
-                        color: red;
-                        font-size: 12px;
-                        font-weight: 600;
-                        line-height: 120%; /* 16.8px */
-                    }
-
+                & > [data-row="true"] > span {
                     & > input {
                         padding: 20px 16px;
                         background: var(--main-gray-linear) !important;

@@ -2,6 +2,7 @@
 
 import { useMemo } from "react"
 import Image from "next/image"
+import { motion } from "framer-motion"
 import { useSearchParams } from "next/navigation"
 import { useMutation, useQuery } from "@apollo/client"
 
@@ -21,6 +22,8 @@ import { mutateChatCreate } from "@/apollo/mutation"
 
 import styles from "../styles/proposals-page-UUID.module.scss"
 import { usePush } from "@/helpers/hooks/usePush"
+import { Outline } from "@/components/common/outline"
+import { TagAmount } from "@/components/common/tag-amount"
 
 export const ProposalsPageUUID = () => {
     const id = useSearchParams().get("proposal-id")
@@ -73,51 +76,52 @@ export const ProposalsPageUUID = () => {
 
     return (
         <div className={styles.wrapper}>
-            <PhotoStage images={images} />
-            <div data-description>
-                <div data-sub-description>
-                    <div data-title>
-                        <h1>{productRequestById?.name}</h1>
-                        <p>г. Алматы</p>
-                    </div>
-                    <div data-tags>
-                        {productRequestById?.category?.id ? (
-                            <TagCategory
-                                text={productRequestById?.category?.name}
-                            />
-                        ) : null}
-                    </div>
-                    <div data-short-description>
-                        <h4>Краткое описание</h4>
-                        <a>
-                            {productRequestById?.description || (
-                                <i>Описания нет</i>
+            <header>
+                <h1>{productRequestById?.name}</h1>
+            </header>
+            <motion.section
+                initial={{ opacity: 0, visibility: "hidden" }}
+                animate={{ opacity: 1, visibility: "visible" }}
+                exit={{ opacity: 0, visibility: "hidden" }}
+                transition={{ duration: 0.3 }}
+            >
+                <PhotoStage images={images} />
+                <article>
+                    <Outline label="Краткое описание">
+                        <h2>{productRequestById?.description}</h2>
+                    </Outline>
+                    <Outline label="Категории">
+                        <div data-tags>
+                            {productRequestById?.category?.id ? (
+                                <TagCategory
+                                    text={productRequestById?.category?.name}
+                                />
+                            ) : null}
+                        </div>
+                    </Outline>
+                    <Outline label="Цена">
+                        <div data-price-block>
+                            {productRequestById?.price ? (
+                                <h3>{productRequestById?.price} ₸</h3>
+                            ) : (
+                                <i>Предположительная цена не выставлена</i>
                             )}
-                        </a>
-                    </div>
-                </div>
-                <div data-author-price>
-                    <div data-price-block>
-                        <h5>Стоимость</h5>
-                        {productRequestById?.price ? (
-                            <h3>{productRequestById?.price} ₸</h3>
-                        ) : (
-                            <i>Предположительная цена не выставлена</i>
-                        )}
-                    </div>
-                    <footer>
-                        <button data-black-border onClick={handleCreateChat}>
-                            <span>Написать покупателю</span>
-                            <Image
-                                src="/svg/message-plus-circle.svg"
-                                alt="message-plus-circle"
-                                width={20}
-                                height={20}
-                            />
-                        </button>
-                    </footer>
-                </div>
-            </div>
+                        </div>
+                    </Outline>
+                    <Outline label="Количество">
+                        <TagAmount count={productRequestById?.quantity} />
+                    </Outline>
+                    <button data-black-border onClick={handleCreateChat}>
+                        <span>Написать покупателю</span>
+                        <Image
+                            src="/svg/message-plus-circle.svg"
+                            alt="message-plus-circle"
+                            width={20}
+                            height={20}
+                        />
+                    </button>
+                </article>
+            </motion.section>
         </div>
     )
 }

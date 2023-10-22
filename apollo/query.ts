@@ -15,6 +15,14 @@ export const me = gql`
             isSeller
             isSuperuser
             photo
+            area {
+                id
+                name
+            }
+            city {
+                id
+                name
+            }
         }
     }
 `
@@ -29,7 +37,7 @@ export const categories = gql`
     }
 `
 
-export const regions = gql`
+export const queryRegions = gql`
     query {
         regionList {
             id
@@ -37,16 +45,16 @@ export const regions = gql`
         }
     }
 `
-
-export const areas = gql`
-    query {
+export const queryArea = gql`
+    {
         areaList {
             id
             name
         }
     }
 `
-export const city = gql`
+
+export const queryCity = gql`
     query {
         cityList {
             id

@@ -1,9 +1,21 @@
 import { gql } from "@apollo/client"
 
 export const updateProfile = gql`
-    mutation ($fullName: String, $phone: String, $address: String) {
+    mutation (
+        $fullName: String
+        $phone: String
+        $address: String
+        $cityId: UUID
+        $areaId: UUID
+    ) {
         userUpdate(
-            input: { fullName: $fullName, phone: $phone, address: $address }
+            input: {
+                fullName: $fullName
+                phone: $phone
+                address: $address
+                cityId: $cityId
+                areaId: $areaId
+            }
         ) {
             ok
         }

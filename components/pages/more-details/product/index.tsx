@@ -7,12 +7,14 @@ import { useSearchParams } from "next/navigation"
 
 import type { IPhotoProductData, IProductRoot } from "@/types/types"
 
+import { Outline } from "@/components/common/outline"
 import { PhotoStage } from "@/components/common/PhotoStage"
 import { TagCategory } from "../../proposals/components/TagCategory"
 
 import { queryPhotosProductById, queryProductById } from "@/apollo/query"
 
 import styles from "../styles/style.module.scss"
+import { TagAmount } from "@/components/common/tag-amount"
 
 export const ProductId = () => {
     const productId = useSearchParams().get("product-id")
@@ -56,15 +58,26 @@ export const ProductId = () => {
             <section>
                 <PhotoStage images={images} />
                 <article>
-                    <h2>{productById?.description}</h2>
-                    <div data-tags>
-                        {productById?.category?.id ? (
-                            <TagCategory text={productById?.category?.name} />
-                        ) : null}
-                    </div>
-                    <div data-price-block>
-                        <h3>{productById?.price || 0} ₸</h3>
-                    </div>
+                    <Outline label="Описание">
+                        <h2>{productById?.description}</h2>
+                    </Outline>
+                    <Outline label="Категории">
+                        <div data-tags>
+                            {productById?.category?.id ? (
+                                <TagCategory
+                                    text={productById?.category?.name}
+                                />
+                            ) : null}
+                        </div>
+                    </Outline>
+                    <Outline label="Цена">
+                        <div data-price-block>
+                            <h3>{productById?.price || 0} ₸</h3>
+                        </div>
+                    </Outline>
+                    <Outline label="Количество">
+                        <TagAmount count={productById?.quantity} />
+                    </Outline>
                 </article>
             </section>
         </motion.div>

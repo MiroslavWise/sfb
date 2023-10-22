@@ -34,9 +34,15 @@
                     cursor: pointer;
                 }
 
+                & > [data-avatar="true"] {
+                    border-radius: 8.5px;
+                    object-fit: cover;
+                    aspect-ratio: 1/1;
+                }
+
                 & > img {
-                    height: 22px;
-                    width: 22px;
+                    height: 30px;
+                    width: 30px;
                 }
 
                 & > p {

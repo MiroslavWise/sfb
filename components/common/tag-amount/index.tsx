@@ -8,7 +8,6 @@ export const TagAmount: TTagAmount = ({ count }) => {
     return (
         <div className={styles.container}>
             <p>
-                Количетво:{" "}
                 <span>{countTitle ? `${count} ${countTitle}` : "Нет"}</span>{" "}
             </p>
         </div>

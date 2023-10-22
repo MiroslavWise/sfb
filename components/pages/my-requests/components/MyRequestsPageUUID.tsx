@@ -10,6 +10,7 @@ import type { IPhotoProductRequestData } from "@/types/types"
 import type { IItemTab } from "@/components/common/tabs-details/types"
 import type { IRequestProductRoot, TTabsDetailsRequest } from "@/types/types"
 
+import { Outline } from "@/components/common/outline"
 import { TagAmount } from "@/components/common/tag-amount"
 import { PhotoStage } from "@/components/common/PhotoStage"
 import { TabsDetails } from "@/components/common/tabs-details"
@@ -125,22 +126,32 @@ export const MyRequestsPageUUID = () => {
                 >
                     <PhotoStage images={images} />
                     <article>
-                        <h2>{productRequestById?.description}</h2>
-                        <div data-tags>
-                            {productRequestById?.category?.id ? (
-                                <TagCategory
-                                    text={productRequestById?.category?.name}
-                                />
-                            ) : null}
-                        </div>
-                        <div data-price-block>
-                            {productRequestById?.price ? (
-                                <h3>{productRequestById?.price} ₸</h3>
-                            ) : (
-                                <i>Предположительная цена не выставлена</i>
-                            )}
-                        </div>
-                        <TagAmount count={productRequestById?.quantity} />
+                        <Outline label="Краткое описание">
+                            <h2>{productRequestById?.description}</h2>
+                        </Outline>
+                        <Outline label="Категории">
+                            <div data-tags>
+                                {productRequestById?.category?.id ? (
+                                    <TagCategory
+                                        text={
+                                            productRequestById?.category?.name
+                                        }
+                                    />
+                                ) : null}
+                            </div>
+                        </Outline>
+                        <Outline label="Желаемая цена:">
+                            <div data-price-block>
+                                {productRequestById?.price ? (
+                                    <h3>{productRequestById?.price} ₸</h3>
+                                ) : (
+                                    <i>Предположительная цена не выставлена</i>
+                                )}
+                            </div>
+                        </Outline>
+                        <Outline label="Количество">
+                            <TagAmount count={productRequestById?.quantity} />
+                        </Outline>
                     </article>
                 </motion.section>
             ) : null}

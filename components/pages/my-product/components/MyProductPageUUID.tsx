@@ -9,6 +9,7 @@ import { useMutation, useQuery } from "@apollo/client"
 import type { IPhotoProductData, IProductRoot } from "@/types/types"
 
 import { ProposalsMeUUID } from "./ProposalsMeUUID"
+import { Outline } from "@/components/common/outline"
 import { TagAmount } from "@/components/common/tag-amount"
 import { TabsDetails } from "@/components/common/tabs-details"
 import { PhotoStage } from "@/components/common/PhotoStage"
@@ -29,9 +30,12 @@ export const MyProductPageUUID = () => {
 
     const [mutateDraft] = useMutation(mutateUpdateProductDraft)
 
-    const { data, loading, refetch } = useQuery<IProductRoot>(queryProductById, {
-        variables: { id: uuid },
-    })
+    const { data, loading, refetch } = useQuery<IProductRoot>(
+        queryProductById,
+        {
+            variables: { id: uuid },
+        },
+    )
     const { productById } = data ?? {}
     const { data: dataPhotos } = useQuery<IPhotoProductData>(
         queryPhotosProductById,
@@ -118,22 +122,30 @@ export const MyProductPageUUID = () => {
                 >
                     <PhotoStage images={images} />
                     <article>
-                        <h2>{productById?.description}</h2>
-                        <div data-tags>
-                            {productById?.category?.id ? (
-                                <TagCategory
-                                    text={productById?.category?.name}
-                                />
-                            ) : null}
-                        </div>
-                        <div data-price-block>
-                            {productById?.price ? (
-                                <h3>{productById?.price} ₸</h3>
-                            ) : (
-                                <i>Предположительная цена не выставлена</i>
-                            )}
-                        </div>
-                        <TagAmount count={productById?.quantity} />
+                        <Outline label="Краткое описание">
+                            <h2>{productById?.description}</h2>
+                        </Outline>
+                        <Outline label="Категории">
+                            <div data-tags>
+                                {productById?.category?.id ? (
+                                    <TagCategory
+                                        text={productById?.category?.name}
+                                    />
+                                ) : null}
+                            </div>
+                        </Outline>
+                        <Outline label="Цена">
+                            <div data-price-block>
+                                {productById?.price ? (
+                                    <h3>{productById?.price} ₸</h3>
+                                ) : (
+                                    <i>Предположительная цена не выставлена</i>
+                                )}
+                            </div>
+                        </Outline>
+                        <Outline label="Количество">
+                            <TagAmount count={productById?.quantity} />
+                        </Outline>
                     </article>
                 </motion.section>
             ) : tab.value === "proposals" ? (

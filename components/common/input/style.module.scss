@@ -5,6 +5,7 @@
     background-color: #fff;
     padding: 0 0 0 10px !important;
     border: 2px solid transparent;
+    border-radius: 7px;
 
     & > label {
         position: absolute;
@@ -43,7 +44,7 @@
     &[data-focus="true"] {
         padding-top: 12px !important;
         & > label {
-            color: var(--gray-800);
+            color: var(--gray-400);
             top: 12px;
             font-size: 14px;
         }

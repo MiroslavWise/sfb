@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form"
 import { useSearchParams } from "next/navigation"
 import { ChangeEvent, useEffect, useState } from "react"
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client"
-
 import { CFormSelect } from "@coreui/react"
 
 import type { IProductRoot } from "@/types/types"

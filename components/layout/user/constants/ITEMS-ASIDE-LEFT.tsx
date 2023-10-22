@@ -29,12 +29,6 @@ export const ITEMS_ASIDE_LEFT = (values: IValuesData): IItemsAsideLeft[] => [
         icon: "/svg/orders.svg",
         count: null,
     },
-    {
-        value: "/profile",
-        label: "Мой кабинет",
-        icon: "/svg/proposals.svg",
-        count: null,
-    },
 ]
 
 interface IItemsAsideLeft {

@@ -10,6 +10,7 @@ import type {
     IRequestProductRoot,
 } from "@/types/types"
 
+import { Outline } from "@/components/common/outline"
 import { PhotoStage } from "@/components/common/PhotoStage"
 import { TagCategory } from "../../proposals/components/TagCategory"
 
@@ -19,6 +20,7 @@ import {
 } from "@/apollo/query"
 
 import styles from "../styles/style.module.scss"
+import { TagAmount } from "@/components/common/tag-amount"
 
 export const RequestId = () => {
     const requestId = useSearchParams().get("request-id")
@@ -65,17 +67,26 @@ export const RequestId = () => {
             <section>
                 <PhotoStage images={images} />
                 <article>
-                    <h2>{productRequestById?.description}</h2>
-                    <div data-tags>
-                        {productRequestById?.category?.id ? (
-                            <TagCategory
-                                text={productRequestById?.category?.name}
-                            />
-                        ) : null}
-                    </div>
-                    <div data-price-block>
-                        <h3>{productRequestById?.price || 0} ₸</h3>\
-                    </div>
+                    <Outline label="Описание">
+                        <h2>{productRequestById?.description}</h2>
+                    </Outline>
+                    <Outline label="Категории">
+                        <div data-tags>
+                            {productRequestById?.category?.id ? (
+                                <TagCategory
+                                    text={productRequestById?.category?.name}
+                                />
+                            ) : null}
+                        </div>
+                    </Outline>
+                    <Outline label="Цена">
+                        <div data-price-block>
+                            <h3>{productRequestById?.price || 0} ₸</h3>\
+                        </div>
+                    </Outline>
+                    <Outline label="Количество">
+                        <TagAmount count={productRequestById?.quantity} />
+                    </Outline>
                 </article>
             </section>
         </motion.div>
