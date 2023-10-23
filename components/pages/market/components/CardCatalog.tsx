@@ -10,7 +10,7 @@ export const CardCatalog: TItemsMainCatalog = ({ label, img, value }) => {
     const { handleReplace } = usePush()
 
     function handle() {
-        handleReplace(`/exchange?product=${value}`)
+        handleReplace(`/market?product=${value}`)
     }
 
     return (

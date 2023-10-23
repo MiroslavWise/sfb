@@ -1,4 +1,4 @@
-import { FilterMain } from "@/components/pages/exchange/components/FilterMain"
+import { FilterMain } from "@/components/pages/market/components/FilterMain"
 import styles from "./style.module.scss"
 
 export const Filter = ({}) => {

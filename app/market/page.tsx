@@ -1,8 +1,8 @@
-import { SearchBar, CatalogMain } from "@/components/pages/exchange"
+import { SearchBar, CatalogMain } from "@/components/pages/market"
 
 import styles from "./page.module.scss"
 
-export default function Exchange() {
+export default function Market() {
     return (
         <div className={styles.wrapper}>
             <section>

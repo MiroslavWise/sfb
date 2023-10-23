@@ -4,7 +4,7 @@ import {
     ComponentCarouselBannerMainPage,
     ComponentMainUseFormMainPage,
 } from "@/components/pages/main"
-import Exchange from "./exchange/page"
+import Market from "./market/page"
 
 import styles from "./page.module.scss"
 
@@ -14,7 +14,7 @@ export default function Page() {
             <ComponentMainUseFormMainPage />
             <ComponentCarouselBannerMainPage type="main" />
             {/* <ComponentBackGroundVideoMainPage /> */}
-            <Exchange />
+            <Market />
             <ComponentCarouselMainPage />
         </div>
     )
