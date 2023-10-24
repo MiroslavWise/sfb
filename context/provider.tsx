@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect } from "react"
+import { Suspense, useEffect } from "react"
 import { ToastContainer } from "react-toastify"
+
 import type { TChildrenProps } from "@/types/types"
-import dynamic from "next/dynamic"
 
 import { Toast } from "@/components/layout/toast"
 import { ModalLogin } from "@/components/templates"
@@ -29,7 +29,7 @@ const Provider: TChildrenProps = ({ children }) => {
             <WebSocketContext>
                 <AnimatedLoadPage />
                 <ModalLogin />
-                {children}
+                <Suspense fallback={false}>{children}</Suspense>
                 <Toast />
                 <ToastContainer />
             </WebSocketContext>

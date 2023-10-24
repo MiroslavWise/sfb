@@ -1,12 +1,13 @@
-// import dynamic from "next/dynamic"
 import type { Metadata } from "next"
+import dynamic from "next/dynamic"
 import { Inter } from "next/font/google"
 
 import type { IChildrenProps } from "@/types/types"
 
 import { Footer } from "@/components/layout/footer"
 import { Header } from "@/components/layout/header"
-import Provider from "@/context/provider"
+
+const Provider = dynamic(() => import("@/context/provider"), { ssr: false })
 
 import { cx } from "@/helpers/lib/cx"
 
