@@ -1,10 +1,4 @@
 export const ITEMS_ASIDE_LEFT = (values: IValuesData): IItemsAsideLeft[] => [
-    // {
-    //     value: "/proposals",
-    //     label: "Предложения",
-    //     icon: "/svg/proposals.svg",
-    //     count: 3,
-    // },
     {
         value: "/my-requests",
         label: "Мои запросы",
@@ -27,6 +21,12 @@ export const ITEMS_ASIDE_LEFT = (values: IValuesData): IItemsAsideLeft[] => [
         value: "/delivery",
         label: "Доставка",
         icon: "/svg/profile/route.svg",
+        count: null,
+    },
+    {
+        value: "/my-sales",
+        label: "Мои продажи",
+        icon: "/svg/profile/scales-01.svg",
         count: null,
     },
     {

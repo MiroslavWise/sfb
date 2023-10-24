@@ -1,4 +1,4 @@
-import dynamic from "next/dynamic"
+// import dynamic from "next/dynamic"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 
@@ -6,12 +6,11 @@ import type { IChildrenProps } from "@/types/types"
 
 import { Footer } from "@/components/layout/footer"
 import { Header } from "@/components/layout/header"
-
-const Provider = dynamic(() => import("@/context/provider"), { ssr: false })
+import Provider from "@/context/provider"
 
 import { cx } from "@/helpers/lib/cx"
 
-import "@/scss/init.scss" 
+import "@/scss/init.scss"
 import "@coreui/coreui/dist/css/coreui.min.css"
 
 const inter = Inter({ subsets: ["latin"] })
