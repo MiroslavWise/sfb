@@ -3,11 +3,17 @@
 import { useEffect } from "react"
 import { ToastContainer } from "react-toastify"
 import type { TChildrenProps } from "@/types/types"
+import dynamic from "next/dynamic"
 
 import { Toast } from "@/components/layout/toast"
 import { ModalLogin } from "@/components/templates"
 import { ApolloProviderContext } from "./ApolloProvider"
 import { WebSocketContext } from "./WebSocketContext"
+
+const AnimatedLoadPage = dynamic(
+    () => import("@/components/templates/AnimatedLoadPage"),
+    { ssr: false },
+)
 
 import { useAuth } from "@/store/state/useAuth"
 
@@ -25,6 +31,7 @@ const Provider: TChildrenProps = ({ children }) => {
     return (
         <ApolloProviderContext>
             <WebSocketContext>
+                <AnimatedLoadPage />
                 <ModalLogin />
                 {children}
                 <Toast />

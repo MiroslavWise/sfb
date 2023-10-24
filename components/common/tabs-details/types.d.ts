@@ -2,7 +2,7 @@ import type { TTabsDetailsRequest } from "@/types/types"
 import type { Dispatch, FC, SetStateAction } from "react"
 
 export interface IItemTab {
-    value: TTabsDetailsRequest
+    value: TTabsDetailsRequest | any
     label: string
     count?: number
     icon?: string

@@ -8,25 +8,31 @@ export const ITEMS_ASIDE_LEFT = (values: IValuesData): IItemsAsideLeft[] => [
     {
         value: "/my-requests",
         label: "Мои запросы",
-        icon: "/svg/proposals.svg",
+        icon: "/svg/profile/announcement-02.svg",
         count: values?.countMyRequests || 0,
     },
     {
         value: "/my-products",
         label: "Мои товары",
-        icon: "/svg/proposals.svg",
+        icon: "/svg/profile/database-02.svg",
         count: values?.countMyProducts || 0,
     },
     {
         value: "/messages",
         label: "Сообщения",
-        icon: "/svg/messages.svg",
+        icon: "/svg/menu/message-notification-circle.svg",
         count: values?.constMessages || 0,
+    },
+    {
+        value: "/delivery",
+        label: "Доставка",
+        icon: "/svg/profile/route.svg",
+        count: null,
     },
     {
         value: "/my-orders",
         label: "Мои заказы",
-        icon: "/svg/orders.svg",
+        icon: "/svg/profile/package.svg",
         count: null,
     },
 ]

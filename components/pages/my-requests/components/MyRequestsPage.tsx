@@ -9,12 +9,14 @@ import { productRequestListMe } from "@/apollo/query"
 import { usePush } from "@/helpers/hooks/usePush"
 import { Filter } from "@/components/common/filters"
 import Image from "next/image"
+import { useState } from "react"
 
 export function MyRequestsPage() {
     const { data, loading } = useQuery(productRequestListMe, {
         variables: { offset: 0 },
     })
     const { handlePush } = usePush()
+    const [loadingCreate, setLoadingCreate] = useState(false)
 
     if (loading) return <></>
 
@@ -24,6 +26,7 @@ export function MyRequestsPage() {
                 <button
                     data-create
                     onClick={() => {
+                        setLoadingCreate(true)
                         handlePush(`/my-requests/change`)
                     }}
                 >
@@ -33,6 +36,7 @@ export function MyRequestsPage() {
                         alt="plus"
                         width={22}
                         height={22}
+                        data-loading={loadingCreate}
                     />
                 </button>
             </header>

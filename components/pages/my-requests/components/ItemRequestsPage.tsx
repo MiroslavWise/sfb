@@ -20,7 +20,7 @@ const $ItemRequestsPage: TItemProposalsPage = (props) => {
         photoListUrl,
     } = props ?? {}
 
-    const { handlePush } = usePush()
+    const { handleReplace } = usePush()
 
     const images = useMemo(() => {
         if (!Array.isArray(photoListUrl) || !photoListUrl) {
@@ -38,7 +38,7 @@ const $ItemRequestsPage: TItemProposalsPage = (props) => {
         <section
             className={styles.container}
             onClick={() => {
-                handlePush(`/my-requests?request-id=${id}`)
+                handleReplace(`/my-requests?request-id=${id}`)
             }}
         >
             <div data-image>

@@ -21,6 +21,7 @@ export function MyProductsPage() {
     const { data: dataOffers } = useQuery<IProductOfferListRoot>(
         queryProductOfferList,
     )
+    const [loadingCreate, setLoadingCreate] = useState(false)
     const { handlePush } = usePush()
     const [tab, setTab] = useState(ITEMS_TABS[0])
     return (
@@ -29,6 +30,7 @@ export function MyProductsPage() {
                 <button
                     data-create
                     onClick={() => {
+                        setLoadingCreate(true)
                         handlePush(`/my-products/change`)
                     }}
                 >
@@ -38,6 +40,7 @@ export function MyProductsPage() {
                         alt="plus"
                         width={22}
                         height={22}
+                        data-loading={loadingCreate}
                     />
                 </button>
             </header>

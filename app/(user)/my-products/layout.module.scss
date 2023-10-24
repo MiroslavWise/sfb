@@ -39,6 +39,9 @@
             }
 
             & > img {
+                &[data-loading="true"] {
+                    animation: rotate 3s ease-in-out infinite;
+                }
                 filter: invert(1);
             }
         }
@@ -53,5 +56,14 @@
         display: flex;
         flex-direction: column;
         gap: 20px;
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
     }
 }
