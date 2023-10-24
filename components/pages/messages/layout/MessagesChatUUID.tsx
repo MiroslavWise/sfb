@@ -90,7 +90,6 @@ const $MessagesChatUUID = () => {
     useEffect(() => {
         const messageListener = (event: any) => {
             const data = JSON.parse(event?.data)
-            console.log("data: ", data)
             if (
                 data?.data?.type === "new_message" &&
                 data?.data?.chat_id === id &&
@@ -122,7 +121,6 @@ const $MessagesChatUUID = () => {
     const [value, setValue] = useState(0)
 
     function handleValue(index: number) {
-        console.log("data-active: ", index)
         setValue(index)
     }
 

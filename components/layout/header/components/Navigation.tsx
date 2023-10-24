@@ -24,9 +24,9 @@ const $Navigation = () => {
         return null
     }, [i18n.language])
 
-    function handleLanguage() {
-        i18n.changeLanguage(i18n.language === "ru" ? "kz" : "ru")
-    }
+    // function handleLanguage() {
+    //     i18n.changeLanguage(i18n.language === "ru" ? "kz" : "ru")
+    // }
 
     return (
         <nav>

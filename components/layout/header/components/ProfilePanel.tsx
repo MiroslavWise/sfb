@@ -8,8 +8,12 @@ import { queryNotificationTotal } from "@/apollo/query"
 
 const $ProfilePanel = () => {
     const { handlePush } = usePush()
-    const { data: dataTotalNotifications } = useQuery(queryNotificationTotal)
+    const { data: dataTotalNotifications, loading } = useQuery(
+        queryNotificationTotal,
+    )
     const { data: dataTotalChats } = useQuery(queryChatTotalCount)
+
+    console.log("loading queryNotificationTotal: ", loading)
 
     const lengthNotification: number | string = useMemo(() => {
         if (dataTotalNotifications?.notificationList?.totalCount > 9) {

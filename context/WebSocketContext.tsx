@@ -1,14 +1,14 @@
 "use client"
 
-import { useAuth } from "@/store/state/useAuth"
-import { IChildrenProps } from "@/types/types"
-import { createContext, useContext, useEffect, useState } from "react"
 import { toast } from "react-toastify"
+import { IChildrenProps } from "@/types/types"
+import { useAuth } from "@/store/state/useAuth"
+import { createContext, memo, useContext, useEffect, useState } from "react"
 
+import { useSearchParams } from "next/navigation"
 import { CONFIG_ENV } from "@/helpers/config/ENV"
 import useWebSocket, { ReadyState } from "react-use-websocket"
 import { WebSocketLike } from "react-use-websocket/dist/lib/types"
-import { useSearchParams } from "next/navigation"
 
 const CreateContext = createContext<ISocket>({
     readyState: null,
@@ -20,7 +20,7 @@ interface ISocket {
     getWebSocket: () => WebSocketLike | null
 }
 
-export const WebSocketContext = ({ children }: IChildrenProps) => {
+export const WebSocketContext = memo(({ children }: IChildrenProps) => {
     const { token, user } = useAuth()
     const chatId = useSearchParams().get("chat-id")
     const [chanel, setChanel] = useState<WebSocket | null | any>(null)
@@ -79,7 +79,7 @@ export const WebSocketContext = ({ children }: IChildrenProps) => {
             {children}
         </CreateContext.Provider>
     )
-}
+})
 
 export const useSocket = () => {
     const context = useContext(CreateContext)

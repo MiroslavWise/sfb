@@ -67,7 +67,6 @@ export const ProposalsPageUUID = () => {
             .then((response) => {
                 if (response.data?.chatCreate?.ok) {
                     const chatId = response?.data?.chatCreate?.chat?.id
-                    console.log("chatId: ", chatId)
                     handlePush(`/messages?chat-id=${chatId}`)
                 }
             })

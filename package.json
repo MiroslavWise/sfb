@@ -6,6 +6,7 @@
     "scripts": {
         "dev": "next dev -p 4500",
         "build": "next build",
+        "export": "next build && npx serve@latest out -p 4500",
         "start": "next start -p 4500",
         "prod": "next build && next start -p 4500",
         "lint": "next lint"

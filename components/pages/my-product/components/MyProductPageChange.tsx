@@ -158,8 +158,6 @@ export const MyProductPageChange = () => {
         }
     }
 
-    console.log("watch(title): ", watch("title"))
-
     if (loading || isLoadCategories) return null
 
     return (

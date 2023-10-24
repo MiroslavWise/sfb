@@ -1,6 +1,5 @@
 import {
     ComponentCarouselMainPage,
-    // ComponentBackGroundVideoMainPage,
     ComponentCarouselBannerMainPage,
     ComponentMainUseFormMainPage,
 } from "@/components/pages/main"
@@ -12,8 +11,7 @@ export default function Page() {
     return (
         <div className={styles.wrapper}>
             <ComponentMainUseFormMainPage />
-            <ComponentCarouselBannerMainPage type="main" />
-            {/* <ComponentBackGroundVideoMainPage /> */}
+            <ComponentCarouselBannerMainPage type="main" />\
             <Market />
             <ComponentCarouselMainPage />
         </div>

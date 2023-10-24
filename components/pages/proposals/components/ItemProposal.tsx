@@ -69,6 +69,7 @@ const $ItemProposal = (props: IProductOfferItem) => {
                                 height={450}
                                 onClick={() => setState(item.index)}
                                 data-active={item.index === state}
+                                unoptimized
                             />
                         ))}
                     </div>

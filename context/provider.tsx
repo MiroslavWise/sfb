@@ -9,11 +9,7 @@ import { Toast } from "@/components/layout/toast"
 import { ModalLogin } from "@/components/templates"
 import { ApolloProviderContext } from "./ApolloProvider"
 import { WebSocketContext } from "./WebSocketContext"
-
-const AnimatedLoadPage = dynamic(
-    () => import("@/components/templates/AnimatedLoadPage"),
-    { ssr: false },
-)
+import { AnimatedLoadPage } from "@/components/templates/AnimatedLoadPage"
 
 import { useAuth } from "@/store/state/useAuth"
 

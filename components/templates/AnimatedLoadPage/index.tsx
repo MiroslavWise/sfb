@@ -1,6 +1,6 @@
 "use client"
 
-import { useInsertionEffect, useState } from "react"
+import { useInsertionEffect, useState, memo } from "react"
 import { usePathname } from "next/navigation"
 
 import { cx } from "@/helpers/lib/cx"
@@ -8,7 +8,7 @@ import { useAnimateLoadPage } from "@/store/state/useAnimateLoadPage"
 
 import styles from "./style.module.scss"
 
-export default function AnimatedLoadPage() {
+export const AnimatedLoadPage = memo(function AnimatedLoadPage() {
     const pathname = usePathname()
     const [state, setState] = useState(pathname)
     const { isAnimated, setIsAnimated } = useAnimateLoadPage()
@@ -25,4 +25,4 @@ export default function AnimatedLoadPage() {
             <div className={styles.container} />
         </div>
     )
-}
+})

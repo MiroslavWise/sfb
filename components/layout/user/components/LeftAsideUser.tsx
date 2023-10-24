@@ -65,6 +65,7 @@ const $LeftAsideUser = () => {
                             alt="avatar"
                             width={30}
                             height={30}
+                            unoptimized
                         />
                     ) : (
                         <Image

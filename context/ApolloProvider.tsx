@@ -12,6 +12,7 @@ import type { IChildrenProps } from "@/types/types"
 
 import { CONFIG_ENV } from "@/helpers/config/ENV"
 import { useAuth } from "@/store/state/useAuth"
+import { memo } from "react"
 
 const httpLink = new HttpLink({ uri: CONFIG_ENV.urlGraphQL })
 
@@ -47,12 +48,11 @@ export const client = (value?: string) =>
             watchQuery: {
                 nextFetchPolicy: "cache-first",
             },
-            
         },
     })
 
-export const ApolloProviderContext = ({ children }: IChildrenProps) => {
+export const ApolloProviderContext = memo(({ children }: IChildrenProps) => {
     const { token } = useAuth()
 
     return <ApolloProvider client={client(token)}>{children}</ApolloProvider>
-}
+})
