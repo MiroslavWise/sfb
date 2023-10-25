@@ -8,14 +8,14 @@ export const usePush = () => {
     const setIsAnimated = useAnimateLoadPage((state) => state.setIsAnimated)
 
     function handleReplace(value: string) {
-        replace(value, { scroll: false })
+        replace(value, { scroll: true })
     }
 
     function handlePush(value: string) {
         if (pathname !== value) {
             setIsAnimated(true)
         }
-        push(value, { scroll: false })
+        push(value, { scroll: true })
     }
 
     return { handlePush, handleReplace }

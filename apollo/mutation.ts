@@ -6,7 +6,6 @@ export const updateProfile = gql`
         $phone: String
         $address: String
         $cityId: UUID
-        $areaId: UUID
     ) {
         userUpdate(
             input: {
@@ -14,7 +13,6 @@ export const updateProfile = gql`
                 phone: $phone
                 address: $address
                 cityId: $cityId
-                areaId: $areaId
             }
         ) {
             ok

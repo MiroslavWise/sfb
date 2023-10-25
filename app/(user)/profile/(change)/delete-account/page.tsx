@@ -12,7 +12,7 @@ export default function DeleteAccount() {
             <header>
                 <Image
                     data-image
-                    src="/svg/profile/trash.svg"
+                    src="/svg/profile/trash-03.svg"
                     alt="change"
                     width={30}
                     height={30}

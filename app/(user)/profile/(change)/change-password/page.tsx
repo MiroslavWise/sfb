@@ -25,7 +25,7 @@ export default function ChangePassword() {
             <header>
                 <Image
                     data-image
-                    src="/svg/profile/key.svg"
+                    src="/svg/profile/passcode-lock.svg"
                     alt="change"
                     width={30}
                     height={30}
@@ -63,6 +63,7 @@ export default function ChangePassword() {
                         <span>Сохранить</span>
                     </button>
                     <button
+                        type="button"
                         data-default
                         onClick={() => {
                             handlePush("/profile")

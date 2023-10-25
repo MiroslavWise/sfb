@@ -8,7 +8,7 @@ export default function ChangePayment() {
             <header>
                 <Image
                     data-image
-                    src="/svg/profile/wallet.svg"
+                    src="/svg/profile/credit-card-edit.svg"
                     alt="change"
                     width={30}
                     height={30}

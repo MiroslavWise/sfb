@@ -1,13 +1,15 @@
 .container {
     background: #fff;
     cursor: pointer;
-    height: 80px;
+    height: 48px;
     width: 100%;
+    max-width: 780px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 30px;
+    padding: 8px 16px;
+    border-radius: 7px;
 
     & > section {
         display: flex;
@@ -16,13 +18,17 @@
         width: min-content;
         gap: 16px;
 
+        & > img {
+            height: 24px;
+            width: 24px;
+        }
+
         & > p {
-            color: var(--gray-500);
-            leading-trim: both;
-            font-size: 20px;
+            color: var(--main-black);
+            font-size: 16px;
             font-style: normal;
             font-weight: 500;
-            line-height: 15px; /* 75% */
+            line-height: 15px;
             white-space: nowrap;
         }
     }

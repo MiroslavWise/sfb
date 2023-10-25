@@ -71,6 +71,16 @@ export const useAuth = create(
                     }
                 }
             },
+            setUserData(value) {
+                if (value) {
+                    set({
+                        user: {
+                            ...get().user,
+                            ...value,
+                        },
+                    })
+                }
+            },
             async refresh() {
                 try {
                     if (

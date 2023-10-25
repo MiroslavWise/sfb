@@ -5,6 +5,15 @@ export const AUTHOR = gql`
         id
         fullName
         photo
+        address
+        city {
+            id
+            name
+            region {
+                id
+                name
+            }
+        }
     }
 `
 
@@ -42,6 +51,7 @@ export const PRODUCT = gql`
             id
             name
         }
+        createdAt
         commercial
         isActive
         draft
@@ -71,6 +81,7 @@ export const PRODUCT_REQUEST = gql`
         isActive
         draft
         quantity
+        createdAt
     }
 `
 

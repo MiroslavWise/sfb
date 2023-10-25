@@ -1,6 +1,6 @@
 .wrapper {
     position: fixed;
-    top: -15px;
+    top: -10px;
     left: 0;
     right: 0;
     height: 15px;
@@ -9,7 +9,7 @@
     overflow: hidden;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.05s ease-in-out 0.01s;
+    transition: all 0.1s ease-in-out;
 
     &.active {
         top: 0px;

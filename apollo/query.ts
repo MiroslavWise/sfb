@@ -15,13 +15,13 @@ export const me = gql`
             isSeller
             isSuperuser
             photo
-            area {
-                id
-                name
-            }
             city {
                 id
                 name
+                region {
+                    id
+                    name
+                }
             }
         }
     }
@@ -59,6 +59,10 @@ export const queryCity = gql`
         cityList {
             id
             name
+            region {
+                id
+                name
+            }
         }
     }
 `

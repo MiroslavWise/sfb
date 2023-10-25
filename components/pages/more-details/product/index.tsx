@@ -76,7 +76,7 @@ export const ProductId = () => {
                         </div>
                     </Outline>
                     <Outline label="Количество">
-                        <TagAmount count={productById?.quantity} />
+                        <TagAmount count={productById?.quantity!} />
                     </Outline>
                 </article>
             </section>

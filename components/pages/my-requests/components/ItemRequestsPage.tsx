@@ -5,6 +5,11 @@ import Image from "next/image"
 import { memo, useMemo } from "react"
 
 import type { TItemProposalsPage } from "../../proposals/types/types"
+import {
+    ComponentAddress,
+    ComponentArea,
+    ComponentCity,
+} from "@/components/common/component-regions"
 
 import { usePush } from "@/helpers/hooks/usePush"
 
@@ -13,11 +18,12 @@ import styles from "../styles/item.module.scss"
 const $ItemRequestsPage: TItemProposalsPage = (props) => {
     const {
         id,
-        author: { fullName, photo },
+        author: { fullName, photo, city, address },
         name,
         price,
         category,
         photoListUrl,
+        createdAt,
     } = props ?? {}
 
     const { handleReplace } = usePush()
@@ -61,38 +67,16 @@ const $ItemRequestsPage: TItemProposalsPage = (props) => {
                 </section>
                 <section data-category-location>
                     <a>{category?.name}</a>
-                    <p>г. Алматы, Советский р-он</p>
+                    <div data-regions>
+                        {city?.region && (
+                            <ComponentArea name={city?.region?.name!} />
+                        )}
+                        {city && <ComponentCity name={city?.name} />}
+                        {address && <ComponentAddress name={address} />}
+                    </div>
                 </section>
             </div>
-            <div data-author>
-                <div data-avatar-name>
-                    {photo ? (
-                        <Image
-                            src={photo}
-                            alt="avatar"
-                            width={300}
-                            height={300}
-                            unoptimized
-                        />
-                    ) : (
-                        <div />
-                    )}
-                    <p>{fullName}</p>
-                </div>
-                <div data-rating>
-                    {[1, 2, 3, 4, 5].map((item) => (
-                        <Image
-                            key={`${item}-i;w-`}
-                            src="/svg/shape.svg"
-                            alt="shape"
-                            width={16}
-                            height={16}
-                        />
-                    ))}
-                    <p>4.8</p>
-                </div>
-            </div>
-            <p data-date>Сегодня, {dayjs().format("HH:mm")}</p>
+            <p data-date>{dayjs(createdAt).format("HH:mm DD.MM.YYYY")}</p>
         </section>
     )
 }

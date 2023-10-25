@@ -10,7 +10,7 @@
         width: 20px;
         height: 20px;
         position: absolute;
-        top: 50%;
+        top: calc(50px - 25px);
         right: 20px;
         transform: translateY(-50%);
         z-index: 3;

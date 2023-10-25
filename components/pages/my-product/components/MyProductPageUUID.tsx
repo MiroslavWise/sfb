@@ -144,7 +144,7 @@ export const MyProductPageUUID = () => {
                             </div>
                         </Outline>
                         <Outline label="Количество">
-                            <TagAmount count={productById?.quantity} />
+                            <TagAmount count={productById?.quantity!} />
                         </Outline>
                     </article>
                 </motion.section>

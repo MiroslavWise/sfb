@@ -173,6 +173,11 @@ const $MessagesChatUUID = () => {
                     <div data-info>
                         <h2>{infoCommodity?.name}</h2>
                         <h1>{`${infoCommodity?.price} ₸` || "Договорная"} </h1>
+                        {/* <div data-regions>
+                            {
+
+                            }
+                        </div> */}
                     </div>
                     <button data-path onClick={handleInfo}>
                         <span>Перейти</span>

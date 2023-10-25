@@ -18,6 +18,15 @@ export interface IAuthor {
     id: string
     fullName: string
     photo: string
+    address: string
+    city: {
+        id: string
+        name: string
+        region: {
+            id
+            name
+        }
+    }
 }
 export interface IPhotoList {
     photoListUrl: IPhoto[]
@@ -60,7 +69,8 @@ export interface IRequestProduct {
         id: string
         photoUrl: string
     }[]
-    quantity
+    quantity: number
+    createdAt: Date
 }
 
 export interface IProduct extends IRequestProduct {}
@@ -71,6 +81,7 @@ export interface IProductRoot {
 
 export interface IProductOfferItem {
     id: string
+    createdAt: Date
     product: IRequestProduct
     productRequest: IRequestProduct
 }

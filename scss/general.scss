@@ -121,6 +121,14 @@
     -webkit-touch-callout: none;
 
     transition: var(--transition);
+
+    [data-regions] {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
 }
 
 body {

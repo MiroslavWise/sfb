@@ -24,6 +24,11 @@ import styles from "../styles/proposals-page-UUID.module.scss"
 import { usePush } from "@/helpers/hooks/usePush"
 import { Outline } from "@/components/common/outline"
 import { TagAmount } from "@/components/common/tag-amount"
+import {
+    ComponentAddress,
+    ComponentArea,
+    ComponentCity,
+} from "@/components/common/component-regions"
 
 export const ProposalsPageUUID = () => {
     const id = useSearchParams().get("proposal-id")
@@ -108,7 +113,31 @@ export const ProposalsPageUUID = () => {
                         </div>
                     </Outline>
                     <Outline label="Количество">
-                        <TagAmount count={productRequestById?.quantity} />
+                        <TagAmount count={productRequestById?.quantity!} />
+                    </Outline>
+                    <Outline label="Адрес">
+                        <div data-regions>
+                            {productRequestById?.author?.city?.region && (
+                                <ComponentArea
+                                    name={
+                                        productRequestById?.author?.city?.region
+                                            ?.name!
+                                    }
+                                />
+                            )}
+                            {productRequestById?.author?.city && (
+                                <ComponentCity
+                                    name={
+                                        productRequestById?.author?.city?.name
+                                    }
+                                />
+                            )}
+                            {productRequestById?.author?.address && (
+                                <ComponentAddress
+                                    name={productRequestById?.author?.address}
+                                />
+                            )}
+                        </div>
                     </Outline>
                     <button data-black-border onClick={handleCreateChat}>
                         <span>Написать покупателю</span>

@@ -11,12 +11,13 @@ export const queryProductOfferList = gql`
             totalCount
             results {
                 id
+                createdAt
                 product {
                     ...product
                 }
                 productRequest {
                     ...productRequest
-                    photoListUrl{
+                    photoListUrl {
                         id
                         photoUrl
                     }

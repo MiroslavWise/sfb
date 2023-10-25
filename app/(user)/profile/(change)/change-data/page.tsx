@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react"
 import Image from "next/image"
-import dayjs, { Dayjs } from "dayjs"
 import { useForm } from "react-hook-form"
 import { useMutation, useQuery } from "@apollo/client"
 
@@ -12,11 +11,12 @@ import { usePush } from "@/helpers/hooks/usePush"
 import { uploadFile } from "@/helpers/services/fetch"
 import { Input } from "@/components/common/input"
 import { Selector } from "@/components/common/selector"
+import { useAuth } from "@/store/state/useAuth"
 
 export default function ChangeData() {
+    const { setUserData } = useAuth()
     const { handlePush } = usePush()
     const { data, refetch } = useQuery(me)
-    const { data: dataArea } = useQuery(queryArea)
     const { data: dataCity } = useQuery(queryCity)
     const [filesString, setFilesString] = useState<string | null>(null)
     const [files, setFiles] = useState<File | null>(null)
@@ -34,7 +34,6 @@ export default function ChangeData() {
         setValue("phone", data?.me?.phone)
         setValue("fullName", data?.me?.fullName)
         setValue("address", data?.me?.address)
-        setValue("area", data?.me?.area?.id)
         setValue("city", data?.me?.city?.id)
     }, [data?.me])
     const [update] = useMutation(updateProfile)
@@ -50,13 +49,20 @@ export default function ChangeData() {
                     phone: values.phone,
                     address: values?.address,
                     cityId: values?.city || null,
-                    areaId: values?.area || null,
                 },
             }),
         ]).finally(() => {
-            refetch().finally(() => {
-                handlePush("/profile")
-            })
+            refetch()
+                .then((response) => {
+                    if (response?.data?.me) {
+                        setUserData(response?.data?.me)
+                    }
+                })
+                .finally(() => {
+                    requestAnimationFrame(() => {
+                        handlePush("/profile")
+                    })
+                })
         })
     }
 
@@ -65,7 +71,7 @@ export default function ChangeData() {
             <header>
                 <Image
                     data-image
-                    src="/svg/profile/change.svg"
+                    src="/svg/profile/user-edit.svg"
                     alt="change"
                     width={30}
                     height={30}
@@ -120,22 +126,7 @@ export default function ChangeData() {
                         }
                         error={errors?.fullName ? "Обязательное поле" : null}
                     />
-                    <Selector
-                        label="Область"
-                        options={
-                            Array.isArray(dataArea?.areaList)
-                                ? dataArea?.areaList?.map((item: any) => ({
-                                      label: item?.name,
-                                      value: item?.id,
-                                  }))
-                                : []
-                        }
-                        {...register("area", { required: false })}
-                        value={watch("area")}
-                        onChange={(event) =>
-                            setValue("area", event.target.value)
-                        }
-                    />
+
                     <Selector
                         label="Город"
                         options={
@@ -150,6 +141,28 @@ export default function ChangeData() {
                         value={watch("city")}
                         onChange={(event) =>
                             setValue("city", event.target.value)
+                        }
+                    />
+                    <Selector
+                        label="Область"
+                        options={
+                            Array.isArray(dataCity?.cityList)
+                                ? dataCity?.cityList
+                                      ?.filter(
+                                          (item: any) =>
+                                              item?.id === watch("city"),
+                                      )
+                                      ?.map((item: any) => ({
+                                          label: item?.region?.name,
+                                          value: item?.region?.id,
+                                      }))
+                                : []
+                        }
+                        disabled={!watch("city")}
+                        {...register("region", { required: false })}
+                        value={watch("region")}
+                        onChange={(event) =>
+                            setValue("region", event.target.value)
                         }
                     />
                     <Input
@@ -197,6 +210,7 @@ export default function ChangeData() {
                         onClick={() => {
                             handlePush("/profile")
                         }}
+                        type="button"
                     >
                         <span>Отменить</span>
                     </button>
@@ -209,8 +223,8 @@ export default function ChangeData() {
 interface IValues {
     username: string
     fullName: string
-    area: string
     city: string
+    region: string
     email: string
     phone: string
     address: string
