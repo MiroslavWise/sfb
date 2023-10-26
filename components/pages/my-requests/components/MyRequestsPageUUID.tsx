@@ -25,6 +25,11 @@ import { usePush } from "@/helpers/hooks/usePush"
 import { mutateUpdateProductRequestDraft } from "@/apollo/mutation"
 
 import styles from "../styles/page-uuid.module.scss"
+import {
+    ComponentAddress,
+    ComponentArea,
+    ComponentCity,
+} from "@/components/common/component-regions"
 
 export const MyRequestsPageUUID = () => {
     const uuid = useSearchParams().get("request-id")
@@ -151,6 +156,33 @@ export const MyRequestsPageUUID = () => {
                         </Outline>
                         <Outline label="Количество">
                             <TagAmount count={productRequestById?.quantity} />
+                        </Outline>
+                        <Outline label="Адресс">
+                            <div data-regions>
+                                {productRequestById?.author.city?.region && (
+                                    <ComponentArea
+                                        name={
+                                            productRequestById?.author?.city
+                                                ?.region?.name
+                                        }
+                                    />
+                                )}
+                                {productRequestById?.author?.city && (
+                                    <ComponentCity
+                                        name={
+                                            productRequestById?.author?.city
+                                                ?.name
+                                        }
+                                    />
+                                )}
+                                {productRequestById?.author?.address && (
+                                    <ComponentAddress
+                                        name={
+                                            productRequestById?.author?.address
+                                        }
+                                    />
+                                )}
+                            </div>
                         </Outline>
                     </article>
                 </motion.section>

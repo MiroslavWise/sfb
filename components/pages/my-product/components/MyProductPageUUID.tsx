@@ -22,6 +22,11 @@ import { mutateUpdateProductDraft } from "@/apollo/mutation"
 import { queryPhotosProductById, queryProductById } from "@/apollo/query"
 
 import styles from "../styles/page-uuid.module.scss"
+import {
+    ComponentAddress,
+    ComponentArea,
+    ComponentCity,
+} from "@/components/common/component-regions"
 
 export const MyProductPageUUID = () => {
     const { handlePush } = usePush()
@@ -145,6 +150,33 @@ export const MyProductPageUUID = () => {
                         </Outline>
                         <Outline label="Количество">
                             <TagAmount count={productById?.quantity!} />
+                        </Outline>
+                        <Outline label="Адресс">
+                            <div data-regions>
+                                {data?.productById?.author.city?.region && (
+                                    <ComponentArea
+                                        name={
+                                            data?.productById?.author?.city
+                                                ?.region?.name
+                                        }
+                                    />
+                                )}
+                                {data?.productById?.author?.city && (
+                                    <ComponentCity
+                                        name={
+                                            data?.productById?.author?.city
+                                                ?.name
+                                        }
+                                    />
+                                )}
+                                {data?.productById?.author?.address && (
+                                    <ComponentAddress
+                                        name={
+                                            data?.productById?.author?.address
+                                        }
+                                    />
+                                )}
+                            </div>
                         </Outline>
                     </article>
                 </motion.section>

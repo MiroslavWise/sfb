@@ -32,7 +32,6 @@ const links = authMiddleware
 
 export const client = new ApolloClient({
     ssrMode: false,
-    // uri: CONFIG_ENV.urlGraphQL,
     link: links,
     cache: new InMemoryCache({}),
     credentials: "include",
