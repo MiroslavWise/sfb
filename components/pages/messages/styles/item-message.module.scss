@@ -142,6 +142,25 @@
         line-height: 20px;
         letter-spacing: -0.5px;
     }
+
+    & > img {
+        height: auto;
+        width: 250px;
+        aspect-ratio: 3/2;
+        object-fit: cover;
+        border-radius: 7px;
+    }
+    &>video{
+        height: auto;
+        width: 250px;
+        aspect-ratio: 3/2;
+        object-fit: cover;
+        border-radius: 7px;
+    }
+    &[data-image="true"] {
+        padding: 7px;
+
+    }
 }
 
 .time {

@@ -1,4 +1,4 @@
-import { IItemChatMessageByChatId } from "@/types/chat"
+import { IItemChatMessageByChatId, TTypeMessage } from "@/types/chat"
 import type { FC } from "react"
 
 interface IItemMessage {
@@ -7,6 +7,8 @@ interface IItemMessage {
         id: number | string
         message: string
         time: Date | string
+        type: TTypeMessage
+        photoUrl?: string
     }[]
 }
 interface IItemTime {

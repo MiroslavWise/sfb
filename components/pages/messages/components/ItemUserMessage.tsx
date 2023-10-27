@@ -26,21 +26,82 @@ const $ItemUserMessage: TItemMessage = ({ photo, messages }) => {
                 <div data-not-avatar />
             )}
             <div className={styles.messages}>
-                {messages?.map((item, index) => (
-                    <div
-                        className={cx(
-                            styles.blockMessage,
-                            styles[stylesBlockRight(messages?.length!, index)],
-                        )}
-                        key={`${item.id}_${item.message}`}
-                        id={`${item.id!}`}
-                    >
-                        <p>{item.message}</p>
-                        <p className={styles.time}>
-                            {timeNowOrBeforeChat(item?.time!)}
-                        </p>
-                    </div>
-                ))}
+                {messages?.map((item, index) => {
+                    if (item.type === "TEXT") {
+                        return (
+                            <div
+                                className={cx(
+                                    styles.blockMessage,
+                                    styles[
+                                        stylesBlockRight(
+                                            messages?.length!,
+                                            index,
+                                        )
+                                    ],
+                                )}
+                                key={`${item.id}_${item.message}`}
+                                id={`${item.id!}`}
+                            >
+                                <p>{item.message}</p>
+                                <p className={styles.time}>
+                                    {timeNowOrBeforeChat(item?.time!)}
+                                </p>
+                            </div>
+                        )
+                    }
+                    if (item.type === "IMAGE") {
+                        return (
+                            <div
+                                className={cx(
+                                    styles.blockMessage,
+                                    styles[
+                                        stylesBlockRight(
+                                            messages?.length!,
+                                            index,
+                                        )
+                                    ],
+                                )}
+                                data-image
+                                key={`${item.id}_${item.message}`}
+                                id={`${item.id!}`}
+                            >
+                                <Image
+                                    src={item?.photoUrl!}
+                                    alt="photo"
+                                    width={250}
+                                    height={250}
+                                    unoptimized
+                                />
+                            </div>
+                        )
+                    }
+                    if (item.type === "VIDEO") {
+                        return (
+                            <div
+                                className={cx(
+                                    styles.blockMessage,
+                                    styles[
+                                        stylesBlockRight(
+                                            messages?.length!,
+                                            index,
+                                        )
+                                    ],
+                                )}
+                                data-image
+                                key={`${item.id}_${item.message}`}
+                                id={`${item.id!}`}
+                            >
+                                <video width={400} height={300} controls>
+                                    <source
+                                        src={item.photoUrl!}
+                                        type="video/mp4"
+                                    />
+                                </video>
+                            </div>
+                        )
+                    }
+                    return null
+                })}
             </div>
         </li>
     )

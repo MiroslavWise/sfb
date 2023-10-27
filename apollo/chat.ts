@@ -27,6 +27,9 @@ export const queryChatMessageByChatId = gql`
                 author {
                     ...author
                 }
+                messageType
+                photoUrl
+                photo
             }
         }
     }

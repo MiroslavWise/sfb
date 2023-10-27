@@ -1,3 +1,4 @@
+import { TTypeMessage } from "@/types/chat"
 import { CONFIG_ENV } from "../config/ENV"
 
 const URL = CONFIG_ENV.url
@@ -10,7 +11,7 @@ const token = () => {
     }
 }
 
-export const uploadFile = async (file: File, type: ITypeInterface) => {
+export const uploadFile = async (file: File, type: ITypeInterfaceUpload) => {
     if (!token) {
         return {
             ok: false,
@@ -24,6 +25,9 @@ export const uploadFile = async (file: File, type: ITypeInterface) => {
         const formData = new FormData()
         if (type.idType && type.id) {
             formData.append(type.idType, type.id)
+        }
+        if (type?.message_type) {
+            formData.append("message_type", type?.message_type)
         }
         formData.append("file", file)
         const response = await fetch(`${URL}/api/v1/${type.type}`, {
@@ -52,15 +56,17 @@ export const uploadFile = async (file: File, type: ITypeInterface) => {
     }
 }
 
-interface ITypeInterface {
+export interface ITypeInterfaceUpload {
     type: TTypeFileURL
     idType?: TTypeFileProductId
     id?: string
+    message_type?: TTypeMessage
 }
 
 export type TTypeFileURL =
     | "product/photo-upload/"
     | "product-request/photo-upload/"
     | "user/photo-upload/"
+    | "chat/photo-upload/"
 
-export type TTypeFileProductId = "product_id" | "product_request_id"
+export type TTypeFileProductId = "product_id" | "product_request_id" | "chat_id"

@@ -45,7 +45,7 @@
                 & > button {
                     max-width: 220px;
                     width: 100%;
-                    height: 60px;
+                    height: 48px;
                     display: flex;
                     flex-direction: row;
                     align-items: center;
@@ -55,7 +55,7 @@
                     outline: none !important;
 
                     & > span {
-                        font-size: 20px;
+                        font-size: 18px;
                         font-style: normal;
                         font-weight: 600;
                         line-height: normal;
@@ -69,7 +69,7 @@
                         }
                     }
                     &[data-primary="true"] {
-                        background: var(--main-primary);
+                        background: var(--main-black);
                         & > span {
                             color: #fff;
                         }
@@ -220,7 +220,7 @@
 
                     & > button {
                         width: 100%;
-                        height: 60px;
+                        height: 48px;
                         display: flex;
                         flex-direction: row;
                         align-items: center;
@@ -230,7 +230,7 @@
                         outline: none !important;
 
                         & > span {
-                            font-size: 20px;
+                            font-size: 18px;
                             font-style: normal;
                             font-weight: 600;
                             line-height: normal;
@@ -244,7 +244,7 @@
                             }
                         }
                         &[data-primary="true"] {
-                            background: var(--main-primary);
+                            background: var(--main-black);
                             & > span {
                                 color: #fff;
                             }
@@ -285,8 +285,8 @@
                 outline: none !important;
 
                 &[data-fill] {
-                    background: var(--main-primary);
-                    border: 2px solid var(--main-primary);
+                    background: var(--main-black);
+                    border: 2px solid var(--main-black);
                     & > span {
                         color: #fff;
                     }
@@ -301,7 +301,7 @@
                         color: var(--gray-500);
                         text-decoration: underline;
 
-                        &::after{
+                        &::after {
                             content: "";
                         }
                     }

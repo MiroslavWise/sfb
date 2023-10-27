@@ -1,6 +1,6 @@
 import dayjs from "dayjs"
 
-import { IItemChatMessageByChatId } from "@/types/chat"
+import { IItemChatMessageByChatId, TTypeMessage } from "@/types/chat"
 
 function useJoinMessage() {
     function join(
@@ -33,6 +33,8 @@ function useJoinMessage() {
                         message: message?.text || "",
                         id: message?.id,
                         time: message?.createdAt,
+                        type: message?.messageType || "TEXT",
+                        photoUrl: message?.photoUrl,
                     })
                 } else {
                     items.push({
@@ -44,6 +46,8 @@ function useJoinMessage() {
                                 message: message?.text,
                                 id: message.id,
                                 time: message?.createdAt,
+                                type: message?.messageType || "TEXT",
+                                photoUrl: message?.photoUrl,
                             },
                         ],
                     })
@@ -61,6 +65,8 @@ interface IReturnMessages {
         message: string
         id: string | number
         time: string | Date
+        type: TTypeMessage
+        photoUrl?: string
     }[]
     type: "messages" | "time"
     time?: string

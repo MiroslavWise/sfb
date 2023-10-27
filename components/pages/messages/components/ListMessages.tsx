@@ -17,6 +17,7 @@ const $ListMessages: TListMessages = ({ messages, dataUser }) => {
     const numberIdMessage = useRef<string | null>(null)
 
     const messagesJoin: ReactNode = useMemo(() => {
+        console.log("%c messages:", "color: #0ff", messages)
         if (Array.isArray(messages)) {
             return join(messages).map((item, index) => {
                 if (item.emitterId === userId && item.type === "messages") {

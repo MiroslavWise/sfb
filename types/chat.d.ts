@@ -1,5 +1,7 @@
 import { IAuthor, IPhoto } from "./types"
 
+export type TTypeMessage = "TEXT" | "IMAGE" | "VIDEO"
+
 export interface IChatProduct {
     id: string
     name: string
@@ -43,6 +45,9 @@ export interface IItemChatMessageByChatId {
     text: string
     isRead: boolean
     author: IAuthor
+    messageType: TTypeMessage
+    photoUrl?: string
+    photo?: string
 }
 
 export interface IQueryChatMessageByChatId {

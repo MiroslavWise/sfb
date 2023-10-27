@@ -17,6 +17,7 @@ import { usePush } from "@/helpers/hooks/usePush"
 import { useSocket } from "@/context/WebSocketContext"
 import { mutateChatMessageCreate } from "@/apollo/mutation"
 import { queryChatById, queryChatMessageByChatId } from "@/apollo/chat"
+import { ITypeInterfaceUpload, uploadFile } from "@/helpers/services/fetch"
 
 import styles from "../styles/chat-uuid.module.scss"
 
@@ -26,7 +27,7 @@ const $MessagesChatUUID = () => {
     const { readyState, getWebSocket } = useSocket()
     const { id: userId } = user ?? {}
     const { handlePush } = usePush()
-    const { reset, register, handleSubmit } = useForm<IValues>({})
+    const { reset, register, handleSubmit, watch } = useForm<IValues>({})
     const [loading, setLoading] = useState(false)
     const [files, setFiles] = useState<File[]>([])
     const [stringsFileImg, setStringsFileImg] = useState<string[]>([])
@@ -50,10 +51,12 @@ const $MessagesChatUUID = () => {
         },
     )
 
+    console.log("stringsFileImg: ", stringsFileImg)
+
     function submit(values: IValues) {
-        if (!loading) {
-            setLoading(true)
-            createMessage({
+        console.log("%c files:", "color: #ff0", files)
+        async function create() {
+            return createMessage({
                 variables: {
                     chatId: id!,
                     text: values?.text!,
@@ -67,6 +70,35 @@ const $MessagesChatUUID = () => {
                     reset()
                     refetch()
                 })
+        }
+        if (!loading) {
+            if (files.length) {
+                setLoading(true)
+                const dataFile: ITypeInterfaceUpload = {
+                    type: "chat/photo-upload/",
+                    id: id!,
+                    idType: "chat_id",
+                }
+
+                if (stringsFileImg[0]?.includes("image")) {
+                    dataFile.message_type = "IMAGE"
+                }
+
+                if (stringsFileImg[0]?.includes("video")) {
+                    dataFile.message_type = "VIDEO"
+                }
+                uploadFile(files[0]!, dataFile).then((response) => {
+                    setFiles([])
+                    setStringsFileImg([])
+                    setLoading(false)
+                    reset()
+                    refetch()
+                    console.log("%c response files: ", "color: #f0f", response)
+                })
+            } else {
+                setLoading(true)
+                create()
+            }
         }
     }
 
@@ -150,12 +182,12 @@ const $MessagesChatUUID = () => {
                 if (files[i]) {
                     const reader = new FileReader()
                     reader.onloadend = () => {
-                        if (reader.result?.toString().includes("data:image/")) {
-                            setStringsFileImg((prev) => [
-                                ...prev,
-                                reader.result as string,
-                            ])
-                        }
+                        // if (reader.result?.toString().includes("data:image/")) {
+                        setStringsFileImg((prev) => [
+                            ...prev,
+                            reader.result as string,
+                        ])
+                        // }
                     }
                     reader.readAsDataURL(files[i])
                     setFiles((prev) => [...prev, files[i]])
@@ -217,8 +249,9 @@ const $MessagesChatUUID = () => {
             <form onSubmit={onSubmit}>
                 {stringsFileImg.length ? (
                     <div data-files>
-                        {stringsFileImg.map((item) => (
+                        {stringsFileImg.map((item, index) => (
                             <Image
+                                key={`${item}-${index}`}
                                 src={item}
                                 alt="photo"
                                 width={48}
@@ -236,13 +269,18 @@ const $MessagesChatUUID = () => {
                         }
                     }}
                     maxLength={512}
-                    {...register("text", { required: true, minLength: 2 })}
+                    disabled={!!files.length}
+                    {...register("text", {
+                        required: !files.length,
+                        minLength: 2,
+                    })}
                 />
                 <div data-file>
                     <input
                         type="file"
                         disabled={loading}
-                        multiple
+                        multiple={false}
+                        {...register("files", { required: false })}
                         onChange={handleImageChange}
                     />
                     <Image
@@ -270,4 +308,5 @@ export const MessagesChatUUID = memo($MessagesChatUUID)
 
 export interface IValues {
     text: string
+    files: File[]
 }
