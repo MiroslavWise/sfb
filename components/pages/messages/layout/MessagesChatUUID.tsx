@@ -182,17 +182,27 @@ const $MessagesChatUUID = () => {
     function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
         const files = event.target.files
         if (files?.length) {
-            for (let i = 0; i < files.length; i++) {
+            for (let i = 0; i < 7; i++) {
                 if (files[i]) {
                     const reader = new FileReader()
                     reader.onloadend = () => {
-                        setStringsFileImg((prev) => [
-                            ...prev,
-                            reader.result as string,
-                        ])
+                        setStringsFileImg((prev) => {
+                            if (prev.length >= 7) {
+                                return [
+                                    ...prev.slice(1, 7),
+                                    reader.result as string,
+                                ]
+                            }
+                            return [...prev, reader.result as string]
+                        })
                     }
                     reader.readAsDataURL(files[i])
-                    setFiles((prev) => [...prev, files[i]])
+                    setFiles((prev) => {
+                        if (prev.length >= 7) {
+                            return [...prev.slice(1, 7), files[i]]
+                        }
+                        return [...prev, files[i]]
+                    })
                 }
             }
         }
@@ -255,7 +265,7 @@ const $MessagesChatUUID = () => {
                             if (item.includes("image")) {
                                 return (
                                     <Image
-                                        key={`${item}-${index}`}
+                                        key={`${item.slice(0, 25)}-${index}`}
                                         src={item}
                                         alt="photo"
                                         width={48}
@@ -299,7 +309,7 @@ const $MessagesChatUUID = () => {
                         type="file"
                         disabled={loading}
                         multiple
-                        max={3}
+                        maxLength={5}
                         {...register("files", { required: false })}
                         onChange={handleImageChange}
                     />
