@@ -74,20 +74,24 @@ const $MessagesChatUUID = () => {
         if (!loading) {
             if (files.length) {
                 setLoading(true)
-                const dataFile: ITypeInterfaceUpload = {
-                    type: "chat/photo-upload/",
-                    id: id!,
-                    idType: "chat_id",
-                }
+                Promise.all([
+                    ...files.map((item, index) => {
+                        const dataFile: ITypeInterfaceUpload = {
+                            type: "chat/photo-upload/",
+                            id: id!,
+                            idType: "chat_id",
+                        }
 
-                if (stringsFileImg[0]?.includes("image")) {
-                    dataFile.message_type = "IMAGE"
-                }
+                        if (stringsFileImg[index]?.includes("image")) {
+                            dataFile.message_type = "IMAGE"
+                        }
 
-                if (stringsFileImg[0]?.includes("video")) {
-                    dataFile.message_type = "VIDEO"
-                }
-                uploadFile(files[0]!, dataFile).then((response) => {
+                        if (stringsFileImg[index]?.includes("video")) {
+                            dataFile.message_type = "VIDEO"
+                        }
+                        return uploadFile(item!, dataFile)
+                    }),
+                ]).then((response) => {
                     setFiles([])
                     setStringsFileImg([])
                     setLoading(false)
@@ -182,12 +186,10 @@ const $MessagesChatUUID = () => {
                 if (files[i]) {
                     const reader = new FileReader()
                     reader.onloadend = () => {
-                        // if (reader.result?.toString().includes("data:image/")) {
                         setStringsFileImg((prev) => [
                             ...prev,
                             reader.result as string,
                         ])
-                        // }
                     }
                     reader.readAsDataURL(files[i])
                     setFiles((prev) => [...prev, files[i]])
@@ -249,16 +251,33 @@ const $MessagesChatUUID = () => {
             <form onSubmit={onSubmit}>
                 {stringsFileImg.length ? (
                     <div data-files>
-                        {stringsFileImg.map((item, index) => (
-                            <Image
-                                key={`${item}-${index}`}
-                                src={item}
-                                alt="photo"
-                                width={48}
-                                height={48}
-                                unoptimized
-                            />
-                        ))}
+                        {stringsFileImg.map((item, index) => {
+                            if (item.includes("image")) {
+                                return (
+                                    <Image
+                                        key={`${item}-${index}`}
+                                        src={item}
+                                        alt="photo"
+                                        width={48}
+                                        height={48}
+                                        unoptimized
+                                    />
+                                )
+                            }
+                            if (item.includes("video")) {
+                                return (
+                                    <video
+                                        width={400}
+                                        height={300}
+                                        controls
+                                        key={item.slice(0, 25)}
+                                    >
+                                        <source src={item} type="video/mp4" />
+                                    </video>
+                                )
+                            }
+                            return null
+                        })}
                     </div>
                 ) : null}
                 <textarea
@@ -279,7 +298,8 @@ const $MessagesChatUUID = () => {
                     <input
                         type="file"
                         disabled={loading}
-                        multiple={false}
+                        multiple
+                        max={3}
                         {...register("files", { required: false })}
                         onChange={handleImageChange}
                     />

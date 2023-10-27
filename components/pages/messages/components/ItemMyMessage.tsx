@@ -85,7 +85,7 @@ const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
                                         src={item.photoUrl!}
                                         type="video/mp4"
                                     />
-                        div     </video>
+                                </video>
                             </div>
                         )
                     }
