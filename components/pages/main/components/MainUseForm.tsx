@@ -8,9 +8,17 @@ import { FormPurchase } from "./form-purchase"
 
 import styles from "../styles/main-use-form.module.scss"
 import { ComponentSpoiler } from "./ComponentSpoiler"
+import { useAuth } from "@/store/state/useAuth"
+import { usePush } from "@/helpers/hooks/usePush"
 
 export const ComponentMainUseFormMainPage = () => {
     const [state, setState] = useState<"start" | "purchase" | "sale">("start")
+    const { token } = useAuth()
+    const { handlePush } = usePush()
+
+    function handleMarket() {
+        handlePush(`/market`)
+    }
 
     return (
         <div className={styles.wrapper} data-place>
@@ -77,20 +85,48 @@ export const ComponentMainUseFormMainPage = () => {
                 </motion.div>
             ) : null}
             {state === "sale" ? (
-                <motion.div
-                    data-sale
-                    initial={{ opacity: 0, visibility: "hidden" }}
-                    animate={{ opacity: 1, visibility: "visible" }}
-                    exit={{ opacity: 0, visibility: "hidden" }}
-                    transition={{ duration: 0.3 }}
-                >
-                    <header>
-                        <h2>Вы продавец</h2>
-                        <h4>введите данные товара, который хотите продать</h4>
-                    </header>
-                    <FormPurchase setState={setState} state={state} />
-                    {/* <ComponentSpoiler /> */}
-                </motion.div>
+                !!token ? (
+                    <motion.div
+                        data-sale
+                        initial={{ opacity: 0, visibility: "hidden" }}
+                        animate={{ opacity: 1, visibility: "visible" }}
+                        exit={{ opacity: 0, visibility: "hidden" }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        <header>
+                            <h2>Вы продавец</h2>
+                            <h4>
+                                введите данные товара, который хотите продать
+                            </h4>
+                        </header>
+                        <FormPurchase setState={setState} state={state} />
+                        {/* <ComponentSpoiler /> */}
+                    </motion.div>
+                ) : (
+                    <motion.div
+                        data-buttons
+                        initial={{ opacity: 0, visibility: "hidden" }}
+                        animate={{ opacity: 1, visibility: "visible" }}
+                        exit={{ opacity: 0, visibility: "hidden" }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        <div data-main>
+                            <button data-fill>
+                                <span>
+                                    Продать до 10 товаров <i>(Физ. лицо)</i>
+                                </span>
+                            </button>
+                            <button data-fill>
+                                <span>
+                                    Продать более 10 товаров <i>(Юр. лицо)</i>
+                                </span>
+                            </button>
+                        </div>
+                        <button data-default onClick={handleMarket}>
+                            <span>Посмотреть товары</span>
+                        </button>
+                    </motion.div>
+                )
             ) : null}
         </div>
     )

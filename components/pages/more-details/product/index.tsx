@@ -7,6 +7,11 @@ import { useSearchParams } from "next/navigation"
 
 import type { IPhotoProductData, IProductRoot } from "@/types/types"
 
+import {
+    ComponentAddress,
+    ComponentArea,
+    ComponentCity,
+} from "@/components/common/component-regions"
 import { Outline } from "@/components/common/outline"
 import { PhotoStage } from "@/components/common/PhotoStage"
 import { TagCategory } from "../../proposals/components/TagCategory"
@@ -77,6 +82,28 @@ export const ProductId = () => {
                     </Outline>
                     <Outline label="Количество">
                         <TagAmount count={productById?.quantity!} />
+                    </Outline>
+                    <Outline label="Адрес">
+                        <div data-regions>
+                            {data?.productById?.author.city?.region && (
+                                <ComponentArea
+                                    name={
+                                        data?.productById?.author?.city?.region
+                                            ?.name
+                                    }
+                                />
+                            )}
+                            {data?.productById?.author?.city && (
+                                <ComponentCity
+                                    name={data?.productById?.author?.city?.name}
+                                />
+                            )}
+                            {data?.productById?.author?.address && (
+                                <ComponentAddress
+                                    name={data?.productById?.author?.address}
+                                />
+                            )}
+                        </div>
                     </Outline>
                 </article>
             </section>

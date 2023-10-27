@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 import { useForm } from "react-hook-form"
 import { useSearchParams } from "next/navigation"
 import { useMutation, useQuery } from "@apollo/client"
-import { memo, useEffect, useMemo, useState } from "react"
+import { ChangeEvent, memo, useEffect, useMemo, useState } from "react"
 
 import type { IDataUser } from "../types/types"
 import type { IQueryCatId, IQueryChatMessageByChatId } from "@/types/chat"
@@ -28,6 +28,8 @@ const $MessagesChatUUID = () => {
     const { handlePush } = usePush()
     const { reset, register, handleSubmit } = useForm<IValues>({})
     const [loading, setLoading] = useState(false)
+    const [files, setFiles] = useState<File[]>([])
+    const [stringsFileImg, setStringsFileImg] = useState<string[]>([])
     const [createMessage] = useMutation(mutateChatMessageCreate)
     const [dataUser, setDataUser] = useState<IDataUser>({
         id: null,
@@ -59,6 +61,8 @@ const $MessagesChatUUID = () => {
             })
                 .then((response) => {})
                 .finally(() => {
+                    setFiles([])
+                    setStringsFileImg([])
                     setLoading(false)
                     reset()
                     refetch()
@@ -139,6 +143,27 @@ const $MessagesChatUUID = () => {
         }
     }
 
+    function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
+        const files = event.target.files
+        if (files?.length) {
+            for (let i = 0; i < files.length; i++) {
+                if (files[i]) {
+                    const reader = new FileReader()
+                    reader.onloadend = () => {
+                        if (reader.result?.toString().includes("data:image/")) {
+                            setStringsFileImg((prev) => [
+                                ...prev,
+                                reader.result as string,
+                            ])
+                        }
+                    }
+                    reader.readAsDataURL(files[i])
+                    setFiles((prev) => [...prev, files[i]])
+                }
+            }
+        }
+    }
+
     return (
         <article className={styles.wrapper}>
             {infoCommodity ? (
@@ -173,11 +198,6 @@ const $MessagesChatUUID = () => {
                     <div data-info>
                         <h2>{infoCommodity?.name}</h2>
                         <h1>{`${infoCommodity?.price} ₸` || "Договорная"} </h1>
-                        {/* <div data-regions>
-                            {
-
-                            }
-                        </div> */}
                     </div>
                     <button data-path onClick={handleInfo}>
                         <span>Перейти</span>
@@ -195,6 +215,19 @@ const $MessagesChatUUID = () => {
                 dataUser={dataUser}
             />
             <form onSubmit={onSubmit}>
+                {stringsFileImg.length ? (
+                    <div data-files>
+                        {stringsFileImg.map((item) => (
+                            <Image
+                                src={item}
+                                alt="photo"
+                                width={48}
+                                height={48}
+                                unoptimized
+                            />
+                        ))}
+                    </div>
+                ) : null}
                 <textarea
                     placeholder="Введите сообщение... (минимум 2 символа)"
                     onKeyDown={(event) => {
@@ -205,8 +238,28 @@ const $MessagesChatUUID = () => {
                     maxLength={512}
                     {...register("text", { required: true, minLength: 2 })}
                 />
-                <button type="submit">
+                <div data-file>
+                    <input
+                        type="file"
+                        disabled={loading}
+                        multiple
+                        onChange={handleImageChange}
+                    />
+                    <Image
+                        src="/svg/paperclip.svg"
+                        alt="send"
+                        width={16}
+                        height={16}
+                    />
+                </div>
+                <button type="submit" data-send>
                     <span>Отправить</span>
+                    <Image
+                        src="/svg/send-01.svg"
+                        alt="send"
+                        width={16}
+                        height={16}
+                    />
                 </button>
             </form>
         </article>

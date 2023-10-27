@@ -17,7 +17,8 @@
         width: 100%;
         height: 780px;
         height: -moz-fit-content;
-        padding: calc(107px + 3px) 20px calc(87px + 16px + 20px + 20px) 20px;
+        padding: calc(107px + 3px) 20px calc(96px + 8px + 16px + 20px + 20px)
+            20px;
         display: inline-flex;
         flex-direction: column;
         gap: 16px;
@@ -111,12 +112,35 @@
         width: 100%;
         padding: 20px;
         bottom: 0;
-        height: calc(87px + 20px + 20px);
+        height: calc(96px + 20px + 20px + 8px);
         border-radius: 0 0 8px 8px;
         z-index: 150;
         background: var(--glass-bg-color-2);
         backdrop-filter: blur(15px);
         border-top: 1px solid var(--main-black);
+
+        & > [data-files] {
+            position: absolute;
+            transform: translateY(-100%);
+            top: -16px;
+            right: 20px;
+            padding: 8px;
+            border-radius: 7px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 8px;
+            background: var(--glass-bg-color-2);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--main-black);
+
+            & > img {
+                height: 48px;
+                width: 48px;
+                object-fit: cover;
+                border-radius: 4px;
+            }
+        }
 
         & > textarea {
             width: 100%;
@@ -130,25 +154,72 @@
             resize: none;
         }
 
-        & > button {
+        & > [data-file] {
             position: absolute;
+            border-radius: 7px;
+            height: 40px;
+            width: 40px;
             bottom: calc(8px + 20px);
-            right: calc(8px + 20px);
-            border-radius: 8px;
-            padding: 12px 24px;
-            max-width: 120px;
-            width: 100%;
+            right: calc(8px + 138px + 20px + 8px);
+            background: transparent;
+            border: 2px solid var(--main-black);
             display: flex;
             justify-content: center;
             align-items: center;
-            background: var(--main-black);
+            cursor: pointer;
+
+            & > img {
+                height: 18px;
+                width: 18px;
+                pointer-events: none;
+                cursor: pointer;
+            }
+
+            & > input {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                opacity: 0;
+                cursor: pointer;
+            }
+        }
+
+        & > button {
+            position: absolute;
+            border-radius: 7px;
+            height: 40px;
+            padding: 12px 24px;
+            max-width: 138px;
+            width: 100%;
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+            align-items: center;
 
             & > span {
-                color: #fff;
                 font-size: 14px;
                 font-style: normal;
                 font-weight: 600;
                 line-height: normal;
+            }
+
+            & > img {
+                height: 18px;
+                width: 18px;
+            }
+
+            &[data-send] {
+                background: var(--main-black);
+                border: 2px solid var(--main-black);
+                bottom: calc(8px + 20px);
+                right: calc(8px + 20px);
+                & > img {
+                    filter: invert(1);
+                }
+
+                & > span {
+                    color: #fff;
+                }
             }
         }
     }

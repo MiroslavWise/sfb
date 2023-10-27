@@ -12,7 +12,7 @@ export const AnimatedLoadPage = memo(function AnimatedLoadPage() {
     const pathname = usePathname()
     const { isAnimated, setIsAnimated } = useAnimateLoadPage()
 
-    console.log("%cpathname", "color: #0f0", pathname)
+    console.log(`%c pathname: ${pathname}`, "color: #0f0")
     useEffect(() => {
         if (pathname) {
             setTimeout(() => {
