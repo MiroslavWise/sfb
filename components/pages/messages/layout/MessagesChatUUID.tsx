@@ -16,10 +16,12 @@ import { useAuth } from "@/store/state/useAuth"
 import { usePush } from "@/helpers/hooks/usePush"
 import { useSocket } from "@/context/WebSocketContext"
 import { mutateChatMessageCreate } from "@/apollo/mutation"
+import { useVisiblePhotos } from "@/store/state/useVisiblePhotos"
 import { queryChatById, queryChatMessageByChatId } from "@/apollo/chat"
 import { ITypeInterfaceUpload, uploadFile } from "@/helpers/services/fetch"
 
 import styles from "../styles/chat-uuid.module.scss"
+import { IPhotoCarousel } from "@/store/types/createVisiblePhotosCarousel"
 
 const $MessagesChatUUID = () => {
     const id = useSearchParams().get("chat-id")
@@ -32,6 +34,7 @@ const $MessagesChatUUID = () => {
     const [files, setFiles] = useState<File[]>([])
     const [stringsFileImg, setStringsFileImg] = useState<string[]>([])
     const [createMessage] = useMutation(mutateChatMessageCreate)
+    const { dispatchPhotos } = useVisiblePhotos()
     const [dataUser, setDataUser] = useState<IDataUser>({
         id: null,
         photo: null,
@@ -243,15 +246,24 @@ const $MessagesChatUUID = () => {
                         <h2>{infoCommodity?.name}</h2>
                         <h1>{`${infoCommodity?.price} ₸` || "Договорная"} </h1>
                     </div>
-                    <button data-path onClick={handleInfo}>
-                        <span>Перейти</span>
-                        <Image
-                            src="/svg/share-06.svg"
-                            alt="share"
-                            width={18}
-                            height={18}
-                        />
-                    </button>
+                    <div data-buttons>
+                        <button data-completed>
+                            <span>
+                                {dataChatInfo?.chatById?.buyer?.id === userId
+                                    ? "Оплатить товар"
+                                    : "Сделка заключена"}
+                            </span>
+                        </button>
+                        <button data-path onClick={handleInfo}>
+                            <span>Перейти</span>
+                            <Image
+                                src="/svg/share-06.svg"
+                                alt="share"
+                                width={18}
+                                height={18}
+                            />
+                        </button>
+                    </div>
                 </motion.header>
             ) : null}
             <ListMessages
@@ -270,6 +282,32 @@ const $MessagesChatUUID = () => {
                                         alt="photo"
                                         width={48}
                                         height={48}
+                                        onClick={() => {
+                                            const photos: IPhotoCarousel[] =
+                                                stringsFileImg
+                                                    .filter((item) =>
+                                                        item.includes("image"),
+                                                    )
+                                                    .map((item, index) => ({
+                                                        id: `${index}`,
+                                                        index: index,
+                                                        url: item,
+                                                    }))
+                                            dispatchPhotos({
+                                                visible: true,
+                                                photos: photos,
+                                                current: {
+                                                    id: photos.find(
+                                                        (item_) =>
+                                                            item_.url.slice(
+                                                                0,
+                                                                25,
+                                                            ) ===
+                                                            item.slice(0, 25),
+                                                    )?.id!,
+                                                },
+                                            })
+                                        }}
                                         unoptimized
                                     />
                                 )

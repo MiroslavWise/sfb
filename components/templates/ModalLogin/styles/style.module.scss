@@ -46,8 +46,6 @@
 
                 & > h2 {
                     color: var(--main-black);
-                    leading-trim: both;
-                    text-edge: cap;
                     font-size: 36px;
                     font-style: normal;
                     font-weight: 600;
@@ -56,12 +54,23 @@
 
                 & > h3 {
                     color: var(--gray-500);
-                    leading-trim: both;
-                    text-edge: cap;
                     font-size: 20px;
                     font-style: normal;
                     font-weight: 400;
                     line-height: 120%; /* 24px */
+                }
+
+                & > [data-market] {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 16px;
+
+                    & > img {
+                        height: auto;
+                        width: 130px;
+                        cursor: pointer;
+                    }
                 }
             }
 
@@ -102,15 +111,15 @@
                         left: 0;
                         width: 100%;
                         height: 2px;
-                        background: var(--main-primary);
-                        box-shadow: 0px 2px 8px 0px var(--main-primary);
+                        background: var(--main-black);
+                        box-shadow: 0px 2px 8px 0px var(--main-black);
                         transform: scaleX(0);
                         transition: transform 0.3s ease-in-out;
                     }
                     filter: grayscale(100%);
 
                     &[data-active="true"] {
-                        color: var(--main-primary);
+                        color: var(--main-black);
                         filter: grayscale(0%) brightness(100%);
                         &::before {
                             transform: scaleX(1);

@@ -4,7 +4,7 @@ import type { FC } from "react"
 interface IItemMessage {
     photo: string | null
     messages: {
-        id: number | string
+        id: string
         message: string
         time: Date | string
         type: TTypeMessage

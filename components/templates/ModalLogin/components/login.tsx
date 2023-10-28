@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import { useAuth } from "@/store/state/useAuth"
 import { useEnter } from "@/store/state/useEnter"
 import { InputPassword } from "@/components/common/input-password"
+import { MarketButtons } from "./MarketButtons"
 
 export const LoginFormComponent = () => {
     const { visible, dispatch } = useEnter()
@@ -88,6 +89,7 @@ export const LoginHeaderFooterComponent = () => {
         >
             <h2>Войдите в свой аккаунт</h2>
             <h3>С возвращением! Пожалуйста, введите свои данные справа</h3>
+            <MarketButtons />
         </motion.div>
     )
 }

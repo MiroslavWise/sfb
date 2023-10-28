@@ -95,15 +95,17 @@ export const MyProductPageUUID = () => {
             <header>
                 <h1>{productById?.name}</h1>
                 <div data-buttons>
-                    <button data-black-border onClick={handleChange}>
-                        <span>Редактировать</span>
-                        <Image
-                            src="/svg/replace.svg"
-                            alt="replace"
-                            width={20}
-                            height={20}
-                        />
-                    </button>
+                    {productById?.draft ? (
+                        <button data-black-border onClick={handleChange}>
+                            <span>Редактировать</span>
+                            <Image
+                                src="/svg/replace.svg"
+                                alt="replace"
+                                width={20}
+                                height={20}
+                            />
+                        </button>
+                    ) : null}
                     {productById?.draft && isDataFull ? (
                         <button data-black onClick={handlePublish}>
                             <span>Опубликовать</span>

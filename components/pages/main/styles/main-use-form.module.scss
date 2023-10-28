@@ -297,13 +297,8 @@
                     border: 2px solid transparent !important;
                     & > span {
                         position: relative;
-                        font-style: italic;
-                        color: var(--gray-500);
+                        color: var(--main-black);
                         text-decoration: underline;
-
-                        &::after {
-                            content: "";
-                        }
                     }
                 }
 

@@ -5,11 +5,14 @@ import { ToastContainer } from "react-toastify"
 
 import type { TChildrenProps } from "@/types/types"
 
+import {
+    ModalLogin,
+    VisiblePreviewPhotos,
+    AnimatedLoadPage,
+} from "@/components/templates"
 import { Toast } from "@/components/layout/toast"
-import { ModalLogin } from "@/components/templates"
 import { ApolloProviderContext } from "./ApolloProvider"
 import { WebSocketContext } from "./WebSocketContext"
-import { AnimatedLoadPage } from "@/components/templates/AnimatedLoadPage"
 
 import { useAuth } from "@/store/state/useAuth"
 
@@ -32,6 +35,7 @@ const Provider: TChildrenProps = ({ children }) => {
                 <Suspense fallback={false}>{children}</Suspense>
                 <Toast />
                 <ToastContainer />
+                <VisiblePreviewPhotos />
             </WebSocketContext>
         </ApolloProviderContext>
     )

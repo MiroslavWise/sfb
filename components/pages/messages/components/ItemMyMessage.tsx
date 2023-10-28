@@ -10,8 +10,11 @@ import { stylesBlockRight } from "@/helpers/lib/styles-block-message"
 import { timeNowOrBeforeChat } from "@/helpers/lib/timeNowOrBefore"
 
 import styles from "../styles/item-message.module.scss"
+import { useVisiblePhotos } from "@/store/state/useVisiblePhotos"
+import { IPhotoCarousel } from "@/store/types/createVisiblePhotosCarousel"
 
 const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
+    const { dispatchPhotos } = useVisiblePhotos()
     return (
         <li className={cx(styles.containerItemMyMessage)}>
             <div className={styles.messages}>
@@ -53,6 +56,24 @@ const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
                                 data-image
                                 key={`${item.id}_${item.message}`}
                                 id={`${item.id!}`}
+                                onClick={() => {
+                                    const photos: IPhotoCarousel[] = messages
+                                        ?.filter(
+                                            (item) => item.type === "IMAGE",
+                                        )
+                                        ?.map((item, index) => ({
+                                            id: item.id,
+                                            index: index,
+                                            url: item.photoUrl!,
+                                        }))
+                                    dispatchPhotos({
+                                        visible: true,
+                                        current: {
+                                            id: item.id!,
+                                        },
+                                        photos: photos,
+                                    })
+                                }}
                             >
                                 <Image
                                     src={item?.photoUrl!}

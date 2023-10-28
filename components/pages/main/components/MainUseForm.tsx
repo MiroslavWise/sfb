@@ -5,19 +5,26 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 
 import { FormPurchase } from "./form-purchase"
-
-import styles from "../styles/main-use-form.module.scss"
 import { ComponentSpoiler } from "./ComponentSpoiler"
+
 import { useAuth } from "@/store/state/useAuth"
 import { usePush } from "@/helpers/hooks/usePush"
+import { useEnter } from "@/store/state/useEnter"
+
+import styles from "../styles/main-use-form.module.scss"
 
 export const ComponentMainUseFormMainPage = () => {
     const [state, setState] = useState<"start" | "purchase" | "sale">("start")
     const { token } = useAuth()
     const { handlePush } = usePush()
+    const { dispatch } = useEnter()
 
     function handleMarket() {
         handlePush(`/market`)
+    }
+
+    function handleOnEnter() {
+        dispatch({ visible: true })
     }
 
     return (
@@ -111,12 +118,12 @@ export const ComponentMainUseFormMainPage = () => {
                         transition={{ duration: 0.3 }}
                     >
                         <div data-main>
-                            <button data-fill>
+                            <button data-fill onClick={handleOnEnter}>
                                 <span>
                                     Продать до 10 товаров <i>(Физ. лицо)</i>
                                 </span>
                             </button>
-                            <button data-fill>
+                            <button data-fill onClick={handleOnEnter}>
                                 <span>
                                     Продать более 10 товаров <i>(Юр. лицо)</i>
                                 </span>

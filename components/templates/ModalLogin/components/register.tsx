@@ -6,6 +6,7 @@ import { useEnter } from "@/store/state/useEnter"
 import { serviceAuth } from "@/helpers/services/serviceAuth"
 import { useAuth } from "@/store/state/useAuth"
 import { InputPassword } from "@/components/common/input-password"
+import { MarketButtons } from "./MarketButtons"
 
 export const RegisterFormComponent = () => {
     const { visible, dispatch } = useEnter()
@@ -106,6 +107,7 @@ export const RegisterHeaderFooterComponent = () => {
         >
             <h2>Регистрация пользователя</h2>
             <h3>здесь должен быть текст маркетологи напишут</h3>
+            <MarketButtons />
         </motion.div>
     )
 }
