@@ -1,0 +1,12 @@
+.wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    & > ul {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+}

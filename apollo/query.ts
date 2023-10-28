@@ -164,6 +164,10 @@ export const queryProductList = gql`
             totalCount
             results {
                 ...product
+                photoListUrl {
+                    id
+                    photoUrl
+                }
             }
         }
     }
