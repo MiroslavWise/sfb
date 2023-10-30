@@ -2,10 +2,10 @@
 
 import Image from "next/image"
 import { useForm } from "react-hook-form"
+import { CFormSelect } from "@coreui/react"
 import { useSearchParams } from "next/navigation"
 import { ChangeEvent, useEffect, useState } from "react"
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client"
-import { CFormSelect } from "@coreui/react"
 
 import type { IProductRoot } from "@/types/types"
 import type { IPhotoProductData } from "@/types/types"
@@ -13,15 +13,15 @@ import type { IPhotoProductData } from "@/types/types"
 import { MiniPhoto } from "../../proposals"
 import { Input } from "@/components/common/input"
 
-import { usePush } from "@/helpers/hooks/usePush"
-import { uploadFile } from "@/helpers/services/fetch"
-import { createProductFull, mutateUpdateProduct } from "@/apollo/mutation"
-
 import {
     categories,
     queryPhotosProductById,
     queryProductById,
 } from "@/apollo/query"
+import { usePush } from "@/helpers/hooks/usePush"
+import { uploadFile } from "@/helpers/services/fetch"
+import { createProductFull, mutateUpdateProduct } from "@/apollo/mutation"
+import { DELIVERY_TYPE, type TTypeDelivery } from "../constants/delivery-type"
 
 import styles from "../styles/change.module.scss"
 
@@ -51,7 +51,11 @@ export const MyProductPageChange = () => {
         handleSubmit,
         setValue,
         formState: { errors },
-    } = useForm<IValues>({})
+    } = useForm<IValues>({
+        defaultValues: {
+            deliveryType: "self-delivery",
+        },
+    })
 
     function submit(values: IValues) {
         const data: Record<string, any> = {
@@ -271,6 +275,16 @@ export const MyProductPageChange = () => {
                             setValue("quantity", event.target.value)
                         }
                     />
+                    <span>
+                        <CFormSelect
+                            data-select
+                            aria-label="deliveryType"
+                            {...register("deliveryType", { required: false })}
+                            size="sm"
+                            options={DELIVERY_TYPE}
+                            placeholder="Выберите тип доставки"
+                        />
+                    </span>
                     <footer>
                         <button data-primary type="submit">
                             <span>Сохранить</span>
@@ -298,4 +312,5 @@ interface IValues {
     description: string
     price: number | string
     quantity: number | string
+    deliveryType?: TTypeDelivery
 }

@@ -156,17 +156,61 @@
             backdrop-filter: blur(15px);
             border: 1px solid var(--main-black);
 
-            & > img,
-            & > video {
-                height: 48px;
-                width: 48px;
-                object-fit: cover;
+            & > li {
+                position: relative;
+                overflow: hidden;
+                height: 68px;
+                width: 100%;
+                border: 2px solid var(--glass-bg-color-3);
                 border-radius: 4px;
-            }
-            & > video {
-                height: 48px;
-                width: auto;
-                aspect-ratio: 3/2;
+                cursor: pointer;
+                aspect-ratio: 1/1;
+
+                & > img,
+                & > video {
+                    height: 100%;
+                    width: 100%;
+                    object-fit: cover;
+                    border-radius: 2px;
+                    aspect-ratio: 1/1;
+                }
+                & > video {
+                    height: 48px;
+                    width: auto;
+                }
+
+                & > [data-expand] {
+                    position: absolute;
+                    height: 20px;
+                    width: 20px;
+                    opacity: 0;
+                    visibility: hidden;
+                }
+
+                & > [data-preview-delete] {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    position: absolute;
+                    inset: 0;
+                    opacity: 0;
+                    visibility: hidden;
+                    background: rgba(0, 0, 0, 0.62);
+                    backdrop-filter: blur(2.5px);
+
+                    & > img {
+                        filter: invert(1);
+                    }
+                }
+
+                &:hover {
+                    & > [data-preview-delete] {
+                        z-index: 2;
+                        opacity: 1;
+                        visibility: visible;
+                    }
+                }
             }
         }
 

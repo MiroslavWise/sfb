@@ -272,16 +272,24 @@ const $MessagesChatUUID = () => {
             />
             <form onSubmit={onSubmit}>
                 {stringsFileImg.length ? (
-                    <div data-files>
-                        {stringsFileImg.map((item, index) => {
-                            if (item.includes("image")) {
-                                return (
+                    <ul data-files>
+                        {stringsFileImg.map((item, index) => (
+                            <li key={`${item.slice(0, 100)}-${index}`}>
+                                {item.includes("image") ? (
                                     <Image
-                                        key={`${item.slice(0, 25)}-${index}`}
                                         src={item}
                                         alt="photo"
                                         width={48}
                                         height={48}
+                                        unoptimized
+                                    />
+                                ) : item.includes("video") ? (
+                                    <video width={400} height={300} controls>
+                                        <source src={item} type="video/mp4" />
+                                    </video>
+                                ) : null}
+                                <div data-preview-delete>
+                                    <Image
                                         onClick={() => {
                                             const photos: IPhotoCarousel[] =
                                                 stringsFileImg
@@ -297,36 +305,53 @@ const $MessagesChatUUID = () => {
                                                 visible: true,
                                                 photos: photos,
                                                 current: {
-                                                    id: photos.find(
-                                                        (item_) =>
-                                                            item_.url.slice(
-                                                                0,
-                                                                25,
-                                                            ) ===
-                                                            item.slice(0, 25),
-                                                    )?.id!,
+                                                    id:
+                                                        photos.find(
+                                                            (item_) =>
+                                                                item_.url.slice(
+                                                                    0,
+                                                                    125,
+                                                                ) ===
+                                                                item.slice(
+                                                                    0,
+                                                                    125,
+                                                                ),
+                                                        )?.id! ||
+                                                        photos[0]?.id!,
                                                 },
                                             })
                                         }}
-                                        unoptimized
+                                        src="/svg/expand-06.svg"
+                                        alt="expand"
+                                        width={20}
+                                        height={20}
+                                        data-expand
                                     />
-                                )
-                            }
-                            if (item.includes("video")) {
-                                return (
-                                    <video
-                                        width={400}
-                                        height={300}
-                                        controls
-                                        key={item.slice(0, 25)}
-                                    >
-                                        <source src={item} type="video/mp4" />
-                                    </video>
-                                )
-                            }
-                            return null
-                        })}
-                    </div>
+                                    <Image
+                                        onClick={() => {
+                                            setFiles((prev) =>
+                                                prev.filter(
+                                                    (_, index_) =>
+                                                        index_ !== index,
+                                                ),
+                                            )
+                                            setStringsFileImg((prev) =>
+                                                prev.filter(
+                                                    (_, index_) =>
+                                                        index_ !== index,
+                                                ),
+                                            )
+                                        }}
+                                        src="/svg/profile/trash-03.svg"
+                                        alt="trash"
+                                        width={20}
+                                        height={20}
+                                        data-expand
+                                    />
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
                 ) : null}
                 <textarea
                     placeholder="Введите сообщение... (минимум 2 символа)"
