@@ -6,11 +6,14 @@ import { motion } from "framer-motion"
 
 import type { IPhoto } from "@/types/types"
 
+import { useVisiblePhotos } from "@/store/state/useVisiblePhotos"
+
 import styles from "./style.module.scss"
 
 const $PhotoStage = (props: { images: { item: IPhoto; index: number }[] }) => {
     const { images } = props ?? {}
     const [indexCurrent, setIndexCurrent] = useState<number>(0)
+    const { dispatchPhotos } = useVisiblePhotos()
 
     return (
         <div className={styles.wrapper}>
@@ -31,6 +34,21 @@ const $PhotoStage = (props: { images: { item: IPhoto; index: number }[] }) => {
                             images.find((item) => item.index === indexCurrent)
                                 ?.item?.photo!
                         }
+                        onClick={() => {
+                            dispatchPhotos({
+                                visible: true,
+                                current: {
+                                    id: images.find(
+                                        (item) => item.index === indexCurrent,
+                                    )?.item?.id!,
+                                },
+                                photos: images.map((item) => ({
+                                    id: item.item.id,
+                                    index: item.index,
+                                    url: item.item.photoUrl!,
+                                })),
+                            })
+                        }}
                         width={450}
                         height={450}
                         unoptimized

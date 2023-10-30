@@ -61,17 +61,19 @@ function useJoinMessage() {
 }
 
 interface IReturnMessages {
-    messages?: {
-        message: string
-        id: string
-        time: string | Date
-        type: TTypeMessage
-        photoUrl?: string
-    }[]
+    messages?: INewMessage[]
     type: "messages" | "time"
     time?: string
     emitterId?: string
     id?: string
+}
+
+export interface INewMessage {
+    message: string
+    id: string
+    time: string | Date
+    type: TTypeMessage
+    photoUrl?: string
 }
 
 export { useJoinMessage, type IReturnMessages }

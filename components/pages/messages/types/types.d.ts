@@ -1,15 +1,10 @@
+import { INewMessage } from "@/helpers/hooks/useJoinMessage"
 import { IItemChatMessageByChatId, TTypeMessage } from "@/types/chat"
 import type { FC } from "react"
 
 interface IItemMessage {
     photo: string | null
-    messages: {
-        id: string
-        message: string
-        time: Date | string
-        type: TTypeMessage
-        photoUrl?: string
-    }[]
+    messages: INewMessage[]
 }
 interface IItemTime {
     time: string

@@ -8,8 +8,8 @@ export interface IPhotoCarousel {
 
 interface IStateVisiblePhoto {
     visible: boolean
-    current?: IPhoto
-    photos: IPhoto[]
+    current?: IPhotoCarousel
+    photos: IPhotoCarousel[]
 }
 
 interface IDispatchPhoto {
@@ -17,7 +17,7 @@ interface IDispatchPhoto {
     current?: {
         id: string
     }
-    photos?: IPhoto[]
+    photos?: IPhotoCarousel[]
 }
 
 interface IActionVisiblePhoto {

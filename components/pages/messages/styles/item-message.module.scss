@@ -88,6 +88,23 @@
             background: var(--main-black);
             border-radius: 12px 12px 2px 12px;
 
+            &[data-images-block] {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 8px;
+                padding: 7px;
+
+                & > img,
+                & > video {
+                    height: auto;
+                    width: calc(20% - 6.4px);
+                    aspect-ratio: 3/2;
+                    object-fit: cover;
+                    border-radius: 3px;
+                }
+            }
+
             &.only {
                 border-radius: 12px 12px 12px 12px;
             }
@@ -150,7 +167,7 @@
         object-fit: cover;
         border-radius: 7px;
     }
-    &>video{
+    & > video {
         height: auto;
         width: 250px;
         aspect-ratio: 3/2;
@@ -159,7 +176,6 @@
     }
     &[data-image="true"] {
         padding: 7px;
-
     }
 }
 
