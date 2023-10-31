@@ -37,6 +37,22 @@
             background: var(--background-input);
             border-radius: 12px 12px 12px 2px;
 
+            &[data-images-block] {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 5px 5px;
+                padding: 7px;
+
+                & > img,
+                & > video {
+                    flex: 1 1 66px;
+                    aspect-ratio: 3/2;
+                    object-fit: cover;
+                    border-radius: 3px;
+                }
+            }
+
             &.only {
                 border-radius: 12px 12px 12px 12px;
             }
@@ -92,13 +108,12 @@
                 display: flex;
                 flex-direction: row;
                 flex-wrap: wrap;
-                gap: 8px;
+                gap: 5px 5px;
                 padding: 7px;
 
                 & > img,
                 & > video {
-                    height: auto;
-                    width: calc(20% - 6.4px);
+                    flex: 1 1 66px;
                     aspect-ratio: 3/2;
                     object-fit: cover;
                     border-radius: 3px;

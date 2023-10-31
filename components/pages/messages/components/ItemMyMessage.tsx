@@ -21,12 +21,14 @@ const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
 
     const newMessages: (INewMessage & {
         dataImages?: {
+            id: string
             type: TTypeMessage
             url: string
         }[]
     })[] = useMemo(() => {
         const array: (INewMessage & {
             dataImages?: {
+                id: string
                 type: TTypeMessage
                 url: string
             }[]
@@ -47,6 +49,7 @@ const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
                         array.at(-1).dataImages! = [
                             ...array.at(-1)?.dataImages!,
                             {
+                                id: item.id,
                                 type: item.type,
                                 url: item.photoUrl!,
                             },
@@ -57,6 +60,7 @@ const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
                         ...item,
                         dataImages: [
                             {
+                                id: item.id,
                                 type: item.type,
                                 url: item.photoUrl!,
                             },
@@ -68,8 +72,6 @@ const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
 
         return array
     }, [messages])
-
-    console.log("%c newMessages: ", "color: #f0f", newMessages)
 
     return (
         <li className={cx(styles.containerItemMyMessage)}>
@@ -113,21 +115,20 @@ const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
                                 key={`${item.id}_${item.id}`}
                                 id={`${item.id!}`}
                                 onClick={() => {
-                                    const photos: IPhotoCarousel[] = messages
-                                        ?.filter(
-                                            (item) => item.type === "IMAGE",
+                                    const photos: IPhotoCarousel[] =
+                                        item.dataImages!?.map(
+                                            (item, index) => ({
+                                                id: item.id!,
+                                                url: item.url!,
+                                                index: index,
+                                            }),
                                         )
-                                        ?.map((item, index) => ({
-                                            id: item.id,
-                                            index: index,
-                                            url: item.photoUrl!,
-                                        }))
                                     dispatchPhotos({
                                         visible: true,
                                         current: {
                                             id: item.id!,
                                         },
-                                        photos: photos,
+                                        photos: photos || [],
                                     })
                                 }}
                             >
@@ -135,7 +136,6 @@ const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
                                     if (item_.type === "IMAGE") {
                                         return (
                                             <Image
-                                                key={item_.url}
                                                 src={item_.url!}
                                                 alt="photo"
                                                 width={250}
@@ -145,91 +145,24 @@ const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
                                         )
                                     }
                                     if (item_.type === "VIDEO") {
-                                        ;<video
-                                            width={400}
-                                            height={300}
-                                            controls
-                                        >
-                                            <source
-                                                src={item_.url}
-                                                type="video/mp4"
-                                            />
-                                        </video>
+                                        return (
+                                            <video
+                                                width={400}
+                                                height={300}
+                                                controls
+                                            >
+                                                <source
+                                                    src={item_.url}
+                                                    type="video/mp4"
+                                                />
+                                            </video>
+                                        )
                                     }
                                     return null
                                 })}
                             </div>
                         )
                     }
-                    // if (item.type === "IMAGE") {
-                    //     return (
-                    //         <div
-                    //             className={cx(
-                    //                 styles.blockMessage,
-                    //                 styles[
-                    //                     stylesBlockRight(
-                    //                         messages?.length!,
-                    //                         index,
-                    //                     )
-                    //                 ],
-                    //             )}
-                    //             data-image
-                    //             key={`${item.id}_${item.message}`}
-                    //             id={`${item.id!}`}
-                    //             onClick={() => {
-                    //                 const photos: IPhotoCarousel[] = messages
-                    //                     ?.filter(
-                    //                         (item) => item.type === "IMAGE",
-                    //                     )
-                    //                     ?.map((item, index) => ({
-                    //                         id: item.id,
-                    //                         index: index,
-                    //                         url: item.photoUrl!,
-                    //                     }))
-                    //                 dispatchPhotos({
-                    //                     visible: true,
-                    //                     current: {
-                    //                         id: item.id!,
-                    //                     },
-                    //                     photos: photos,
-                    //                 })
-                    //             }}
-                    //         >
-                    //             <Image
-                    //                 src={item?.photoUrl!}
-                    //                 alt="photo"
-                    //                 width={250}
-                    //                 height={250}
-                    //                 unoptimized
-                    //             />
-                    //         </div>
-                    //     )
-                    // }
-                    // if (item.type === "VIDEO") {
-                    //     return (
-                    //         <div
-                    //             className={cx(
-                    //                 styles.blockMessage,
-                    //                 styles[
-                    //                     stylesBlockRight(
-                    //                         messages?.length!,
-                    //                         index,
-                    //                     )
-                    //                 ],
-                    //             )}
-                    //             data-image
-                    //             key={`${item.id}_${item.message}`}
-                    //             id={`${item.id!}`}
-                    //         >
-                    //             <video width={400} height={300} controls>
-                    //                 <source
-                    //                     src={item.photoUrl!}
-                    //                     type="video/mp4"
-                    //                 />
-                    //             </video>
-                    //         </div>
-                    //     )
-                    // }
                     return null
                 })}
             </div>
