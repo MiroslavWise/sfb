@@ -196,6 +196,34 @@ export const MyProductPageChange = () => {
 
     console.log("%c valueCategory: ", "color: #f0f", valueCategory)
 
+    useEffect(() => {
+        if (!!data && !!dataCategories) {
+            const categoryId = data?.productById?.category?.id!
+            if (categoryId) {
+                if (
+                    dataCategories?.categoryRootList?.find(
+                        (item) => item.id === categoryId,
+                    )
+                ) {
+                    setValue("category", categoryId)
+                } else {
+                    const id = dataCategories?.categoryRootList?.find((item) =>
+                        item?.childrenList?.some(
+                            (item_) => item_?.id === categoryId,
+                        ),
+                    )?.id
+                    setValue("category", id!)
+                    const idSub = dataCategories?.categoryRootList
+                        ?.find((item) => item?.id === id)
+                        ?.childrenList?.find(
+                            (item) => item?.id === categoryId,
+                        )?.id
+                    setValue("category_", idSub!)
+                }
+            }
+        }
+    }, [dataCategories, data])
+
     if (loading || isLoadCategories) return null
 
     return (
@@ -291,7 +319,7 @@ export const MyProductPageChange = () => {
                             (item) => item.id === watch("category"),
                         )?.childrenList?.length ? (
                             <CFormSelect
-                                {...register("category")}
+                                {...register("category_")}
                                 options={dataCategories?.categoryRootList
                                     ?.find(
                                         (item) => item.id === valueCategory?.id,
