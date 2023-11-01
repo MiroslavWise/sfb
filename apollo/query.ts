@@ -27,7 +27,22 @@ export const me = gql`
     }
 `
 
-export const categories = gql`
+export const categoriesRoot = gql`
+    query {
+        categoryRootList {
+            id
+            name
+            iconName
+            childrenList {
+                id
+                name
+                iconName
+            }
+        }
+    }
+`
+
+export const queryCategories = gql`
     query {
         categoryList {
             id

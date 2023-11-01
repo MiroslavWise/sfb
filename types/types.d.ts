@@ -28,6 +28,18 @@ export interface IAuthor {
         }
     }
 }
+
+interface ICategory {
+    id: string
+    name: string
+    iconName: string
+}
+
+export interface ICategoryList {
+    categoryRootList: (ICategory & {
+        childrenList: ICategory[]
+    })[]
+}
 export interface IPhotoList {
     photoListUrl: IPhoto[]
 }

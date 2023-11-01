@@ -4,17 +4,18 @@ import Image from "next/image"
 import { useForm } from "react-hook-form"
 import { CFormSelect } from "@coreui/react"
 import { useSearchParams } from "next/navigation"
-import { ChangeEvent, useEffect, useState } from "react"
+import { ChangeEvent, useEffect, useMemo, useState } from "react"
+import { CascadeSelect } from "primereact/cascadeselect"
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client"
 
-import type { IProductRoot } from "@/types/types"
+import type { ICategoryList, IProductRoot } from "@/types/types"
 import type { IPhotoProductData } from "@/types/types"
 
 import { MiniPhoto } from "../../proposals"
 import { Input } from "@/components/common/input"
 
 import {
-    categories,
+    categoriesRoot,
     queryPhotosProductById,
     queryProductById,
 } from "@/apollo/query"
@@ -30,7 +31,7 @@ export const MyProductPageChange = () => {
     const [files, setFiles] = useState<File[]>([])
     const [filesString, setFilesString] = useState<string[]>([])
     const { data: dataCategories, loading: isLoadCategories } =
-        useQuery(categories)
+        useQuery<ICategoryList>(categoriesRoot)
     const { handlePush } = usePush()
     const [use, { data, loading, refetch }] = useLazyQuery<IProductRoot>(
         queryProductById,
@@ -59,7 +60,7 @@ export const MyProductPageChange = () => {
 
     function submit(values: IValues) {
         const data: Record<string, any> = {
-            categoryId: values.category,
+            categoryId: values.category_ || values.category,
             name: values.title,
             description: values.description,
             price: +values.price,
@@ -131,7 +132,6 @@ export const MyProductPageChange = () => {
             setValue("title", productById?.name)
             setValue("description", productById?.description)
             setValue("price", productById?.price)
-            setValue("category", productById?.category?.id)
             setValue("quantity", productById?.quantity)
         }
     }, [productById])
@@ -161,6 +161,40 @@ export const MyProductPageChange = () => {
             }
         }
     }
+
+    const valueCategory = useMemo(() => {
+        if (!watch("category") || !dataCategories) return null
+
+        const idCategory = dataCategories?.categoryRootList?.find(
+            (item) => item.id === watch("category"),
+        )?.id
+
+        if (idCategory) {
+            return {
+                id: idCategory,
+                sub: null,
+            }
+        }
+
+        if (!idCategory) {
+            const idMain = dataCategories?.categoryRootList.find((item) =>
+                item?.childrenList?.some(
+                    (item_) => item_?.id === watch("category_"),
+                ),
+            )?.id
+
+            return {
+                id: idMain,
+                sub: dataCategories?.categoryRootList
+                    .find((item) => item.id === idMain)
+                    ?.childrenList?.find(
+                        (item) => item.id === watch("category_"),
+                    )?.id,
+            }
+        }
+    }, [watch("category"), watch("category_"), dataCategories])
+
+    console.log("%c valueCategory: ", "color: #f0f", valueCategory)
 
     if (loading || isLoadCategories) return null
 
@@ -231,8 +265,8 @@ export const MyProductPageChange = () => {
                             aria-label="category"
                             {...register("category", { required: true })}
                             options={
-                                Array.isArray(dataCategories?.categoryList)
-                                    ? dataCategories?.categoryList?.map(
+                                Array.isArray(dataCategories?.categoryRootList)
+                                    ? dataCategories?.categoryRootList?.map(
                                           (item: any) => ({
                                               label: item.name,
                                               value: item.id,
@@ -240,11 +274,37 @@ export const MyProductPageChange = () => {
                                       )
                                     : []
                             }
-                            size="sm"
+                            size="lg"
                             placeholder="Категория товара"
                         />
                         {errors.category ? (
                             <i>Обязательно заполните категорию</i>
+                        ) : null}
+                    </span>
+                    <span>
+                        {Array.isArray(
+                            dataCategories?.categoryRootList?.find(
+                                (item) => item.id === watch("category"),
+                            )?.childrenList,
+                        ) &&
+                        dataCategories?.categoryRootList?.find(
+                            (item) => item.id === watch("category"),
+                        )?.childrenList?.length ? (
+                            <CFormSelect
+                                {...register("category")}
+                                options={dataCategories?.categoryRootList
+                                    ?.find(
+                                        (item) => item.id === valueCategory?.id,
+                                    )
+                                    ?.childrenList?.map((item) => ({
+                                        label: item?.name,
+                                        value: item?.id!,
+                                    }))}
+                                onChange={(event) =>
+                                    setValue("category_", event.target.value)
+                                }
+                                size="lg"
+                            />
                         ) : null}
                     </span>
                     <span>
@@ -280,7 +340,7 @@ export const MyProductPageChange = () => {
                             data-select
                             aria-label="deliveryType"
                             {...register("deliveryType", { required: false })}
-                            size="sm"
+                            size="lg"
                             options={DELIVERY_TYPE}
                             placeholder="Выберите тип доставки"
                         />
@@ -308,6 +368,7 @@ interface IValues {
     }
     title: string
     category: string | number | null
+    category_: string | number | null
     type: string | number
     description: string
     price: number | string

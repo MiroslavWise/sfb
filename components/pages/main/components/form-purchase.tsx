@@ -1,14 +1,20 @@
 import Image from "next/image"
 import { useForm } from "react-hook-form"
 import { CFormSelect } from "@coreui/react"
-import { useMutation, useQuery } from "@apollo/client"
-import { ChangeEvent, Dispatch, SetStateAction, useState } from "react"
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client"
+import {
+    ChangeEvent,
+    Dispatch,
+    SetStateAction,
+    useEffect,
+    useState,
+} from "react"
 
 import {
     createProductRequestSmall,
     createProductSmall,
 } from "@/apollo/mutation"
-import { categories } from "@/apollo/query"
+import { categoriesRoot, queryCategories } from "@/apollo/query"
 import { useAuth } from "@/store/state/useAuth"
 import { useEnter } from "@/store/state/useEnter"
 import { usePush } from "@/helpers/hooks/usePush"
@@ -27,12 +33,11 @@ export const FormPurchase = ({
     const { dispatch } = useEnter()
     const [isLoading, setIsLoading] = useState(false)
     const { handlePush } = usePush()
-    const { data, loading } = useQuery(categories)
+    const { data, loading } = useQuery(categoriesRoot)
     const [createProductRequest] = useMutation(createProductRequestSmall)
     const [createProduct] = useMutation(createProductSmall)
     const {
         register,
-        setValue,
         watch,
         handleSubmit,
         formState: { errors },
@@ -48,7 +53,11 @@ export const FormPurchase = ({
             if (state === "purchase") {
                 createProductRequest({
                     variables: {
-                        categoryId: values?.id,
+                        categoryId: values?.id_
+                            ? values?.id_
+                            : values?.id
+                            ? values?.id
+                            : null,
                         name: values?.name!,
                     },
                 })
@@ -124,6 +133,12 @@ export const FormPurchase = ({
         }
     }
 
+    useEffect(() => {
+        if (watch("id")) {
+            console.log("%c watch(id)", "color: #0f0f", watch("id"))
+        }
+    }, [watch("id")])
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <section>
@@ -141,8 +156,8 @@ export const FormPurchase = ({
                     <CFormSelect
                         {...register("id", { required: true })}
                         options={
-                            Array.isArray(data?.categoryList)
-                                ? data?.categoryList?.map((item: any) => ({
+                            Array.isArray(data?.categoryRootList)
+                                ? data?.categoryRootList?.map((item: any) => ({
                                       label: item.name,
                                       value: item.id,
                                   }))
@@ -152,6 +167,29 @@ export const FormPurchase = ({
                     />
                     {errors?.id ? <i>Выберите категорию товара</i> : null}
                 </span>
+                {data?.categoryRootList?.find(
+                    (item: any) => item.id === watch("id"),
+                )?.childrenList?.length ? (
+                    <span>
+                        <CFormSelect
+                            {...register("id_", { required: true })}
+                            options={
+                                Array.isArray(data?.categoryRootList)
+                                    ? data?.categoryRootList
+                                          ?.find(
+                                              (item: any) =>
+                                                  item.id === watch("id"),
+                                          )
+                                          ?.childrenList?.map((item: any) => ({
+                                              label: item.name,
+                                              value: item.id,
+                                          }))
+                                    : []
+                            }
+                            placeholder="Выберите подкатегорию товара"
+                        />
+                    </span>
+                ) : null}
                 <span data-file>
                     <input type="file" multiple onChange={handleImageChange} />
                     <label>
@@ -188,5 +226,6 @@ export const FormPurchase = ({
 interface IValues {
     name: string
     id: string | number | null
+    id_: string | number | null
     files: File[]
 }

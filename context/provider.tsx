@@ -2,6 +2,7 @@
 
 import { Suspense, useEffect } from "react"
 import { ToastContainer } from "react-toastify"
+import { PrimeReactProvider } from "primereact/api"
 
 import type { TChildrenProps } from "@/types/types"
 
@@ -19,6 +20,10 @@ import { useAuth } from "@/store/state/useAuth"
 import "./i18n"
 import "./DayJSDefault"
 import "react-toastify/dist/ReactToastify.css"
+import "primereact/resources/themes/saga-blue/theme.css"
+import "primereact/resources/primereact.min.css"
+import "primeicons/primeicons.css"
+import "primeflex/primeflex.css"
 
 const Provider: TChildrenProps = ({ children }) => {
     const { refresh } = useAuth()
@@ -28,16 +33,18 @@ const Provider: TChildrenProps = ({ children }) => {
     }, [])
 
     return (
-        <ApolloProviderContext>
-            <WebSocketContext>
-                <AnimatedLoadPage />
-                <ModalLogin />
-                <Suspense fallback={false}>{children}</Suspense>
-                <Toast />
-                <ToastContainer />
-                <VisiblePreviewPhotos />
-            </WebSocketContext>
-        </ApolloProviderContext>
+        <PrimeReactProvider>
+            <ApolloProviderContext>
+                <WebSocketContext>
+                    <AnimatedLoadPage />
+                    <ModalLogin />
+                    <Suspense fallback={false}>{children}</Suspense>
+                    <Toast />
+                    <ToastContainer />
+                    <VisiblePreviewPhotos />
+                </WebSocketContext>
+            </ApolloProviderContext>
+        </PrimeReactProvider>
     )
 }
 

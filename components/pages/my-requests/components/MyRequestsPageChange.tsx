@@ -20,7 +20,7 @@ import {
     mutateUpdateProductRequest,
 } from "@/apollo/mutation"
 import {
-    categories,
+    categoriesRoot,
     queryPhotosProductRequestById,
     queryProductRequestById,
 } from "@/apollo/query"
@@ -32,7 +32,7 @@ export const MyRequestsPageChange = () => {
     const [files, setFiles] = useState<File[]>([])
     const [filesString, setFilesString] = useState<string[]>([])
     const { data: dataCategories, loading: isLoadCategories } =
-        useQuery(categories)
+        useQuery(categoriesRoot)
     const { handlePush } = usePush()
     const [use, { data, loading, refetch }] = useLazyQuery<IRequestProductRoot>(
         queryProductRequestById,
@@ -228,8 +228,8 @@ export const MyRequestsPageChange = () => {
                             aria-label="category"
                             {...register("category", { required: true })}
                             options={
-                                Array.isArray(dataCategories?.categoryList)
-                                    ? dataCategories?.categoryList?.map(
+                                Array.isArray(dataCategories?.categoryRootList)
+                                    ? dataCategories?.categoryRootList?.map(
                                           (item: any) => ({
                                               label: item.name,
                                               value: item.id,
