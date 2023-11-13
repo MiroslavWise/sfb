@@ -60,6 +60,25 @@ export interface IRequestProductRoot {
     productRequestById: IRequestProduct
 }
 
+export interface IProductAttribute {
+    attrId: number
+    datatype: string
+    id: string
+    slug: string
+    name: string
+    value: string
+    valueBool: boolean
+    valueText: string
+    valueInt: number
+    valueId: number
+}
+
+export interface IProductAttributeList {
+    productAttributesByCategoryId: {
+        attribute: IProductAttribute[]
+    } | null
+}
+
 export interface IRequestProduct {
     id: string
     category: {
@@ -85,7 +104,9 @@ export interface IRequestProduct {
     createdAt: Date
 }
 
-export interface IProduct extends IRequestProduct {}
+export interface IProduct extends IRequestProduct {
+    attributeList: IProductAttribute[]
+}
 
 export interface IProductRoot {
     productById: IProduct
@@ -94,7 +115,7 @@ export interface IProductRoot {
 export interface IProductOfferItem {
     id: string
     createdAt: Date
-    product: IRequestProduct
+    product: IProduct
     productRequest: IRequestProduct
 }
 

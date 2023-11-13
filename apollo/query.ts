@@ -124,8 +124,8 @@ export const productListMe_ID_NAME = gql`
 
 export const queryProductListMe = gql`
     ${PRODUCT}
-    query ($offset: Int) {
-        productListMe(limit: 20, offset: $offset) {
+    query ($offset: Int, $ordering: String) {
+        productListMe(limit: 20, offset: $offset, ordering: $ordering) {
             totalCount
             results {
                 ...product

@@ -1,7 +1,12 @@
-import { FC } from "react"
+import { DispatchWithoutAction, FC } from "react"
+
+type TTypeFilter = "price"
 
 export interface IFilterMain {
     label: string
+    type: boolean
+    dispatch: DispatchWithoutAction
+    typeFilter?: TTypeFilter
 }
 
 export interface IItemsMainCatalog {

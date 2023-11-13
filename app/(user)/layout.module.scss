@@ -2,31 +2,30 @@
     width: 100%;
     padding: 60px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: flex-start;
-    gap: 78px;
+    gap: 30px;
 
     & > aside {
-        max-width: 250px;
+        max-width: 100%;
         width: 100%;
         display: flex;
         flex-direction: column;
         gap: 70px;
 
         & > [data-links="true"] {
-            padding-left: 20px;
             width: 100%;
             display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 12px;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 16px;
 
             & > li {
-                width: 100%;
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                gap: 8px;
+                gap: 4px;
                 transition: var(--transition);
 
                 &:not(&[data-active="true"]) {

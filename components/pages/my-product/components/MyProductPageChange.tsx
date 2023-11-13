@@ -8,7 +8,11 @@ import { ChangeEvent, useEffect, useMemo, useState } from "react"
 import { CascadeSelect } from "primereact/cascadeselect"
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client"
 
-import type { ICategoryList, IProductRoot } from "@/types/types"
+import type {
+    ICategoryList,
+    IProductAttributeList,
+    IProductRoot,
+} from "@/types/types"
 import type { IPhotoProductData } from "@/types/types"
 
 import { MiniPhoto } from "../../proposals"
@@ -21,6 +25,7 @@ import {
 } from "@/apollo/query"
 import { usePush } from "@/helpers/hooks/usePush"
 import { uploadFile } from "@/helpers/services/fetch"
+import { queryProductAttributesByCategoryId } from "@/apollo/attribute"
 import { createProductFull, mutateUpdateProduct } from "@/apollo/mutation"
 import { DELIVERY_TYPE, type TTypeDelivery } from "../constants/delivery-type"
 
@@ -43,6 +48,8 @@ export const MyProductPageChange = () => {
         useLazyQuery<IPhotoProductData>(queryPhotosProductById, {
             variables: { id: uuid },
         })
+    const [useAttribute, { data: dataAttributes }] =
+        useLazyQuery<IProductAttributeList>(queryProductAttributesByCategoryId)
     const [update] = useMutation(mutateUpdateProduct)
     const [create] = useMutation(createProductFull)
     const { productById } = data ?? {}
@@ -59,6 +66,7 @@ export const MyProductPageChange = () => {
     })
 
     function submit(values: IValues) {
+        console.log("%c slug: values: ", "color: red", values)
         const data: Record<string, any> = {
             categoryId: values.category_ || values.category,
             name: values.title,
@@ -224,6 +232,24 @@ export const MyProductPageChange = () => {
         }
     }, [dataCategories, data])
 
+    useEffect(() => {
+        if (watch("category_")) {
+            console.log("%c category_: ", "color: green", watch("category_"))
+            useAttribute({
+                variables: { categoryId: watch("category_") },
+            }).then((res) => {
+                console.log("%c res", "color: bue", res)
+            })
+            return
+        } else if (watch("category")) {
+            console.log("%c category: ", "color: green", watch("category"))
+            useAttribute({ variables: { categoryId: watch("category") } })
+            return
+        }
+    }, [watch("category"), watch("category_")])
+
+    console.log("%c dataAttributes: ", "color: red", dataAttributes)
+
     if (loading || isLoadCategories) return null
 
     return (
@@ -341,6 +367,26 @@ export const MyProductPageChange = () => {
                             {...register("description", { required: false })}
                         />
                     </span>
+                    {dataAttributes?.productAttributesByCategoryId &&
+                        dataAttributes?.productAttributesByCategoryId?.attribute?.map(
+                            (item) => (
+                                <span key={`${item.id}`}>
+                                    <Input
+                                        label={item.name}
+                                        error={null}
+                                        {...register(item.slug)}
+                                        value={watch(item.slug)}
+                                        onChange={(event) =>
+                                            setValue(
+                                                item.slug,
+                                                event.target.value,
+                                            )
+                                        }
+                                    />
+                                </span>
+                            ),
+                        )}
+                    <span></span>
                     <Input
                         value={watch("price")}
                         label="Цена товара"
@@ -402,4 +448,5 @@ interface IValues {
     price: number | string
     quantity: number | string
     deliveryType?: TTypeDelivery
+    [key: string]: any
 }

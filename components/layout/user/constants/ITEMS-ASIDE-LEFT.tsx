@@ -11,12 +11,12 @@ export const ITEMS_ASIDE_LEFT = (values: IValuesData): IItemsAsideLeft[] => [
         icon: "/svg/profile/database-02.svg",
         count: values?.countMyProducts || 0,
     },
-    {
-        value: "/messages",
-        label: "Сообщения",
-        icon: "/svg/menu/message-notification-circle.svg",
-        count: values?.constMessages || 0,
-    },
+    // {
+    //     value: "/messages",
+    //     label: "Сообщения",
+    //     icon: "/svg/menu/message-notification-circle.svg",
+    //     count: values?.constMessages || 0,
+    // },
     {
         value: "/delivery",
         label: "Доставка",

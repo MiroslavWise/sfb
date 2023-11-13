@@ -1,6 +1,6 @@
 "use client"
 
-import { Suspense, useEffect } from "react"
+import { useEffect } from "react"
 
 import type { IChildrenProps } from "@/types/types"
 
@@ -23,10 +23,8 @@ export default function LayoutUser({ children }: IChildrenProps) {
 
     return token ? (
         <section className={styles.wrapper}>
-            <Suspense fallback={false}>
-                <LeftAsideUser />
-            </Suspense>
-            <Suspense fallback={false}>{children}</Suspense>
+            <LeftAsideUser />
+            {children}
         </section>
     ) : null
 }

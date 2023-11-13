@@ -33,8 +33,22 @@ export const PHOTOS = gql`
     }
 `
 
+export const ProductAttribute = gql`
+    fragment ProductAttribute on ProductAttributeType {
+        attrId
+        datatype
+        name
+        value
+        valueBool
+        valueText
+        valueInt
+        valueId
+    }
+`
+
 export const PRODUCT = gql`
     ${AUTHOR}
+    ${ProductAttribute}
     fragment product on ProductType {
         id
         category {
@@ -56,6 +70,9 @@ export const PRODUCT = gql`
         isActive
         draft
         quantity
+        attributeList {
+            ...ProductAttribute
+        }
     }
 `
 

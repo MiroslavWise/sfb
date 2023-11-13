@@ -54,7 +54,7 @@ const $LeftAsideUser = () => {
                         ) : null}
                     </li>
                 ))}
-                <li
+                {/* <li
                     onClick={() => handlePush("/profile")}
                     data-active={pathname.includes("/profile")}
                 >
@@ -76,9 +76,9 @@ const $LeftAsideUser = () => {
                         />
                     )}
                     <p>Профиль</p>
-                </li>
+                </li> */}
             </ul>
-            <ComponentCarouselBannerMainPage type="aside" />
+            {/* <ComponentCarouselBannerMainPage type="aside" /> */}
         </aside>
     )
 }
