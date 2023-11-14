@@ -18,8 +18,8 @@ export const SearchBar = () => {
                 </button>
             </div>
             <div data-main-filter>
-                <FilterMain label="Весь Казахстан" />
-                <FilterMain label="Цена" />
+                <FilterMain label="Весь Казахстан" type dispatch={() => {}} />
+                <FilterMain label="Цена" type dispatch={() => {}} />
             </div>
         </div>
     ) : null

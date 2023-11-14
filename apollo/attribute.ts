@@ -16,3 +16,14 @@ export const queryProductAttributesByCategoryId = gql`
         }
     }
 `
+
+export const mutationProductAttributeUpdate = gql`
+        query{
+        productAttributeUpdate(){
+            ok
+            product{
+                id
+            }
+        }
+    }
+`
