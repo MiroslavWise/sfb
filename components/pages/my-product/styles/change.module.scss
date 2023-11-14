@@ -81,6 +81,12 @@
                 gap: 4px;
                 border-radius: 7px;
 
+                &[data-delivery] {
+                    flex-direction: row !important;
+                    gap: 16px;
+                    flex-wrap: wrap;
+                }
+
                 & > [data-select="true"] {
                     width: 100%;
                 }

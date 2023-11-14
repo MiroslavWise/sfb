@@ -30,6 +30,7 @@ import { createProductFull, mutateUpdateProduct } from "@/apollo/mutation"
 import { DELIVERY_TYPE, type TTypeDelivery } from "../constants/delivery-type"
 
 import styles from "../styles/change.module.scss"
+import { Checkbox } from "@/components/common/checkbox"
 
 export const MyProductPageChange = () => {
     const uuid = useSearchParams().get("product-id")
@@ -44,6 +45,8 @@ export const MyProductPageChange = () => {
             variables: { id: uuid },
         },
     )
+    const [delivery, setDelivery] = useState<string[]>([])
+    console.log("delivery: ", delivery)
     const [usePhoto, { data: dataPhotos, refetch: refetchPhotos }] =
         useLazyQuery<IPhotoProductData>(queryPhotosProductById, {
             variables: { id: uuid },
@@ -409,15 +412,27 @@ export const MyProductPageChange = () => {
                             setValue("quantity", event.target.value)
                         }
                     />
-                    <span>
-                        <CFormSelect
-                            data-select
-                            aria-label="deliveryType"
-                            {...register("deliveryType", { required: false })}
-                            size="lg"
-                            options={DELIVERY_TYPE}
-                            placeholder="Выберите тип доставки"
-                        />
+                    <span data-delivery>
+                        {DELIVERY_TYPE.map((item) => (
+                            <Checkbox
+                                label={item.label}
+                                active={delivery.includes(item.value)}
+                                dispatch={() => {
+                                    if (delivery.includes(item.value)) {
+                                        setDelivery((prev) =>
+                                            prev.filter(
+                                                (_) => _ !== item.value,
+                                            ),
+                                        )
+                                    } else {
+                                        setDelivery((prev) => [
+                                            ...prev,
+                                            item.value,
+                                        ])
+                                    }
+                                }}
+                            />
+                        ))}
                     </span>
                     <footer>
                         <button data-primary type="submit">
