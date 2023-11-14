@@ -3,27 +3,28 @@ import { gql } from "@apollo/client"
 export const queryProductAttributesByCategoryId = gql`
     query ($categoryId: UUID!) {
         productAttributesByCategoryId(categoryId: $categoryId) {
-            category {
-                id
-                name
-            }
+            createdAt
+            updatedAt
+            id
             attribute {
                 id
+                slug
+                description
                 name
                 datatype
-                slug
             }
         }
     }
 `
 
 export const mutationProductAttributeUpdate = gql`
-    query {
-        productAttributeUpdate {
+    mutation ($attrId: Int!, $attrValueId: Int!, $productId: UUID!) {
+        productAttributeUpdate(
+            attrId: $attrId
+            attrValueId: $attrValueId
+            productId: $productId
+        ) {
             ok
-            product {
-                id
-            }
         }
     }
 `

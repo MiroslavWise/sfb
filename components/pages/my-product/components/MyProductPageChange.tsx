@@ -25,7 +25,10 @@ import {
 } from "@/apollo/query"
 import { usePush } from "@/helpers/hooks/usePush"
 import { uploadFile } from "@/helpers/services/fetch"
-import { queryProductAttributesByCategoryId } from "@/apollo/attribute"
+import {
+    mutationProductAttributeUpdate,
+    queryProductAttributesByCategoryId,
+} from "@/apollo/attribute"
 import { createProductFull, mutateUpdateProduct } from "@/apollo/mutation"
 import { DELIVERY_TYPE, type TTypeDelivery } from "../constants/delivery-type"
 
@@ -55,6 +58,7 @@ export const MyProductPageChange = () => {
         useLazyQuery<IProductAttributeList>(queryProductAttributesByCategoryId)
     const [update] = useMutation(mutateUpdateProduct)
     const [create] = useMutation(createProductFull)
+    const [updateAttr] = useMutation(mutationProductAttributeUpdate)
     const { productById } = data ?? {}
     const {
         register,
@@ -77,6 +81,7 @@ export const MyProductPageChange = () => {
             price: +values.price,
             quantity: +values.quantity! || 1,
         }
+        // updateAttr
         if (uuid) {
             data.productId = uuid!
             Promise.all([
