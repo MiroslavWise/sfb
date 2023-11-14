@@ -18,10 +18,10 @@ export const queryProductAttributesByCategoryId = gql`
 `
 
 export const mutationProductAttributeUpdate = gql`
-        query{
-        productAttributeUpdate(){
+    query {
+        productAttributeUpdate {
             ok
-            product{
+            product {
                 id
             }
         }
