@@ -4,7 +4,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    gap: 30px;
+    gap: 20px;
 
     & > aside {
         max-width: 100%;
@@ -23,11 +23,13 @@
 
             & > li {
                 position: relative;
+                padding-bottom: 10px;
 
                 & > [data-absolute] {
                     position: absolute;
                     inset: 0;
                     z-index: 0;
+                    border-radius: 8px 8px 0 0;
                     background: rgba(0, 0, 0, 0);
                     transition: var(--transition);
                 }
@@ -78,6 +80,7 @@
                         font-style: normal;
                         font-weight: 600;
                         line-height: normal;
+                        transition: var(--transition);
                     }
 
                     & > [data-count="true"] {
