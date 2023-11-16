@@ -12,7 +12,7 @@ export const usePush = () => {
     }
 
     function handlePush(value: string) {
-        if (pathname !== value) {
+        if (!value.includes(pathname)) {
             setIsAnimated(true)
         }
         push(value, { scroll: true })

@@ -5,20 +5,25 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { useLazyQuery } from "@apollo/client"
 
+import { usePush } from "@/helpers/hooks/usePush"
 import { useDebounce } from "@/helpers/hooks/useDebounce"
 import { queryCategoryRecommendation } from "@/apollo/attribute"
 import { useOutsideClickEvent } from "@/helpers/hooks/useOutsideClickEvent"
 
 import styles from "../styles/search-block.module.scss"
+import { ICategoryRecommendation, IRecommendation } from "@/types/types"
 
 export const SearchBlock = () => {
     const [loading, setLoading] = useState(false)
     const [focus, setFocus, ref] = useOutsideClickEvent()
-    const [list, setList] = useState<null | any[]>(null)
+    const { handlePush } = usePush()
+    const [list, setList] = useState<null | IRecommendation[]>(null)
     const { handleSubmit, register, setValue } = useForm<IValues>({
         mode: "onChange",
     })
-    const [search, { data }] = useLazyQuery(queryCategoryRecommendation)
+    const [search, { data }] = useLazyQuery<ICategoryRecommendation>(
+        queryCategoryRecommendation,
+    )
     function submit(values: IValues) {
         if (values.input.trim().length > 2)
             search({
@@ -68,8 +73,18 @@ export const SearchBlock = () => {
             {list && list?.length && focus ? (
                 <ul data-visible={focus}>
                     {list?.map((item) =>
-                        item?.family?.map((li: any) => (
-                            <li key={`${item.id}-${li.id}`}>
+                        item?.family?.map((li) => (
+                            <li
+                                key={`${item.id}-${li.id}`}
+                                onClick={(event) => {
+                                    event.preventDefault()
+                                    event.stopPropagation()
+                                    handlePush(
+                                        `/market?search=${item?.name}&category-id=${li.id}`,
+                                    )
+                                    setFocus(false)
+                                }}
+                            >
                                 <p>{item.name}</p>
                                 <a>{li?.name}</a>
                             </li>
