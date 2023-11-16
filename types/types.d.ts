@@ -127,3 +127,29 @@ export interface IProductOfferListRoot {
 }
 
 export type TTabsDetailsRequest = "main" | "proposals" | "testimonials"
+
+export interface ICategoriesRoot {
+    categoryRootList: {
+        id: string
+        name: string
+        iconName: string
+        childrenList: {
+            id: string
+            name: string
+            iconName: string
+        }[]
+    }[]
+}
+
+export interface IRecommendation {
+    name: string
+    id: string
+    family: {
+        id: string
+        name: string
+    }[]
+}
+
+export interface ICategoryRecommendation {
+    categoryRecommendation: IRecommendation[]
+}

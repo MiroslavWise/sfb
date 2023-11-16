@@ -1,6 +1,5 @@
 import Image from "next/image"
 import { useForm } from "react-hook-form"
-import { CFormSelect } from "@coreui/react"
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client"
 import {
     ChangeEvent,
@@ -14,11 +13,20 @@ import {
     createProductRequestSmall,
     createProductSmall,
 } from "@/apollo/mutation"
-import { categoriesRoot, queryCategories } from "@/apollo/query"
+import { categoriesRoot } from "@/apollo/query"
 import { useAuth } from "@/store/state/useAuth"
 import { useEnter } from "@/store/state/useEnter"
 import { usePush } from "@/helpers/hooks/usePush"
 import { uploadFile } from "@/helpers/services/fetch"
+import { useOutsideClickEvent } from "@/helpers/hooks/useOutsideClickEvent"
+import { queryCategoryRecommendation } from "@/apollo/attribute"
+import { useDebounce } from "@/helpers/hooks/useDebounce"
+import {
+    ICategoriesRoot,
+    ICategoryRecommendation,
+    IRecommendation,
+} from "@/types/types"
+import { CustomSelector } from "@/components/common/custom-selector"
 
 export const FormPurchase = ({
     setState,
@@ -33,14 +41,23 @@ export const FormPurchase = ({
     const { dispatch } = useEnter()
     const [isLoading, setIsLoading] = useState(false)
     const { handlePush } = usePush()
-    const { data, loading } = useQuery(categoriesRoot)
+    const { data, loading } = useQuery<ICategoriesRoot>(categoriesRoot)
     const [createProductRequest] = useMutation(createProductRequestSmall)
     const [createProduct] = useMutation(createProductSmall)
+    //
+    const [loadingInput, setLoadingInput] = useState(false)
+    const [focus, setFocus, ref] = useOutsideClickEvent()
+    const [list, setList] = useState<null | IRecommendation[]>(null)
+    const debouncedValue = useDebounce(onSearch, 1500)
+    const [search, { data: dataCategoryRecommendation }] =
+        useLazyQuery<ICategoryRecommendation>(queryCategoryRecommendation)
+    //
     const {
         register,
         watch,
         handleSubmit,
         formState: { errors },
+        setValue,
     } = useForm<IValues>({ defaultValues: { id: null } })
 
     function onSubmit(values: IValues) {
@@ -133,47 +150,160 @@ export const FormPurchase = ({
         }
     }
 
-    useEffect(() => {
-        if (watch("id")) {
-            console.log("%c watch(id)", "color: #0f0f", watch("id"))
+    function onSearch() {
+        if (watch("name").length > 2) {
+            search({
+                variables: {
+                    search: watch("name"),
+                },
+            }).finally(() => {
+                setLoadingInput(false)
+            })
         }
-    }, [watch("id")])
+    }
+
+    function handleOfSearch(values: IValuesSearchOfName) {
+        if (values.name) {
+            setValue("name", values.name)
+        }
+        if (
+            data?.categoryRootList?.some(
+                (item) => item?.id === values?.category?.id,
+            )
+        ) {
+            const valueId = data?.categoryRootList?.find(
+                (item) => item?.id === values?.category?.id,
+            )?.id!
+            setValue("id", valueId)
+        } else if (
+            data?.categoryRootList?.some((item) =>
+                item?.childrenList?.some(
+                    (_item) => _item?.id === values?.category?.id,
+                ),
+            )
+        ) {
+            const valueFind = data?.categoryRootList?.find((item) =>
+                item?.childrenList?.some(
+                    (_item) => _item?.id === values?.category?.id,
+                ),
+            )
+            const valueId = valueFind?.id!
+            const valueId_ = valueFind?.childrenList?.find(
+                (item) => item?.id === values?.category?.id,
+            )?.id!
+            setValue("id", valueId)
+            setValue("id_", valueId_)
+        }
+    }
+
+    useEffect(() => {
+        if (dataCategoryRecommendation) {
+            setList(dataCategoryRecommendation?.categoryRecommendation || null)
+        }
+    }, [dataCategoryRecommendation?.categoryRecommendation])
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <section>
-                <span>
+                <span ref={ref} data-search>
                     <input
+                        disabled={loading}
                         type="text"
                         {...register("name", { required: true, minLength: 5 })}
                         placeholder="Введите название товара"
+                        onChange={(event) => {
+                            setLoadingInput(true)
+                            setFocus(true)
+                            setValue("name", event.target.value)
+                            debouncedValue()
+                        }}
+                        onFocus={() => setFocus(true)}
                     />
                     {errors.name ? (
                         <i>Обязательное поле(мин 5 символов)</i>
                     ) : null}
+                    <Image
+                        src={
+                            loadingInput
+                                ? "/svg/loading-03.svg"
+                                : "/svg/x-circle.svg"
+                        }
+                        alt="search-refraction"
+                        width={24}
+                        height={24}
+                        data-loading={loadingInput}
+                        data-focus={focus}
+                        onClick={() => {
+                            if (focus) {
+                                setFocus(false)
+                            }
+                        }}
+                    />
+                    {list && list?.length && focus ? (
+                        <ul data-visible={focus}>
+                            {list.map((item) =>
+                                item?.family?.map((li) => (
+                                    <li
+                                        key={`${li?.id}-${item?.id}-pur`}
+                                        onClick={() => {
+                                            handleOfSearch({
+                                                name: item?.name!,
+                                                category: {
+                                                    id: li?.id!,
+                                                    name: li?.name!,
+                                                },
+                                            })
+                                            setFocus(false)
+                                        }}
+                                    >
+                                        <p>{item.name}</p>
+                                        <a>{li?.name}</a>
+                                    </li>
+                                )),
+                            )}
+                        </ul>
+                    ) : null}
                 </span>
-                <span>
-                    <CFormSelect
-                        {...register("id", { required: true })}
-                        options={
-                            Array.isArray(data?.categoryRootList)
-                                ? data?.categoryRootList?.map((item: any) => ({
-                                      label: item.name,
-                                      value: item.id,
-                                  }))
-                                : []
+                <span {...register("id", { required: true })} data-search>
+                    <CustomSelector
+                        label={
+                            data?.categoryRootList?.find(
+                                (item) => item?.id === watch("id"),
+                            )?.name!
                         }
                         placeholder="Выберите категорию товара"
+                        onClick={(value) => {
+                            setValue("id", value)
+                        }}
+                        list={
+                            Array.isArray(data?.categoryRootList)
+                                ? data?.categoryRootList?.map((item: any) => ({
+                                      p: item.name,
+                                      id: item.id,
+                                  }))!
+                                : []
+                        }
                     />
                     {errors?.id ? <i>Выберите категорию товара</i> : null}
                 </span>
                 {data?.categoryRootList?.find(
                     (item: any) => item.id === watch("id"),
                 )?.childrenList?.length ? (
-                    <span>
-                        <CFormSelect
-                            {...register("id_", { required: true })}
-                            options={
+                    <span data-search>
+                        <CustomSelector
+                            label={
+                                data?.categoryRootList
+                                    ?.find(
+                                        (item: any) => item.id === watch("id"),
+                                    )
+                                    ?.childrenList?.find(
+                                        (item) => item?.id === watch("id_"),
+                                    )?.name!
+                            }
+                            onClick={(value) => {
+                                setValue("id_", value)
+                            }}
+                            list={
                                 Array.isArray(data?.categoryRootList)
                                     ? data?.categoryRootList
                                           ?.find(
@@ -181,9 +311,9 @@ export const FormPurchase = ({
                                                   item.id === watch("id"),
                                           )
                                           ?.childrenList?.map((item: any) => ({
-                                              label: item.name,
-                                              value: item.id,
-                                          }))
+                                              id: item?.id,
+                                              p: item?.name,
+                                          }))!
                                     : []
                             }
                             placeholder="Выберите подкатегорию товара"
@@ -228,4 +358,12 @@ interface IValues {
     id: string | number | null
     id_: string | number | null
     files: File[]
+}
+
+interface IValuesSearchOfName {
+    name: string
+    category: {
+        id: string
+        name: string
+    }
 }

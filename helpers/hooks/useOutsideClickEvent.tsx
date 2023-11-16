@@ -11,7 +11,10 @@ import {
 export const useOutsideClickEvent = (): [
     boolean,
     Dispatch<SetStateAction<boolean>>,
-    RefObject<HTMLDivElement> | LegacyRef<HTMLDivElement>,
+    (
+        | RefObject<HTMLDivElement | HTMLFormElement | any>
+        | LegacyRef<HTMLDivElement | HTMLFormElement | any>
+    ),
 ] => {
     const [isOpen, setIsOpen] = useState(false)
     const dropdownRef = useRef<HTMLDivElement>(null)

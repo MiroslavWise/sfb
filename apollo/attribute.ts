@@ -28,3 +28,16 @@ export const mutationProductAttributeUpdate = gql`
         }
     }
 `
+
+export const queryCategoryRecommendation = gql`
+    query ($search: String) {
+        categoryRecommendation(search: $search) {
+            name
+            id
+            family {
+                id
+                name
+            }
+        }
+    }
+`

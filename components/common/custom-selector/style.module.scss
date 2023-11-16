@@ -1,34 +1,24 @@
 .container {
-    width: 100%;
     position: relative;
     height: 40px;
+    width: 100%;
+    background: #fff;
     border-radius: 7px;
-    border: none !important;
 
-    & > [data-input] {
-        width: 100%;
+    & > [data-label] {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 20px;
         height: 100%;
-        position: relative;
-        & > input {
-            width: 100%;
-            height: 100%;
-            padding: 10px 15px;
-            border-radius: 7px;
-            border: 2px solid var(--gray-300);
-            outline: none !important;
-
-            &:focus {
-                border: 2px solid var(--success-300) !important;
-            }
-        }
-        & > img {
-            position: absolute;
-            top: 8px;
-            right: 15px;
-
-            &[data-loading="true"] {
-                border-radius: 50%;
-                animation: loading 17s infinite;
+        & > span {
+            color: var(--gray-400);
+            font-weight: 500;
+            padding: 0 !important;
+            margin: 0 !important;
+            cursor: pointer;
+            &[data-is-label="true"] {
+                color: var(--gray-600) !important;
             }
         }
     }
@@ -45,11 +35,11 @@
         padding: 6px;
         display: flex;
         flex-direction: column;
-        background: var(--gray-100);
-        max-height: 350px;
+        background: var(--gray-50);
+        max-height: 250px;
         overflow-y: auto;
         gap: 4px;
-        z-index: 1234;
+        z-index: 456;
 
         &[data-visible="true"] {
             opacity: 1;
@@ -62,9 +52,8 @@
             flex-direction: column;
             gap: 2px;
             border-radius: 5px;
-            // border: 1px solid var(--gray-300);
             padding: 4px 8px;
-            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+            box-shadow: rgba(100, 100, 111, 0.1) 0px 7px 29px 0px;
             cursor: pointer;
 
             & > p {
@@ -82,14 +71,5 @@
                 letter-spacing: -0.4px;
             }
         }
-    }
-}
-
-@keyframes loading {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(3600deg);
     }
 }
