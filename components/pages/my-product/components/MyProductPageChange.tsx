@@ -2,10 +2,8 @@
 
 import Image from "next/image"
 import { useForm } from "react-hook-form"
-import { CFormSelect } from "@coreui/react"
 import { useSearchParams } from "next/navigation"
 import { ChangeEvent, useEffect, useMemo, useState } from "react"
-import { CascadeSelect } from "primereact/cascadeselect"
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client"
 
 import type {
@@ -29,11 +27,12 @@ import {
     mutationProductAttributeUpdate,
     queryProductAttributesByCategoryId,
 } from "@/apollo/attribute"
+import { Checkbox } from "@/components/common/checkbox"
+import { CustomSelector } from "@/components/common/custom-selector"
 import { createProductFull, mutateUpdateProduct } from "@/apollo/mutation"
 import { DELIVERY_TYPE, type TTypeDelivery } from "../constants/delivery-type"
 
 import styles from "../styles/change.module.scss"
-import { Checkbox } from "@/components/common/checkbox"
 
 export const MyProductPageChange = () => {
     const uuid = useSearchParams().get("product-id")
@@ -49,7 +48,6 @@ export const MyProductPageChange = () => {
         },
     )
     const [delivery, setDelivery] = useState<string[]>([])
-    console.log("delivery: ", delivery)
     const [usePhoto, { data: dataPhotos, refetch: refetchPhotos }] =
         useLazyQuery<IPhotoProductData>(queryPhotosProductById, {
             variables: { id: uuid },
@@ -178,40 +176,6 @@ export const MyProductPageChange = () => {
         }
     }
 
-    const valueCategory = useMemo(() => {
-        if (!watch("category") || !dataCategories) return null
-
-        const idCategory = dataCategories?.categoryRootList?.find(
-            (item) => item.id === watch("category"),
-        )?.id
-
-        if (idCategory) {
-            return {
-                id: idCategory,
-                sub: null,
-            }
-        }
-
-        if (!idCategory) {
-            const idMain = dataCategories?.categoryRootList.find((item) =>
-                item?.childrenList?.some(
-                    (item_) => item_?.id === watch("category_"),
-                ),
-            )?.id
-
-            return {
-                id: idMain,
-                sub: dataCategories?.categoryRootList
-                    .find((item) => item.id === idMain)
-                    ?.childrenList?.find(
-                        (item) => item.id === watch("category_"),
-                    )?.id,
-            }
-        }
-    }, [watch("category"), watch("category_"), dataCategories])
-
-    console.log("%c valueCategory: ", "color: #f0f", valueCategory)
-
     useEffect(() => {
         if (!!data && !!dataCategories) {
             const categoryId = data?.productById?.category?.id!
@@ -255,8 +219,6 @@ export const MyProductPageChange = () => {
             return
         }
     }, [watch("category"), watch("category_")])
-
-    console.log("%c dataAttributes: ", "color: red", dataAttributes)
 
     if (loading || isLoadCategories) return null
 
@@ -321,55 +283,76 @@ export const MyProductPageChange = () => {
                             setValue("title", event.target.value)
                         }
                     />
-                    <span>
-                        <CFormSelect
-                            data-select
-                            aria-label="category"
-                            {...register("category", { required: true })}
-                            options={
+                    <span {...register("category", { required: true })}>
+                        <label>Категория товара</label>
+                        <CustomSelector
+                            label={
+                                dataCategories?.categoryRootList?.find(
+                                    (item) => item?.id === watch("category"),
+                                )?.name!
+                            }
+                            placeholder="Выберите категорию товара"
+                            onClick={(value) => {
+                                setValue("category", value)
+                            }}
+                            list={
                                 Array.isArray(dataCategories?.categoryRootList)
                                     ? dataCategories?.categoryRootList?.map(
                                           (item: any) => ({
-                                              label: item.name,
-                                              value: item.id,
+                                              p: item.name,
+                                              id: item.id,
                                           }),
-                                      )
+                                      )!
                                     : []
                             }
-                            size="lg"
-                            placeholder="Категория товара"
                         />
                         {errors.category ? (
                             <i>Обязательно заполните категорию</i>
                         ) : null}
                     </span>
-                    <span>
-                        {Array.isArray(
-                            dataCategories?.categoryRootList?.find(
-                                (item) => item.id === watch("category"),
-                            )?.childrenList,
-                        ) &&
-                        dataCategories?.categoryRootList?.find(
-                            (item) => item.id === watch("category"),
-                        )?.childrenList?.length ? (
-                            <CFormSelect
-                                {...register("category_")}
-                                options={dataCategories?.categoryRootList
-                                    ?.find(
-                                        (item) => item.id === valueCategory?.id,
-                                    )
-                                    ?.childrenList?.map((item) => ({
-                                        label: item?.name,
-                                        value: item?.id!,
-                                    }))}
-                                onChange={(event) =>
-                                    setValue("category_", event.target.value)
+                    {dataCategories?.categoryRootList?.find(
+                        (item: any) => item.id === watch("category"),
+                    )?.childrenList?.length ? (
+                        <span {...register("category_", { required: false })}>
+                            <CustomSelector
+                                label={
+                                    dataCategories?.categoryRootList
+                                        ?.find(
+                                            (item: any) =>
+                                                item.id === watch("category"),
+                                        )
+                                        ?.childrenList?.find(
+                                            (item) =>
+                                                item?.id === watch("category_"),
+                                        )?.name!
                                 }
-                                size="lg"
+                                onClick={(value) => {
+                                    setValue("category_", value)
+                                }}
+                                list={
+                                    Array.isArray(
+                                        dataCategories?.categoryRootList,
+                                    )
+                                        ? dataCategories?.categoryRootList
+                                              ?.find(
+                                                  (item: any) =>
+                                                      item.id ===
+                                                      watch("category"),
+                                              )
+                                              ?.childrenList?.map(
+                                                  (item: any) => ({
+                                                      id: item?.id,
+                                                      p: item?.name,
+                                                  }),
+                                              )!
+                                        : []
+                                }
+                                placeholder="Выберите подкатегорию товара"
                             />
-                        ) : null}
-                    </span>
+                        </span>
+                    ) : null}
                     <span>
+                        <label>Краткое описание товара</label>
                         <textarea
                             placeholder="Описание товара или услуги"
                             {...register("description", { required: false })}
@@ -394,7 +377,6 @@ export const MyProductPageChange = () => {
                                 </span>
                             ),
                         )}
-                    <span></span>
                     <Input
                         value={watch("price")}
                         label="Цена товара"

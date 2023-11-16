@@ -135,10 +135,14 @@
                         display: flex;
                         flex-direction: column;
                         gap: 1px;
-                        // z-index: 1;
 
-                        &[data-search] {
-                            // z-index: 45;
+                        & > label {
+                            color: var(--gray-500) !important;
+                            font-size: 14px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: 16px;
+                            letter-spacing: -0.4px;
                         }
 
                         & > input {
@@ -196,9 +200,9 @@
                                 padding: 10px 20px;
                             }
                         }
-                        & > [data-loading] {
+                        & > [data-img] {
                             position: absolute;
-                            top: 8px;
+                            top: calc(16px + 1px + 8px);
                             right: 16px;
                         }
                         & > [data-loading="false"] {
@@ -217,7 +221,7 @@
                             cursor: pointer;
                         }
 
-                        & > ul {
+                        & > [data-list] {
                             position: absolute;
                             top: calc(100% + 3px);
                             opacity: 0;
@@ -226,12 +230,11 @@
                             right: 0;
                             border-radius: 7px;
                             border: 2px solid var(--gray-300);
-                            padding: 6px;
                             display: flex;
                             flex-direction: column;
                             background: var(--gray-50);
                             max-height: 250px;
-                            overflow-y: auto;
+                            overflow: hidden;
                             gap: 4px;
                             z-index: 1600;
 
@@ -239,30 +242,36 @@
                                 opacity: 1;
                                 visibility: visible;
                             }
-                            & > li {
-                                width: 100%;
-                                display: flex;
-                                flex-direction: column;
-                                gap: 2px;
-                                border-radius: 5px;
-                                padding: 4px 8px;
-                                box-shadow: rgba(100, 100, 111, 0.2) 0px 7px
-                                    29px 0px;
-                                cursor: pointer;
 
-                                & > p {
-                                    color: var(--gray-700);
-                                    font-size: 18px;
-                                    font-style: normal;
-                                    font-weight: 500;
-                                    letter-spacing: -0.3px;
-                                }
-                                & > a {
-                                    color: var(--gray-500) !important;
-                                    font-size: 14px;
-                                    font-style: normal;
-                                    font-weight: 400;
-                                    letter-spacing: -0.4px;
+                            & > ul {
+                                overflow-y: auto;
+                                height: 100%;
+                                padding: 6px;
+                                & > li {
+                                    width: 100%;
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 2px;
+                                    border-radius: 5px;
+                                    padding: 4px 8px;
+                                    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px
+                                        29px 0px;
+                                    cursor: pointer;
+
+                                    & > p {
+                                        color: var(--gray-700);
+                                        font-size: 18px;
+                                        font-style: normal;
+                                        font-weight: 500;
+                                        letter-spacing: -0.3px;
+                                    }
+                                    & > a {
+                                        color: var(--gray-500) !important;
+                                        font-size: 14px;
+                                        font-style: normal;
+                                        font-weight: 400;
+                                        letter-spacing: -0.4px;
+                                    }
                                 }
                             }
                         }

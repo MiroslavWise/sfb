@@ -159,20 +159,39 @@ button {
 }
 
 *,
-ul,
 form,
 aside,
 textarea,
 section,
 nav,
+ul,
 article {
-    list-style: none;
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
-
+    scrollbar-color: rgba(133, 120, 226, 0.7) rgba(255, 255, 255, 0.2) !important;
+    scrollbar-width: 8px;
     &::-webkit-scrollbar {
-        display: none !important;
+        width: 8px;
+        height: 8px;
+        border-radius: 4px;
+        background-color: rgba(255, 255, 255, 0.1);
+
+        &:hover {
+            background-color: rgba(133, 120, 226, 0.2);
+        }
     }
+    &::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        cursor: pointer;
+        background-color: rgba(133, 120, 226, 0.5);
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+            background-color: rgba(133, 120, 226, 1);
+        }
+    }
+}
+
+ul {
+    margin: 0 !important;
 }
 
 input,

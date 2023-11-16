@@ -206,6 +206,7 @@ export const FormPurchase = ({
         <form onSubmit={handleSubmit(onSubmit)}>
             <section>
                 <span ref={ref} data-search>
+                    <label>Название товара</label>
                     <input
                         disabled={loading}
                         type="text"
@@ -231,6 +232,7 @@ export const FormPurchase = ({
                         alt="search-refraction"
                         width={24}
                         height={24}
+                        data-img
                         data-loading={loadingInput}
                         data-focus={focus}
                         onClick={() => {
@@ -240,31 +242,34 @@ export const FormPurchase = ({
                         }}
                     />
                     {list && list?.length && focus ? (
-                        <ul data-visible={focus}>
-                            {list.map((item) =>
-                                item?.family?.map((li) => (
-                                    <li
-                                        key={`${li?.id}-${item?.id}-pur`}
-                                        onClick={() => {
-                                            handleOfSearch({
-                                                name: item?.name!,
-                                                category: {
-                                                    id: li?.id!,
-                                                    name: li?.name!,
-                                                },
-                                            })
-                                            setFocus(false)
-                                        }}
-                                    >
-                                        <p>{item.name}</p>
-                                        <a>{li?.name}</a>
-                                    </li>
-                                )),
-                            )}
-                        </ul>
+                        <div data-list data-visible={focus}>
+                            <ul>
+                                {list.map((item) =>
+                                    item?.family?.map((li) => (
+                                        <li
+                                            key={`${li?.id}-${item?.id}-pur`}
+                                            onClick={() => {
+                                                handleOfSearch({
+                                                    name: item?.name!,
+                                                    category: {
+                                                        id: li?.id!,
+                                                        name: li?.name!,
+                                                    },
+                                                })
+                                                setFocus(false)
+                                            }}
+                                        >
+                                            <p>{item.name}</p>
+                                            <a>{li?.name}</a>
+                                        </li>
+                                    )),
+                                )}
+                            </ul>
+                        </div>
                     ) : null}
                 </span>
                 <span {...register("id", { required: true })} data-search>
+                    <label>Категория товара</label>
                     <CustomSelector
                         label={
                             data?.categoryRootList?.find(
@@ -289,7 +294,7 @@ export const FormPurchase = ({
                 {data?.categoryRootList?.find(
                     (item: any) => item.id === watch("id"),
                 )?.childrenList?.length ? (
-                    <span data-search>
+                    <span data-search {...register("id_", { required: false })}>
                         <CustomSelector
                             label={
                                 data?.categoryRootList

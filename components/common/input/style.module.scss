@@ -1,35 +1,27 @@
 .container {
     width: 100%;
-    gap: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
     position: relative;
-    background-color: #fff;
-    padding: 0 0 0 10px !important;
-    border: 2px solid transparent;
-    border-radius: 7px;
 
     & > label {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        left: 16px;
         color: var(--main-black);
         font-size: 18px;
         font-style: normal;
         font-weight: 500;
         pointer-events: none;
-        transition: all 0.3s ease-in-out 0.01s;
     }
 
     & > input {
         width: 100%;
         border: none !important;
         outline: none !important;
-        height: 100%;
         background: #fff;
         border-radius: 7px;
-        padding: 20px 16px 20px 6px;
+        padding: 20px 16px;
+        border-radius: 7px;
         height: 40px;
-        background: transparent !important;
 
         color: var(--main-black);
         font-size: 14px;
@@ -38,15 +30,6 @@
 
         &::placeholder {
             color: var(--gray-500);
-        }
-    }
-
-    &[data-focus="true"] {
-        padding-top: 12px !important;
-        & > label {
-            color: var(--gray-400);
-            top: 12px;
-            font-size: 14px;
         }
     }
 
