@@ -1,13 +1,52 @@
-import { ITEMS_MAIN_CATALOG } from "../constants/items-main-catalog"
+"use client"
+
+import Image from "next/image"
+import { useMemo } from "react"
+import { useQuery } from "@apollo/client"
+
+import { ICategoriesRoot } from "@/types/types"
+
+import { usePush } from "@/helpers/hooks/usePush"
+import { queryCategoriesRoot } from "@/apollo/query"
+
 import styles from "../styles/catalog-main.module.scss"
-import { CardCatalog } from "./CardCatalog"
+import { useSearchParams } from "next/navigation"
+import { CatalogMany } from "./CatalogMany"
 
 export const CatalogMain = () => {
-    return (
-        <div className={styles.wrapper}>
-            {ITEMS_MAIN_CATALOG.map((item) => (
-                <CardCatalog key={`${item.value}-card-catalog`} {...item} />
+    const categoryId = useSearchParams().get("category-id")
+    const { data } = useQuery<ICategoriesRoot>(queryCategoriesRoot)
+    const { handleReplace } = usePush()
+
+    const list = useMemo(() => {
+        return data?.categoryRootList || []
+    }, [data])
+
+    return categoryId ? (
+        <CatalogMany />
+    ) : (
+        <ul className={styles.wrapper}>
+            {list.map((item) => (
+                <li
+                    key={`${item.id}-key`}
+                    onClick={() => {
+                        handleReplace(`/market?category-id=${item.id}`)
+                    }}
+                >
+                    <Image
+                        src={
+                            item.photoUrl
+                                ? item?.photoUrl
+                                : "/png/catalog/auto.png"
+                        }
+                        alt="icon"
+                        width={200}
+                        height={200}
+                        unoptimized
+                    />
+                    <p>{item.name}</p>
+                </li>
             ))}
-        </div>
+        </ul>
     )
 }

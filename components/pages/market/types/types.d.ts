@@ -1,3 +1,4 @@
+import { ICategoriesChildren } from "@/types/types"
 import { DispatchWithoutAction, FC } from "react"
 
 type TTypeFilter = "price"
@@ -14,5 +15,7 @@ export interface IItemsMainCatalog {
     value: string
     img: string
 }
+
+export type TItemMany = FC<ICategoriesChildren>
 
 export type TItemsMainCatalog = FC<IItemsMainCatalog>

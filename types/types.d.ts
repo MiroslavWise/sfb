@@ -128,17 +128,16 @@ export interface IProductOfferListRoot {
 
 export type TTabsDetailsRequest = "main" | "proposals" | "testimonials"
 
+export interface ICategoriesChildren {
+    id: string
+    name: string
+    iconName: string
+    photoUrl: string
+    childrenList: ICategoriesChildren[]
+}
+
 export interface ICategoriesRoot {
-    categoryRootList: {
-        id: string
-        name: string
-        iconName: string
-        childrenList: {
-            id: string
-            name: string
-            iconName: string
-        }[]
-    }[]
+    categoryRootList: ICategoriesChildren[]
 }
 
 export interface IRecommendation {
@@ -152,4 +151,11 @@ export interface IRecommendation {
 
 export interface ICategoryRecommendation {
     categoryRecommendation: IRecommendation[]
+}
+
+export interface IProductList {
+    productList: {
+        totalCount: number
+        results: IProduct[]
+    }
 }

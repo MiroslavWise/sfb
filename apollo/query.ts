@@ -27,16 +27,22 @@ export const me = gql`
     }
 `
 
-export const categoriesRoot = gql`
+export const queryCategoriesRoot = gql`
     query {
         categoryRootList {
             id
             name
             iconName
+            photoUrl
             childrenList {
                 id
                 name
                 iconName
+                childrenList {
+                    id
+                    name
+                    iconName
+                }
             }
         }
     }
@@ -174,8 +180,8 @@ export const queryPhotosProductById = gql`
 
 export const queryProductList = gql`
     ${PRODUCT}
-    query ($offset: Int) {
-        productList(limit: 10, offset: $offset) {
+    query ($offset: Int, $categoryId: UUID) {
+        productList(limit: 10, offset: $offset, categoryId: $categoryId) {
             totalCount
             results {
                 ...product

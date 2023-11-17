@@ -19,9 +19,7 @@ export const SearchBar = () => {
         }
     }, [search])
 
-    function submit(values: IValues) {
-        
-    }
+    function submit(values: IValues) {}
 
     const onSubmit = handleSubmit(submit)
 
@@ -33,10 +31,10 @@ export const SearchBar = () => {
                     <span>Поиск</span>
                 </button>
             </form>
-            <div data-main-filter>
+            {/* <div data-main-filter>
                 <FilterMain label="Весь Казахстан" type dispatch={() => {}} />
                 <FilterMain label="Цена" type dispatch={() => {}} />
-            </div>
+            </div> */}
         </div>
     ) : null
 }

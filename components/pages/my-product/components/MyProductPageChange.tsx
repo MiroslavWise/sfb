@@ -17,7 +17,7 @@ import { MiniPhoto } from "../../proposals"
 import { Input } from "@/components/common/input"
 
 import {
-    categoriesRoot,
+    queryCategoriesRoot,
     queryPhotosProductById,
     queryProductById,
 } from "@/apollo/query"
@@ -39,7 +39,7 @@ export const MyProductPageChange = () => {
     const [files, setFiles] = useState<File[]>([])
     const [filesString, setFilesString] = useState<string[]>([])
     const { data: dataCategories, loading: isLoadCategories } =
-        useQuery<ICategoryList>(categoriesRoot)
+        useQuery<ICategoryList>(queryCategoriesRoot)
     const { handlePush } = usePush()
     const [use, { data, loading, refetch }] = useLazyQuery<IProductRoot>(
         queryProductById,

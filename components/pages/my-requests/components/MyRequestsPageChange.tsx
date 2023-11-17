@@ -20,7 +20,7 @@ import {
     mutateUpdateProductRequest,
 } from "@/apollo/mutation"
 import {
-    categoriesRoot,
+    queryCategoriesRoot,
     queryPhotosProductRequestById,
     queryProductRequestById,
 } from "@/apollo/query"
@@ -33,7 +33,7 @@ export const MyRequestsPageChange = () => {
     const [files, setFiles] = useState<File[]>([])
     const [filesString, setFilesString] = useState<string[]>([])
     const { data: dataCategories, loading: isLoadCategories } =
-        useQuery<ICategoryList>(categoriesRoot)
+        useQuery<ICategoryList>(queryCategoriesRoot)
     const { handlePush } = usePush()
     const [use, { data, loading, refetch }] = useLazyQuery<IRequestProductRoot>(
         queryProductRequestById,

@@ -13,7 +13,7 @@ import {
     createProductRequestSmall,
     createProductSmall,
 } from "@/apollo/mutation"
-import { categoriesRoot } from "@/apollo/query"
+import { queryCategoriesRoot } from "@/apollo/query"
 import { useAuth } from "@/store/state/useAuth"
 import { useEnter } from "@/store/state/useEnter"
 import { usePush } from "@/helpers/hooks/usePush"
@@ -23,8 +23,8 @@ import { queryCategoryRecommendation } from "@/apollo/attribute"
 import { useDebounce } from "@/helpers/hooks/useDebounce"
 import {
     ICategoriesRoot,
-    ICategoryRecommendation,
     IRecommendation,
+    ICategoryRecommendation,
 } from "@/types/types"
 import { CustomSelector } from "@/components/common/custom-selector"
 
@@ -41,7 +41,7 @@ export const FormPurchase = ({
     const { dispatch } = useEnter()
     const [isLoading, setIsLoading] = useState(false)
     const { handlePush } = usePush()
-    const { data, loading } = useQuery<ICategoriesRoot>(categoriesRoot)
+    const { data, loading } = useQuery<ICategoriesRoot>(queryCategoriesRoot)
     const [createProductRequest] = useMutation(createProductRequestSmall)
     const [createProduct] = useMutation(createProductSmall)
     //
