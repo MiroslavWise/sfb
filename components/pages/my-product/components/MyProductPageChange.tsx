@@ -3,7 +3,7 @@
 import Image from "next/image"
 import { useForm } from "react-hook-form"
 import { useSearchParams } from "next/navigation"
-import { ChangeEvent, useEffect, useMemo, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client"
 
 import type {
@@ -56,7 +56,7 @@ export const MyProductPageChange = () => {
         useLazyQuery<IProductAttributeList>(queryProductAttributesByCategoryId)
     const [update] = useMutation(mutateUpdateProduct)
     const [create] = useMutation(createProductFull)
-    const [updateAttr] = useMutation(mutationProductAttributeUpdate)
+    const [] = useMutation(mutationProductAttributeUpdate)
     const { productById } = data ?? {}
     const {
         register,
@@ -187,17 +187,17 @@ export const MyProductPageChange = () => {
                 ) {
                     setValue("category", categoryId)
                 } else {
-                    const id = dataCategories?.categoryRootList?.find((item) =>
-                        item?.childrenList?.some(
-                            (item_) => item_?.id === categoryId,
-                        ),
+                    const id = dataCategories?.categoryRootList?.find(
+                        (item) =>
+                            item?.childrenList?.some(
+                                (item_) => item_?.id === categoryId,
+                            ),
                     )?.id
                     setValue("category", id!)
                     const idSub = dataCategories?.categoryRootList
                         ?.find((item) => item?.id === id)
-                        ?.childrenList?.find(
-                            (item) => item?.id === categoryId,
-                        )?.id
+                        ?.childrenList?.find((item) => item?.id === categoryId)
+                        ?.id
                     setValue("category_", idSub!)
                 }
             }

@@ -6,6 +6,7 @@ import {
     type SetStateAction,
     type RefObject,
     type LegacyRef,
+    Ref,
 } from "react"
 
 export const useOutsideClickEvent = (): [
@@ -14,6 +15,10 @@ export const useOutsideClickEvent = (): [
     (
         | RefObject<HTMLDivElement | HTMLFormElement | any>
         | LegacyRef<HTMLDivElement | HTMLFormElement | any>
+        | Ref<HTMLDivElement | HTMLFormElement | any>
+        | Ref<HTMLDivElement>
+        | undefined
+        | any
     ),
 ] => {
     const [isOpen, setIsOpen] = useState(false)

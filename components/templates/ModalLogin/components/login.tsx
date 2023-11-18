@@ -13,7 +13,6 @@ export const LoginFormComponent = () => {
     const {
         register,
         setError,
-        setValue,
         setFocus,
         handleSubmit,
         formState: { errors },

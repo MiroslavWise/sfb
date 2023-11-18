@@ -10,7 +10,7 @@ import { useOutsideClickEvent } from "@/helpers/hooks/useOutsideClickEvent"
 import styles from "../styles/catalog-many.module.scss"
 
 export const ItemMany: TItemMany = ({ id, name, photoUrl, childrenList }) => {
-    const [active, setActive, ref] = useOutsideClickEvent()
+    const [active, , ref] = useOutsideClickEvent()
     const categoryId = useSearchParams().get("category-id")
     const { handleReplace } = usePush()
 
@@ -18,8 +18,9 @@ export const ItemMany: TItemMany = ({ id, name, photoUrl, childrenList }) => {
         if (categoryId === id) return true
         if (childrenList?.some((item) => item.id === categoryId)) return true
         if (
-            childrenList?.some((item) =>
-                item.childrenList?.some((item) => item.id === categoryId),
+            childrenList?.some(
+                (item) =>
+                    item.childrenList?.some((item) => item.id === categoryId),
             )
         )
             return true

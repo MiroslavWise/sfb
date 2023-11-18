@@ -5,7 +5,6 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 
 import { FormPurchase } from "./form-purchase"
-import { ComponentSpoiler } from "./ComponentSpoiler"
 
 import { useAuth } from "@/store/state/useAuth"
 import { usePush } from "@/helpers/hooks/usePush"

@@ -12,12 +12,10 @@ export default function ChangePassword() {
         register,
         formState: { errors },
         handleSubmit,
-        setError,
-        setValue,
         watch,
     } = useForm<IValues>({})
 
-    function onSubmit(values: IValues) {
+    function onSubmit() {
         handlePush("/profile")
     }
     return (
@@ -53,6 +51,7 @@ export default function ChangePassword() {
                                 if (watch("new_password") !== value) {
                                     return "Ваши пароли не совпадают"
                                 }
+                                return ""
                             },
                         })}
                         error={errors?.new_2_password?.message}

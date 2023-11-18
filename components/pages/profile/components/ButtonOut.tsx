@@ -8,8 +8,8 @@ export const ButtonOut = () => {
     const { out } = useAuth()
 
     function handle() {
-        out()
         handlePush("/")
+        out()
     }
 
     return (

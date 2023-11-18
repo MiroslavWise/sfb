@@ -1,6 +1,6 @@
 "use client"
 
-import { forwardRef, useState } from "react"
+import { forwardRef } from "react"
 
 import { TProps } from "./types"
 

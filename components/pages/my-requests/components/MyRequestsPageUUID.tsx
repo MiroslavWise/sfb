@@ -8,7 +8,7 @@ import { useMutation, useQuery } from "@apollo/client"
 
 import type { IPhotoProductRequestData } from "@/types/types"
 import type { IItemTab } from "@/components/common/tabs-details/types"
-import type { IRequestProductRoot, TTabsDetailsRequest } from "@/types/types"
+import type { IRequestProductRoot } from "@/types/types"
 
 import { Outline } from "@/components/common/outline"
 import { TagAmount } from "@/components/common/tag-amount"

@@ -34,18 +34,17 @@ export const ProposalsPageUUID = () => {
     const id = useSearchParams().get("proposal-id")
     const { handlePush } = usePush()
     const [productId, productRequestId] = id?.split(":") ?? []
-    const { data, loading } = useQuery<IRequestProductRoot>(
-        queryProductRequestById,
+    const { data } = useQuery<IRequestProductRoot>(queryProductRequestById, {
+        variables: { id: productRequestId },
+    })
+    const [create] = useMutation(mutateChatCreate)
+    const { productRequestById } = data ?? {}
+    const { data: dataPhotos } = useQuery<IPhotoProductRequestData>(
+        queryPhotosProductRequestById,
         {
             variables: { id: productRequestId },
         },
     )
-    const [create] = useMutation(mutateChatCreate)
-    const { productRequestById } = data ?? {}
-    const { data: dataPhotos, loading: loadingPhotos } =
-        useQuery<IPhotoProductRequestData>(queryPhotosProductRequestById, {
-            variables: { id: productRequestId },
-        })
 
     const images = useMemo(() => {
         if (

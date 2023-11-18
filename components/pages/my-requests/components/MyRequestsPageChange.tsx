@@ -2,7 +2,6 @@
 
 import Image from "next/image"
 import { useForm } from "react-hook-form"
-import { CFormSelect } from "@coreui/react"
 import { useSearchParams } from "next/navigation"
 import { ChangeEvent, useEffect, useState } from "react"
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client"

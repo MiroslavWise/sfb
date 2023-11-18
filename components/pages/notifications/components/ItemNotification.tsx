@@ -6,11 +6,9 @@ import { useLazyQuery, useMutation } from "@apollo/client"
 import { IItemNotification } from "@/types/chat"
 import { queryNotificationList, queryNotificationTotal } from "@/apollo/query"
 import { mutateReadNotification } from "@/apollo/mutation"
-import { usePush } from "@/helpers/hooks/usePush"
 
 export const ItemNotification = (props: IItemNotification) => {
     const { verb, id } = props ?? {}
-    const { handlePush } = usePush()
     const [refreshTotal] = useLazyQuery(queryNotificationTotal)
     const [refreshList] = useLazyQuery(queryNotificationList)
     const [reading] = useMutation(mutateReadNotification, {

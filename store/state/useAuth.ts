@@ -1,6 +1,6 @@
 import { create } from "zustand"
 import { persist, createJSONStorage } from "zustand/middleware"
-import * as jwt from "jsonwebtoken"
+// import * as jwt from "jsonwebtoken"
 
 import type { IAuthState, TUseAuth } from "../types/createAuth"
 
@@ -188,23 +188,23 @@ export const useAuth = create(
     ),
 )
 
-function decodeJwt(token: string): number | undefined {
-    try {
-        const decodedPayload: any = jwt.decode(token, { complete: true })
-        const expirationTime: number | undefined = decodedPayload?.payload?.exp
+// function decodeJwt(token: string): number | undefined | any {
+//     try {
+//         const decodedPayload: any = jwt.decode(token, { complete: true })
+//         const expirationTime: number | undefined = decodedPayload?.payload?.exp
 
-        if (expirationTime !== undefined) {
-            return expirationTime
-        }
-    } catch (error) {
-        console.error("Error decoding JWT:", error)
-        return undefined
-    }
+//         if (expirationTime !== undefined) {
+//             return expirationTime
+//         }
+//     } catch (error) {
+//         console.error("Error decoding JWT:", error)
+//         return undefined
+//     }
 
-    return undefined
-}
+//     return undefined
+// }
 
-function isTokenExpired(exp: number | undefined) {
+function isTokenExpired(exp: number | undefined): any {
     console.log("Date.now(): ", Date.now() / 1000)
     console.log("exp: ", exp)
     if (exp !== undefined) {

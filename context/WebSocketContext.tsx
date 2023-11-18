@@ -59,6 +59,8 @@ export const WebSocketContext = memo(({ children }: IChildrenProps) => {
             return () => {
                 getWebSocket()?.removeEventListener("message", events)
             }
+        } else {
+            return () => {}
         }
     }, [readyState, user, chatId])
 

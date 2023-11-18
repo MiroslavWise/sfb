@@ -18,7 +18,7 @@ import {
 const $ItemProduct: TItemProposalsPage = (props) => {
     const {
         id,
-        author: { fullName, photo, address, city },
+        author: { address, city },
         name,
         price,
         category,

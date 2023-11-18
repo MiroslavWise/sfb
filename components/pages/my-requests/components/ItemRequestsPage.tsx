@@ -18,7 +18,7 @@ import styles from "../styles/item.module.scss"
 const $ItemRequestsPage: TItemProposalsPage = (props) => {
     const {
         id,
-        author: { fullName, photo, city, address },
+        author: { city, address },
         name,
         price,
         category,

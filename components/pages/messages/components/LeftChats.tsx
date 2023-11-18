@@ -26,7 +26,7 @@ const $LeftChats = () => {
                 <h2>Чаты {length}</h2>
             </header>
             <ul>
-                {items.map((item, index) => (
+                {items.map((item) => (
                     <ItemListChats key={`${item.id}-chats`} {...item} />
                 ))}
             </ul>

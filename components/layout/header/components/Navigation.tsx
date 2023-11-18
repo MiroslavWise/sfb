@@ -1,8 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import { memo, useMemo } from "react"
-import { useTranslation } from "react-i18next"
+import { memo } from "react"
+// import { useTranslation } from "react-i18next"
 import { usePathname } from "next/navigation"
 
 import { MENU_ITEMS } from "../constants/menu"
@@ -14,15 +14,15 @@ import { ProfilePanel } from "./ProfilePanel"
 
 const $Navigation = () => {
     const pathname = usePathname()
-    const { i18n } = useTranslation()
+    // const { i18n } = useTranslation()
     const { handlePush } = usePush()
     const { state } = useAuth()
 
-    const lang = useMemo(() => {
-        if (i18n.language === "ru") return "Рус"
-        if (i18n.language === "kz") return "Каз"
-        return null
-    }, [i18n.language])
+    // const lang = useMemo(() => {
+    //     if (i18n.language === "ru") return "Рус"
+    //     if (i18n.language === "kz") return "Каз"
+    //     return null
+    // }, [i18n.language])
 
     // function handleLanguage() {
     //     i18n.changeLanguage(i18n.language === "ru" ? "kz" : "ru")

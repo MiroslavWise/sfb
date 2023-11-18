@@ -13,8 +13,6 @@ export const RegisterFormComponent = () => {
     const { login } = useAuth()
     const {
         register,
-        setError,
-        setValue,
         setFocus,
         formState: { errors },
         handleSubmit,
@@ -77,6 +75,7 @@ export const RegisterFormComponent = () => {
                             if (watch("password") !== value) {
                                 return "Ваши пароли не совпадают"
                             }
+                            return ""
                         },
                     })}
                     error={errors.password_?.message}

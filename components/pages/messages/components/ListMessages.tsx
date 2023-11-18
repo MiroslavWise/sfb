@@ -1,6 +1,6 @@
 "use client"
 
-import { ReactNode, memo, useEffect, useMemo, useRef, useState } from "react"
+import { ReactNode, memo, useEffect, useMemo, useRef } from "react"
 
 import { TListMessages } from "../types/types"
 import { useJoinMessage } from "@/helpers/hooks/useJoinMessage"
@@ -19,7 +19,7 @@ const $ListMessages: TListMessages = ({ messages, dataUser }) => {
     const messagesJoin: ReactNode = useMemo(() => {
         console.log("%c messages:", "color: #0ff", messages)
         if (Array.isArray(messages)) {
-            return join(messages).map((item, index) => {
+            return join(messages).map((item) => {
                 if (item.emitterId === userId && item.type === "messages") {
                     return (
                         <ItemMyMessage

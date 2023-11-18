@@ -5,7 +5,7 @@ import Image from "next/image"
 import { useForm } from "react-hook-form"
 import { useMutation, useQuery } from "@apollo/client"
 
-import { me, queryArea, queryCity, queryRegions } from "@/apollo/query"
+import { me, queryCity } from "@/apollo/query"
 import { updateProfile } from "@/apollo/mutation"
 import { usePush } from "@/helpers/hooks/usePush"
 import { uploadFile } from "@/helpers/services/fetch"

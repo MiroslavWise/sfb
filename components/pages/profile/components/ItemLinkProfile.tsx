@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { IItemsProfile } from "@/app/(user)/profile/constants"
+import { IItemsProfile } from "@/app/(user)/(change)/constants"
 
 import { usePush } from "@/helpers/hooks/usePush"
 

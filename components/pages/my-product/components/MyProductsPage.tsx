@@ -14,7 +14,7 @@ import { ItemProposal } from "../../proposals/components/ItemProposal"
 import { usePush } from "@/helpers/hooks/usePush"
 import { queryProductListMe } from "@/apollo/query"
 import { queryProductOfferList } from "@/apollo/query-offers"
-import { ITEMS_TABS } from "@/app/(user)/my-products/constants"
+import { ITEMS_TABS } from "@/app/(user)/(merchandise)/my-products/constants"
 import { useOrderingProduct } from "@/store/state/useOrderingProduct"
 
 export function MyProductsPage() {
@@ -59,11 +59,11 @@ export function MyProductsPage() {
                           <ItemProduct key={`${item.id}-product`} {...item} />
                       ))
                     : Array.isArray(dataOffers?.productOfferList?.results) &&
-                      tab.value === "proposals"
-                    ? dataOffers?.productOfferList?.results?.map((item) => (
-                          <ItemProposal key={`${item.id}-key---`} {...item} />
-                      ))
-                    : null}
+                        tab.value === "proposals"
+                      ? dataOffers?.productOfferList?.results?.map((item) => (
+                            <ItemProposal key={`${item.id}-key---`} {...item} />
+                        ))
+                      : null}
             </article>
         </>
     )

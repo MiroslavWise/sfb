@@ -6,7 +6,6 @@ import styles from "./layout.module.scss"
 export default function LayoutChange({ children }: IChildrenProps) {
     return (
         <section className={styles.wrapper}>
-            {/* <HeaderChange /> */}
             <article>{children}</article>
         </section>
     )

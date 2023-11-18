@@ -4,14 +4,13 @@ import { usePathname, useSearchParams } from "next/navigation"
 
 import styles from "../styles/search-bar.module.scss"
 
-import { FilterMain } from "./FilterMain"
 import { useForm } from "react-hook-form"
 import { useEffect } from "react"
 
 export const SearchBar = () => {
     const pathname = usePathname()
     const search = useSearchParams().get("search")
-    const { setValue, watch, handleSubmit, register } = useForm<IValues>({})
+    const { setValue, handleSubmit, register } = useForm<IValues>({})
 
     useEffect(() => {
         if (search) {
@@ -19,7 +18,7 @@ export const SearchBar = () => {
         }
     }, [search])
 
-    function submit(values: IValues) {}
+    function submit() {}
 
     const onSubmit = handleSubmit(submit)
 

@@ -6,7 +6,7 @@ import type { TTypeInputPassword } from "./types"
 
 import styles from "./styles.module.scss"
 
-const Security = ({ value }: { value: boolean }) => (
+const Security = ({}: { value: boolean }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

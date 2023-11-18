@@ -29,7 +29,7 @@ const $MessagesChatUUID = () => {
     const { readyState, getWebSocket } = useSocket()
     const { id: userId } = user ?? {}
     const { handlePush } = usePush()
-    const { reset, register, handleSubmit, watch } = useForm<IValues>({})
+    const { reset, register, handleSubmit } = useForm<IValues>({})
     const [loading, setLoading] = useState(false)
     const [files, setFiles] = useState<File[]>([])
     const [stringsFileImg, setStringsFileImg] = useState<string[]>([])
@@ -65,7 +65,7 @@ const $MessagesChatUUID = () => {
                     text: values?.text!,
                 },
             })
-                .then((response) => {})
+                .then(() => {})
                 .finally(() => {
                     setFiles([])
                     setStringsFileImg([])
@@ -147,6 +147,8 @@ const $MessagesChatUUID = () => {
             return () => {
                 getWebSocket()?.removeEventListener("message", messageListener)
             }
+        } else {
+            return () => {}
         }
     }, [readyState, userId])
 
@@ -160,6 +162,8 @@ const $MessagesChatUUID = () => {
                 return chat?.productRequest
             }
         }
+
+        return null
     }, [dataChatInfo?.chatById, userId])
     const [value, setValue] = useState(0)
 

@@ -23,6 +23,7 @@
             "@/*": ["./*"]
         }
     },
+    "extends": "@gravity-ui/tsconfig/tsconfig.json",
     "include": [
         "next-env.d.ts",
         "**/*.ts",

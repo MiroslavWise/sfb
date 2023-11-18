@@ -11,7 +11,7 @@ export default function Page() {
     return (
         <div className={styles.wrapper}>
             <ComponentMainUseFormMainPage />
-            <ComponentCarouselBannerMainPage type="main" />\
+            <ComponentCarouselBannerMainPage type="main" />
             <Market />
             <ComponentCarouselMainPage />
         </div>

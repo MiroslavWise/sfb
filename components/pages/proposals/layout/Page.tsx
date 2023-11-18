@@ -12,7 +12,7 @@ import { Filter } from "@/components/common/filters"
 
 export function PageProposals() {
     const productId = useSearchParams()?.get("request-id")
-    const { data, loading } = useQuery<IProductOfferListRoot>(
+    const { data } = useQuery<IProductOfferListRoot>(
         queryProductOfferList,
         {
             variables: {

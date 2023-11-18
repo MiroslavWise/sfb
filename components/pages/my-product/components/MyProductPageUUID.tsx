@@ -35,7 +35,7 @@ export const MyProductPageUUID = () => {
 
     const [mutateDraft] = useMutation(mutateUpdateProductDraft)
 
-    const { data, loading, refetch } = useQuery<IProductRoot>(
+    const { data, refetch } = useQuery<IProductRoot>(
         queryProductById,
         {
             variables: { id: uuid },

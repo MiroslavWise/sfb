@@ -31,4 +31,5 @@ const countName = (count: number) => {
     if (["2", "3", "4"].includes(count?.toString().at(-1)!)) {
         return "штуки"
     }
+    return null
 }
