@@ -12,6 +12,28 @@ export const queryChatList = gql`
         }
     }
 `
+export const queryChatListSellerId = gql`
+    ${CHAT}
+    query ($seller_Id: UUID) {
+        chatList(seller_Id: $seller_Id) {
+            totalCount
+            results {
+                ...chat
+            }
+        }
+    }
+`
+export const queryChatListBuyerId = gql`
+    ${CHAT}
+    query ($buyer_Id: UUID) {
+        chatList(buyer_Id: $buyer_Id) {
+            totalCount
+            results {
+                ...chat
+            }
+        }
+    }
+`
 
 export const queryChatMessageByChatId = gql`
     ${AUTHOR}

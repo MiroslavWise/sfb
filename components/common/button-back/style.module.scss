@@ -1,0 +1,11 @@
+.button {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid var(--main-black);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+    background: transparent;
+}

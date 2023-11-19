@@ -10,20 +10,27 @@ import type {
     IRequestProductRoot,
 } from "@/types/types"
 
+import {
+    ComponentAddress,
+    ComponentArea,
+    ComponentCity,
+} from "@/components/common/component-regions"
 import { Outline } from "@/components/common/outline"
 import { PhotoStage } from "@/components/common/PhotoStage"
+import { TagAmount } from "@/components/common/tag-amount"
+import { ButtonBack } from "@/components/common/button-back"
 import { TagCategory } from "../../proposals/components/TagCategory"
 
 import {
-    queryPhotosProductRequestById,
     queryProductRequestById,
+    queryPhotosProductRequestById,
 } from "@/apollo/query"
+import { usePush } from "@/helpers/hooks/usePush"
 
 import styles from "../styles/style.module.scss"
-import { TagAmount } from "@/components/common/tag-amount"
-import { ComponentAddress, ComponentArea, ComponentCity } from "@/components/common/component-regions"
 
 export const RequestId = () => {
+    const { back } = usePush()
     const requestId = useSearchParams().get("request-id")
     const { data, loading } = useQuery<IRequestProductRoot>(
         queryProductRequestById,
@@ -63,6 +70,7 @@ export const RequestId = () => {
             className={styles.wrapper}
         >
             <header>
+                <ButtonBack onClick={back} />
                 <h1>{productRequestById?.name}</h1>
             </header>
             <section>
@@ -100,7 +108,9 @@ export const RequestId = () => {
                             )}
                             {productRequestById?.author?.city && (
                                 <ComponentCity
-                                    name={productRequestById?.author?.city?.name}
+                                    name={
+                                        productRequestById?.author?.city?.name
+                                    }
                                 />
                             )}
                             {productRequestById?.author?.address && (

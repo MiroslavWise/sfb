@@ -27,9 +27,10 @@ import {
     ComponentArea,
     ComponentCity,
 } from "@/components/common/component-regions"
+import { ButtonBack } from "@/components/common/button-back"
 
 export const MyProductPageUUID = () => {
-    const { handlePush } = usePush()
+    const { handlePush, handleReplace } = usePush()
     const [tab, setTab] = useState<IItemTab>(ITEMS_TABS[0])
     const uuid = useSearchParams().get("product-id")
 
@@ -93,6 +94,11 @@ export const MyProductPageUUID = () => {
     return (
         <div className={styles.wrapper}>
             <header>
+                <ButtonBack
+                    onClick={() => {
+                        handleReplace(`/my-products`)
+                    }}
+                />
                 <h1>{productById?.name}</h1>
                 <div data-buttons>
                     {productById?.draft ? (

@@ -227,200 +227,216 @@ export const MyProductPageChange = () => {
             <section>
                 <h1>Редактировать товар</h1>
                 <form onSubmit={onSubmit}>
-                    <h3>Основная информация</h3>
-                    {Array.isArray(dataPhotos?.productById?.photoListUrl) &&
-                    dataPhotos?.productById?.photoListUrl?.length ? (
+                    <div data-div-main>
+                        <h3>Основная информация</h3>
+                        {Array.isArray(dataPhotos?.productById?.photoListUrl) &&
+                        dataPhotos?.productById?.photoListUrl?.length ? (
+                            <div data-photos>
+                                {Array.isArray(
+                                    dataPhotos?.productById?.photoListUrl,
+                                )
+                                    ? dataPhotos?.productById?.photoListUrl
+                                          ?.filter((item) => item?.photoUrl)
+                                          ?.map((item) => (
+                                              <MiniPhoto
+                                                  src={item.photoUrl}
+                                                  key={item.id + item.photo}
+                                              />
+                                          ))
+                                    : null}
+                            </div>
+                        ) : null}
                         <div data-photos>
-                            {Array.isArray(
-                                dataPhotos?.productById?.photoListUrl,
-                            )
-                                ? dataPhotos?.productById?.photoListUrl
-                                      ?.filter((item) => item?.photoUrl)
-                                      ?.map((item) => (
-                                          <MiniPhoto
-                                              src={item.photoUrl}
-                                              key={item.id + item.photo}
-                                          />
-                                      ))
+                            <div data-input-file>
+                                <input
+                                    {...register("files")}
+                                    type="file"
+                                    multiple
+                                    onChange={handleImageChange}
+                                />
+                                <Image
+                                    src="/svg/plus.svg"
+                                    alt="plus"
+                                    width={80}
+                                    height={80}
+                                />
+                            </div>
+                            {filesString?.length && files?.length
+                                ? filesString?.map((item, index) => (
+                                      <MiniPhoto
+                                          src={item}
+                                          key={`${index}-${item}`}
+                                      />
+                                  ))
                                 : null}
                         </div>
-                    ) : null}
-                    <div data-photos>
-                        <div data-input-file>
-                            <input
-                                {...register("files")}
-                                type="file"
-                                multiple
-                                onChange={handleImageChange}
-                            />
-                            <Image
-                                src="/svg/plus.svg"
-                                alt="plus"
-                                width={80}
-                                height={80}
-                            />
-                        </div>
-                        {filesString?.length && files?.length
-                            ? filesString?.map((item, index) => (
-                                  <MiniPhoto
-                                      src={item}
-                                      key={`${index}-${item}`}
-                                  />
-                              ))
-                            : null}
-                    </div>
-                    <Input
-                        value={watch("title")}
-                        label="Название товара"
-                        error={
-                            errors.title
-                                ? "Обязательно заполните название товара"
-                                : null
-                        }
-                        type="text"
-                        {...register("title", { required: true })}
-                        onChange={(event) =>
-                            setValue("title", event.target.value)
-                        }
-                    />
-                    <span {...register("category", { required: true })}>
-                        <label>Категория товара</label>
-                        <CustomSelector
-                            label={
-                                dataCategories?.categoryRootList?.find(
-                                    (item) => item?.id === watch("category"),
-                                )?.name!
+                        <Input
+                            value={watch("title")}
+                            label="Название товара"
+                            error={
+                                errors.title
+                                    ? "Обязательно заполните название товара"
+                                    : null
                             }
-                            placeholder="Выберите категорию товара"
-                            onClick={(value) => {
-                                setValue("category", value)
-                            }}
-                            list={
-                                Array.isArray(dataCategories?.categoryRootList)
-                                    ? dataCategories?.categoryRootList?.map(
-                                          (item: any) => ({
-                                              p: item.name,
-                                              id: item.id,
-                                          }),
-                                      )!
-                                    : []
+                            type="text"
+                            {...register("title", { required: true })}
+                            onChange={(event) =>
+                                setValue("title", event.target.value)
                             }
                         />
-                        {errors.category ? (
-                            <i>Обязательно заполните категорию</i>
-                        ) : null}
-                    </span>
-                    {dataCategories?.categoryRootList?.find(
-                        (item: any) => item.id === watch("category"),
-                    )?.childrenList?.length ? (
-                        <span {...register("category_", { required: false })}>
+                        <span>
+                            <label>Краткое описание товара</label>
+                            <textarea
+                                placeholder="Описание товара или услуги"
+                                {...register("description", {
+                                    required: false,
+                                })}
+                            />
+                        </span>
+                        <Input
+                            value={watch("price")}
+                            label="Цена товара"
+                            error={
+                                errors.price ? "Заполните цену товарa" : null
+                            }
+                            min={0}
+                            type="number"
+                            {...register("price", { required: true })}
+                            onChange={(event) =>
+                                setValue("price", event.target.value)
+                            }
+                        />
+                        <Input
+                            value={watch("quantity")!}
+                            label="Количество товаров"
+                            error={errors.quantity}
+                            type="number"
+                            min={0}
+                            {...register("quantity", { required: true })}
+                            onChange={(event) =>
+                                setValue("quantity", event.target.value)
+                            }
+                        />
+                    </div>
+                    <div data-div-secondary>
+                        <h3>Категория и характеристики товара</h3>
+                        <span {...register("category", { required: true })}>
+                            <label>Категория товара</label>
                             <CustomSelector
                                 label={
-                                    dataCategories?.categoryRootList
-                                        ?.find(
-                                            (item: any) =>
-                                                item.id === watch("category"),
-                                        )
-                                        ?.childrenList?.find(
-                                            (item) =>
-                                                item?.id === watch("category_"),
-                                        )?.name!
+                                    dataCategories?.categoryRootList?.find(
+                                        (item) =>
+                                            item?.id === watch("category"),
+                                    )?.name!
                                 }
+                                placeholder="Выберите категорию товара"
                                 onClick={(value) => {
-                                    setValue("category_", value)
+                                    setValue("category", value)
                                 }}
                                 list={
                                     Array.isArray(
                                         dataCategories?.categoryRootList,
                                     )
-                                        ? dataCategories?.categoryRootList
-                                              ?.find(
-                                                  (item: any) =>
-                                                      item.id ===
-                                                      watch("category"),
-                                              )
-                                              ?.childrenList?.map(
-                                                  (item: any) => ({
-                                                      id: item?.id,
-                                                      p: item?.name,
-                                                  }),
-                                              )!
+                                        ? dataCategories?.categoryRootList?.map(
+                                              (item: any) => ({
+                                                  p: item.name,
+                                                  id: item.id,
+                                              }),
+                                          )!
                                         : []
                                 }
-                                placeholder="Выберите подкатегорию товара"
                             />
+                            {errors.category ? (
+                                <i>Обязательно заполните категорию</i>
+                            ) : null}
                         </span>
-                    ) : null}
-                    <span>
-                        <label>Краткое описание товара</label>
-                        <textarea
-                            placeholder="Описание товара или услуги"
-                            {...register("description", { required: false })}
-                        />
-                    </span>
-                    {dataAttributes?.productAttributesByCategoryId &&
-                        dataAttributes?.productAttributesByCategoryId?.attribute?.map(
-                            (item) => (
-                                <span key={`${item.id}`}>
-                                    <Input
-                                        label={item.name}
-                                        error={null}
-                                        {...register(item.slug)}
-                                        value={watch(item.slug)}
-                                        onChange={(event) =>
-                                            setValue(
-                                                item.slug,
-                                                event.target.value,
+                        {dataCategories?.categoryRootList?.find(
+                            (item: any) => item.id === watch("category"),
+                        )?.childrenList?.length ? (
+                            <span
+                                {...register("category_", { required: false })}
+                            >
+                                <CustomSelector
+                                    label={
+                                        dataCategories?.categoryRootList
+                                            ?.find(
+                                                (item: any) =>
+                                                    item.id ===
+                                                    watch("category"),
                                             )
-                                        }
-                                    />
-                                </span>
-                            ),
-                        )}
-                    <Input
-                        value={watch("price")}
-                        label="Цена товара"
-                        error={errors.price ? "Заполните цену товарa" : null}
-                        min={0}
-                        type="number"
-                        {...register("price", { required: true })}
-                        onChange={(event) =>
-                            setValue("price", event.target.value)
-                        }
-                    />
-                    <Input
-                        value={watch("quantity")!}
-                        label="Количество товаров"
-                        error={errors.quantity}
-                        type="number"
-                        min={0}
-                        {...register("quantity", { required: true })}
-                        onChange={(event) =>
-                            setValue("quantity", event.target.value)
-                        }
-                    />
-                    <span data-delivery>
-                        {DELIVERY_TYPE.map((item) => (
-                            <Checkbox
-                                label={item.label}
-                                active={delivery.includes(item.value)}
-                                dispatch={() => {
-                                    if (delivery.includes(item.value)) {
-                                        setDelivery((prev) =>
-                                            prev.filter(
-                                                (_) => _ !== item.value,
-                                            ),
-                                        )
-                                    } else {
-                                        setDelivery((prev) => [
-                                            ...prev,
-                                            item.value,
-                                        ])
+                                            ?.childrenList?.find(
+                                                (item) =>
+                                                    item?.id ===
+                                                    watch("category_"),
+                                            )?.name!
                                     }
-                                }}
-                            />
-                        ))}
-                    </span>
+                                    onClick={(value) => {
+                                        setValue("category_", value)
+                                    }}
+                                    list={
+                                        Array.isArray(
+                                            dataCategories?.categoryRootList,
+                                        )
+                                            ? dataCategories?.categoryRootList
+                                                  ?.find(
+                                                      (item: any) =>
+                                                          item.id ===
+                                                          watch("category"),
+                                                  )
+                                                  ?.childrenList?.map(
+                                                      (item: any) => ({
+                                                          id: item?.id,
+                                                          p: item?.name,
+                                                      }),
+                                                  )!
+                                            : []
+                                    }
+                                    placeholder="Выберите подкатегорию товара"
+                                />
+                            </span>
+                        ) : null}
+                        {dataAttributes?.productAttributesByCategoryId &&
+                            dataAttributes?.productAttributesByCategoryId?.attribute?.map(
+                                (item) => (
+                                    <span key={`${item.id}`}>
+                                        <Input
+                                            label={item.name}
+                                            error={null}
+                                            {...register(item.slug)}
+                                            value={watch(item.slug)}
+                                            onChange={(event) =>
+                                                setValue(
+                                                    item.slug,
+                                                    event.target.value,
+                                                )
+                                            }
+                                        />
+                                    </span>
+                                ),
+                            )}
+                        <span data-delivery>
+                            {DELIVERY_TYPE.map((item) => (
+                                <Checkbox
+                                    label={item.label}
+                                    active={delivery.includes(item.value)}
+                                    dispatch={() => {
+                                        if (delivery.includes(item.value)) {
+                                            setDelivery((prev) =>
+                                                prev.filter(
+                                                    (_) => _ !== item.value,
+                                                ),
+                                            )
+                                        } else {
+                                            setDelivery((prev) => [
+                                                ...prev,
+                                                item.value,
+                                            ])
+                                        }
+                                    }}
+                                />
+                            ))}
+                        </span>
+                    </div>
                     <footer>
                         <button data-primary type="submit">
                             <span>Сохранить</span>

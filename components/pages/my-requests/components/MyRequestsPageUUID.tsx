@@ -9,11 +9,16 @@ import { useMutation, useQuery } from "@apollo/client"
 import type { IPhotoProductRequestData } from "@/types/types"
 import type { IItemTab } from "@/components/common/tabs-details/types"
 import type { IRequestProductRoot, TTabsDetailsRequest } from "@/types/types"
-
+import {
+    ComponentAddress,
+    ComponentArea,
+    ComponentCity,
+} from "@/components/common/component-regions"
 import { Outline } from "@/components/common/outline"
-import { TagAmount } from "@/components/common/tag-amount"
-import { PhotoStage } from "@/components/common/PhotoStage"
 import { TabsDetails } from "@/components/common/tabs-details"
+import { PhotoStage } from "@/components/common/PhotoStage"
+import { TagAmount } from "@/components/common/tag-amount"
+import { ButtonBack } from "@/components/common/button-back"
 import { TagCategory } from "../../proposals/components/TagCategory"
 
 import {
@@ -25,15 +30,10 @@ import { usePush } from "@/helpers/hooks/usePush"
 import { mutateUpdateProductRequestDraft } from "@/apollo/mutation"
 
 import styles from "../styles/page-uuid.module.scss"
-import {
-    ComponentAddress,
-    ComponentArea,
-    ComponentCity,
-} from "@/components/common/component-regions"
 
 export const MyRequestsPageUUID = () => {
     const uuid = useSearchParams().get("request-id")
-    const { handlePush } = usePush()
+    const { handlePush, handleReplace } = usePush()
     const [tab, setTab] = useState<IItemTab>(ITEMS_TABS[0])
 
     const [mutateDraft] = useMutation(mutateUpdateProductRequestDraft)
@@ -97,6 +97,11 @@ export const MyRequestsPageUUID = () => {
     return (
         <div className={styles.wrapper}>
             <header>
+                <ButtonBack
+                    onClick={() => {
+                        handleReplace(`/my-requests`)
+                    }}
+                />
                 <h1>{productRequestById?.name}</h1>
                 <div data-buttons>
                     {productRequestById?.draft ? (

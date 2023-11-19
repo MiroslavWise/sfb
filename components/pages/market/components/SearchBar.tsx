@@ -11,7 +11,7 @@ import { useEffect } from "react"
 export const SearchBar = () => {
     const pathname = usePathname()
     const search = useSearchParams().get("search")
-    const { setValue, watch, handleSubmit, register } = useForm<IValues>({})
+    const { setValue, handleSubmit, register } = useForm<IValues>({})
 
     useEffect(() => {
         if (search) {
@@ -31,10 +31,6 @@ export const SearchBar = () => {
                     <span>Поиск</span>
                 </button>
             </form>
-            {/* <div data-main-filter>
-                <FilterMain label="Весь Казахстан" type dispatch={() => {}} />
-                <FilterMain label="Цена" type dispatch={() => {}} />
-            </div> */}
         </div>
     ) : null
 }

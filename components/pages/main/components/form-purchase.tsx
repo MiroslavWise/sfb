@@ -152,6 +152,7 @@ export const FormPurchase = ({
 
     function onSearch() {
         if (watch("name").length > 2) {
+            setLoadingInput(true)
             search({
                 variables: {
                     search: watch("name"),
@@ -163,9 +164,6 @@ export const FormPurchase = ({
     }
 
     function handleOfSearch(values: IValuesSearchOfName) {
-        if (values.name) {
-            setValue("name", values.name)
-        }
         if (
             data?.categoryRootList?.some(
                 (item) => item?.id === values?.category?.id,
@@ -213,7 +211,6 @@ export const FormPurchase = ({
                         {...register("name", { required: true, minLength: 5 })}
                         placeholder="Введите название товара"
                         onChange={(event) => {
-                            setLoadingInput(true)
                             setFocus(true)
                             setValue("name", event.target.value)
                             debouncedValue()
@@ -244,26 +241,23 @@ export const FormPurchase = ({
                     {list && list?.length && focus ? (
                         <div data-list data-visible={focus}>
                             <ul>
-                                {list.map((item) =>
-                                    item?.family?.map((li) => (
-                                        <li
-                                            key={`${li?.id}-${item?.id}-pur`}
-                                            onClick={() => {
-                                                handleOfSearch({
+                                {list.map((item) => (
+                                    <li
+                                        key={`-${item?.id}-pur`}
+                                        onClick={() => {
+                                            handleOfSearch({
+                                                name: item?.name!,
+                                                category: {
+                                                    id: item?.id!,
                                                     name: item?.name!,
-                                                    category: {
-                                                        id: li?.id!,
-                                                        name: li?.name!,
-                                                    },
-                                                })
-                                                setFocus(false)
-                                            }}
-                                        >
-                                            <p>{item.name}</p>
-                                            <a>{li?.name}</a>
-                                        </li>
-                                    )),
-                                )}
+                                                },
+                                            })
+                                            setFocus(false)
+                                        }}
+                                    >
+                                        <p>{item.name}</p>
+                                    </li>
+                                ))}
                             </ul>
                         </div>
                     ) : null}

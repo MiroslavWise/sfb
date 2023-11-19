@@ -34,10 +34,6 @@ export const queryCategoryRecommendation = gql`
         categoryRecommendation(search: $search) {
             name
             id
-            family {
-                id
-                name
-            }
         }
     }
 `

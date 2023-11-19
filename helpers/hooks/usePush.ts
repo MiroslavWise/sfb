@@ -3,7 +3,7 @@ import { useRouter, usePathname } from "next/navigation"
 import { useAnimateLoadPage } from "@/store/state/useAnimateLoadPage"
 
 export const usePush = () => {
-    const { push, replace } = useRouter()
+    const { push, replace, back: back_ } = useRouter()
     const pathname = usePathname()
     const setIsAnimated = useAnimateLoadPage((state) => state.setIsAnimated)
 
@@ -18,5 +18,9 @@ export const usePush = () => {
         push(value, { scroll: true })
     }
 
-    return { handlePush, handleReplace }
+    function back() {
+        back_()
+    }
+
+    return { handlePush, handleReplace, back }
 }

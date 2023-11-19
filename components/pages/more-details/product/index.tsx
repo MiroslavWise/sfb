@@ -14,14 +14,17 @@ import {
 } from "@/components/common/component-regions"
 import { Outline } from "@/components/common/outline"
 import { PhotoStage } from "@/components/common/PhotoStage"
+import { TagAmount } from "@/components/common/tag-amount"
+import { ButtonBack } from "@/components/common/button-back"
 import { TagCategory } from "../../proposals/components/TagCategory"
 
+import { usePush } from "@/helpers/hooks/usePush"
 import { queryPhotosProductById, queryProductById } from "@/apollo/query"
 
 import styles from "../styles/style.module.scss"
-import { TagAmount } from "@/components/common/tag-amount"
 
 export const ProductId = () => {
+    const { back } = usePush()
     const productId = useSearchParams().get("product-id")
     const { data, loading } = useQuery<IProductRoot>(queryProductById, {
         variables: {
@@ -58,6 +61,7 @@ export const ProductId = () => {
             className={styles.wrapper}
         >
             <header>
+                <ButtonBack onClick={back} />
                 <h1>{productById?.name}</h1>
             </header>
             <section>

@@ -72,24 +72,21 @@ export const SearchBlock = () => {
             </div>
             {list && list?.length && focus ? (
                 <ul data-visible={focus}>
-                    {list?.map((item) =>
-                        item?.family?.map((li) => (
-                            <li
-                                key={`${item.id}-${li.id}`}
-                                onClick={(event) => {
-                                    event.preventDefault()
-                                    event.stopPropagation()
-                                    handlePush(
-                                        `/market?search=${item?.name}&category-id=${li.id}`,
-                                    )
-                                    setFocus(false)
-                                }}
-                            >
-                                <p>{item.name}</p>
-                                <a>{li?.name}</a>
-                            </li>
-                        )),
-                    )}
+                    {list?.map((item) => (
+                        <li
+                            key={`${item.id}-${item.id}`}
+                            onClick={(event) => {
+                                event.preventDefault()
+                                event.stopPropagation()
+                                handlePush(
+                                    `/market?search=${item?.name}&category-id=${item.id}`,
+                                )
+                                setFocus(false)
+                            }}
+                        >
+                            <p>{item.name}</p>
+                        </li>
+                    ))}
                 </ul>
             ) : null}
         </form>

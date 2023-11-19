@@ -143,10 +143,6 @@ export interface ICategoriesRoot {
 export interface IRecommendation {
     name: string
     id: string
-    family: {
-        id: string
-        name: string
-    }[]
 }
 
 export interface ICategoryRecommendation {
