@@ -1,14 +1,14 @@
 "use client"
 
-import { memo, useMemo } from "react"
+import dayjs from "dayjs"
+import Image from "next/image"
+import { useMemo } from "react"
 import { useSearchParams } from "next/navigation"
 
 import type { IChatItem } from "@/types/chat"
 
 import { useAuth } from "@/store/state/useAuth"
 import { usePush } from "@/helpers/hooks/usePush"
-import Image from "next/image"
-import dayjs from "dayjs"
 
 const $ItemListChats = (props: IChatItem) => {
     const { user } = useAuth()
@@ -48,7 +48,6 @@ const $ItemListChats = (props: IChatItem) => {
             onClick={() => {
                 handleReplace(`/messages?chat-id=${id}`)
             }}
-            // data-last={index !== items.length - 1}
             data-last
             data-active={id === chatId}
         >
@@ -84,4 +83,4 @@ const $ItemListChats = (props: IChatItem) => {
     )
 }
 
-export const ItemListChats = memo($ItemListChats)
+export const ItemListChats = $ItemListChats

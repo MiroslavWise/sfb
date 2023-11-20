@@ -88,4 +88,4 @@ const $LeftChats = () => {
     )
 }
 
-export const LeftChats = memo($LeftChats)
+export const LeftChats = $LeftChats
