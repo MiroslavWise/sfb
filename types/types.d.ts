@@ -60,17 +60,14 @@ export interface IRequestProductRoot {
     productRequestById: IRequestProduct
 }
 
+export type TDatatypeAttr = "TEXT" | "ENUM"
+
 export interface IProductAttribute {
-    attrId: number
-    datatype: string
+    datatype: TDatatypeAttr
+    description: string
     id: string
-    slug: string
     name: string
-    value: string
-    valueBool: boolean
-    valueText: string
-    valueInt: number
-    valueId: number
+    slug: string
 }
 
 export interface IProductAttributeList {

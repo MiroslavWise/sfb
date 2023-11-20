@@ -5,7 +5,7 @@ import { SearchBlock } from "./components/SearchBlock"
 
 import styles from "./styles/style.module.scss"
 
-const $Header = () => {
+export const Header = () => {
     return (
         <header className={styles.header}>
             <Logo />
@@ -14,5 +14,3 @@ const $Header = () => {
         </header>
     )
 }
-
-export const Header = memo($Header)

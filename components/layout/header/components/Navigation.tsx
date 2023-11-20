@@ -1,18 +1,18 @@
 "use client"
 
 import Image from "next/image"
-import { memo, useMemo } from "react"
+import { useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import { usePathname } from "next/navigation"
 
 import { MENU_ITEMS } from "../constants/menu"
 import { usePush } from "@/helpers/hooks/usePush"
 
+import { ProfilePanel } from "./ProfilePanel"
 import { ButtonLogin } from "./ButtonLogin"
 import { useAuth } from "@/store/state/useAuth"
-import { ProfilePanel } from "./ProfilePanel"
 
-const $Navigation = () => {
+export const Navigation = () => {
     const pathname = usePathname()
     const { i18n } = useTranslation()
     const { handlePush } = usePush()
@@ -45,5 +45,3 @@ const $Navigation = () => {
         </nav>
     )
 }
-
-export const Navigation = memo($Navigation)

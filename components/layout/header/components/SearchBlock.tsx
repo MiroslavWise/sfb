@@ -9,9 +9,9 @@ import { usePush } from "@/helpers/hooks/usePush"
 import { useDebounce } from "@/helpers/hooks/useDebounce"
 import { queryCategoryRecommendation } from "@/apollo/attribute"
 import { useOutsideClickEvent } from "@/helpers/hooks/useOutsideClickEvent"
+import { ICategoryRecommendation, IRecommendation } from "@/types/types"
 
 import styles from "../styles/search-block.module.scss"
-import { ICategoryRecommendation, IRecommendation } from "@/types/types"
 
 export const SearchBlock = () => {
     const [loading, setLoading] = useState(false)

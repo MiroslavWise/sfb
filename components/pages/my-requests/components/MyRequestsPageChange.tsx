@@ -388,7 +388,11 @@ export const MyRequestsPageChange = () => {
                         <button data-primary type="submit">
                             <span>Сохранить</span>
                         </button>
-                        <button data-default onClick={() => cancel(uuid!)}>
+                        <button
+                            data-default
+                            onClick={() => cancel(uuid!)}
+                            type="button"
+                        >
                             <span>Отмена</span>
                         </button>
                     </footer>

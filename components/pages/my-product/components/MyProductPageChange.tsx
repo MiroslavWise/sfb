@@ -68,7 +68,6 @@ export const MyProductPageChange = () => {
     } = useForm<IValues>({})
 
     function submit(values: IValues) {
-        console.log("%c slug: values: ", "color: red", values)
         const data: Record<string, any> = {
             categoryId: values.category_ || values.category,
             name: values.title,
@@ -76,7 +75,18 @@ export const MyProductPageChange = () => {
             price: +values.price,
             quantity: +values.quantity! || 1,
         }
-        // updateAttr
+        const attributes = []
+
+        const slugs = Object.entries(values)
+            .filter((item) => item?.[0]?.includes("slug:"))
+            .forEach((item) => {
+                const id = item[0].split(":")[2]
+                const slug = item[0].split(":")[1]
+                const value = item[1]
+            })
+
+        console.log("slugs: ", slugs)
+
         if (uuid) {
             data.productId = uuid!
             Promise.all([
@@ -245,7 +255,11 @@ export const MyProductPageChange = () => {
             return
         } else if (watch("category")) {
             console.log("%c category: ", "color: green", watch("category"))
-            useAttribute({ variables: { categoryId: watch("category") } })
+            useAttribute({ variables: { categoryId: watch("category") } }).then(
+                (res) => {
+                    console.log("%c res", "color: bue", res)
+                },
+            )
             return
         }
     }, [watch("category"), watch("category_")])
@@ -428,20 +442,19 @@ export const MyProductPageChange = () => {
                         {dataAttributes?.productAttributesByCategoryId &&
                             dataAttributes?.productAttributesByCategoryId?.attribute?.map(
                                 (item) => (
-                                    <span key={`${item.id}`}>
-                                        <Input
-                                            label={item.name}
-                                            error={null}
-                                            {...register(item.slug)}
-                                            value={watch(item.slug)}
-                                            onChange={(event) =>
-                                                setValue(
-                                                    item.slug,
-                                                    event.target.value,
-                                                )
-                                            }
-                                        />
-                                    </span>
+                                    <Input
+                                        key={`${item.slug}-${item.id}`}
+                                        label={item.name}
+                                        error={null}
+                                        {...register(item.slug)}
+                                        value={watch(item.slug)}
+                                        onChange={(event) =>
+                                            setValue(
+                                                `slug:${item.slug}:${item.id}`,
+                                                event.target.value,
+                                            )
+                                        }
+                                    />
                                 ),
                             )}
                         <span data-delivery>
@@ -471,7 +484,11 @@ export const MyProductPageChange = () => {
                         <button data-primary type="submit">
                             <span>Сохранить</span>
                         </button>
-                        <button data-default onClick={() => cancel(uuid!)}>
+                        <button
+                            data-default
+                            onClick={() => cancel(uuid!)}
+                            type="button"
+                        >
                             <span>Отмена</span>
                         </button>
                     </footer>

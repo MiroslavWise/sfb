@@ -1,6 +1,6 @@
 "use client"
 
-import { memo, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import { useQuery } from "@apollo/client"
 
 import type { IQueryChatList } from "@/types/chat"
