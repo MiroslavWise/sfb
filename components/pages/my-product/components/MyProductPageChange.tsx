@@ -7,6 +7,7 @@ import { ChangeEvent, useEffect, useMemo, useState } from "react"
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client"
 
 import type {
+    ICategoriesRoot,
     ICategoryList,
     IProductAttributeList,
     IProductRoot,
@@ -39,7 +40,7 @@ export const MyProductPageChange = () => {
     const [files, setFiles] = useState<File[]>([])
     const [filesString, setFilesString] = useState<string[]>([])
     const { data: dataCategories, loading: isLoadCategories } =
-        useQuery<ICategoryList>(queryCategoriesRoot)
+        useQuery<ICategoriesRoot>(queryCategoriesRoot)
     const { handlePush } = usePush()
     const [use, { data, loading, refetch }] = useLazyQuery<IProductRoot>(
         queryProductById,
@@ -64,11 +65,7 @@ export const MyProductPageChange = () => {
         handleSubmit,
         setValue,
         formState: { errors },
-    } = useForm<IValues>({
-        defaultValues: {
-            deliveryType: "self-delivery",
-        },
-    })
+    } = useForm<IValues>({})
 
     function submit(values: IValues) {
         console.log("%c slug: values: ", "color: red", values)
@@ -177,29 +174,62 @@ export const MyProductPageChange = () => {
     }
 
     useEffect(() => {
-        if (!!data && !!dataCategories) {
+        if (!!data?.productById && !!dataCategories?.categoryRootList) {
             const categoryId = data?.productById?.category?.id!
-            if (categoryId) {
-                if (
-                    dataCategories?.categoryRootList?.find(
-                        (item) => item.id === categoryId,
-                    )
-                ) {
-                    setValue("category", categoryId)
-                } else {
-                    const id = dataCategories?.categoryRootList?.find((item) =>
-                        item?.childrenList?.some(
-                            (item_) => item_?.id === categoryId,
+
+            if (
+                dataCategories?.categoryRootList?.some(
+                    (item) => item?.id === categoryId,
+                )
+            ) {
+                setValue("category", categoryId)
+            }
+
+            if (
+                dataCategories?.categoryRootList?.some((item) =>
+                    item?.childrenList?.some(
+                        (item_) => item_?.id === categoryId,
+                    ),
+                )
+            ) {
+                const value = dataCategories?.categoryRootList?.find((item) =>
+                    item?.childrenList?.some(
+                        (item_) => item_?.id === categoryId,
+                    ),
+                )
+
+                const main = value?.id!
+                const secondary = value?.childrenList?.find(
+                    (item) => item?.id === categoryId,
+                )?.id!
+
+                setValue("category", main)
+                setValue("category_", secondary)
+            }
+
+            if (
+                dataCategories?.categoryRootList?.some((item) =>
+                    item?.childrenList?.some((item_) =>
+                        item_?.childrenList?.some(
+                            (item__) => item__?.id === categoryId,
                         ),
-                    )?.id
-                    setValue("category", id!)
-                    const idSub = dataCategories?.categoryRootList
-                        ?.find((item) => item?.id === id)
-                        ?.childrenList?.find(
-                            (item) => item?.id === categoryId,
-                        )?.id
-                    setValue("category_", idSub!)
-                }
+                    ),
+                )
+            ) {
+                const value = dataCategories?.categoryRootList?.find((item) =>
+                    item?.childrenList?.some((item_) =>
+                        item_?.childrenList?.some(
+                            (item__) => item__?.id === categoryId,
+                        ),
+                    ),
+                )
+                const main = value?.id!
+                const secondary = value?.childrenList?.find((item) =>
+                    item?.childrenList?.some((some) => some?.id === categoryId),
+                )?.id!
+
+                setValue("category", main)
+                setValue("category_", secondary)
             }
         }
     }, [dataCategories, data])
@@ -459,8 +489,8 @@ interface IValues {
         }
     }
     title: string
-    category: string | number | null
-    category_: string | number | null
+    category: string
+    category_: string
     type: string | number
     description: string
     price: number | string

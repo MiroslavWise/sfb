@@ -7,7 +7,11 @@ import { useSearchParams } from "next/navigation"
 import { ChangeEvent, useEffect, useState } from "react"
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client"
 
-import type { ICategoryList, IRequestProductRoot } from "@/types/types"
+import type {
+    ICategoriesRoot,
+    ICategoryList,
+    IRequestProductRoot,
+} from "@/types/types"
 import type { IPhotoProductRequestData } from "@/types/types"
 
 import { MiniPhoto } from "../../proposals"
@@ -33,7 +37,7 @@ export const MyRequestsPageChange = () => {
     const [files, setFiles] = useState<File[]>([])
     const [filesString, setFilesString] = useState<string[]>([])
     const { data: dataCategories, loading: isLoadCategories } =
-        useQuery<ICategoryList>(queryCategoriesRoot)
+        useQuery<ICategoriesRoot>(queryCategoriesRoot)
     const { handlePush } = usePush()
     const [use, { data, loading, refetch }] = useLazyQuery<IRequestProductRoot>(
         queryProductRequestById,
@@ -163,29 +167,62 @@ export const MyRequestsPageChange = () => {
     }, [uuid])
 
     useEffect(() => {
-        if (!!data && !!dataCategories) {
+        if (!!data?.productRequestById && !!dataCategories?.categoryRootList) {
             const categoryId = data?.productRequestById?.category?.id!
-            if (categoryId) {
-                if (
-                    dataCategories?.categoryRootList?.find(
-                        (item) => item.id === categoryId,
-                    )
-                ) {
-                    setValue("category", categoryId)
-                } else {
-                    const id = dataCategories?.categoryRootList?.find((item) =>
-                        item?.childrenList?.some(
-                            (item_) => item_?.id === categoryId,
+
+            if (
+                dataCategories?.categoryRootList?.some(
+                    (item) => item?.id === categoryId,
+                )
+            ) {
+                setValue("category", categoryId)
+            }
+
+            if (
+                dataCategories?.categoryRootList?.some((item) =>
+                    item?.childrenList?.some(
+                        (item_) => item_?.id === categoryId,
+                    ),
+                )
+            ) {
+                const value = dataCategories?.categoryRootList?.find((item) =>
+                    item?.childrenList?.some(
+                        (item_) => item_?.id === categoryId,
+                    ),
+                )
+
+                const main = value?.id!
+                const secondary = value?.childrenList?.find(
+                    (item) => item?.id === categoryId,
+                )?.id!
+
+                setValue("category", main)
+                setValue("category_", secondary)
+            }
+
+            if (
+                dataCategories?.categoryRootList?.some((item) =>
+                    item?.childrenList?.some((item_) =>
+                        item_?.childrenList?.some(
+                            (item__) => item__?.id === categoryId,
                         ),
-                    )?.id
-                    setValue("category", id!)
-                    const idSub = dataCategories?.categoryRootList
-                        ?.find((item) => item?.id === id)
-                        ?.childrenList?.find(
-                            (item) => item?.id === categoryId,
-                        )?.id
-                    setValue("category_", idSub!)
-                }
+                    ),
+                )
+            ) {
+                const value = dataCategories?.categoryRootList?.find((item) =>
+                    item?.childrenList?.some((item_) =>
+                        item_?.childrenList?.some(
+                            (item__) => item__?.id === categoryId,
+                        ),
+                    ),
+                )
+                const main = value?.id!
+                const secondary = value?.childrenList?.find((item) =>
+                    item?.childrenList?.some((some) => some?.id === categoryId),
+                )?.id!
+
+                setValue("category", main)
+                setValue("category_", secondary)
             }
         }
     }, [dataCategories, data])

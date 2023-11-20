@@ -93,11 +93,12 @@ export const useAuth = create(
                         }
                     }
                     if (typeof get().refreshToken !== "string") {
-                        set((state) => ({
-                            ...state,
-                            ...initialState,
+                        set({
+                            token: undefined,
+                            refreshToken: undefined,
+                            expiration: undefined,
                             state: "SignIn",
-                        }))
+                        })
                         return {
                             ok: false,
                         }
@@ -112,15 +113,11 @@ export const useAuth = create(
                         )
                         const {
                             data: {
-                                refreshToken: {
-                                    refreshToken,
-                                    refreshExpiresIn,
-                                    token,
-                                },
+                                login: { token, refreshToken },
                             },
                         } = response ?? {}
-                        if (token && refreshToken && refreshExpiresIn) {
-                            const expiration = refreshExpiresIn
+                        if (token && refreshToken) {
+                            const expiration = decodeJwt(token)
                             set({
                                 token: token,
                                 refreshToken: refreshToken,
@@ -131,20 +128,22 @@ export const useAuth = create(
                                 ok: true,
                             }
                         }
-                        set((state) => ({
-                            ...state,
-                            ...initialState,
+                        set({
+                            token: undefined,
+                            refreshToken: undefined,
+                            expiration: undefined,
                             state: "SignIn",
-                        }))
+                        })
                         return {
                             ok: false,
                         }
                     }
-                    set((state) => ({
-                        ...state,
-                        ...initialState,
+                    set({
+                        token: undefined,
+                        refreshToken: undefined,
+                        expiration: undefined,
                         state: "SignIn",
-                    }))
+                    })
                     return {
                         ok: false,
                     }
@@ -153,11 +152,12 @@ export const useAuth = create(
                         "---ERROR UPDATE REFRESH TOKEN OR TOKEN--- ",
                         e,
                     )
-                    set((state) => ({
-                        ...state,
-                        ...initialState,
+                    set({
+                        token: undefined,
+                        refreshToken: undefined,
+                        expiration: undefined,
                         state: "SignIn",
-                    }))
+                    })
                     return {
                         ok: false,
                     }

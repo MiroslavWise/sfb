@@ -103,7 +103,11 @@ export const FormPurchase = ({
             if (state === "sale") {
                 createProduct({
                     variables: {
-                        categoryId: values?.id,
+                        categoryId: values?.id_
+                            ? values?.id_
+                            : values?.id
+                            ? values?.id
+                            : null,
                         name: values?.name!,
                     },
                 })
@@ -164,6 +168,8 @@ export const FormPurchase = ({
     }
 
     function handleOfSearch(values: IValuesSearchOfName) {
+        setValue("id", null)
+        setValue("id_", null)
         if (
             data?.categoryRootList?.some(
                 (item) => item?.id === values?.category?.id,
@@ -189,6 +195,33 @@ export const FormPurchase = ({
             const valueId_ = valueFind?.childrenList?.find(
                 (item) => item?.id === values?.category?.id,
             )?.id!
+            setValue("id", valueId)
+            setValue("id_", valueId_)
+        }
+        if (
+            data?.categoryRootList?.some((item) =>
+                item?.childrenList?.some((_item) =>
+                    _item?.childrenList?.some(
+                        (__item) => __item?.id === values?.category?.id,
+                    ),
+                ),
+            )
+        ) {
+            const valueFind = data?.categoryRootList?.find((item) =>
+                item?.childrenList?.some((_item) =>
+                    _item?.childrenList?.some(
+                        (__item) => __item?.id === values?.category?.id,
+                    ),
+                ),
+            )
+
+            const valueId = valueFind?.id!
+            const valueId_ = valueFind?.childrenList?.find((item) =>
+                item?.childrenList?.some(
+                    (item) => item.id === values?.category?.id,
+                ),
+            )?.id!
+
             setValue("id", valueId)
             setValue("id_", valueId_)
         }

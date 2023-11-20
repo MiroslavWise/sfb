@@ -7,15 +7,13 @@ import type { IQueryChatList } from "@/types/chat"
 
 import { ItemListChats } from "./ItemListChats"
 
-import {
-    queryChatList,
-    queryChatListBuyerId,
-    queryChatListSellerId,
-} from "@/apollo/chat"
 import { useAuth } from "@/store/state/useAuth"
+import { usePush } from "@/helpers/hooks/usePush"
+import { queryChatListBuyerId, queryChatListSellerId } from "@/apollo/chat"
 
 const $LeftChats = () => {
     const { user } = useAuth()
+    const { handleReplace } = usePush()
     const [isBuyer, setIsBuyer] = useState(false)
     const { data: dataSeller } = useQuery<IQueryChatList>(
         queryChatListSellerId,
@@ -42,13 +40,10 @@ const $LeftChats = () => {
     }, [dataSeller, dataBuyer, isBuyer])
 
     const length = useMemo(() => {
-        if (isBuyer && dataBuyer?.chatList) {
-            return dataBuyer?.chatList?.totalCount || 0
+        return {
+            buyerCount: dataBuyer?.chatList?.totalCount || 0,
+            sellerCount: dataSeller?.chatList?.totalCount || 0,
         }
-        if (!isBuyer && dataSeller?.chatList) {
-            return dataSeller?.chatList?.totalCount || 0
-        }
-        return 0
     }, [dataSeller, dataBuyer, isBuyer])
 
     return (
@@ -56,21 +51,30 @@ const $LeftChats = () => {
             <header>
                 <div data-buttons>
                     <button
-                        onClick={() => setIsBuyer(false)}
+                        onClick={() => {
+                            if (isBuyer) {
+                                handleReplace("/messages")
+                            }
+                            setIsBuyer(false)
+                        }}
                         data-active={!isBuyer}
                         data-s
                     >
-                        <span>Я покупатель</span>
+                        <span>Я покупатель {length.sellerCount}</span>
                     </button>
                     <button
-                        onClick={() => setIsBuyer(true)}
+                        onClick={() => {
+                            if (!isBuyer) {
+                                handleReplace("/messages")
+                            }
+                            setIsBuyer(true)
+                        }}
                         data-active={isBuyer}
                         data-b
                     >
-                        <span>Я продавец</span>
+                        <span>Я продавец {length.buyerCount}</span>
                     </button>
                 </div>
-                <h2>Чаты {length}</h2>
             </header>
             <ul>
                 {items.map((item) => (
