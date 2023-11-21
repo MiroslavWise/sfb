@@ -10,6 +10,7 @@ import { ItemListChats } from "./ItemListChats"
 import { useAuth } from "@/store/state/useAuth"
 import { usePush } from "@/helpers/hooks/usePush"
 import { queryChatListBuyerId, queryChatListSellerId } from "@/apollo/chat"
+import { useTitle } from "@/helpers/hooks/useTitle"
 
 const $LeftChats = () => {
     const { user } = useAuth()
@@ -45,6 +46,8 @@ const $LeftChats = () => {
             sellerCount: dataSeller?.chatList?.totalCount || 0,
         }
     }, [dataSeller, dataBuyer, isBuyer])
+
+    useTitle(`Чат (${isBuyer ? length.buyerCount : length.sellerCount})`)
 
     return (
         <aside>

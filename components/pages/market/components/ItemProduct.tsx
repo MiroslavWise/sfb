@@ -5,10 +5,18 @@ import { type FC } from "react"
 import type { IProduct } from "@/types/types"
 
 import { usePush } from "@/helpers/hooks/usePush"
+import { useFavoritesClick } from "@/helpers/hooks/useFavoritesClick"
+import { useAuth } from "@/store/state/useAuth"
 
 export const ItemProduct: FC<IProduct> = (props) => {
+    const { token } = useAuth()
     const { photoListUrl, price, name, city, createdAt, id } = props ?? {}
     const { handlePush } = usePush()
+    const { isFavorite, handleFavorite, loading } = useFavoritesClick()
+
+    function handle() {
+        handleFavorite(id)
+    }
 
     return (
         <li
@@ -22,6 +30,7 @@ export const ItemProduct: FC<IProduct> = (props) => {
                     alt="photo"
                     width={200}
                     height={200}
+                    unoptimized
                 />
             ) : (
                 <div data-img>
@@ -40,6 +49,28 @@ export const ItemProduct: FC<IProduct> = (props) => {
                 />
                 <a>{dayjs(createdAt).format("HH:mm DD.MM.YY")}</a>
             </div>
+            {token ? (
+                <div
+                    data-loading={loading}
+                    data-favorite
+                    onClick={(event) => {
+                        event.stopPropagation()
+                        event.preventDefault()
+                        handle()
+                    }}
+                >
+                    <Image
+                        src={
+                            isFavorite(id!)
+                                ? "/svg/tag-fill.svg"
+                                : "/svg/tag-regular.svg"
+                        }
+                        alt="tag--"
+                        width={25}
+                        height={25}
+                    />
+                </div>
+            ) : null}
         </li>
     )
 }

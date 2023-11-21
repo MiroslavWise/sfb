@@ -15,7 +15,7 @@ export const CatalogMany = () => {
     const categoryId = useSearchParams().get("category-id")
     const { data } = useQuery<ICategoriesRoot>(queryCategoriesRoot)
     const { data: dataProductList } = useQuery<IProductList>(queryProductList, {
-        variables: { offset: 1, categoryId: categoryId },
+        variables: { offset: 0, categoryId: categoryId },
     })
 
     const list = useMemo(() => {
@@ -28,16 +28,16 @@ export const CatalogMany = () => {
 
     return (
         <div className={styles.wrapper}>
-            <aside>
+            <ul data-menu>
                 {list.map((item) => (
                     <ItemMany key={`${item.id}-!!key-aside`} {...item} />
                 ))}
-            </aside>
-            <section>
+            </ul>
+            <ul data-list>
                 {listProduct.map((item) => (
                     <ItemProduct key={`${item.id}-product-id-==`} {...item} />
                 ))}
-            </section>
+            </ul>
         </div>
     )
 }

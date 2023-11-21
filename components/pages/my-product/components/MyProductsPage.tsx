@@ -11,10 +11,11 @@ import { FilterProduct } from "./FilterProduct"
 import { TabsDetails } from "@/components/common/tabs-details"
 import { ItemProposal } from "../../proposals/components/ItemProposal"
 
+import { useTitle } from "@/helpers/hooks/useTitle"
 import { usePush } from "@/helpers/hooks/usePush"
 import { queryProductListMe } from "@/apollo/query"
 import { queryProductOfferList } from "@/apollo/query-offers"
-import { ITEMS_TABS } from "@/app/(user)/my-products/constants"
+import { ITEMS_TABS } from "@/app/(user)/(turnover)/my-products/constants"
 import { useOrderingProduct } from "@/store/state/useOrderingProduct"
 
 export function MyProductsPage() {
@@ -24,6 +25,7 @@ export function MyProductsPage() {
             ordering: price,
         },
     })
+    useTitle(`Мои товары (${data?.productListMe?.totalCount || 0})`)
     const { data: dataOffers } = useQuery<IProductOfferListRoot>(
         queryProductOfferList,
     )

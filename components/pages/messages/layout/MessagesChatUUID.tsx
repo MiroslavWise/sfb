@@ -22,6 +22,7 @@ import { ITypeInterfaceUpload, uploadFile } from "@/helpers/services/fetch"
 
 import styles from "../styles/chat-uuid.module.scss"
 import { IPhotoCarousel } from "@/store/types/createVisiblePhotosCarousel"
+import { useTitle } from "@/helpers/hooks/useTitle"
 
 const $MessagesChatUUID = () => {
     const id = useSearchParams().get("chat-id")
@@ -29,7 +30,7 @@ const $MessagesChatUUID = () => {
     const { readyState, getWebSocket } = useSocket()
     const { id: userId } = user ?? {}
     const { handlePush } = usePush()
-    const { reset, register, handleSubmit, watch } = useForm<IValues>({})
+    const { reset, register, handleSubmit } = useForm<IValues>({})
     const [loading, setLoading] = useState(false)
     const [files, setFiles] = useState<File[]>([])
     const [stringsFileImg, setStringsFileImg] = useState<string[]>([])
@@ -53,8 +54,6 @@ const $MessagesChatUUID = () => {
             },
         },
     )
-
-    console.log("stringsFileImg: ", stringsFileImg)
 
     function submit(values: IValues) {
         console.log("%c files:", "color: #ff0", files)
@@ -210,6 +209,8 @@ const $MessagesChatUUID = () => {
             }
         }
     }
+
+    useTitle(`Чат ${infoCommodity?.name}`)
 
     return (
         <article className={styles.wrapper}>

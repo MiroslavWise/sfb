@@ -82,6 +82,17 @@
                         text-decoration-line: underline;
                     }
                 }
+
+                &[data-delete="true"] {
+                    & > span {
+                        color: red;
+                    }
+                }
+                &[data-delete="false"] {
+                    & > span {
+                        color: var(--gray-500);
+                    }
+                }
             }
         }
     }

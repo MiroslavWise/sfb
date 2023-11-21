@@ -16,11 +16,6 @@ export const MENU_ITEMS: IMenuItems[] = [
         value: "/contacts",
         icon: "/svg/menu/help-circle.svg",
     },
-    {
-        label: "Избранное",
-        value: "/faq",
-        icon: "/svg/menu/star-06.svg",
-    },
     // {
     //     label: "Профиль",
     //     value: "/profile",

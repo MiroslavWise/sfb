@@ -208,3 +208,50 @@ export const mutateReadNotification = gql`
         }
     }
 `
+
+export const mutationProductDelete = gql`
+    mutation ($productId: UUID!) {
+        productDelete(productId: $productId) {
+            ok
+        }
+    }
+`
+
+export const mutationProductRequestUpdate = gql`
+    mutation ($productRequestId: UUID!) {
+        productRequestUpdate(
+            productRequestId: $productRequestId
+            input: { isActive: false }
+        ) {
+            ok
+        }
+    }
+`
+
+export const mutationFavoriteProductAdd = gql`
+    mutation ($productId: UUID!) {
+        favoriteProductAdd(productId: $productId) {
+            ok
+            favorite {
+                id
+                product {
+                    id
+                }
+            }
+            errors {
+                messages
+            }
+        }
+    }
+`
+
+export const mutationFavoriteProductDelete = gql`
+    mutation ($favoriteId: UUID!) {
+        favoriteProductDelete(favoriteId: $favoriteId) {
+            ok
+            errors {
+                messages
+            }
+        }
+    }
+`

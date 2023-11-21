@@ -12,7 +12,6 @@
         flex-direction: row;
         align-items: center;
         gap: 24px;
-        justify-content: space-between;
         background-color: #fff;
         border-radius: 7px;
 
@@ -21,8 +20,6 @@
             font-size: 36px;
             font-style: normal;
             font-weight: 500;
-            line-height: 110%;
-            width: fit-content;
             white-space: nowrap;
             letter-spacing: -0.5px;
         }
@@ -81,6 +78,16 @@
                     & > span {
                         color: var(--main-black);
                         text-decoration-line: underline;
+                    }
+                }
+                &[data-delete="true"] {
+                    & > span {
+                        color: red;
+                    }
+                }
+                &[data-delete="false"] {
+                    & > span {
+                        color: var(--gray-500);
                     }
                 }
             }

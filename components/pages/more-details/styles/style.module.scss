@@ -5,15 +5,26 @@
     gap: 15px;
 
     & > header {
+        position: relative;
         width: 100%;
         padding: 20px 40px;
         display: flex;
         flex-direction: row;
         align-items: center;
         gap: 24px;
-        justify-content: space-between;
         background-color: #fff;
         border-radius: 7px;
+
+        & > [data-favorite] {
+            height: 50px;
+            width: 30px;
+            cursor: pointer;
+
+            &[data-loading="true"] {
+                -webkit-animation: 0.1s tremor ease-out infinite;
+                animation: 0.1s tremor ease-out infinite;
+            }
+        }
 
         & > h1 {
             color: var(--main-black);
@@ -71,5 +82,66 @@
                 }
             }
         }
+    }
+}
+
+@-webkit-keyframes tremor {
+    0%,
+    25% {
+        -webkit-transform: translateX(-4%);
+        transform: translateX(-4%);
+    }
+    50%,
+    100% {
+        -webkit-transform: translateX(4%);
+        transform: translateX(4%);
+    }
+}
+@-moz-keyframes tremor {
+    0%,
+    25% {
+        -webkit-transform: translateX(-4%);
+        transform: translateX(-4%);
+    }
+    50%,
+    100% {
+        -webkit-transform: translateX(4%);
+        transform: translateX(4%);
+    }
+}
+@-ms-keyframes tremor {
+    0%,
+    25% {
+        -webkit-transform: translateX(-4%);
+        transform: translateX(-4%);
+    }
+    50%,
+    100% {
+        -webkit-transform: translateX(4%);
+        transform: translateX(4%);
+    }
+}
+@-o-keyframes tremor {
+    0%,
+    25% {
+        -webkit-transform: translateX(-4%);
+        transform: translateX(-4%);
+    }
+    50%,
+    100% {
+        -webkit-transform: translateX(4%);
+        transform: translateX(4%);
+    }
+}
+@keyframes tremor {
+    0%,
+    25% {
+        -webkit-transform: translateX(-4%);
+        transform: translateX(-4%);
+    }
+    50%,
+    100% {
+        -webkit-transform: translateX(4%);
+        transform: translateX(4%);
     }
 }

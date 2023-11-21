@@ -15,10 +15,10 @@ import {
     ComponentCity,
 } from "@/components/common/component-regions"
 
-const $ItemProduct: TItemProposalsPage = (props) => {
+export const ItemProduct: TItemProposalsPage = (props) => {
     const {
         id,
-        author: { fullName, photo, address, city },
+        author: { address, city },
         name,
         price,
         category,
@@ -80,5 +80,3 @@ const $ItemProduct: TItemProposalsPage = (props) => {
         </section>
     )
 }
-
-export const ItemProduct = memo($ItemProduct)

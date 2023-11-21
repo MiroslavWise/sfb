@@ -1,15 +1,17 @@
 "use client"
 
+import { useState } from "react"
+import { useQuery } from "@apollo/client"
+
 import { IItemTab } from "@/components/common/tabs-details/types"
 
 import { TabsDetails } from "@/components/common/tabs-details"
+import { ItemProduct } from "@/components/pages/my-product/components/ItemProduct"
+
+import { queryProductList } from "@/apollo/query"
+import { useAuth } from "@/store/state/useAuth"
 
 import styles from "./page.module.scss"
-import { useState } from "react"
-import { useQuery } from "@apollo/client"
-import { queryProductList } from "@/apollo/query"
-import { ItemProduct } from "@/components/pages/my-product/components/ItemProduct"
-import { useAuth } from "@/store/state/useAuth"
 
 const TABS: IItemTab[] = [
     {

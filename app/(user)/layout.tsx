@@ -4,8 +4,6 @@ import { useEffect } from "react"
 
 import type { IChildrenProps } from "@/types/types"
 
-import { LeftAsideUser } from "@/components/layout/user/components/LeftAsideUser"
-
 import { useAuth } from "@/store/state/useAuth"
 import { usePush } from "@/helpers/hooks/usePush"
 
@@ -22,9 +20,6 @@ export default function LayoutUser({ children }: IChildrenProps) {
     }, [token, state])
 
     return token ? (
-        <section className={styles.wrapper}>
-            <LeftAsideUser />
-            {children}
-        </section>
+        <section className={styles.wrapper}>{children}</section>
     ) : null
 }

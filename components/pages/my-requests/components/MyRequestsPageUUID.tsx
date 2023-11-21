@@ -6,9 +6,9 @@ import { useMemo, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { useMutation, useQuery } from "@apollo/client"
 
+import type { IRequestProductRoot } from "@/types/types"
 import type { IPhotoProductRequestData } from "@/types/types"
 import type { IItemTab } from "@/components/common/tabs-details/types"
-import type { IRequestProductRoot, TTabsDetailsRequest } from "@/types/types"
 import {
     ComponentAddress,
     ComponentArea,
@@ -27,7 +27,10 @@ import {
 } from "@/apollo/query"
 import { ITEMS_TABS } from "../constants/tabs"
 import { usePush } from "@/helpers/hooks/usePush"
-import { mutateUpdateProductRequestDraft } from "@/apollo/mutation"
+import {
+    mutateUpdateProductRequestDraft,
+    mutationProductRequestUpdate,
+} from "@/apollo/mutation"
 
 import styles from "../styles/page-uuid.module.scss"
 
@@ -37,6 +40,9 @@ export const MyRequestsPageUUID = () => {
     const [tab, setTab] = useState<IItemTab>(ITEMS_TABS[0])
 
     const [mutateDraft] = useMutation(mutateUpdateProductRequestDraft)
+    const [deleteRequest] = useMutation(mutationProductRequestUpdate, {
+        variables: { productRequestId: uuid },
+    })
     const { data, loading, refetch } = useQuery<IRequestProductRoot>(
         queryProductRequestById,
         {
@@ -92,6 +98,12 @@ export const MyRequestsPageUUID = () => {
         )
     }, [data?.productRequestById])
 
+    function handleDelete() {
+        deleteRequest().finally(() => {
+            handleReplace(`/my-requests`)
+        })
+    }
+
     if (loading || !productRequestById) return null
 
     return (
@@ -104,17 +116,6 @@ export const MyRequestsPageUUID = () => {
                 />
                 <h1>{productRequestById?.name}</h1>
                 <div data-buttons>
-                    {productRequestById?.draft ? (
-                        <button data-black-border onClick={handleChange}>
-                            <span>Редактировать</span>
-                            <Image
-                                src="/svg/replace.svg"
-                                alt="replace"
-                                width={20}
-                                height={20}
-                            />
-                        </button>
-                    ) : null}
                     {productRequestById?.draft && isDataFull ? (
                         <button data-black onClick={handlePublish}>
                             <span>Опубликовать</span>
@@ -126,6 +127,35 @@ export const MyRequestsPageUUID = () => {
                             />
                         </button>
                     ) : null}
+                    {productRequestById?.draft ? (
+                        <button data-black-border onClick={handleChange}>
+                            <span>Редактировать</span>
+                            <Image
+                                src="/svg/replace.svg"
+                                alt="replace"
+                                width={20}
+                                height={20}
+                            />
+                        </button>
+                    ) : null}
+                    <button
+                        data-delete={!!productRequestById?.draft}
+                        onClick={handleDelete}
+                    >
+                        <span>
+                            {productRequestById?.draft ? "Удалить" : "В архив"}
+                        </span>
+                        <Image
+                            src={
+                                productRequestById?.draft
+                                    ? "/svg/trash-01.svg"
+                                    : "/svg/box.svg"
+                            }
+                            alt="replace"
+                            width={20}
+                            height={20}
+                        />
+                    </button>
                 </div>
             </header>
             <TabsDetails items={ITEMS_TABS} set={setTab} current={tab} />

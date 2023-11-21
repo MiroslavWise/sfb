@@ -10,11 +10,13 @@ import { usePush } from "@/helpers/hooks/usePush"
 import { Filter } from "@/components/common/filters"
 import Image from "next/image"
 import { useState } from "react"
+import { useTitle } from "@/helpers/hooks/useTitle"
 
 export function MyRequestsPage() {
     const { data, loading } = useQuery(productRequestListMe, {
         variables: { offset: 0 },
     })
+    useTitle(`Мои запросы (${data?.productRequestListMe?.totalCount || 0})`)
     const { handlePush } = usePush()
     const [loadingCreate, setLoadingCreate] = useState(false)
 

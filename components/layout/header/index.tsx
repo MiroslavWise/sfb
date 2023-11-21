@@ -1,4 +1,3 @@
-import { memo } from "react"
 import { Logo } from "./components/Logo"
 import { Navigation } from "./components/Navigation"
 import { SearchBlock } from "./components/SearchBlock"

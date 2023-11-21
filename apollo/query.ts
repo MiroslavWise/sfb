@@ -91,7 +91,7 @@ export const queryCity = gql`
 export const productRequestListMe = gql`
     ${PRODUCT_REQUEST}
     query ($offset: Int) {
-        productRequestListMe(limit: 20, offset: $offset) {
+        productRequestListMe(limit: 20, offset: $offset, isActive: true) {
             totalCount
             results {
                 ...productRequest
@@ -131,7 +131,12 @@ export const productListMe_ID_NAME = gql`
 export const queryProductListMe = gql`
     ${PRODUCT}
     query ($offset: Int, $ordering: String) {
-        productListMe(limit: 20, offset: $offset, ordering: $ordering) {
+        productListMe(
+            limit: 20
+            offset: $offset
+            ordering: $ordering
+            isActive: true
+        ) {
             totalCount
             results {
                 ...product
@@ -140,6 +145,29 @@ export const queryProductListMe = gql`
                     photoUrl
                 }
             }
+        }
+    }
+`
+export const queryProductListMeArchive = gql`
+    ${PRODUCT}
+    query ($offset: Int) {
+        productListMe(limit: 20, offset: $offset, isActive: false) {
+            totalCount
+            results {
+                ...product
+                photoListUrl {
+                    id
+                    photoUrl
+                }
+            }
+        }
+    }
+`
+
+export const queryProductListMeTotalArchive = gql`
+    query {
+        productListMe(isActive: false) {
+            totalCount
         }
     }
 `
@@ -180,8 +208,13 @@ export const queryPhotosProductById = gql`
 
 export const queryProductList = gql`
     ${PRODUCT}
-    query ($offset: Int, $categoryId: UUID) {
-        productList(limit: 10, offset: $offset, categoryId: $categoryId) {
+    query ($offset: Int, $categoryId: String) {
+        productList(
+            limit: 16
+            offset: $offset
+            categoryId: $categoryId
+            isActive: true
+        ) {
             totalCount
             results {
                 ...product
@@ -214,10 +247,10 @@ export const queryProductRequestById = gql`
 
 export const queryTotalCountProfileAside = gql`
     query {
-        productListMe {
+        productListMe(isActive: true) {
             totalCount
         }
-        productRequestListMe {
+        productRequestListMe(isActive: true) {
             totalCount
         }
         chatList {
@@ -253,6 +286,30 @@ export const queryNotificationTotal = gql`
     query {
         notificationList(isRead: false) {
             totalCount
+        }
+    }
+`
+
+export const queryFavoriteProductList = gql`
+    ${PRODUCT}
+    {
+        favoriteProductList {
+            totalCount
+            results {
+                id
+                user {
+                    id
+                    fullName
+                    photo
+                }
+                product {
+                    ...product
+                    photoListUrl {
+                        id
+                        photoUrl
+                    }
+                }
+            }
         }
     }
 `

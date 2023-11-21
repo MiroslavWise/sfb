@@ -1,6 +1,7 @@
 "use client"
 
 import { useMemo } from "react"
+import Image from "next/image"
 import { motion } from "framer-motion"
 import { useQuery } from "@apollo/client"
 import { useSearchParams } from "next/navigation"
@@ -19,6 +20,7 @@ import { ButtonBack } from "@/components/common/button-back"
 import { TagCategory } from "../../proposals/components/TagCategory"
 
 import { usePush } from "@/helpers/hooks/usePush"
+import { useFavoritesClick } from "@/helpers/hooks/useFavoritesClick"
 import { queryPhotosProductById, queryProductById } from "@/apollo/query"
 
 import styles from "../styles/style.module.scss"
@@ -38,6 +40,12 @@ export const ProductId = () => {
             },
         })
 
+    const {
+        isFavorite,
+        handleFavorite,
+        loading: loadingFavorite,
+    } = useFavoritesClick()
+
     const { productById } = data ?? {}
 
     const images = useMemo(() => {
@@ -49,6 +57,10 @@ export const ProductId = () => {
 
         return []
     }, [dataPhotos?.productById])
+
+    function handle() {
+        handleFavorite(productId!)
+    }
 
     if (loading || loadingPhoto) return null
 
@@ -63,6 +75,26 @@ export const ProductId = () => {
             <header>
                 <ButtonBack onClick={back} />
                 <h1>{productById?.name}</h1>
+                <div
+                    data-loading={loadingFavorite}
+                    data-favorite
+                    onClick={(event) => {
+                        event.stopPropagation()
+                        event.preventDefault()
+                        handle()
+                    }}
+                >
+                    <Image
+                        src={
+                            isFavorite(productId!)
+                                ? "/svg/tag-fill.svg"
+                                : "/svg/tag-regular.svg"
+                        }
+                        alt="tag--"
+                        width={25}
+                        height={25}
+                    />
+                </div>
             </header>
             <section>
                 <PhotoStage images={images} />

@@ -18,7 +18,10 @@ import type { IItemTab } from "@/components/common/tabs-details/types"
 
 import { ITEMS_TABS } from "../constants/tabs"
 import { usePush } from "@/helpers/hooks/usePush"
-import { mutateUpdateProductDraft } from "@/apollo/mutation"
+import {
+    mutateUpdateProductDraft,
+    mutationProductDelete,
+} from "@/apollo/mutation"
 import { queryPhotosProductById, queryProductById } from "@/apollo/query"
 
 import styles from "../styles/page-uuid.module.scss"
@@ -35,13 +38,13 @@ export const MyProductPageUUID = () => {
     const uuid = useSearchParams().get("product-id")
 
     const [mutateDraft] = useMutation(mutateUpdateProductDraft)
+    const [deleteProduct] = useMutation(mutationProductDelete, {
+        variables: { productId: uuid },
+    })
 
-    const { data, loading, refetch } = useQuery<IProductRoot>(
-        queryProductById,
-        {
-            variables: { id: uuid },
-        },
-    )
+    const { data, refetch } = useQuery<IProductRoot>(queryProductById, {
+        variables: { id: uuid },
+    })
     const { productById } = data ?? {}
     const { data: dataPhotos } = useQuery<IPhotoProductData>(
         queryPhotosProductById,
@@ -91,6 +94,12 @@ export const MyProductPageUUID = () => {
         )
     }, [data?.productById])
 
+    function handleDelete() {
+        deleteProduct().finally(() => {
+            handleReplace(`/my-products`)
+        })
+    }
+
     return (
         <div className={styles.wrapper}>
             <header>
@@ -100,30 +109,50 @@ export const MyProductPageUUID = () => {
                     }}
                 />
                 <h1>{productById?.name}</h1>
-                <div data-buttons>
-                    {productById?.draft ? (
-                        <button data-black-border onClick={handleChange}>
-                            <span>Редактировать</span>
+                {productById?.isActive ? (
+                    <div data-buttons>
+                        {productById?.draft && isDataFull ? (
+                            <button data-black onClick={handlePublish}>
+                                <span>Опубликовать</span>
+                                <Image
+                                    src="/svg/globe-06.svg"
+                                    alt="globe-06"
+                                    width={20}
+                                    height={20}
+                                />
+                            </button>
+                        ) : null}
+                        {productById?.draft ? (
+                            <button data-black-border onClick={handleChange}>
+                                <span>Редактировать</span>
+                                <Image
+                                    src="/svg/replace.svg"
+                                    alt="replace"
+                                    width={20}
+                                    height={20}
+                                />
+                            </button>
+                        ) : null}
+                        <button
+                            data-delete={!!productById?.draft}
+                            onClick={handleDelete}
+                        >
+                            <span>
+                                {productById?.draft ? "Удалить" : "В архив"}
+                            </span>
                             <Image
-                                src="/svg/replace.svg"
+                                src={
+                                    productById?.draft
+                                        ? "/svg/trash-01.svg"
+                                        : "/svg/box.svg"
+                                }
                                 alt="replace"
                                 width={20}
                                 height={20}
                             />
                         </button>
-                    ) : null}
-                    {productById?.draft && isDataFull ? (
-                        <button data-black onClick={handlePublish}>
-                            <span>Опубликовать</span>
-                            <Image
-                                src="/svg/globe-06.svg"
-                                alt="globe-06"
-                                width={20}
-                                height={20}
-                            />
-                        </button>
-                    ) : null}
-                </div>
+                    </div>
+                ) : null}
             </header>
             <TabsDetails items={ITEMS_TABS} set={setTab} current={tab} />
             {tab.value === "main" ? (

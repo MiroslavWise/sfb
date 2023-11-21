@@ -1,19 +1,23 @@
 import Image from "next/image"
-import { memo, useMemo } from "react"
+import { useMemo } from "react"
 import { useQuery } from "@apollo/client"
+import { usePathname } from "next/navigation"
 
 import { usePush } from "@/helpers/hooks/usePush"
 import { queryChatTotalCount } from "@/apollo/chat"
-import { queryNotificationTotal } from "@/apollo/query"
+import {
+    queryNotificationTotal,
+    queryProductListMeTotalArchive,
+} from "@/apollo/query"
+import { useFavorites } from "@/store/state/useFavorites"
 
-const $ProfilePanel = () => {
+export const ProfilePanel = () => {
     const { handlePush } = usePush()
-    const { data: dataTotalNotifications, loading } = useQuery(
-        queryNotificationTotal,
-    )
+    const pathname = usePathname()
+    const { data: dataTotalNotifications } = useQuery(queryNotificationTotal)
     const { data: dataTotalChats } = useQuery(queryChatTotalCount)
-
-    console.log("loading queryNotificationTotal: ", loading)
+    const { data: dataArchiveTotal } = useQuery(queryProductListMeTotalArchive)
+    const { favorites } = useFavorites()
 
     const lengthNotification: number | string = useMemo(() => {
         if (dataTotalNotifications?.notificationList?.totalCount > 9) {
@@ -28,8 +32,81 @@ const $ProfilePanel = () => {
         return dataTotalChats?.chatList?.totalCount || 0
     }, [dataTotalChats?.chatList?.totalCount])
 
+    const isBuilding = [
+        "/my-requests",
+        "/my-products",
+        "/delivery",
+        "/my-sales",
+        "/my-orders",
+    ].includes(pathname)
+
     return (
         <div data-chat-notification>
+            <div data-notification>
+                <Image
+                    src="/svg/menu/star-06.svg"
+                    alt="star-06"
+                    width={24}
+                    height={24}
+                    onClick={() => {
+                        handlePush("/favorites")
+                    }}
+                />
+                {favorites.length ? (
+                    <div data-count data-chat>
+                        <span>{favorites.length}</span>
+                    </div>
+                ) : null}
+            </div>
+            <div data-notification>
+                <Image
+                    src="/svg/box-black.svg"
+                    alt="box-black"
+                    width={24}
+                    height={24}
+                    onClick={() => {
+                        handlePush("/archive")
+                    }}
+                />
+                {dataArchiveTotal?.productListMe?.totalCount ? (
+                    <div data-count data-chat>
+                        <span>
+                            {dataArchiveTotal?.productListMe?.totalCount || 0}
+                        </span>
+                    </div>
+                ) : null}
+            </div>
+            <div data-notification>
+                <Image
+                    src="/svg/shopping-cart-01.svg"
+                    alt="shopping-cart-01"
+                    width={24}
+                    height={24}
+                    onClick={() => {
+                        handlePush("/basket")
+                    }}
+                />
+                {/* {dataArchiveTotal?.productListMe?.totalCount ? (
+                    <div data-count>
+                        <span>
+                            {dataArchiveTotal?.productListMe?.totalCount || 0}
+                        </span>
+                    </div>
+                ) : null} */}
+            </div>
+            <Image
+                src={
+                    isBuilding
+                        ? "/svg/building-fill.svg"
+                        : "/svg/building-regular.svg"
+                }
+                alt="building"
+                width={24}
+                height={24}
+                onClick={() => {
+                    handlePush("/my-requests")
+                }}
+            />
             <div data-notification>
                 <Image
                     src="/svg/menu/message-notification-circle.svg"
@@ -74,5 +151,3 @@ const $ProfilePanel = () => {
         </div>
     )
 }
-
-export const ProfilePanel = memo($ProfilePanel)

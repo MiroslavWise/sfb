@@ -11,6 +11,7 @@ import {
     VisiblePreviewPhotos,
     AnimatedLoadPage,
 } from "@/components/templates"
+import { ApolloData } from "./ApolloData"
 import { Toast } from "@/components/layout/toast"
 import { ApolloProviderContext } from "./ApolloProvider"
 import { WebSocketContext } from "./WebSocketContext"
@@ -36,12 +37,14 @@ const Provider: TChildrenProps = ({ children }) => {
         <PrimeReactProvider>
             <ApolloProviderContext>
                 <WebSocketContext>
-                    <AnimatedLoadPage />
-                    <ModalLogin />
-                    <Suspense fallback={false}>{children}</Suspense>
-                    <Toast />
-                    <ToastContainer />
-                    <VisiblePreviewPhotos />
+                    <ApolloData>
+                        <AnimatedLoadPage />
+                        <ModalLogin />
+                        <Suspense fallback={false}>{children}</Suspense>
+                        <Toast />
+                        <ToastContainer />
+                        <VisiblePreviewPhotos />
+                    </ApolloData>
                 </WebSocketContext>
             </ApolloProviderContext>
         </PrimeReactProvider>
