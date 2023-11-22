@@ -245,7 +245,11 @@ const $MessagesChatUUID = () => {
                     ) : null}
                     <div data-info>
                         <h2>{infoCommodity?.name}</h2>
-                        <h1>{`${infoCommodity?.price} ₸` || "Договорная"} </h1>
+                        <h1>
+                            {`${
+                                Number(infoCommodity?.price)?.toFixed(0) || 0
+                            } ₸` || "Договорная"}{" "}
+                        </h1>
                     </div>
                     <div data-buttons>
                         <button data-completed>

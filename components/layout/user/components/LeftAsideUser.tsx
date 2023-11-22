@@ -7,19 +7,12 @@ import { usePathname } from "next/navigation"
 
 import type { IQueryTotalCountProfileAside } from "@/types/total"
 
-import { ComponentCarouselBannerMainPage } from "@/components/pages/main"
-
-import { useAuth } from "@/store/state/useAuth"
 import { usePush } from "@/helpers/hooks/usePush"
 import { queryTotalCountProfileAside } from "@/apollo/query"
-import {
-    ITEMS_ASIDE_LEFT,
-    ITEMS_ASIDE_LEFT_PICTURE,
-} from "../constants/ITEMS-ASIDE-LEFT"
+import { ITEMS_ASIDE_LEFT_PICTURE } from "../constants/ITEMS-ASIDE-LEFT"
 
 const $LeftAsideUser = () => {
     const pathname = usePathname()
-    const { user } = useAuth()
     const { handlePush } = usePush()
     const { data } = useQuery<IQueryTotalCountProfileAside>(
         queryTotalCountProfileAside,

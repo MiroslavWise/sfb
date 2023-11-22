@@ -63,7 +63,7 @@ const $ItemRequestsPage: TItemProposalsPage = (props) => {
             <div data-name>
                 <section data-title-price>
                     <h2>{name}</h2>
-                    <h2 data-price>{price} ₸</h2>
+                    <h2 data-price>{Number(price)?.toFixed(0) || 0} ₸</h2>
                 </section>
                 <section data-category-location>
                     <a>{category?.name}</a>

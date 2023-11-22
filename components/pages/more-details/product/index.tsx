@@ -62,6 +62,8 @@ export const ProductId = () => {
         handleFavorite(productId!)
     }
 
+    const is = isFavorite(productId!)
+
     if (loading || loadingPhoto) return null
 
     return (
@@ -73,23 +75,24 @@ export const ProductId = () => {
             className={styles.wrapper}
         >
             <header>
-                <ButtonBack onClick={back} />
-                <h1>{productById?.name}</h1>
+                <div data-title>
+                    <ButtonBack onClick={back} />
+                    <h1>{productById?.name}</h1>
+                </div>
                 <div
-                    data-loading={loadingFavorite}
-                    data-favorite
+                    data-favorite={is}
                     onClick={(event) => {
                         event.stopPropagation()
                         event.preventDefault()
                         handle()
                     }}
                 >
+                    <p>
+                        {is ? "Убрать из избранного" : "Добавить в избранное"}
+                    </p>
                     <Image
-                        src={
-                            isFavorite(productId!)
-                                ? "/svg/tag-fill.svg"
-                                : "/svg/tag-regular.svg"
-                        }
+                        src={is ? "/svg/tag-fill.svg" : "/svg/tag-regular.svg"}
+                        data-loading={loadingFavorite}
                         alt="tag--"
                         width={25}
                         height={25}
@@ -113,7 +116,9 @@ export const ProductId = () => {
                     </Outline>
                     <Outline label="Цена">
                         <div data-price-block>
-                            <h3>{productById?.price || 0} ₸</h3>
+                            <h3>
+                                {Number(productById?.price)?.toFixed(0) || 0} ₸
+                            </h3>
                         </div>
                     </Outline>
                     <Outline label="Количество">

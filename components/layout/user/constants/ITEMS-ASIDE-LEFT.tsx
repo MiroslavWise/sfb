@@ -41,6 +41,12 @@ export const ITEMS_ASIDE_LEFT_PICTURE = (
     values: IValuesData,
 ): IItemsAsideLeft[] => [
     {
+        value: "/my-shop",
+        label: "Мои магазины",
+        icon: "/png/Menu/marcos-rivas-HX_QUGNAjDo-unsplash.jpg",
+        count: null,
+    },
+    {
         value: "/my-requests",
         label: "Мои запросы",
         icon: "/png/Menu/med-badr-chemmaoui-ZSPBhokqDMc-unsplash.jpg",

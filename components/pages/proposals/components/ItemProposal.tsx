@@ -88,7 +88,9 @@ const $ItemProposal = (props: IProductOfferItem) => {
             <section>
                 <article>
                     <h2>{productRequest?.name}</h2>
-                    <h2 data-price>{productRequest?.price} ₸</h2>
+                    <h2 data-price>
+                        {Number(productRequest?.price)?.toFixed(0) || 0} ₸
+                    </h2>
                 </article>
                 <article>
                     <div data-category>

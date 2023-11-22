@@ -38,6 +38,7 @@ export const ProfilePanel = () => {
         "/delivery",
         "/my-sales",
         "/my-orders",
+        "/my-shop",
     ].includes(pathname)
 
     return (
@@ -86,13 +87,6 @@ export const ProfilePanel = () => {
                         handlePush("/basket")
                     }}
                 />
-                {/* {dataArchiveTotal?.productListMe?.totalCount ? (
-                    <div data-count>
-                        <span>
-                            {dataArchiveTotal?.productListMe?.totalCount || 0}
-                        </span>
-                    </div>
-                ) : null} */}
             </div>
             <Image
                 src={
@@ -104,7 +98,7 @@ export const ProfilePanel = () => {
                 width={24}
                 height={24}
                 onClick={() => {
-                    handlePush("/my-requests")
+                    handlePush("/my-shop")
                 }}
             />
             <div data-notification>

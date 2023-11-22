@@ -37,7 +37,7 @@ export const ItemProduct: FC<IProduct> = (props) => {
                     <p>Фотографий нет</p>
                 </div>
             )}
-            <h3>{price}₸</h3>
+            <h3>{Number(price)?.toFixed(0) || 0} ₸</h3>
             <h5>{name}</h5>
             <a data-city>{city?.name}</a>
             <div data-time>

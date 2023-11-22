@@ -179,7 +179,10 @@ export const MyProductPageUUID = () => {
                         <Outline label="Цена">
                             <div data-price-block>
                                 {productById?.price ? (
-                                    <h3>{productById?.price} ₸</h3>
+                                    <h3>
+                                        {Number(productById?.price)?.toFixed(0)}{" "}
+                                        ₸
+                                    </h3>
                                 ) : (
                                     <i>Предположительная цена не выставлена</i>
                                 )}

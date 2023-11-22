@@ -14,7 +14,7 @@
         letter-spacing: -0.4px;
     }
 
-    & > input {
+    & > textarea {
         width: 100%;
         border: none !important;
         outline: none !important;
@@ -22,7 +22,8 @@
         border-radius: 7px;
         padding: 12px 8px;
         border-radius: 7px;
-        height: 40px;
+        height: calc(14px + 14px + 14px + 12px + 12px);
+        resize: none;
 
         color: var(--main-black);
         font-size: 14px;

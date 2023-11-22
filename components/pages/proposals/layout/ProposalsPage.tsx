@@ -105,8 +105,13 @@ export const ProposalsPageUUID = () => {
                     </Outline>
                     <Outline label="Цена">
                         <div data-price-block>
-                            {productRequestById?.price ? (
-                                <h3>{productRequestById?.price} ₸</h3>
+                            {productRequestById?.price?.toFixed(0) ? (
+                                <h3>
+                                    {Number(productRequestById?.price)?.toFixed(
+                                        0,
+                                    ) || 0}{" "}
+                                    ₸
+                                </h3>
                             ) : (
                                 <i>Предположительная цена не выставлена</i>
                             )}

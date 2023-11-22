@@ -4,6 +4,38 @@
     flex-direction: row;
     gap: 20px;
 
+    & > aside {
+        max-width: 350px;
+        width: 100%;
+        & > ul {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+
+            & > li {
+                display: flex;
+                flex-direction: row;
+                gap: 8px;
+                cursor: pointer;
+
+                & > span {
+                    color: var(--gray-400);
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 500;
+                    letter-spacing: -0.5px;
+                }
+
+                &[data-is-active="true"] {
+                    & > span {
+                        color: var(--main-black);
+                    }
+                }
+            }
+        }
+    }
+
     & > ul {
         width: 100%;
         display: grid;
