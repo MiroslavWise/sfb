@@ -15,12 +15,12 @@
             padding: 10px 15px;
             border-radius: 7px;
             background: var(--main-black) !important;
-            border: 2px solid var(--success-200);
+            border: 2px solid var(--gray-50);
             outline: none !important;
             color: var(--gray-200);
 
             &:focus {
-                border-color: var(--success-300) !important;
+                border-color: var(--gray-100) !important;
             }
         }
         & > img {
