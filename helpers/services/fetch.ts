@@ -68,5 +68,10 @@ export type TTypeFileURL =
     | "product-request/photo-upload/"
     | "user/photo-upload/"
     | "chat/photo-upload/"
+    | "shop/photo-upload/"
 
-export type TTypeFileProductId = "product_id" | "product_request_id" | "chat_id"
+export type TTypeFileProductId =
+    | "product_id"
+    | "product_request_id"
+    | "chat_id"
+    | "shop_id"

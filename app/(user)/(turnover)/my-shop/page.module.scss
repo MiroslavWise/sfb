@@ -1,3 +1,109 @@
-.wrapper{
-    
+.wrapper {
+    max-width: 960px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    & > ul {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(170px, 270px));
+        grid-gap: 16px;
+
+        & > li {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1/1;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+
+            & > [data-info] {
+                position: absolute;
+                inset: 0;
+                z-index: 2;
+                background: rgba(#000000, 0.3);
+                padding: 16px;
+
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+
+                & > header {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+
+                    & > h3 {
+                        color: var(--gray-50);
+                        font-size: 24px;
+                        font-style: normal;
+                        font-weight: 600;
+                        letter-spacing: -0.5px;
+                    }
+
+                    & > h4 {
+                        color: var(--gray-100);
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 500;
+                        letter-spacing: -0.1px;
+                        overflow: hidden;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 4;
+                        -webkit-box-orient: vertical;
+                    }
+                }
+
+                & > footer {
+                    opacity: 0;
+                    visibility: hidden;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+
+                    & > button {
+                        width: 100%;
+                        padding: 6px 12px;
+                        border-radius: 8px;
+
+                        &[data-read] {
+                            background: var(--main-black);
+                            & > span {
+                                color: #fff;
+                            }
+                        }
+
+                        &[data-change] {
+                            background: var(--gray-50);
+                            & > span {
+                                color: var(--main-black);
+                            }
+                        }
+
+                        & > span {
+                            font-weight: 600;
+                        }
+                    }
+                }
+            }
+
+            &:hover {
+                & > [data-info] {
+                    background: rgba(#000000, 0.4);
+                }
+
+                & > img {
+                    scale: 1.1;
+                }
+
+                & > [data-info] > footer {
+                    opacity: 1 !important;
+                    visibility: visible;
+                }
+            }
+        }
+    }
 }

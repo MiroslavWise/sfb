@@ -45,8 +45,8 @@ export const ProfilePanel = () => {
         <div data-chat-notification>
             <div data-notification>
                 <Image
-                    src="/svg/menu/star-06.svg"
-                    alt="star-06"
+                    src="/svg/tag-01.svg"
+                    alt="tag-01"
                     width={24}
                     height={24}
                     onClick={() => {

@@ -205,11 +205,11 @@
                         max-width: 120px;
                         background: #fff;
                         & > span {
-                            color: var(--gray-500);
+                            color: var(--gray-800);
                         }
                     }
                     &[data-primary="true"] {
-                        background: var(--main-primary);
+                        background: var(--main-black);
                         & > span {
                             color: #fff;
                         }

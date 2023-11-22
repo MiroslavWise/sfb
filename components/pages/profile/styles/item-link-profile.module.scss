@@ -1,5 +1,5 @@
 .container {
-    background: #fff;
+    background: var(--main-black);
     cursor: pointer;
     height: 48px;
     width: 100%;
@@ -21,10 +21,11 @@
         & > img {
             height: 24px;
             width: 24px;
+            filter: invert(1);
         }
 
         & > p {
-            color: var(--main-black);
+            color: #fff;
             font-size: 16px;
             font-style: normal;
             font-weight: 500;

@@ -255,3 +255,38 @@ export const mutationFavoriteProductDelete = gql`
         }
     }
 `
+
+export const mutationShopCreate = gql`
+    mutation ($name: String, $description: String, $address: String) {
+        shopCreate(
+            input: { name: $name, description: $description, address: $address }
+        ) {
+            ok
+            shop {
+                id
+            }
+            errors {
+                messages
+            }
+        }
+    }
+`
+
+export const mutationShopUpdate = gql`
+    mutation (
+        $shopId: UUID!
+        $name: String
+        $description: String
+        $address: String
+    ) {
+        shopUpdate(
+            shopId: $shopId
+            input: { name: $name, description: $description, address: $address }
+        ) {
+            ok
+            errors {
+                messages
+            }
+        }
+    }
+`

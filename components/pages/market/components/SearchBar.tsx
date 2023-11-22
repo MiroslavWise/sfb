@@ -26,7 +26,7 @@ export const SearchBar = () => {
     return pathname !== "/" ? (
         <div className={styles.wrapper}>
             <form data-container onSubmit={onSubmit}>
-                <input placeholder="Искать на бирже" {...register("input")} />
+                <input placeholder="Искать в маркете" {...register("input")} />
                 <button data-button-search type="submit">
                     <span>Поиск</span>
                 </button>

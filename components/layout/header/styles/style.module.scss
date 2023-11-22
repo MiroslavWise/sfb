@@ -1,18 +1,19 @@
 .header {
     width: 100%;
-    background: #fff;
+    background: var(--main-black) !important;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     gap: 30px;
     height: 78px;
-    padding: 0px 100px;
+    padding: 0px 80px;
 
     & > [data-logo="true"] {
         width: 54px;
         height: 25px;
         cursor: pointer;
+        filter: invert(1);
     }
 
     & > nav {
@@ -37,13 +38,17 @@
             & > a {
                 text-align: center;
                 position: relative;
-                color: var(--main-black);
+                color: #fff !important;
                 font-size: 16px;
                 font-style: normal;
                 font-weight: 500;
                 cursor: pointer;
                 align-items: center;
                 white-space: nowrap;
+            }
+
+            & > img {
+                filter: invert(1);
             }
 
             &[data-lang="true"] {
@@ -78,18 +83,14 @@
 
             &[data-active="true"] {
                 & > a {
-                    color: var(--main-black);
+                    color: #fff;
                 }
                 &::after {
                     content: "";
                     z-index: 0;
                     position: absolute;
                     inset: 0;
-                    background: linear-gradient(
-                        -1deg,
-                        #03e5b7 -23%,
-                        #037ade 116%
-                    );
+                    background: #fff;
                     transform: translate3d(0px, 63px, 0) scale(1);
                     filter: blur(51px);
                     opacity: 0.2;
@@ -111,6 +112,7 @@
 
             & > img {
                 cursor: pointer;
+                filter: invert(1);
             }
 
             & > [data-notification="true"] {
@@ -122,10 +124,14 @@
                 align-items: center;
                 cursor: pointer;
 
+                & > img {
+                    filter: invert(1);
+                }
+
                 & > [data-count="true"] {
                     position: absolute;
-                    top: -2px;
-                    right: -2px;
+                    top: -4px;
+                    right: -4px;
                     background: var(--warning-600);
                     height: 12px;
                     width: 12px;
@@ -160,9 +166,9 @@
             flex-direction: row;
             align-items: center;
             justify-content: center;
-            border: none !important;
+            border: 2px solid var(--main-black);
             outline: none !important;
-            background: var(--main-black);
+            background: #fff;
             border-radius: 7px;
 
             &:focus,
@@ -171,9 +177,9 @@
             }
 
             & > span {
-                color: #fff;
+                color: var(--main-black);
                 text-align: center;
-                font-size: 13px;
+                font-size: 16px;
                 font-style: normal;
                 font-weight: 600;
                 line-height: normal;

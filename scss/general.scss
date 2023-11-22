@@ -131,6 +131,17 @@
     }
 }
 
+html {
+    // width: 100%;
+    // padding: 30px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // background-image: url("/png/susan-wilkinson-DNCcYq71BSE-unsplash.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 body {
     -webkit-touch-callout: none;
     -webkit-tap-highlight-color: transparent;

@@ -6,11 +6,16 @@ export interface IShop {
     confirmation: boolean
     address: string
     phone: string
+    photoUrl: string
 }
 
 export interface IListShop {
     shopList: {
         totalCount: number
-        results: IShop
+        results: IShop[]
     }
+}
+
+export interface IShopById {
+    shopById: IShop
 }

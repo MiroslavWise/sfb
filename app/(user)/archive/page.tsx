@@ -6,7 +6,7 @@ import { PageArchive, PageArchiveUUID } from "@/components/pages/archive"
 
 import { useTitle } from "@/helpers/hooks/useTitle"
 
-export default async function Archive() {
+export default function Archive() {
     useTitle("Архив")
     const uuid = useSearchParams().get("archive-id")
 

@@ -14,17 +14,20 @@
             height: 100%;
             padding: 10px 15px;
             border-radius: 7px;
-            border: 2px solid var(--gray-300);
+            background: var(--main-black) !important;
+            border: 2px solid var(--success-200);
             outline: none !important;
+            color: var(--gray-200);
 
             &:focus {
-                border: 2px solid var(--success-300) !important;
+                border-color: var(--success-300) !important;
             }
         }
         & > img {
             position: absolute;
             top: 8px;
             right: 15px;
+            filter: invert(1);
 
             &[data-loading="true"] {
                 border-radius: 50%;

@@ -6,16 +6,16 @@ export const MENU_ITEMS: IMenuItems[] = [
         value: "/market",
         icon: "/svg/sale-02.svg",
     },
-    {
-        label: "Стать партнёром",
-        value: "/about",
-        icon: "/svg/menu/check-verified-01.svg",
-    },
-    {
-        label: "Помощь",
-        value: "/contacts",
-        icon: "/svg/menu/help-circle.svg",
-    },
+    // {
+    //     label: "Стать партнёром",
+    //     value: "/about",
+    //     icon: "/svg/menu/check-verified-01.svg",
+    // },
+    // {
+    //     label: "Помощь",
+    //     value: "/contacts",
+    //     icon: "/svg/menu/help-circle.svg",
+    // },
     // {
     //     label: "Профиль",
     //     value: "/profile",
