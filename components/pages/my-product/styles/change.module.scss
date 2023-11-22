@@ -119,27 +119,6 @@
                         width: 100%;
                     }
 
-                    & > textarea {
-                        width: 100%;
-                        border: none !important;
-                        outline: none !important;
-                        background: #fff;
-                        border-radius: 7px;
-                        padding: 16px;
-
-                        color: var(--main-black);
-                        font-size: 14px;
-                        font-style: normal;
-                        font-weight: 500;
-                        line-height: 18px;
-                        height: calc(20px + 18px + 18px + 18px + 20px);
-                        resize: none !important;
-
-                        &::placeholder {
-                            color: var(--gray-500);
-                        }
-                    }
-
                     & > i {
                         color: #d92d20;
                         font-size: 12px;

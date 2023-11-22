@@ -34,6 +34,7 @@ import { createProductFull, mutateUpdateProduct } from "@/apollo/mutation"
 import { DELIVERY_TYPE, type TTypeDelivery } from "../constants/delivery-type"
 
 import styles from "../styles/change.module.scss"
+import { TextArea } from "@/components/common/text-area"
 
 export const MyProductPageChange = () => {
     const uuid = useSearchParams().get("product-id")
@@ -328,15 +329,17 @@ export const MyProductPageChange = () => {
                                 setValue("title", event.target.value)
                             }
                         />
-                        <span>
-                            <label>Краткое описание товара</label>
-                            <textarea
-                                placeholder="Описание товара или услуги"
-                                {...register("description", {
-                                    required: false,
-                                })}
-                            />
-                        </span>
+                        <TextArea
+                            label="Краткое описание товара"
+                            {...register("description", {
+                                required: false,
+                            })}
+                            error={""}
+                            value={watch("description")}
+                            onChange={(event) =>
+                                setValue("description", event.target.value)
+                            }
+                        />
                         <Input
                             value={watch("price")}
                             label="Цена товара"

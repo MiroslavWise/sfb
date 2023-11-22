@@ -31,6 +31,7 @@ import {
 
 import styles from "../styles/change.module.scss"
 import { CustomSelector } from "@/components/common/custom-selector"
+import { TextArea } from "@/components/common/text-area"
 
 export const MyRequestsPageChange = () => {
     const uuid = useSearchParams().get("request-id")
@@ -355,13 +356,16 @@ export const MyRequestsPageChange = () => {
                             />
                         </span>
                     ) : null}
-                    <span>
-                        <label>Краткое описание товара</label>
-                        <textarea
-                            placeholder="Описание товара или услуги"
-                            {...register("description", { required: false })}
-                        />
-                    </span>
+                    <TextArea
+                        label="Краткое описание товара"
+                        placeholder="Описание товара или услуги"
+                        {...register("description", { required: false })}
+                        error={""}
+                        value={watch("description")!}
+                        onChange={(event) =>
+                            setValue("description", event.target.value)
+                        }
+                    />
                     <Input
                         value={watch("price")!}
                         label="Цена товара"

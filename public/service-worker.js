@@ -12,6 +12,7 @@ const installEvent = () => {
                         "/png/Menu/med-badr-chemmaoui-ZSPBhokqDMc-unsplash.jpg",
                         "/png/Menu/nathan-dumlao-lvWw_G8tKsk-unsplash.jpg",
                         "/png/Menu/rosebox-BFdSCxmqvYc-unsplash.jpg",
+                        "/png/2h-media-GOrLkr-7q1U-unsplash.jpg",
                     ]),
                 )
         }
@@ -28,7 +29,7 @@ const activateEvent = () => {
 }
 activateEvent()
 
-const cacheName = "v--311-0"
+const cacheName = "v--31134-0"
 
 self.addEventListener("fetch", (event) => {
     if (event.request.mode === "navigate") {

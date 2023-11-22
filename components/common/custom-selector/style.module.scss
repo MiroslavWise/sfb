@@ -2,7 +2,7 @@
     position: relative;
     height: 40px;
     width: 100%;
-    background: #fff;
+    background: var(--gray-200);
     border-radius: 7px;
 
     & > [data-label] {
@@ -12,7 +12,7 @@
         padding: 20px 16px;
         height: 100%;
         & > span {
-            color: var(--gray-400);
+            color: var(--gray-600);
             font-weight: 500;
             padding: 0 !important;
             margin: 0 !important;
@@ -31,11 +31,11 @@
         left: 0;
         right: 0;
         border-radius: 7px;
-        border: 2px solid var(--gray-300);
+        border: 2px solid var(--gray-400);
         padding: 6px;
         display: flex;
         flex-direction: column;
-        background: var(--gray-50);
+        background: var(--gray-100);
         max-height: 250px;
         overflow-y: auto;
         gap: 4px;
