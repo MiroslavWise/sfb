@@ -2,6 +2,8 @@ import dayjs from "dayjs"
 import Image from "next/image"
 import type { IProduct } from "@/types/types"
 
+import { ButtonAddCart } from "@/components/common/button-add-cart"
+
 import { useFavoritesClick } from "@/helpers/hooks/useFavoritesClick"
 import { usePush } from "@/helpers/hooks/usePush"
 
@@ -45,25 +47,28 @@ export const ItemFavorite = (props: IProduct) => {
                 />
                 <a>{dayjs(createdAt).format("HH:mm DD.MM.YY")}</a>
             </div>
-            <div
-                data-loading={loading}
-                data-favorite
-                onClick={(event) => {
-                    event.stopPropagation()
-                    event.preventDefault()
-                    handle()
-                }}
-            >
-                <Image
-                    src={
-                        isFavorite(id!)
-                            ? "/svg/tag-fill.svg"
-                            : "/svg/tag-regular.svg"
-                    }
-                    alt="tag--"
-                    width={25}
-                    height={25}
-                />
+            <div data-absolute>
+                <div
+                    data-loading={loading}
+                    data-favorite
+                    onClick={(event) => {
+                        event.stopPropagation()
+                        event.preventDefault()
+                        handle()
+                    }}
+                >
+                    <Image
+                        src={
+                            isFavorite(id!)
+                                ? "/svg/tag-fill.svg"
+                                : "/svg/tag-regular.svg"
+                        }
+                        alt="tag--"
+                        width={25}
+                        height={25}
+                    />
+                </div>
+                <ButtonAddCart id={id} int={1} />
             </div>
         </li>
     )

@@ -63,7 +63,7 @@ const $LeftChats = () => {
                         data-active={!isBuyer}
                         data-s
                     >
-                        <span>Я покупатель {length.sellerCount}</span>
+                        <span>Я продавец {length.sellerCount}</span>
                     </button>
                     <button
                         onClick={() => {
@@ -75,7 +75,7 @@ const $LeftChats = () => {
                         data-active={isBuyer}
                         data-b
                     >
-                        <span>Я продавец {length.buyerCount}</span>
+                        <span>Я покупатель {length.buyerCount}</span>
                     </button>
                 </div>
             </header>

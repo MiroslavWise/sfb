@@ -2,7 +2,7 @@ import React from "react"
 
 interface IProps {
     id: string
-    int: number
+    int?: number
 }
 
 export type TTypeButton = React.DetailedHTMLProps<

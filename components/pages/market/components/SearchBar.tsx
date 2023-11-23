@@ -4,7 +4,6 @@ import { usePathname, useSearchParams } from "next/navigation"
 
 import styles from "../styles/search-bar.module.scss"
 
-import { FilterMain } from "./FilterMain"
 import { useForm } from "react-hook-form"
 import { useEffect } from "react"
 

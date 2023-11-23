@@ -1,9 +1,21 @@
-import type { ICart } from "@/types/shop"
 import Image from "next/image"
 
+import type { ICart } from "@/types/shop"
+
+import { useAuth } from "@/store/state/useAuth"
+import { useFavoritesClick } from "@/helpers/hooks/useFavoritesClick"
+import { ButtonDeleteCart } from "@/components/common/button-add-cart"
+
 export const ItemBasket = (props: ICart) => {
+    const { token } = useAuth()
     const { product, id, quantity } = props ?? {}
     const { photoListUrl } = product ?? {}
+
+    const { isFavorite, handleFavorite, loading } = useFavoritesClick()
+
+    function handle() {
+        handleFavorite(product.id)
+    }
 
     return (
         <li>
@@ -28,6 +40,31 @@ export const ItemBasket = (props: ICart) => {
                         ?.join(", ")}
                 </h4>
                 <h5>Кол-во товара: {quantity}</h5>
+            </div>
+            <div data-absolute>
+                {token ? (
+                    <div
+                        data-loading={loading}
+                        data-favorite
+                        onClick={(event) => {
+                            event.stopPropagation()
+                            event.preventDefault()
+                            handle()
+                        }}
+                    >
+                        <Image
+                            src={
+                                isFavorite(product.id!)
+                                    ? "/svg/tag-fill.svg"
+                                    : "/svg/tag-regular.svg"
+                            }
+                            alt="tag--"
+                            width={25}
+                            height={25}
+                        />
+                        {<ButtonDeleteCart id={id} />}
+                    </div>
+                ) : null}
             </div>
         </li>
     )

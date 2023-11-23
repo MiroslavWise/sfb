@@ -9,6 +9,7 @@ import { useSearchParams } from "next/navigation"
 import { CONFIG_ENV } from "@/helpers/config/ENV"
 import useWebSocket, { ReadyState } from "react-use-websocket"
 import { WebSocketLike } from "react-use-websocket/dist/lib/types"
+import { usePush } from "@/helpers/hooks/usePush"
 
 const CreateContext = createContext<ISocket>({
     readyState: null,
@@ -22,6 +23,7 @@ interface ISocket {
 
 export const WebSocketContext = memo(({ children }: IChildrenProps) => {
     const { token, user } = useAuth()
+    const { handlePush } = usePush()
     const chatId = useSearchParams().get("chat-id")
     const [chanel, setChanel] = useState<WebSocket | null | any>(null)
 
@@ -49,6 +51,9 @@ export const WebSocketContext = memo(({ children }: IChildrenProps) => {
                                 draggable: true,
                                 progress: undefined,
                                 theme: "colored",
+                                onClick() {
+                                    handlePush(`/messages?chat-id=${data?.chat_id}`)
+                                },
                             },
                         )
                     qwer()

@@ -6,6 +6,8 @@ import { ItemFavorite } from "../components/ItemFavorite"
 import { queryFavoriteProductList } from "@/apollo/query"
 
 import styles from "../styles/page.module.scss"
+import Image from "next/image"
+import Link from "next/link"
 
 export const PageFavorites = () => {
     const { data } = useQuery(queryFavoriteProductList)
@@ -52,26 +54,55 @@ export const PageFavorites = () => {
 
     return (
         <div className={styles.wrapper}>
-            <aside>
-                <ul>
-                    {category.map((item) => (
-                        <li
-                            key={`${item.id}---`}
-                            onClick={() => {
-                                handleCategory(item.id)
-                            }}
-                            data-is-active={idC === item.id}
-                        >
-                            <span>{item.name}</span>
-                        </li>
-                    ))}
-                </ul>
-            </aside>
-            <ul>
-                {filter.map((item) => (
-                    <ItemFavorite key={`${item?.id}`} {...item?.product} />
-                ))}
-            </ul>
+            {list?.length === 0 ? (
+                <div data-empty>
+                    <Image
+                        src="/svg/tag-01.svg"
+                        alt="tag-01"
+                        width={200}
+                        height={200}
+                    />
+                    <div data-info>
+                        <h3>Ваш список желаемого пуст</h3>
+                        <p>
+                            Вы можете добавлять сюда понравившиеся вам товары и
+                            обсуждать их с друзьями, а так-же отсюда вы можете
+                            поместить товар в корзину и купить его
+                        </p>
+                        <p>
+                            Что-бы добавить товары в избранное, перейдите в{" "}
+                            <Link href={"/market"}>каталог</Link>, и выбирите
+                            понравившиеся вам товары
+                        </p>
+                    </div>
+                </div>
+            ) : (
+                <>
+                    <aside>
+                        <ul>
+                            {category.map((item) => (
+                                <li
+                                    key={`${item.id}---`}
+                                    onClick={() => {
+                                        handleCategory(item.id)
+                                    }}
+                                    data-is-active={idC === item.id}
+                                >
+                                    <span>{item.name}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </aside>
+                    <ul>
+                        {filter.map((item) => (
+                            <ItemFavorite
+                                key={`${item?.id}`}
+                                {...item?.product}
+                            />
+                        ))}
+                    </ul>
+                </>
+            )}
         </div>
     )
 }

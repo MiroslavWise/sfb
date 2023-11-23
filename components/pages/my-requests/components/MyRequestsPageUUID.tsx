@@ -142,9 +142,7 @@ export const MyRequestsPageUUID = () => {
                         data-delete={!!productRequestById?.draft}
                         onClick={handleDelete}
                     >
-                        <span>
-                            {productRequestById?.draft ? "Удалить" : "В архив"}
-                        </span>
+                        <span>Удалить</span>
                         <Image
                             src={
                                 productRequestById?.draft

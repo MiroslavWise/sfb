@@ -213,7 +213,7 @@ ul {
 input,
 textarea,
 select {
-    background: var(--background-input) !important;
+    background: var(--gray-200) !important;
     @media screen and (max-width: 768px) {
         font-size: 14px;
         font-family: inherit;

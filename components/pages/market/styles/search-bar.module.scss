@@ -10,14 +10,13 @@
         border-radius: 7px;
         width: 100%;
         height: 60px;
-        background-color: #fff;
 
         & > input {
             width: 100%;
             height: 60px;
             border: none !important;
             outline: none !important;
-            background-color: #fff;
+            background-color: var(--gray-200);
             border-radius: 7px;
             color: var(--main-black);
             padding: 25px 25px;

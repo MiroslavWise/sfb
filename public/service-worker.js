@@ -13,6 +13,8 @@ const installEvent = () => {
                         "/magazine/med-badr-chemmaoui-ZSPBhokqDMc-unsplash.jpg",
                         "/magazine/nathan-dumlao-lvWw_G8tKsk-unsplash.jpg",
                         "/magazine/rosebox-BFdSCxmqvYc-unsplash.jpg",
+                        "/svg/shopping-cart-01-red.svg",
+                        "/svg/shopping-cart-01.svg",
                     ]),
                 )
         }
