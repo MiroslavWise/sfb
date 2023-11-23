@@ -1,3 +1,5 @@
+import { IProduct } from "./types"
+
 export interface IShop {
     id: string
     name: string
@@ -18,4 +20,18 @@ export interface IListShop {
 
 export interface IShopById {
     shopById: IShop
+}
+
+export interface ICart {
+    id: string
+    quantity: number
+    product: IProduct
+}
+
+export interface ICartList {
+    cart: {
+        id: string
+        cartItemList: ICart[]
+        cartTotalSum: number
+    }
 }

@@ -290,3 +290,39 @@ export const mutationShopUpdate = gql`
         }
     }
 `
+
+export const mutationCartItemAdd = gql`
+    mutation ($productId: UUID!, $quantity: Int) {
+        cartItemAdd(productId: $productId, quantity: $quantity) {
+            ok
+            errors {
+                messages
+            }
+            cart {
+                id
+            }
+        }
+    }
+`
+
+export const queryCartItemUpdate = gql`
+    mutation ($cartItemId: UUID!, $quantity: Int!) {
+        cartItemUpdate(cartItemId: $cartItemId, quantity: $quantity) {
+            ok
+            errors {
+                messages
+            }
+        }
+    }
+`
+
+export const mutationCartItemDelete = gql`
+    mutation ($cartItemId: UUID!) {
+        cartItemDelete(cartItemId: $cartItemId) {
+            ok
+            errors {
+                messages
+            }
+        }
+    }
+`

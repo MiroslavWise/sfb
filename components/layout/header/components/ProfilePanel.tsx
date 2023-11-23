@@ -3,6 +3,9 @@ import { useMemo } from "react"
 import { useQuery } from "@apollo/client"
 import { usePathname } from "next/navigation"
 
+import { ICartList } from "@/types/shop"
+
+import { queryCart } from "@/apollo/query-"
 import { usePush } from "@/helpers/hooks/usePush"
 import { queryChatTotalCount } from "@/apollo/chat"
 import {
@@ -18,6 +21,7 @@ export const ProfilePanel = () => {
     const { data: dataTotalChats } = useQuery(queryChatTotalCount)
     const { data: dataArchiveTotal } = useQuery(queryProductListMeTotalArchive)
     const { favorites } = useFavorites()
+    const { data: dataCart } = useQuery<ICartList>(queryCart)
 
     const lengthNotification: number | string = useMemo(() => {
         if (dataTotalNotifications?.notificationList?.totalCount > 9) {
@@ -31,6 +35,10 @@ export const ProfilePanel = () => {
         }
         return dataTotalChats?.chatList?.totalCount || 0
     }, [dataTotalChats?.chatList?.totalCount])
+
+    const totalCart = useMemo(() => {
+        return dataCart?.cart?.cartItemList?.length || 0
+    }, [dataCart?.cart])
 
     const isBuilding = [
         "/my-requests",
@@ -87,6 +95,11 @@ export const ProfilePanel = () => {
                         handlePush("/basket")
                     }}
                 />
+                {totalCart ? (
+                    <div data-count data-chat>
+                        <span>{totalCart}</span>
+                    </div>
+                ) : null}
             </div>
             <Image
                 src={

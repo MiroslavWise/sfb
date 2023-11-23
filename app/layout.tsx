@@ -13,6 +13,7 @@ import { cx } from "@/helpers/lib/cx"
 
 import "@/scss/init.scss"
 import "@coreui/coreui/dist/css/coreui.min.css"
+import "animate.css"
 
 const inter = Inter({ subsets: ["latin"] })
 

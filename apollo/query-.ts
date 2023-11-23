@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client"
+import { PRODUCT } from "./fragment"
 
 export const queryShopList = gql`
     {
@@ -29,6 +30,27 @@ export const queryShopById = gql`
             address
             phone
             photoUrl
+        }
+    }
+`
+
+export const queryCart = gql`
+    ${PRODUCT}
+    query {
+        cart {
+            id
+            cartItemList {
+                id
+                quantity
+                product {
+                    ...product
+                    photoListUrl {
+                        id
+                        photoUrl
+                    }
+                }
+            }
+            cartTotalSum
         }
     }
 `

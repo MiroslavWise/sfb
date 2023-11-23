@@ -28,14 +28,20 @@
             height: fit-content;
             cursor: pointer;
 
-            & > [data-favorite] {
+            & > [data-add] {
                 position: absolute;
                 top: 12px;
                 right: 12px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 12px;
 
-                &[data-loading="true"] {
-                    -webkit-animation: 0.1s tremor ease-out infinite;
-                    animation: 0.1s tremor ease-out infinite;
+                & > [data-favorite] {
+                    &[data-loading="true"] {
+                        -webkit-animation: 0.1s tremor ease-out infinite;
+                        animation: 0.1s tremor ease-out infinite;
+                    }
                 }
             }
 

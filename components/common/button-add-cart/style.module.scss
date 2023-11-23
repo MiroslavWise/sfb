@@ -1,0 +1,28 @@
+.container {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.3s ease-in-out;
+
+    & > label {
+        width: 0;
+        opacity: 0;
+        visibility: hidden;
+        white-space: nowrap;
+        transition: all 0.3s ease-in-out;
+    }
+
+    & > button {
+        background: transparent;
+    }
+
+    &:hover {
+        & > label {
+            opacity: 1;
+            visibility: visible;
+            width: 70px;
+        }
+    }
+}

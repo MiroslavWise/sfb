@@ -4,7 +4,7 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { useMemo, useState } from "react"
 import { useSearchParams } from "next/navigation"
-import { useMutation, useQuery } from "@apollo/client"
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client"
 
 import type { IPhotoProductData, IProductRoot } from "@/types/types"
 
@@ -22,17 +22,25 @@ import {
     mutateUpdateProductDraft,
     mutationProductDelete,
 } from "@/apollo/mutation"
-import { queryPhotosProductById, queryProductById } from "@/apollo/query"
+import {
+    queryProductById,
+    queryProductListMe,
+    queryPhotosProductById,
+    queryProductListMeArchive,
+} from "@/apollo/query"
 
-import styles from "../styles/page-uuid.module.scss"
 import {
     ComponentAddress,
     ComponentArea,
     ComponentCity,
 } from "@/components/common/component-regions"
 import { ButtonBack } from "@/components/common/button-back"
+import { useOrderingProduct } from "@/store/state/useOrderingProduct"
+
+import styles from "../styles/page-uuid.module.scss"
 
 export const MyProductPageUUID = () => {
+    const { price } = useOrderingProduct()
     const { handlePush, handleReplace } = usePush()
     const [tab, setTab] = useState<IItemTab>(ITEMS_TABS[0])
     const uuid = useSearchParams().get("product-id")
@@ -40,6 +48,22 @@ export const MyProductPageUUID = () => {
     const [mutateDraft] = useMutation(mutateUpdateProductDraft)
     const [deleteProduct] = useMutation(mutationProductDelete, {
         variables: { productId: uuid },
+    })
+
+    const [la, { refetch: refetchLazy }] = useLazyQuery(queryProductListMe, {
+        variables: {
+            variables: {
+                ordering: price,
+                offset: 0,
+            },
+        },
+    })
+    const [refetchLazyArchive] = useLazyQuery(queryProductListMeArchive, {
+        variables: {
+            variables: {
+                offset: 0,
+            },
+        },
     })
 
     const { data, refetch } = useQuery<IProductRoot>(queryProductById, {
@@ -96,7 +120,11 @@ export const MyProductPageUUID = () => {
 
     function handleDelete() {
         deleteProduct().finally(() => {
-            handleReplace(`/my-products`)
+            Promise.all([
+                refetch(),
+                refetchLazy(),
+                refetchLazyArchive(),
+            ]).finally(() => {})
         })
     }
 

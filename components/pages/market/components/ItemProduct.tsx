@@ -4,6 +4,8 @@ import { type FC } from "react"
 
 import type { IProduct } from "@/types/types"
 
+import { ButtonAddCart } from "@/components/common/button-add-cart"
+
 import { usePush } from "@/helpers/hooks/usePush"
 import { useFavoritesClick } from "@/helpers/hooks/useFavoritesClick"
 import { useAuth } from "@/store/state/useAuth"
@@ -49,28 +51,31 @@ export const ItemProduct: FC<IProduct> = (props) => {
                 />
                 <a>{dayjs(createdAt).format("HH:mm DD.MM.YY")}</a>
             </div>
-            {token ? (
-                <div
-                    data-loading={loading}
-                    data-favorite
-                    onClick={(event) => {
-                        event.stopPropagation()
-                        event.preventDefault()
-                        handle()
-                    }}
-                >
-                    <Image
-                        src={
-                            isFavorite(id!)
-                                ? "/svg/tag-fill.svg"
-                                : "/svg/tag-regular.svg"
-                        }
-                        alt="tag--"
-                        width={25}
-                        height={25}
-                    />
-                </div>
-            ) : null}
+            <div data-add>
+                {token ? (
+                    <div
+                        data-loading={loading}
+                        data-favorite
+                        onClick={(event) => {
+                            event.stopPropagation()
+                            event.preventDefault()
+                            handle()
+                        }}
+                    >
+                        <Image
+                            src={
+                                isFavorite(id!)
+                                    ? "/svg/tag-fill.svg"
+                                    : "/svg/tag-regular.svg"
+                            }
+                            alt="tag--"
+                            width={25}
+                            height={25}
+                        />
+                    </div>
+                ) : null}
+                <ButtonAddCart id={id} int={1} />
+            </div>
         </li>
     )
 }

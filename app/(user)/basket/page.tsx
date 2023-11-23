@@ -1,9 +1,14 @@
 "use client"
 
+import { useSearchParams } from "next/navigation"
+
+import { BasketPage } from "@/components/pages/basket"
+
 import { useTitle } from "@/helpers/hooks/useTitle"
 
 export default function Basket() {
-    useTitle(`Корзина`)
+    const id = useSearchParams().get("id")
+    useTitle("Корзина")
 
-    return <div></div>
+    return <BasketPage />
 }

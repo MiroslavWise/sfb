@@ -28,19 +28,14 @@
                     position: absolute;
                     inset: 0;
                     z-index: 0;
-                    border-radius: 8px 8px 0 0;
-                    background: rgba(0, 0, 0, 0);
+                    border-radius: 9px 9px 8px 8px;
+                    background: var(--gray-200);
                     transition: var(--transition);
                 }
 
                 &[data-active="true"] {
                     & > [data-absolute] {
-                        background: rgb(0, 0, 0);
-                        background: linear-gradient(
-                            180deg,
-                            rgba(0, 0, 0, 1) 0%,
-                            rgba(255, 255, 255, 0) 100%
-                        );
+                        background: var(--main-black);
                     }
                 }
 
@@ -55,14 +50,8 @@
                         object-fit: cover;
                         height: 100px;
                         width: 100%;
-                        border-radius: 7px;
+                        border-radius: 8px 8px 0 0;
                         z-index: 1;
-                    }
-                }
-
-                &[data-active="false"] {
-                    & > img {
-                        filter: blur(1px) grayscale(95%);
                     }
                 }
 
@@ -81,25 +70,29 @@
                         line-height: normal;
                         transition: var(--transition);
                     }
+                }
 
-                    & > [data-count="true"] {
-                        height: 16px;
-                        min-width: 24px;
-                        padding: 1px 4px;
-                        border-radius: 6px;
-                        background-color: var(--main-success);
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        justify-content: center;
+                & > [data-count] {
+                    position: absolute;
+                    top: 5px;
+                    right: 5px;
+                    height: 24px;
+                    min-width: 24px;
+                    padding: 1px 4px;
+                    border-radius: 50px;
+                    background-color: var(--main-success);
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 3;
 
-                        & > span {
-                            color: #fff;
-                            font-size: 10px;
-                            font-style: normal;
-                            font-weight: 600;
-                            text-transform: capitalize;
-                        }
+                    & > span {
+                        color: #fff;
+                        font-size: 10px;
+                        font-style: normal;
+                        font-weight: 600;
+                        text-transform: capitalize;
                     }
                 }
 
@@ -109,7 +102,7 @@
 
                 &[data-active="true"] {
                     & > div > p {
-                        color: var(--main-primary);
+                        color: #fff;
                     }
                 }
             }

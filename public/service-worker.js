@@ -6,13 +6,13 @@ const installEvent = () => {
                 .then((cache) =>
                     cache.addAll([
                         "/png/susan-wilkinson-DNCcYq71BSE-unsplash.jpg",
-                        "/png/Menu/daniel-bradley-y_WDEY9e6mA-unsplash.jpg",
-                        "/png/Menu/erwan-hesry-RJjY5Hpnifk-unsplash.jpg",
-                        "/png/Menu/marcos-rivas-HX_QUGNAjDo-unsplash.jpg",
-                        "/png/Menu/med-badr-chemmaoui-ZSPBhokqDMc-unsplash.jpg",
-                        "/png/Menu/nathan-dumlao-lvWw_G8tKsk-unsplash.jpg",
-                        "/png/Menu/rosebox-BFdSCxmqvYc-unsplash.jpg",
                         "/png/2h-media-GOrLkr-7q1U-unsplash.jpg",
+                        "/magazine/daniel-bradley-y_WDEY9e6mA-unsplash.jpg",
+                        "/magazine/erwan-hesry-RJjY5Hpnifk-unsplash.jpg",
+                        "/magazine/marcos-rivas-HX_QUGNAjDo-unsplash.jpg",
+                        "/magazine/med-badr-chemmaoui-ZSPBhokqDMc-unsplash.jpg",
+                        "/magazine/nathan-dumlao-lvWw_G8tKsk-unsplash.jpg",
+                        "/magazine/rosebox-BFdSCxmqvYc-unsplash.jpg",
                     ]),
                 )
         }

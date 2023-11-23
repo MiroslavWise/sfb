@@ -11,7 +11,7 @@ import { usePush } from "@/helpers/hooks/usePush"
 import { queryTotalCountProfileAside } from "@/apollo/query"
 import { ITEMS_ASIDE_LEFT_PICTURE } from "../constants/ITEMS-ASIDE-LEFT"
 
-const $LeftAsideUser = () => {
+export function LeftAsideUser() {
     const pathname = usePathname()
     const { handlePush } = usePush()
     const { data } = useQuery<IQueryTotalCountProfileAside>(
@@ -47,17 +47,15 @@ const $LeftAsideUser = () => {
                         />
                         <div data-label-count>
                             <p>{item.label}</p>
-                            {item.count ? (
-                                <div data-count>
-                                    <span>{item.count}</span>
-                                </div>
-                            ) : null}
                         </div>
+                        {item.count ? (
+                            <div data-count>
+                                <span>{item.count}</span>
+                            </div>
+                        ) : null}
                     </li>
                 ))}
             </ul>
         </aside>
     )
 }
-
-export const LeftAsideUser = memo($LeftAsideUser)

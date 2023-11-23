@@ -43,37 +43,37 @@ export const ITEMS_ASIDE_LEFT_PICTURE = (
     {
         value: "/my-shop",
         label: "Мои магазины",
-        icon: "/png/Menu/marcos-rivas-HX_QUGNAjDo-unsplash.jpg",
+        icon: "/magazine/marcos-rivas-HX_QUGNAjDo-unsplash.jpg",
         count: null,
     },
     {
         value: "/my-requests",
         label: "Мои запросы",
-        icon: "/png/Menu/med-badr-chemmaoui-ZSPBhokqDMc-unsplash.jpg",
+        icon: "/magazine/med-badr-chemmaoui-ZSPBhokqDMc-unsplash.jpg",
         count: values?.countMyRequests || 0,
     },
     {
         value: "/my-products",
         label: "Мои товары",
-        icon: "/png/Menu/erwan-hesry-RJjY5Hpnifk-unsplash.jpg",
+        icon: "/magazine/erwan-hesry-RJjY5Hpnifk-unsplash.jpg",
         count: values?.countMyProducts || 0,
     },
     {
         value: "/delivery",
         label: "Доставка",
-        icon: "/png/Menu/rosebox-BFdSCxmqvYc-unsplash.jpg",
+        icon: "/magazine/rosebox-BFdSCxmqvYc-unsplash.jpg",
         count: null,
     },
     {
         value: "/my-sales",
         label: "Мои продажи",
-        icon: "/png/Menu/nathan-dumlao-lvWw_G8tKsk-unsplash.jpg",
+        icon: "/magazine/nathan-dumlao-lvWw_G8tKsk-unsplash.jpg",
         count: null,
     },
     {
         value: "/my-orders",
         label: "Мои заказы",
-        icon: "/png/Menu/daniel-bradley-y_WDEY9e6mA-unsplash.jpg",
+        icon: "/magazine/daniel-bradley-y_WDEY9e6mA-unsplash.jpg",
         count: null,
     },
 ]

@@ -7,7 +7,7 @@
         align-items: center;
         justify-content: center;
         padding: 10px 20px;
-        background-color: #fff;
+        background-color: var(--gray-200);
 
         & > [data-center="true"] {
             position: relative;

@@ -23,6 +23,7 @@ export function MyProductsPage() {
     const { data } = useQuery(queryProductListMe, {
         variables: {
             ordering: price,
+            offset: 0,
         },
     })
     useTitle(`Мои товары (${data?.productListMe?.totalCount || 0})`)
