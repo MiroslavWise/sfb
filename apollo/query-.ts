@@ -54,3 +54,47 @@ export const queryCart = gql`
         }
     }
 `
+
+export const queryDeliveryMethodList = gql`
+    query {
+        deliveryMethodList {
+            name
+            id
+            price
+        }
+    }
+`
+
+export const queryOrderList = gql`
+    ${PRODUCT}
+    query {
+        orderList {
+            totalCount
+            results {
+                id
+                orderNumber
+                createdAt
+                status
+                totalPrice
+                deliveryMethod {
+                    name
+                    id
+                }
+                cart {
+                    id
+                    cartItemList {
+                        id
+                        createdAt
+                        product {
+                            ...product
+                            photoListUrl {
+                                id
+                                photoUrl
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+`

@@ -35,3 +35,41 @@ export interface ICartList {
         cartTotalSum: number
     }
 }
+
+export interface IDeliveryMethodList {
+    deliveryMethodList: {
+        name: string
+        id: string
+        price: string
+    }[]
+}
+
+export type TOrderOrderStatusChoices =
+    | "REGISTERED"
+    | "PAYED"
+    | "EXECUTED"
+    | "REJECTED"
+export interface IOrderList {
+    orderList: {
+        totalCount: number
+        results: {
+            orderNumber: number
+            id: string
+            createdAt: Date
+            status: TOrderOrderStatusChoices
+            totalPrice: string
+            deliveryMethod: {
+                name: string
+                id: string
+            }
+            cart: {
+                id: string
+                cartItemList: {
+                    id: string
+                    createdAt: Date
+                    product: IProduct
+                }[]
+            }
+        }[]
+    }
+}

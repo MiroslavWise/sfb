@@ -13,6 +13,7 @@ export const ItemBasket = (props: ICart) => {
                     alt="photo"
                     width={250}
                     height={250}
+                    unoptimized
                 />
             ) : (
                 <div data-img>

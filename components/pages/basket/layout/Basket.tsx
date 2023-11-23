@@ -3,17 +3,19 @@
 import { useMemo } from "react"
 import { useMutation, useQuery } from "@apollo/client"
 
-import type { ICartList } from "@/types/shop"
+import type { ICartList, IDeliveryMethodList } from "@/types/shop"
 
 import { ItemBasket } from "../components/ItemBasket"
 
-import { queryCart } from "@/apollo/query-"
+import { queryCart, queryDeliveryMethodList } from "@/apollo/query-"
 
 import styles from "../styles/list.module.scss"
 
 export const BasketPage = () => {
     const { data } = useQuery<ICartList>(queryCart)
-    // const [] = useMutation()
+    const { data: dataDeliveryMethod } = useQuery<IDeliveryMethodList>(
+        queryDeliveryMethodList,
+    )
 
     const total = useMemo(() => {
         return data?.cart?.cartTotalSum || 0
