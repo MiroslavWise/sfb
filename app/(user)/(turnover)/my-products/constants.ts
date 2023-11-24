@@ -7,6 +7,11 @@ export const ITEMS_TABS: IItemTab[] = [
         icon: "/svg/tabs/main.svg",
     },
     {
+        label: "Архив",
+        value: "archive",
+        icon: "/svg/tabs/main.svg",
+    },
+    {
         label: "Предложения покупателей",
         value: "proposals",
         icon: "/svg/tabs/proposals.svg",

@@ -5,5 +5,7 @@ export default function myImageLoader({
     width,
     quality,
 }: ImageLoaderProps) {
-    return `${src}&w=${width}&dpr=${quality ? quality : 1}`
+    return `${src}&w=${width}`
 }
+
+export { myImageLoader }

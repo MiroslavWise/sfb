@@ -11,6 +11,8 @@ import { usePush } from "@/helpers/hooks/usePush"
 import { queryTotalCountProfileAside } from "@/apollo/query"
 import { ITEMS_ASIDE_LEFT_PICTURE } from "../constants/ITEMS-ASIDE-LEFT"
 
+import { myImageLoader } from "@/helpers/lib/loading"
+
 export function LeftAsideUser() {
     const pathname = usePathname()
     const { isCommercial } = useAuth((_) => ({
@@ -42,11 +44,12 @@ export function LeftAsideUser() {
                         data-active={pathname.includes(item.value)}
                     >
                         <div data-absolute />
-                        <img
+                        <Image
                             src={item.icon}
                             alt={item.icon}
                             width={300}
                             height={200}
+                            unoptimized
                         />
                         <div data-label-count>
                             <p>{item.label}</p>

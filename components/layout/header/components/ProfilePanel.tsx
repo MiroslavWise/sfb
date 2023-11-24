@@ -73,24 +73,6 @@ export const ProfilePanel = () => {
             </div>
             <div data-notification>
                 <img
-                    src="/svg/box-black.svg"
-                    alt="box-black"
-                    width={24}
-                    height={24}
-                    onClick={() => {
-                        handlePush("/archive")
-                    }}
-                />
-                {dataArchiveTotal?.productListMe?.totalCount ? (
-                    <div data-count data-chat>
-                        <span>
-                            {dataArchiveTotal?.productListMe?.totalCount || 0}
-                        </span>
-                    </div>
-                ) : null}
-            </div>
-            <div data-notification>
-                <img
                     src="/svg/shopping-cart-01.svg"
                     alt="shopping-cart-01"
                     width={24}
