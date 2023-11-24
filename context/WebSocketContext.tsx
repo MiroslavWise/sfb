@@ -10,6 +10,8 @@ import { CONFIG_ENV } from "@/helpers/config/ENV"
 import useWebSocket, { ReadyState } from "react-use-websocket"
 import { WebSocketLike } from "react-use-websocket/dist/lib/types"
 import { usePush } from "@/helpers/hooks/usePush"
+import { useLazyQuery } from "@apollo/client"
+import { queryChatUnreadCount } from "@/apollo/query-"
 
 const CreateContext = createContext<ISocket>({
     readyState: null,
@@ -29,6 +31,7 @@ export const WebSocketContext = memo(({ children }: IChildrenProps) => {
     const { handlePush } = usePush()
     const chatId = useSearchParams().get("chat-id")
     const [chanel, setChanel] = useState<WebSocket | null | any>(null)
+    const [reloadMessages] = useLazyQuery(queryChatUnreadCount)
 
     const { readyState, getWebSocket } = useWebSocket(chanel)
 
@@ -62,6 +65,7 @@ export const WebSocketContext = memo(({ children }: IChildrenProps) => {
                             },
                         )
                     qwer()
+                    reloadMessages()
                 }
             }
             getWebSocket()?.addEventListener("message", events)
