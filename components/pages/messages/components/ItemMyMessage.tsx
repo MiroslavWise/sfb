@@ -17,7 +17,9 @@ import { useVisiblePhotos } from "@/store/state/useVisiblePhotos"
 import styles from "../styles/item-message.module.scss"
 
 const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
-    const { dispatchPhotos } = useVisiblePhotos()
+    const { dispatchPhotos } = useVisiblePhotos((_) => ({
+        dispatchPhotos: _.dispatchPhotos,
+    }))
 
     const newMessages: (INewMessage & {
         dataImages?: {
@@ -93,9 +95,21 @@ const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
                                 id={`${item.id!}`}
                             >
                                 <p>{item.message}</p>
-                                <p className={styles.time}>
-                                    {timeNowOrBeforeChat(item?.time)}
-                                </p>
+                                <div className={styles.time}>
+                                    <span>
+                                        {timeNowOrBeforeChat(item?.time)}
+                                    </span>
+                                    <Image
+                                        src={
+                                            item.isRead
+                                                ? "/messages/double-tick-white.svg"
+                                                : "/messages/double-tick-gray.svg"
+                                        }
+                                        alt="double-check"
+                                        width={14}
+                                        height={14}
+                                    />
+                                </div>
                             </div>
                         )
                     }

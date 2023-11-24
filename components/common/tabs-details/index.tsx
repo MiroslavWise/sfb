@@ -1,9 +1,10 @@
 "use client"
 
+import Image from "next/image"
+
 import type { TTabsDetails } from "./types"
 
 import styles from "./style.module.scss"
-import Image from "next/image"
 
 export const TabsDetails: TTabsDetails = ({ items, current, set }) => {
     return (

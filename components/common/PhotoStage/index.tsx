@@ -13,7 +13,9 @@ import styles from "./style.module.scss"
 const $PhotoStage = (props: { images: { item: IPhoto; index: number }[] }) => {
     const { images } = props ?? {}
     const [indexCurrent, setIndexCurrent] = useState<number>(0)
-    const { dispatchPhotos } = useVisiblePhotos()
+    const { dispatchPhotos } = useVisiblePhotos((_) => ({
+        dispatchPhotos: _.dispatchPhotos,
+    }))
 
     return (
         <div className={styles.wrapper}>

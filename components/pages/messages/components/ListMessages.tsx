@@ -1,6 +1,6 @@
 "use client"
 
-import { ReactNode, memo, useEffect, useMemo, useRef, useState } from "react"
+import { ReactNode, memo, useEffect, useMemo, useRef } from "react"
 
 import { TListMessages } from "../types/types"
 import { useJoinMessage } from "@/helpers/hooks/useJoinMessage"
@@ -10,7 +10,7 @@ import { ItemUserMessage } from "./ItemUserMessage"
 import { ItemTime } from "./ItemTime"
 
 const $ListMessages: TListMessages = ({ messages, dataUser }) => {
-    const { user } = useAuth()
+    const { user } = useAuth((_) => ({ user: _.user }))
     const { join } = useJoinMessage()
     const { id: userId } = user ?? {}
     const ulChat = useRef<HTMLUListElement>(null)

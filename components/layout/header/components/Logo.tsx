@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import Image from "next/image"
 
 import { usePush } from "@/helpers/hooks/usePush"
@@ -12,13 +13,8 @@ export const Logo = () => {
     }
 
     return (
-        <Image
-            data-logo
-            src="/svg/logo.svg"
-            alt="logo"
-            width={54}
-            height={25}
-            onClick={handleOnMain}
-        />
+        <Link href={"/"} data-logo>
+            <Image src="/svg/logo.svg" alt="logo" width={54} height={25} />
+        </Link>
     )
 }

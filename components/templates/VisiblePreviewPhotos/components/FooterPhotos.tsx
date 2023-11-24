@@ -1,10 +1,15 @@
 "use client"
 
-import { useVisiblePhotos } from "@/store/state/useVisiblePhotos"
 import Image from "next/image"
 
+import { useVisiblePhotos } from "@/store/state/useVisiblePhotos"
+
 export const FooterPhotos = () => {
-    const { photos, current, setCurrent } = useVisiblePhotos()
+    const { photos, current, setCurrent } = useVisiblePhotos((_) => ({
+        photos: _.photos,
+        current: _.current,
+        setCurrent: _.setCurrent,
+    }))
 
     return (
         <footer>

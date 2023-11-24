@@ -5,7 +5,6 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 
 import { FormPurchase } from "./form-purchase"
-import { ComponentSpoiler } from "./ComponentSpoiler"
 
 import { useAuth } from "@/store/state/useAuth"
 import { usePush } from "@/helpers/hooks/usePush"
@@ -15,9 +14,9 @@ import styles from "../styles/main-use-form.module.scss"
 
 export const ComponentMainUseFormMainPage = () => {
     const [state, setState] = useState<"start" | "purchase" | "sale">("start")
-    const { token } = useAuth()
+    const { token } = useAuth((_) => ({ token: _.token }))
     const { handlePush } = usePush()
-    const { dispatch } = useEnter()
+    const { dispatch } = useEnter((_) => ({ dispatch: _.dispatch }))
 
     function handleMarket() {
         handlePush(`/market`)

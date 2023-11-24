@@ -1,5 +1,4 @@
 .container {
-    padding-left: 20px;
     width: 100%;
 
     & > ul {
@@ -8,12 +7,12 @@
         flex-direction: row;
         flex-wrap: wrap;
         height: min-content;
-        gap: 16px 16px;
+        gap: 8px;
         margin: 0 !important;
         & > li {
             padding: 8px 16px;
             border-radius: 7px 7px 0 0;
-            background: var(--gray-100);
+            background: var(--gray-50);
             cursor: pointer;
             border-bottom: 2px solid var(--gray-300);
             display: flex;
@@ -37,6 +36,7 @@
             }
             &[data-active="true"] {
                 border-bottom-color: var(--main-black);
+                background: var(--gray-300);
 
                 & > span {
                     color: var(--main-black);

@@ -1,10 +1,13 @@
 "use client"
 
-import { useVisiblePhotos } from "@/store/state/useVisiblePhotos"
 import Image from "next/image"
 
+import { useVisiblePhotos } from "@/store/state/useVisiblePhotos"
+
 export const ButtonClose = () => {
-    const { dispatchPhotos } = useVisiblePhotos()
+    const { dispatchPhotos } = useVisiblePhotos((_) => ({
+        dispatchPhotos: _.dispatchPhotos,
+    }))
 
     function handle() {
         dispatchPhotos({ visible: false })

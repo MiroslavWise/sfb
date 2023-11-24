@@ -16,7 +16,7 @@ export const Navigation = () => {
     const pathname = usePathname()
     const { i18n } = useTranslation()
     const { handlePush } = usePush()
-    const { state } = useAuth()
+    const { state } = useAuth((_) => ({ state: _.state }))
 
     const lang = useMemo(() => {
         if (i18n.language === "ru") return "Рус"

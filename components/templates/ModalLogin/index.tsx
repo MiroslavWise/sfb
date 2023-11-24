@@ -18,7 +18,10 @@ import { useState } from "react"
 import Image from "next/image"
 
 export const ModalLogin = () => {
-    const { visible, dispatch } = useEnter()
+    const { visible, dispatch } = useEnter((_) => ({
+        visible: _.visible,
+        dispatch: _.dispatch,
+    }))
     const [isLogin, setIsLogin] = useState(true)
 
     return visible ? (

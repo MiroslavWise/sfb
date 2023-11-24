@@ -13,12 +13,7 @@ export default function MyShop({}) {
     return (
         <section className={styles.wrapper}>
             {id ? (
-                <>
-                    <header>
-                        <ButtonCreate />
-                    </header>
-                    <ShopUUIDPage />
-                </>
+                <ShopUUIDPage />
             ) : (
                 <>
                     <header>

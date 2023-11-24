@@ -27,7 +27,7 @@ import "primeicons/primeicons.css"
 import "primeflex/primeflex.css"
 
 const Provider: TChildrenProps = ({ children }) => {
-    const { refresh } = useAuth()
+    const { refresh } = useAuth((_) => ({ refresh: _.refresh }))
 
     useEffect(() => {
         refresh()

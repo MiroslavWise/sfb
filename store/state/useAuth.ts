@@ -113,7 +113,7 @@ export const useAuth = create(
                         )
                         const {
                             data: {
-                                login: { token, refreshToken },
+                                refreshToken: { token, refreshToken },
                             },
                         } = response ?? {}
                         if (token && refreshToken) {

@@ -35,6 +35,7 @@ function useJoinMessage() {
                         time: message?.createdAt,
                         type: message?.messageType || "TEXT",
                         photoUrl: message?.photoUrl,
+                        isRead: message?.isRead,
                     })
                 } else {
                     items.push({
@@ -48,6 +49,7 @@ function useJoinMessage() {
                                 time: message?.createdAt,
                                 type: message?.messageType || "TEXT",
                                 photoUrl: message?.photoUrl,
+                                isRead: message?.isRead,
                             },
                         ],
                     })
@@ -74,6 +76,7 @@ export interface INewMessage {
     time: string | Date
     type: TTypeMessage
     photoUrl?: string
+    isRead: boolean
 }
 
 export { useJoinMessage, type IReturnMessages }

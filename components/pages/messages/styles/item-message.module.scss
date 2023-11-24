@@ -138,7 +138,11 @@
             }
 
             .time {
-                color: var(--gray-400);
+                display: flex;
+                flex-direction: row;
+                & > span {
+                    color: var(--gray-400);
+                }
             }
         }
     }
@@ -195,14 +199,20 @@
 }
 
 .time {
-    color: var(--gray-400);
-    bottom: 10px;
-    right: 12px;
-    text-align: right;
-    font-size: 10px !important;
-    font-style: normal;
-    font-weight: 600 !important;
-    line-height: 14px !important;
-    letter-spacing: -0.5px;
-    padding: 0 !important;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
+
+    & > span {
+        color: var(--gray-400);
+        text-align: right;
+        font-size: 10px !important;
+        font-style: normal;
+        font-weight: 600 !important;
+        line-height: 14px !important;
+        letter-spacing: -0.5px;
+        padding: 0 !important;
+    }
 }

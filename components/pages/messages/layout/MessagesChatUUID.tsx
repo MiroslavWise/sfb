@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 import { useForm } from "react-hook-form"
 import { useSearchParams } from "next/navigation"
 import { useMutation, useQuery } from "@apollo/client"
-import { ChangeEvent, memo, useEffect, useMemo, useState } from "react"
+import { ChangeEvent, useEffect, useMemo, useState } from "react"
 
 import type { IDataUser } from "../types/types"
 import type { IQueryCatId, IQueryChatMessageByChatId } from "@/types/chat"
@@ -13,20 +13,21 @@ import type { IQueryCatId, IQueryChatMessageByChatId } from "@/types/chat"
 import { ListMessages } from "../components/ListMessages"
 
 import { useAuth } from "@/store/state/useAuth"
+import { useTitle } from "@/helpers/hooks/useTitle"
 import { usePush } from "@/helpers/hooks/usePush"
 import { useSocket } from "@/context/WebSocketContext"
+import { mutationChatMessageReadAll } from "@/apollo/chat"
 import { mutateChatMessageCreate } from "@/apollo/mutation"
 import { useVisiblePhotos } from "@/store/state/useVisiblePhotos"
-import { queryChatById, queryChatMessageByChatId } from "@/apollo/chat"
 import { ITypeInterfaceUpload, uploadFile } from "@/helpers/services/fetch"
+import { queryChatById, queryChatMessageByChatId } from "@/apollo/chat"
+import { IPhotoCarousel } from "@/store/types/createVisiblePhotosCarousel"
 
 import styles from "../styles/chat-uuid.module.scss"
-import { IPhotoCarousel } from "@/store/types/createVisiblePhotosCarousel"
-import { useTitle } from "@/helpers/hooks/useTitle"
 
-const $MessagesChatUUID = () => {
+export const MessagesChatUUID = () => {
     const id = useSearchParams().get("chat-id")
-    const { user } = useAuth()
+    const { user } = useAuth((_) => ({ user: _.user }))
     const { readyState, getWebSocket } = useSocket()
     const { id: userId } = user ?? {}
     const { handlePush } = usePush()
@@ -35,7 +36,12 @@ const $MessagesChatUUID = () => {
     const [files, setFiles] = useState<File[]>([])
     const [stringsFileImg, setStringsFileImg] = useState<string[]>([])
     const [createMessage] = useMutation(mutateChatMessageCreate)
-    const { dispatchPhotos } = useVisiblePhotos()
+    const [allRead] = useMutation(mutationChatMessageReadAll, {
+        variables: { chatId: id },
+    })
+    const { dispatchPhotos } = useVisiblePhotos((_) => ({
+        dispatchPhotos: _.dispatchPhotos,
+    }))
     const [dataUser, setDataUser] = useState<IDataUser>({
         id: null,
         photo: null,
@@ -56,7 +62,6 @@ const $MessagesChatUUID = () => {
     )
 
     function submit(values: IValues) {
-        console.log("%c files:", "color: #ff0", files)
         async function create() {
             return createMessage({
                 variables: {
@@ -211,6 +216,12 @@ const $MessagesChatUUID = () => {
     }
 
     useTitle(`Чат ${infoCommodity?.name}`)
+
+    useEffect(() => {
+        if (data?.chatMessageByChatId?.totalCount) {
+            allRead()
+        }
+    }, [data?.chatMessageByChatId?.totalCount])
 
     return (
         <article className={styles.wrapper}>
@@ -401,8 +412,6 @@ const $MessagesChatUUID = () => {
         </article>
     )
 }
-
-export const MessagesChatUUID = memo($MessagesChatUUID)
 
 export interface IValues {
     text: string

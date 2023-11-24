@@ -9,12 +9,13 @@ import { InputPassword } from "@/components/common/input-password"
 import { MarketButtons } from "./MarketButtons"
 
 export const RegisterFormComponent = () => {
-    const { visible, dispatch } = useEnter()
-    const { login } = useAuth()
+    const { visible, dispatch } = useEnter((_) => ({
+        visible: _.visible,
+        dispatch: _.dispatch,
+    }))
+    const { login } = useAuth((_) => ({ login: _.login }))
     const {
         register,
-        setError,
-        setValue,
         setFocus,
         formState: { errors },
         handleSubmit,

@@ -12,12 +12,14 @@ import { stylesBlockRight } from "@/helpers/lib/styles-block-message"
 import { timeNowOrBeforeChat } from "@/helpers/lib/timeNowOrBefore"
 
 import { useVisiblePhotos } from "@/store/state/useVisiblePhotos"
-
-import styles from "../styles/item-message.module.scss"
 import { IPhotoCarousel } from "@/store/types/createVisiblePhotosCarousel"
 
+import styles from "../styles/item-message.module.scss"
+
 const $ItemUserMessage: TItemMessage = ({ photo, messages }) => {
-    const { dispatchPhotos } = useVisiblePhotos()
+    const { dispatchPhotos } = useVisiblePhotos((_) => ({
+        dispatchPhotos: _.dispatchPhotos,
+    }))
 
     const newMessages: (INewMessage & {
         dataImages?: {
@@ -104,9 +106,21 @@ const $ItemUserMessage: TItemMessage = ({ photo, messages }) => {
                                 id={`${item.id!}`}
                             >
                                 <p>{item.message}</p>
-                                <p className={styles.time}>
-                                    {timeNowOrBeforeChat(item?.time!)}
-                                </p>
+                                <div className={styles.time}>
+                                    <span>
+                                        {timeNowOrBeforeChat(item?.time!)}
+                                    </span>
+                                    <Image
+                                        src={
+                                            item.isRead
+                                                ? "/messages/double-tick-black.svg"
+                                                : "/messages/double-tick-gray.svg"
+                                        }
+                                        alt="double-check"
+                                        width={14}
+                                        height={14}
+                                    />
+                                </div>
                             </div>
                         )
                     }

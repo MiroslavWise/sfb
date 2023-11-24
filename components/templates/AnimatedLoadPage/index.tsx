@@ -10,16 +10,18 @@ import styles from "./style.module.scss"
 
 export const AnimatedLoadPage = memo(function AnimatedLoadPage() {
     const pathname = usePathname()
-    const { isAnimated, setIsAnimated } = useAnimateLoadPage()
+    const { isAnimated, setIsAnimated } = useAnimateLoadPage((_) => ({
+        isAnimated: _.isAnimated,
+        setIsAnimated: _.setIsAnimated,
+    }))
 
-    console.log(`%c pathname: ${pathname}`, "color: #0f0")
     useEffect(() => {
         if (pathname) {
             setTimeout(() => {
                 requestAnimationFrame(() => {
                     setIsAnimated(false)
                 })
-            }, 150)
+            }, 1)
         }
     }, [pathname])
 

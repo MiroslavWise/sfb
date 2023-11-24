@@ -73,3 +73,14 @@ export const queryChatTotalCount = gql`
         }
     }
 `
+
+export const mutationChatMessageReadAll = gql`
+    mutation ($chatId: UUID!) {
+        chatMessageReadAll(chatId: $chatId) {
+            ok
+            errors {
+                messages
+            }
+        }
+    }
+`

@@ -14,7 +14,7 @@ import { Selector } from "@/components/common/selector"
 import { useAuth } from "@/store/state/useAuth"
 
 export default function ChangeData() {
-    const { setUserData } = useAuth()
+    const { setUserData } = useAuth((_) => ({ setUserData: _.setUserData }))
     const { handlePush } = usePush()
     const { data, refetch } = useQuery(me)
     const { data: dataCity } = useQuery(queryCity)

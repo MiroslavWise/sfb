@@ -10,8 +10,12 @@ import { useFavorites } from "@/store/state/useFavorites"
 import { queryFavoriteProductList } from "@/apollo/query"
 
 export const ApolloData = ({ children }: IChildrenProps) => {
-    const { token, expiration } = useAuth()
-    const { dispatchFavorites } = useFavorites()
+    const { token } = useAuth((_) => ({
+        token: _.token,
+    }))
+    const { dispatchFavorites } = useFavorites((_) => ({
+        dispatchFavorites: _.dispatchFavorites,
+    }))
     const [lazyFavorites] = useLazyQuery(queryFavoriteProductList)
 
     useEffect(() => {

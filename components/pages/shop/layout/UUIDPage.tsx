@@ -1,43 +1,47 @@
-import Image from "next/image"
-import { useQuery } from "@apollo/client"
-import { useSearchParams } from "next/navigation"
+import { useState } from "react"
+import type { IItemTab } from "@/components/common/tabs-details/types"
 
-import type { IShopById } from "@/types/shop"
+import { Sales } from "../modules/sales"
+import { Merchandise } from "../modules/merchandise"
+import { StoreManagers } from "../modules/store-managers"
+import { BasicInformation } from "../modules/basic-information"
+import { DeliveryOfGoods } from "../modules/delivery-of-goods"
+import { TabsDetails } from "@/components/common/tabs-details"
 
-import { queryShopById } from "@/apollo/query-"
+import { TABS_SHOP_DETAIL, type TTypeValue } from "../constants/tabs"
 
 import styles from "../styles/uuid-watch.module.scss"
 
 export const ShopUUIDPage = () => {
-    const id = useSearchParams().get("id")
-    const { data } = useQuery<IShopById>(queryShopById, {
-        variables: { shopId: id },
-    })
+    const [current, setCurrent] = useState<IItemTab<TTypeValue>>(
+        TABS_SHOP_DETAIL[0],
+    )
 
     return (
         <div className={styles.wrapper}>
-            <h3>Информация о магазине</h3>
-            {data?.shopById?.photoUrl ? (
-                <Image
-                    src={data?.shopById?.photoUrl!}
-                    alt="photo"
-                    width={250}
-                    height={250}
-                    unoptimized
+            <TabsDetails
+                items={TABS_SHOP_DETAIL}
+                current={current}
+                set={setCurrent}
+            />
+            {current?.value === "basic-information" ? (
+                <BasicInformation />
+            ) : current.value === "store-managers" ? (
+                <StoreManagers />
+            ) : current.value === "merchandise" ? (
+                <Merchandise />
+            ) : current.value === "sales" ? (
+                <Sales
+                    set={(value) => {
+                        const d = TABS_SHOP_DETAIL.find(
+                            (item) => item.value === value,
+                        )!
+                        setCurrent(d)
+                    }}
                 />
+            ) : current.value === "delivery-of-goods" ? (
+                <DeliveryOfGoods />
             ) : null}
-            <div data-set>
-                <label>Название:</label>
-                <p>{data?.shopById?.name}</p>
-            </div>
-            <div data-set>
-                <label>Описание:</label>
-                <p>{data?.shopById?.description}</p>
-            </div>
-            <div data-set>
-                <label>Адрес:</label>
-                <p>{data?.shopById?.address}</p>
-            </div>
         </div>
     )
 }

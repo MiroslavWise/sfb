@@ -20,7 +20,7 @@ export const ProfilePanel = () => {
     const { data: dataTotalNotifications } = useQuery(queryNotificationTotal)
     const { data: dataTotalChats } = useQuery(queryChatTotalCount)
     const { data: dataArchiveTotal } = useQuery(queryProductListMeTotalArchive)
-    const { favorites } = useFavorites()
+    const { favorites } = useFavorites((_) => ({ favorites: _.favorites }))
     const { data: dataCart } = useQuery<ICartList>(queryCart)
 
     const lengthNotification: number | string = useMemo(() => {

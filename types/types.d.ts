@@ -123,7 +123,7 @@ export interface IProductOfferListRoot {
     }
 }
 
-export type TTabsDetailsRequest = "main" | "proposals" | "testimonials"
+export type TTabsDetailsRequest = "main" | "proposals" | "testimonials" | any
 
 export interface ICategoriesChildren {
     id: string

@@ -22,7 +22,10 @@ interface ISocket {
 }
 
 export const WebSocketContext = memo(({ children }: IChildrenProps) => {
-    const { token, user } = useAuth()
+    const { token, user } = useAuth((_) => ({
+        token: _.token,
+        user: _.user,
+    }))
     const { handlePush } = usePush()
     const chatId = useSearchParams().get("chat-id")
     const [chanel, setChanel] = useState<WebSocket | null | any>(null)
@@ -52,7 +55,9 @@ export const WebSocketContext = memo(({ children }: IChildrenProps) => {
                                 progress: undefined,
                                 theme: "colored",
                                 onClick() {
-                                    handlePush(`/messages?chat-id=${data?.chat_id}`)
+                                    handlePush(
+                                        `/messages?chat-id=${data?.chat_id}`,
+                                    )
                                 },
                             },
                         )

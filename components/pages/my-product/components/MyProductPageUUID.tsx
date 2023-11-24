@@ -40,7 +40,7 @@ import { useOrderingProduct } from "@/store/state/useOrderingProduct"
 import styles from "../styles/page-uuid.module.scss"
 
 export const MyProductPageUUID = () => {
-    const { price } = useOrderingProduct()
+    const { price } = useOrderingProduct((_) => ({ price: _.price }))
     const { handlePush, handleReplace } = usePush()
     const [tab, setTab] = useState<IItemTab>(ITEMS_TABS[0])
     const uuid = useSearchParams().get("product-id")

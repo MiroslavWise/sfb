@@ -11,7 +11,7 @@ import { useFavoritesClick } from "@/helpers/hooks/useFavoritesClick"
 import { useAuth } from "@/store/state/useAuth"
 
 export const ItemProduct: FC<IProduct> = (props) => {
-    const { token } = useAuth()
+    const { token } = useAuth((_) => ({ token: _.token }))
     const { photoListUrl, price, name, city, createdAt, id } = props ?? {}
     const { handlePush } = usePush()
     const { isFavorite, handleFavorite, loading } = useFavoritesClick()
