@@ -42,13 +42,12 @@ export function LeftAsideUser() {
                         data-active={pathname.includes(item.value)}
                     >
                         <div data-absolute />
-                        {/* <Image
+                        <Image
                             src={item.icon}
                             alt={item.icon}
                             width={300}
                             height={200}
-                            unoptimized
-                        /> */}
+                        />
                         <div data-label-count>
                             <p>{item.label}</p>
                         </div>
