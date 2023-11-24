@@ -51,6 +51,7 @@ const $PhotoStage = (props: { images: { item: IPhoto; index: number }[] }) => {
                                 })),
                             })
                         }}
+                        unoptimized
                         width={450}
                         height={450}
                     />
@@ -74,6 +75,7 @@ const $PhotoStage = (props: { images: { item: IPhoto; index: number }[] }) => {
                         }}
                         src={file.item.photoUrl}
                         alt={file.item.photo}
+                        unoptimized
                         width={450}
                         height={450}
                     />

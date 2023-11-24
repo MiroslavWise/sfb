@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import dynamic from "next/dynamic"
-import { Inter } from "next/font/google"
+import { Open_Sans } from "next/font/google"
 
 import type { IChildrenProps } from "@/types/types"
 
@@ -15,7 +15,7 @@ import "@/scss/init.scss"
 import "@coreui/coreui/dist/css/coreui.min.css"
 import "animate.css"
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Open_Sans({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
     title: "SFB",
