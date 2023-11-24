@@ -17,7 +17,7 @@ export const ITEMS_ASIDE_LEFT_PICTURE = (
               },
               {
                   value: "/my-sales",
-                  label: "Оплавты запросов",
+                  label: "Оплаты запросов",
                   icon: "/magazine/nathan-dumlao-lvWw_G8tKsk-unsplash.jpg",
                   count: null,
               },

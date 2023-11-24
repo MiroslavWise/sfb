@@ -33,18 +33,6 @@ const Provider: TChildrenProps = ({ children }) => {
         refresh()
     }, [])
 
-    useEffect(() => {
-        window.addEventListener("load", () => {
-            if ("serviceWorker" in navigator) {
-                navigator.serviceWorker
-                    .register("/service-worker.js")
-                    .then((response) => {
-                        console.log("serviceWorker: ", response.scope)
-                    })
-            }
-        })
-    }, [])
-
     return (
         <PrimeReactProvider>
             <ApolloProviderContext>

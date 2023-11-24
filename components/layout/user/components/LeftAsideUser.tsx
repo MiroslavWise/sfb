@@ -30,7 +30,7 @@ export function LeftAsideUser() {
         <aside>
             <ul data-links>
                 {ITEMS_ASIDE_LEFT_PICTURE({
-                    isCommercial: !isCommercial,
+                    isCommercial: !isCommercial, //---------------------------------------------------------------------------
                     constMessages: data?.chatList?.totalCount,
                     countMyProducts: data?.productListMe?.totalCount,
                     countMyRequests: data?.productRequestListMe?.totalCount,
