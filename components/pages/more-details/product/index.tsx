@@ -24,6 +24,7 @@ import { useFavoritesClick } from "@/helpers/hooks/useFavoritesClick"
 import { queryPhotosProductById, queryProductById } from "@/apollo/query"
 
 import styles from "../styles/style.module.scss"
+import { ButtonAddCart } from "@/components/common/button-add-cart"
 
 export const ProductId = () => {
     const { back } = usePush()
@@ -79,24 +80,35 @@ export const ProductId = () => {
                     <ButtonBack onClick={back} />
                     <h1>{productById?.name}</h1>
                 </div>
-                <div
-                    data-favorite={is}
-                    onClick={(event) => {
-                        event.stopPropagation()
-                        event.preventDefault()
-                        handle()
-                    }}
-                >
-                    <p>
-                        {is ? "Убрать из избранного" : "Добавить в избранное"}
-                    </p>
-                    <Image
-                        src={is ? "/svg/tag-fill.svg" : "/svg/tag-regular.svg"}
-                        data-loading={loadingFavorite}
-                        alt="tag--"
-                        width={25}
-                        height={25}
-                    />
+                <div data-add-buttons>
+                    <div
+                        data-favorite={is}
+                        onClick={(event) => {
+                            event.stopPropagation()
+                            event.preventDefault()
+                            handle()
+                        }}
+                    >
+                        <p>
+                            {is
+                                ? "Убрать из избранного"
+                                : "Добавить в избранное"}
+                        </p>
+                        <Image
+                            src={
+                                is
+                                    ? "/svg/tag-fill.svg"
+                                    : "/svg/tag-regular.svg"
+                            }
+                            data-loading={loadingFavorite}
+                            alt="tag--"
+                            width={25}
+                            height={25}
+                        />
+                    </div>
+                    <div data-basket>
+                        <ButtonAddCart id={productId!} int={1} isTitle />
+                    </div>
                 </div>
             </header>
             <section>

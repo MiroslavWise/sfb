@@ -13,41 +13,40 @@ import styles from "./style.module.scss"
 export const ButtonAddCart = forwardRef(function ButtonAddCard(
     props: TTypeButton,
 ) {
-    const { id, int, ...rest } = props ?? {}
+    const { id, int, isTitle, ...rest } = props ?? {}
 
     const [da, { refetch, loading: loadingCart }] =
         useLazyQuery<ICartList>(queryCart)
     const [useAdd, { loading }] = useMutation(mutationCartItemAdd, {
         variables: {
             productId: id,
-            quantity: int && int >= 1 ? 1 : int,
+            quantity: int && int <= 1 ? 1 : int || 1,
         },
     })
 
     return (
-        <div className={styles.container}>
-            <button
-                {...rest}
-                type="button"
-                disabled={loading || loadingCart}
-                onClick={(event) => {
-                    event.stopPropagation()
-                    event.preventDefault()
-                    useAdd().then((response) => {
-                        refetch()
-                        toast(`Товар добавлен в корзину!`, {
-                            position: "top-center",
-                            autoClose: 5000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: "light",
-                        })
+        <div
+            className={styles.container}
+            onClick={(event) => {
+                event.stopPropagation()
+                event.preventDefault()
+                useAdd().then((response) => {
+                    refetch()
+                    toast(`Товар добавлен в корзину!`, {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
                     })
-                }}
-            >
+                })
+            }}
+        >
+            {isTitle ? <p>Добавить в корзину</p> : null}
+            <button {...rest} type="button" disabled={loading || loadingCart}>
                 <img
                     className="animate__animated animate__jello"
                     src="/svg/shopping-cart-01.svg"

@@ -6,12 +6,12 @@
     gap: 4px;
     transition: all 0.3s ease-in-out;
 
-    & > label {
-        width: 0;
-        opacity: 0;
-        visibility: hidden;
-        white-space: nowrap;
-        transition: all 0.3s ease-in-out;
+    p {
+        color: var(--gray-500);
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        letter-spacing: -0.5px;
     }
 
     & > button {

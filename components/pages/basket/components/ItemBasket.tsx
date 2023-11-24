@@ -40,6 +40,7 @@ export const ItemBasket = (props: ICart) => {
                         ?.join(", ")}
                 </h4>
                 <h5>Кол-во товара: {quantity}</h5>
+                <p>Стоимость: {(+product?.price * quantity)?.toFixed(0)} ₸</p>
             </div>
             <div data-absolute>
                 {token ? (
