@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation"
 
 import { ICartList } from "@/types/shop"
 
-import { queryCart } from "@/apollo/query-"
+import { queryCart, queryChatUnreadCount } from "@/apollo/query-"
 import { usePush } from "@/helpers/hooks/usePush"
 import { queryChatTotalCount } from "@/apollo/chat"
 import {
@@ -20,12 +20,12 @@ export const ProfilePanel = () => {
     const pathname = usePathname()
     const { data: dataTotalNotifications } = useQuery(queryNotificationTotal)
     const { data: dataTotalChats } = useQuery(queryChatTotalCount)
-    const { data: dataArchiveTotal } = useQuery(queryProductListMeTotalArchive)
     const { favorites } = useFavorites((_) => ({ favorites: _.favorites }))
     const { data: dataCart } = useQuery<ICartList>(queryCart)
     const { isCommercial } = useAuth((_) => ({
         isCommercial: _.user?.isCommercial,
     }))
+    const { data: dataCountChatUnread } = useQuery(queryChatUnreadCount)
 
     const lengthNotification: number | string = useMemo(() => {
         if (dataTotalNotifications?.notificationList?.totalCount > 9) {
@@ -33,12 +33,6 @@ export const ProfilePanel = () => {
         }
         return dataTotalNotifications?.notificationList?.totalCount || 0
     }, [dataTotalNotifications?.notificationList?.totalCount])
-    const lengthChat: number | string = useMemo(() => {
-        if (dataTotalChats?.chatList?.totalCount > 9) {
-            return "*"
-        }
-        return dataTotalChats?.chatList?.totalCount || 0
-    }, [dataTotalChats?.chatList?.totalCount])
 
     const totalCart = useMemo(() => {
         return dataCart?.cart?.cartItemList?.length || 0
@@ -110,9 +104,11 @@ export const ProfilePanel = () => {
                         handlePush("/messages")
                     }}
                 />
-                {lengthChat ? (
+                {dataCountChatUnread?.chatUnreadCount?.totalCount ? (
                     <div data-count data-chat>
-                        <span>{lengthChat}</span>
+                        <span>
+                            {dataCountChatUnread?.chatUnreadCount?.totalCount}
+                        </span>
                     </div>
                 ) : null}
             </div>

@@ -98,3 +98,11 @@ export const queryOrderList = gql`
         }
     }
 `
+
+export const queryChatUnreadCount = gql`
+    query {
+        chatUnreadCount {
+            totalCount
+        }
+    }
+`

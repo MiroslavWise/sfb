@@ -50,7 +50,7 @@ export const MyProductPageUUID = () => {
         variables: { productId: uuid },
     })
 
-    const [la, { refetch: refetchLazy }] = useLazyQuery(queryProductListMe, {
+    const [refetchLazy] = useLazyQuery(queryProductListMe, {
         variables: {
             variables: {
                 ordering: price,

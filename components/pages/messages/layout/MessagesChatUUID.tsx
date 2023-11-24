@@ -4,7 +4,7 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { useForm } from "react-hook-form"
 import { useSearchParams } from "next/navigation"
-import { useMutation, useQuery } from "@apollo/client"
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client"
 import { ChangeEvent, useEffect, useMemo, useState } from "react"
 
 import type { IDataUser } from "../types/types"
@@ -16,6 +16,7 @@ import { useAuth } from "@/store/state/useAuth"
 import { useTitle } from "@/helpers/hooks/useTitle"
 import { usePush } from "@/helpers/hooks/usePush"
 import { useSocket } from "@/context/WebSocketContext"
+import { queryChatUnreadCount } from "@/apollo/query-"
 import { mutationChatMessageReadAll } from "@/apollo/chat"
 import { mutateChatMessageCreate } from "@/apollo/mutation"
 import { useVisiblePhotos } from "@/store/state/useVisiblePhotos"
@@ -36,6 +37,7 @@ export const MessagesChatUUID = () => {
     const [files, setFiles] = useState<File[]>([])
     const [stringsFileImg, setStringsFileImg] = useState<string[]>([])
     const [createMessage] = useMutation(mutateChatMessageCreate)
+    const [useLazyCount] = useLazyQuery(queryChatUnreadCount)
     const [allRead] = useMutation(mutationChatMessageReadAll, {
         variables: { chatId: id },
     })
@@ -219,7 +221,9 @@ export const MessagesChatUUID = () => {
 
     useEffect(() => {
         if (data?.chatMessageByChatId?.totalCount) {
-            allRead()
+            allRead().finally(() => {
+                useLazyCount()
+            })
         }
     }, [data?.chatMessageByChatId?.totalCount])
 
