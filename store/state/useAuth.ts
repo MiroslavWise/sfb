@@ -39,6 +39,7 @@ export const useAuth = create(
                                     photo,
                                     fullName,
                                     isStaff,
+                                    isCommercial,
                                 },
                             },
                         },
@@ -50,6 +51,7 @@ export const useAuth = create(
                             expiration: refreshExpiresIn,
                             state: "Main",
                             user: {
+                                isCommercial,
                                 id,
                                 isAdmin,
                                 isStaff,

@@ -1,18 +1,21 @@
 "use client"
 
-import { memo } from "react"
 import Image from "next/image"
 import { useQuery } from "@apollo/client"
 import { usePathname } from "next/navigation"
 
 import type { IQueryTotalCountProfileAside } from "@/types/total"
 
+import { useAuth } from "@/store/state/useAuth"
 import { usePush } from "@/helpers/hooks/usePush"
 import { queryTotalCountProfileAside } from "@/apollo/query"
 import { ITEMS_ASIDE_LEFT_PICTURE } from "../constants/ITEMS-ASIDE-LEFT"
 
 export function LeftAsideUser() {
     const pathname = usePathname()
+    const { isCommercial } = useAuth((_) => ({
+        isCommercial: _.user?.isCommercial,
+    }))
     const { handlePush } = usePush()
     const { data } = useQuery<IQueryTotalCountProfileAside>(
         queryTotalCountProfileAside,
@@ -27,6 +30,7 @@ export function LeftAsideUser() {
         <aside>
             <ul data-links>
                 {ITEMS_ASIDE_LEFT_PICTURE({
+                    isCommercial: isCommercial,
                     constMessages: data?.chatList?.totalCount,
                     countMyProducts: data?.productListMe?.totalCount,
                     countMyRequests: data?.productRequestListMe?.totalCount,

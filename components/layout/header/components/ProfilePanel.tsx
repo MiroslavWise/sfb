@@ -13,6 +13,7 @@ import {
     queryProductListMeTotalArchive,
 } from "@/apollo/query"
 import { useFavorites } from "@/store/state/useFavorites"
+import { useAuth } from "@/store/state/useAuth"
 
 export const ProfilePanel = () => {
     const { handlePush } = usePush()
@@ -22,6 +23,9 @@ export const ProfilePanel = () => {
     const { data: dataArchiveTotal } = useQuery(queryProductListMeTotalArchive)
     const { favorites } = useFavorites((_) => ({ favorites: _.favorites }))
     const { data: dataCart } = useQuery<ICartList>(queryCart)
+    const { isCommercial } = useAuth((_) => ({
+        isCommercial: _.user?.isCommercial,
+    }))
 
     const lengthNotification: number | string = useMemo(() => {
         if (dataTotalNotifications?.notificationList?.totalCount > 9) {
@@ -111,7 +115,7 @@ export const ProfilePanel = () => {
                 width={24}
                 height={24}
                 onClick={() => {
-                    handlePush("/my-shop")
+                    handlePush(isCommercial ? "/my-shop" : "/my-products")
                 }}
             />
             <div data-notification>

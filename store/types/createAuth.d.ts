@@ -14,6 +14,7 @@ interface IDateUser {
     isSuperuser: boolean
     photo: string | null
     isStaff: boolean
+    isCommercial: boolean
 }
 export interface IAuthState {
     state: TAuthStateType

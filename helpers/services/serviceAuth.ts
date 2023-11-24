@@ -16,6 +16,7 @@ const auth = {
                     isSuperuser
                     photo
                     isStaff
+                    isCommercial
                 }
             }
         }
@@ -55,6 +56,7 @@ const auth = {
                     isActive
                     isAdmin
                     isSuperuser
+                    isCommercial
                 }
                 errors {
                     field
