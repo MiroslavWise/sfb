@@ -32,7 +32,6 @@ export const ItemProduct: FC<IProduct> = (props) => {
                     alt="photo"
                     width={200}
                     height={200}
-                    unoptimized
                 />
             ) : (
                 <div data-img>
@@ -43,7 +42,7 @@ export const ItemProduct: FC<IProduct> = (props) => {
             <h5>{name}</h5>
             <a data-city>{city?.name}</a>
             <div data-time>
-                <Image
+                <img
                     src="/svg/calendar-date.svg"
                     alt="calendar"
                     width={12}
@@ -62,7 +61,7 @@ export const ItemProduct: FC<IProduct> = (props) => {
                             handle()
                         }}
                     >
-                        <Image
+                        <img
                             src={
                                 isFavorite(id!)
                                     ? "/svg/tag-fill.svg"

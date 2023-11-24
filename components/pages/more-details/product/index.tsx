@@ -94,7 +94,7 @@ export const ProductId = () => {
                                 ? "Убрать из избранного"
                                 : "Добавить в избранное"}
                         </p>
-                        <Image
+                        <img
                             src={
                                 is
                                     ? "/svg/tag-fill.svg"

@@ -63,7 +63,6 @@ const $ItemListChats = (props: IChatItem) => {
                         alt="avatar"
                         width={250}
                         height={250}
-                        unoptimized
                     />
                 ) : (
                     <div data-null-image />
@@ -71,7 +70,7 @@ const $ItemListChats = (props: IChatItem) => {
                 <div data-name-commodity>
                     <h4>{interlocutor?.fullName || "---{}---"}</h4>
                     <span>
-                        <Image
+                        <img
                             src="/svg/switch-horizontal-02.svg"
                             alt="switch-horizontal-02"
                             width={12}

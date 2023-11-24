@@ -249,7 +249,6 @@ export const MessagesChatUUID = () => {
                                         alt="---"
                                         width={150}
                                         height={150}
-                                        unoptimized
                                     />
                                 ))}
                         </div>
@@ -272,7 +271,7 @@ export const MessagesChatUUID = () => {
                         </button>
                         <button data-path onClick={handleInfo}>
                             <span>Перейти</span>
-                            <Image
+                            <img
                                 src="/svg/share-06.svg"
                                 alt="share"
                                 width={18}
@@ -305,7 +304,7 @@ export const MessagesChatUUID = () => {
                                     </video>
                                 ) : null}
                                 <div data-preview-delete>
-                                    <Image
+                                    <img
                                         onClick={() => {
                                             const photos: IPhotoCarousel[] =
                                                 stringsFileImg
@@ -343,7 +342,7 @@ export const MessagesChatUUID = () => {
                                         height={20}
                                         data-expand
                                     />
-                                    <Image
+                                    <img
                                         onClick={() => {
                                             setFiles((prev) =>
                                                 prev.filter(
@@ -392,7 +391,7 @@ export const MessagesChatUUID = () => {
                         {...register("files", { required: false })}
                         onChange={handleImageChange}
                     />
-                    <Image
+                    <img
                         src="/svg/paperclip.svg"
                         alt="send"
                         width={16}
@@ -401,7 +400,7 @@ export const MessagesChatUUID = () => {
                 </div>
                 <button type="submit" data-send>
                     <span>Отправить</span>
-                    <Image
+                    <img
                         src="/svg/send-01.svg"
                         alt="send"
                         width={16}

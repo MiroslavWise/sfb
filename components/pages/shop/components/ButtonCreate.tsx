@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
 import { useSearchParams } from "next/navigation"
 
 import { usePush } from "@/helpers/hooks/usePush"
@@ -23,7 +22,7 @@ export const ButtonCreate = () => {
             }}
         >
             <span>{id ? "Редактировать" : "Создать"}</span>
-            <Image
+            <img
                 src={`/svg/${id ? "edit-05" : "plus-circle"}.svg`}
                 alt="plus"
                 width={22}

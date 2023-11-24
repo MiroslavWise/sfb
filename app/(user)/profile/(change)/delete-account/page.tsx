@@ -1,7 +1,5 @@
 "use client"
 
-import Image from "next/image"
-
 import { usePush } from "@/helpers/hooks/usePush"
 
 export default function DeleteAccount() {
@@ -10,7 +8,7 @@ export default function DeleteAccount() {
     return (
         <>
             <header>
-                <Image
+                <img
                     data-image
                     src="/svg/profile/trash-03.svg"
                     alt="change"

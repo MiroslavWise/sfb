@@ -35,13 +35,17 @@ export const ItemMany: TItemMany = ({ id, name, photoUrl, childrenList }) => {
                     handleReplace(`/market?category-id=${id}`)
                 }}
             >
-                <Image
-                    src={photoUrl ? photoUrl : "/svg/globe-06.svg"}
-                    alt="icon"
-                    width={30}
-                    height={30}
-                    unoptimized
-                />
+                {photoUrl ? (
+                    <Image src={photoUrl} alt="icon" width={30} height={30} />
+                ) : (
+                    <img
+                        src="/svg/globe-06.svg"
+                        alt="icon"
+                        width={30}
+                        height={30}
+                    />
+                )}
+
                 <a>{name}</a>
             </div>
             {(active || isActive) && !!childrenList?.length

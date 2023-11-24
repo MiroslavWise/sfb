@@ -53,7 +53,6 @@ const $PhotoStage = (props: { images: { item: IPhoto; index: number }[] }) => {
                         }}
                         width={450}
                         height={450}
-                        unoptimized
                     />
                 </motion.div>
             ) : (
@@ -77,7 +76,6 @@ const $PhotoStage = (props: { images: { item: IPhoto; index: number }[] }) => {
                         alt={file.item.photo}
                         width={450}
                         height={450}
-                        unoptimized
                     />
                 ))}
             </div>

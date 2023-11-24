@@ -32,7 +32,7 @@ export const Navigation = () => {
                     onClick={() => handlePush(item.value)}
                     data-active={pathname.includes(item.value)}
                 >
-                    <Image src={item.icon} alt="icon" width={24} height={24} />
+                    <img src={item.icon} alt="icon" width={24} height={24} />
                     <a>{item.label}</a>
                 </li>
             ))}

@@ -54,7 +54,6 @@ export const ItemProduct: TItemProposalsPage = (props) => {
                         alt={images[0]?.file?.id!}
                         width={300}
                         height={300}
-                        unoptimized
                     />
                 ) : (
                     <div data-null />

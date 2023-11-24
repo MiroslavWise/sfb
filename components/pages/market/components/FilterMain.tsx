@@ -26,7 +26,7 @@ export const FilterMain = ({
     return (
         <div data-filter onClick={dispatch}>
             <p>{label}</p>
-            <Image
+            <img
                 data-active={typeFilter ? false : type}
                 data-type={typeFilter}
                 src={icon}

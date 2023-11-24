@@ -78,13 +78,7 @@ const $ItemUserMessage: TItemMessage = ({ photo, messages }) => {
     return (
         <li className={styles.containerItemUserMessage}>
             {photo ? (
-                <Image
-                    src={photo!}
-                    alt="avatar"
-                    width={250}
-                    height={250}
-                    unoptimized
-                />
+                <Image src={photo!} alt="avatar" width={70} height={70} />
             ) : (
                 <div data-not-avatar />
             )}
@@ -110,7 +104,7 @@ const $ItemUserMessage: TItemMessage = ({ photo, messages }) => {
                                     <span>
                                         {timeNowOrBeforeChat(item?.time!)}
                                     </span>
-                                    <Image
+                                    <img
                                         src={
                                             item.isRead
                                                 ? "/messages/double-tick-black.svg"
@@ -163,9 +157,8 @@ const $ItemUserMessage: TItemMessage = ({ photo, messages }) => {
                                             <Image
                                                 src={item_.url!}
                                                 alt="photo"
-                                                width={250}
-                                                height={250}
-                                                unoptimized
+                                                width={70}
+                                                height={70}
                                             />
                                         )
                                     }
@@ -207,9 +200,8 @@ const $ItemUserMessage: TItemMessage = ({ photo, messages }) => {
                                 <Image
                                     src={item?.photoUrl!}
                                     alt="photo"
-                                    width={250}
-                                    height={250}
-                                    unoptimized
+                                    width={70}
+                                    height={70}
                                 />
                             </div>
                         )

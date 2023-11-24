@@ -22,9 +22,8 @@ export const FooterPhotos = () => {
                     <Image
                         src={item.url}
                         alt="mini"
-                        width={1920}
-                        height={1080}
-                        unoptimized
+                        width={960}
+                        height={540}
                         onClick={() => {
                             setCurrent({ id: item.id })
                         }}

@@ -299,7 +299,7 @@ export const MyProductPageChange = () => {
                                     multiple
                                     onChange={handleImageChange}
                                 />
-                                <Image
+                                <img
                                     src="/svg/plus.svg"
                                     alt="plus"
                                     width={80}

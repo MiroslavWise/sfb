@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { useForm } from "react-hook-form"
 
 import { usePush } from "@/helpers/hooks/usePush"
@@ -23,7 +22,7 @@ export default function ChangePassword() {
     return (
         <>
             <header>
-                <Image
+                <img
                     data-image
                     src="/svg/profile/passcode-lock.svg"
                     alt="change"

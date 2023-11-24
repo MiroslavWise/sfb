@@ -1,16 +1,14 @@
 "use client"
 
-import Image from "next/image"
-
 import { LINKS_SOCIAL } from "../constants"
 
 export const FooterComponentDataHeader = () => {
     return (
         <div data-header>
-            <Image src="/svg/logo.svg" alt="logo" width={54} height={25} />
+            <img src="/svg/logo.svg" alt="logo" width={54} height={25} />
             <div data-social-links>
                 {LINKS_SOCIAL.map((item) => (
-                    <Image
+                    <img
                         key={item.src}
                         src={item.src}
                         alt={item.alt}

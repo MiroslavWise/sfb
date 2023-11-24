@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { motion } from "framer-motion"
 
 import { usePush } from "@/helpers/hooks/usePush"
@@ -16,7 +15,7 @@ export const HeaderChange = () => {
             transition={{ duration: 0.7 }}
             onClick={() => handlePush("/profile")}
         >
-            <Image
+            <img
                 src="/svg/arrow-to-left.svg"
                 alt="arrow-to-left"
                 width={14}

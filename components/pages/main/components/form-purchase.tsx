@@ -253,7 +253,7 @@ export const FormPurchase = ({
                     {errors.name ? (
                         <i>Обязательное поле(мин 5 символов)</i>
                     ) : null}
-                    <Image
+                    <img
                         src={
                             loadingInput
                                 ? "/svg/loading-03.svg"

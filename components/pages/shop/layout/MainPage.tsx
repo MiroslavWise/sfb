@@ -24,9 +24,8 @@ export const ShopMainPage = () => {
                               <Image
                                   src={item.photoUrl}
                                   alt="photo"
-                                  width={400}
-                                  height={400}
-                                  unoptimized
+                                  width={380}
+                                  height={380}
                               />
                           ) : (
                               <div data-img>

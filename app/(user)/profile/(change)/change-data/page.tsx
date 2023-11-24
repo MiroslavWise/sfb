@@ -69,7 +69,7 @@ export default function ChangeData() {
     return (
         <>
             <header>
-                <Image
+                <img
                     data-image
                     src="/svg/profile/user-edit.svg"
                     alt="change"
@@ -87,7 +87,6 @@ export default function ChangeData() {
                             alt="avatar"
                             width={200}
                             height={200}
-                            unoptimized
                         />
                     ) : null}
                     <span>
@@ -107,7 +106,7 @@ export default function ChangeData() {
                                 }
                             }}
                         />
-                        <Image
+                        <img
                             src="/svg/plus.svg"
                             alt="plus"
                             height={50}

@@ -1,7 +1,5 @@
 "use client"
 
-import Image from "next/image"
-
 import type { TTabsDetails } from "./types"
 
 import styles from "./style.module.scss"
@@ -21,7 +19,7 @@ export const TabsDetails: TTabsDetails = ({ items, current, set }) => {
                         }}
                     >
                         {item.icon ? (
-                            <Image
+                            <img
                                 src={item.icon!}
                                 alt={item.icon!}
                                 width={18}

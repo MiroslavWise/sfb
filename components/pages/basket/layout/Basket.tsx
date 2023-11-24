@@ -27,7 +27,7 @@ export const BasketPage = () => {
         <div className={styles.wrapper}>
             {data?.cart?.cartItemList?.length === 0 ? (
                 <div data-empty>
-                    <Image
+                    <img
                         src="/svg/shopping-cart-01.svg"
                         alt="shopping-cart"
                         width={200}

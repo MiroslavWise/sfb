@@ -44,15 +44,14 @@ export const ComponentCarouselBannerMainPage = ({
                 }}
             >
                 <h2>{current.label}</h2>
-                <Image
+                <img
                     data-img-banner
                     src={current.img.src}
                     alt={current.img.alt}
                     width={184}
                     height={135}
-                    unoptimized
                 />
-                <Image
+                <img
                     data-logo
                     src="/svg/logo.svg"
                     alt="logo"

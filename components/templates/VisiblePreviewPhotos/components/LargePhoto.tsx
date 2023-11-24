@@ -16,9 +16,8 @@ export const LargePhoto = () => {
                 onClick={setNext}
                 src={current?.url!}
                 alt="large"
-                width={1080}
-                height={1920}
-                unoptimized
+                height={960}
+                width={540}
             />
         </section>
     )

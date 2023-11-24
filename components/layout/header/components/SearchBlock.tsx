@@ -58,7 +58,7 @@ export const SearchBlock = () => {
                     }}
                     onFocus={() => setFocus(true)}
                 />
-                <Image
+                <img
                     src={
                         loading
                             ? "/svg/loading-03.svg"

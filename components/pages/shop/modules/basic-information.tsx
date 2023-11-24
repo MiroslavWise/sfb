@@ -1,4 +1,3 @@
-import Image from "next/image"
 import { useQuery } from "@apollo/client"
 import { useSearchParams } from "next/navigation"
 
@@ -21,12 +20,11 @@ export const BasicInformation = () => {
         <div className={styles.container}>
             <h3>Информация о магазине</h3>
             {data?.shopById?.photoUrl ? (
-                <Image
+                <img
                     src={data?.shopById?.photoUrl!}
                     alt="photo"
                     width={250}
                     height={250}
-                    unoptimized
                 />
             ) : null}
             <div data-set>

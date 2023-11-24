@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { motion } from "framer-motion"
 
 import {
@@ -14,8 +15,6 @@ import {
 import { useEnter } from "@/store/state/useEnter"
 
 import styles from "./styles/style.module.scss"
-import { useState } from "react"
-import Image from "next/image"
 
 export const ModalLogin = () => {
     const { visible, dispatch } = useEnter((_) => ({
@@ -39,7 +38,7 @@ export const ModalLogin = () => {
                 exit={{ opacity: 0, visibility: "hidden" }}
                 transition={{ duration: 0.4 }}
             >
-                <Image
+                <img
                     src="/svg/x-close.svg"
                     alt="x-close"
                     width={24}
@@ -53,7 +52,7 @@ export const ModalLogin = () => {
                     ) : (
                         <RegisterHeaderFooterComponent />
                     )}
-                    <Image
+                    <img
                         src="/svg/logo.svg"
                         alt="logo"
                         width={54}

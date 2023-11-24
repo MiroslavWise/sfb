@@ -33,7 +33,7 @@ export function MyRequestsPage() {
                     }}
                 >
                     <span>Создать</span>
-                    <Image
+                    <img
                         src="/svg/plus-circle.svg"
                         alt="plus"
                         width={22}

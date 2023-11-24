@@ -146,7 +146,7 @@ export const ProposalsPageUUID = () => {
                     </Outline>
                     <button data-black-border onClick={handleCreateChat}>
                         <span>Написать покупателю</span>
-                        <Image
+                        <img
                             src="/svg/message-plus-circle.svg"
                             alt="message-plus-circle"
                             width={20}

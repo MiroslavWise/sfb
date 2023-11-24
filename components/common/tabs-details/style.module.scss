@@ -36,10 +36,10 @@
             }
             &[data-active="true"] {
                 border-bottom-color: var(--main-black);
-                background: var(--gray-300);
+                background: var(--main-black);
 
                 & > span {
-                    color: var(--main-black);
+                    color: #fff;
                 }
             }
         }

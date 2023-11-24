@@ -25,7 +25,6 @@ export const ItemBasket = (props: ICart) => {
                     alt="photo"
                     width={250}
                     height={250}
-                    unoptimized
                 />
             ) : (
                 <div data-img>
@@ -53,7 +52,7 @@ export const ItemBasket = (props: ICart) => {
                             handle()
                         }}
                     >
-                        <Image
+                        <img
                             src={
                                 isFavorite(product.id!)
                                     ? "/svg/tag-fill.svg"

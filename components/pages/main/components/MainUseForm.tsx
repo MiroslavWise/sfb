@@ -37,7 +37,7 @@ export const ComponentMainUseFormMainPage = () => {
                     transition={{ duration: 0.3 }}
                 >
                     <article>
-                        <Image
+                        <img
                             src="/svg/logo.svg"
                             alt="logo"
                             width={130}
@@ -45,14 +45,14 @@ export const ComponentMainUseFormMainPage = () => {
                         />
                         <div data-crumbs>
                             <p>search</p>
-                            <Image
+                            <img
                                 src="/svg/to-right-arrow.svg"
                                 alt="to-right-arrow"
                                 width={10}
                                 height={8.5}
                             />
                             <p>find</p>
-                            <Image
+                            <img
                                 src="/svg/to-right-arrow.svg"
                                 alt="to-right-arrow"
                                 width={10}

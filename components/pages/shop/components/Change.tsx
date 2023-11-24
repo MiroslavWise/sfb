@@ -151,7 +151,7 @@ export const ChangeShop = ({}) => {
                         unoptimized
                     />
                 ) : (
-                    <Image
+                    <img
                         src="/svg/plus.svg"
                         alt="plus"
                         width={250}

@@ -3,14 +3,12 @@ import { memo } from "react"
 import type { TCheckbox } from "./types"
 
 import styles from "./style.module.scss"
-import Image from "next/image"
 
 export const Checkbox: TCheckbox = memo(function $Checkbox({
     label,
     active,
     dispatch,
 }) {
-    console.log("Checkbox: active: ", active)
     return (
         <div
             className={styles.container}
@@ -19,7 +17,7 @@ export const Checkbox: TCheckbox = memo(function $Checkbox({
         >
             <div data-check-box>
                 {active && (
-                    <Image
+                    <img
                         src="/svg/check.svg"
                         alt="check"
                         width={16}

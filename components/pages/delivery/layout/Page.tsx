@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useQuery } from "@apollo/client"
 
 import { IOrderList } from "@/types/shop"
@@ -7,12 +8,9 @@ import { IOrderList } from "@/types/shop"
 import { queryOrderList } from "@/apollo/query-"
 
 import styles from "../styles/page.module.scss"
-import Image from "next/image"
 
 export const DeliveryPage = () => {
     const { data } = useQuery<IOrderList>(queryOrderList)
-
-    console.log("dataadsfsadfasdfsa: ", data)
 
     return (
         <div className={styles.wrapper}>
@@ -35,7 +33,6 @@ export const DeliveryPage = () => {
                                         alt="photo"
                                         width={250}
                                         height={250}
-                                        unoptimized
                                     />
                                 ) : (
                                     <div data-img>

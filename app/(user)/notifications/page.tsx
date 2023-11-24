@@ -30,7 +30,7 @@ export default function Notifications() {
                 <h1>Уведомления</h1>
                 <button data-all-reading onClick={handle}>
                     <span>Прочитать всё</span>
-                    <Image
+                    <img
                         src="/svg/bell-minus.svg"
                         alt="bell-minus"
                         width={20}

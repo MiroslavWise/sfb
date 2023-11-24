@@ -56,7 +56,7 @@ export const PageFavorites = () => {
         <div className={styles.wrapper}>
             {list?.length === 0 ? (
                 <div data-empty>
-                    <Image
+                    <img
                         src="/svg/tag-01.svg"
                         alt="tag-01"
                         width={200}

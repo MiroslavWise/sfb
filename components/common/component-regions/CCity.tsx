@@ -1,7 +1,3 @@
-"use client"
-
-import Image from "next/image"
-
 import { TNameRegion } from "./types/types"
 
 import styles from "./styles/style.module.scss"
@@ -9,7 +5,7 @@ import styles from "./styles/style.module.scss"
 export const ComponentCity: TNameRegion = ({ name }) => {
     return (
         <div className={styles.container}>
-            <Image
+            <img
                 src="/svg/building-07.svg"
                 alt="building"
                 width={16}

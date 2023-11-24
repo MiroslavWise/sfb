@@ -56,7 +56,7 @@ export const ProfilePanel = () => {
     return (
         <div data-chat-notification>
             <div data-notification>
-                <Image
+                <img
                     src="/svg/tag-01.svg"
                     alt="tag-01"
                     width={24}
@@ -72,7 +72,7 @@ export const ProfilePanel = () => {
                 ) : null}
             </div>
             <div data-notification>
-                <Image
+                <img
                     src="/svg/box-black.svg"
                     alt="box-black"
                     width={24}
@@ -90,7 +90,7 @@ export const ProfilePanel = () => {
                 ) : null}
             </div>
             <div data-notification>
-                <Image
+                <img
                     src="/svg/shopping-cart-01.svg"
                     alt="shopping-cart-01"
                     width={24}
@@ -105,7 +105,7 @@ export const ProfilePanel = () => {
                     </div>
                 ) : null}
             </div>
-            <Image
+            <img
                 src={
                     isBuilding
                         ? "/svg/building-fill.svg"
@@ -119,7 +119,7 @@ export const ProfilePanel = () => {
                 }}
             />
             <div data-notification>
-                <Image
+                <img
                     src="/svg/menu/message-notification-circle.svg"
                     alt="icon"
                     width={24}
@@ -135,7 +135,7 @@ export const ProfilePanel = () => {
                 ) : null}
             </div>
             <div data-notification>
-                <Image
+                <img
                     src="/svg/menu/bell-03.svg"
                     alt="icon"
                     width={24}
@@ -150,7 +150,7 @@ export const ProfilePanel = () => {
                     </div>
                 ) : null}
             </div>
-            <Image
+            <img
                 src="/svg/menu/user-02.svg"
                 alt="icon"
                 width={24}

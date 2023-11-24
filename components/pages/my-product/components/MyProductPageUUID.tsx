@@ -142,7 +142,7 @@ export const MyProductPageUUID = () => {
                         {productById?.draft && isDataFull ? (
                             <button data-black onClick={handlePublish}>
                                 <span>Опубликовать</span>
-                                <Image
+                                <img
                                     src="/svg/globe-06.svg"
                                     alt="globe-06"
                                     width={20}
@@ -153,7 +153,7 @@ export const MyProductPageUUID = () => {
                         {productById?.draft ? (
                             <button data-black-border onClick={handleChange}>
                                 <span>Редактировать</span>
-                                <Image
+                                <img
                                     src="/svg/replace.svg"
                                     alt="replace"
                                     width={20}
@@ -168,7 +168,7 @@ export const MyProductPageUUID = () => {
                             <span>
                                 {productById?.draft ? "Удалить" : "В архив"}
                             </span>
-                            <Image
+                            <img
                                 src={
                                     productById?.draft
                                         ? "/svg/trash-01.svg"

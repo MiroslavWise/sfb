@@ -37,7 +37,7 @@ export const ItemNotification = (props: IItemNotification) => {
     return (
         <div data-item-notification>
             <header>
-                <Image
+                <img
                     src="/svg/bell-ringing-03.svg"
                     alt="bell"
                     width={40}
@@ -51,7 +51,7 @@ export const ItemNotification = (props: IItemNotification) => {
                 </button>
                 <button data-black onClick={handleRestrict}>
                     <span>Перейти</span>
-                    <Image
+                    <img
                         src="/svg/share-06.svg"
                         alt="share"
                         width={18}

@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { IItemsProfile } from "@/app/(user)/profile/constants"
 
 import { usePush } from "@/helpers/hooks/usePush"
@@ -17,10 +16,10 @@ export const ItemLinkProfile = ({ icon, label, value }: IItemsProfile) => {
             }}
         >
             <section>
-                <Image src={icon} alt={icon} width={30} height={30} />
+                <img src={icon} alt={icon} width={30} height={30} />
                 <p>{label}</p>
             </section>
-            <Image
+            <img
                 src="/svg/arrow-cirlce-to-right.svg"
                 alt="arrow-cirlce-to-right"
                 width={25}
