@@ -1,10 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        loader: "custom",
-        loaderFile: "./helpers/lib/loading.ts",
+        // loader: "custom",
+        // loaderFile: "./helpers/lib/loading.ts",
         formats: ["image/avif", "image/webp"],
         domains: [process.env.NEXT_PUBLIC_DOMAINS],
+        imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+        deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     },
     swcMinify: true,
     skipMiddlewareUrlNormalize: true,

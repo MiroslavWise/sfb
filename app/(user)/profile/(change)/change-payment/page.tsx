@@ -6,7 +6,7 @@ export default function ChangePayment() {
     return (
         <>
             <header>
-                <Image
+                <img
                     data-image
                     src="/svg/profile/credit-card-edit.svg"
                     alt="change"
