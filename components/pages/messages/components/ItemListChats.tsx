@@ -63,6 +63,7 @@ const $ItemListChats = (props: IChatItem) => {
                         alt="avatar"
                         width={250}
                         height={250}
+                        unoptimized
                     />
                 ) : (
                     <div data-null-image />

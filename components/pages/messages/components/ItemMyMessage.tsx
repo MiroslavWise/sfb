@@ -154,6 +154,7 @@ const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
                                                 alt="photo"
                                                 width={250}
                                                 height={250}
+                                                unoptimized
                                             />
                                         )
                                     }
@@ -180,7 +181,13 @@ const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
                 })}
             </div>
             {photo ? (
-                <Image src={photo!} alt="avatar" width={100} height={100} />
+                <Image
+                    src={photo!}
+                    alt="avatar"
+                    width={100}
+                    height={100}
+                    unoptimized
+                />
             ) : (
                 <div data-not-avatar />
             )}

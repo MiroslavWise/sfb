@@ -32,6 +32,7 @@ export const ItemProduct: FC<IProduct> = (props) => {
                     alt="photo"
                     width={200}
                     height={200}
+                    unoptimized
                 />
             ) : (
                 <div data-img>

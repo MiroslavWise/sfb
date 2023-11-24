@@ -17,6 +17,7 @@ export const DataProfile = () => {
                         alt="avatar"
                         height={250}
                         width={250}
+                        unoptimized
                     />
                     <div data-info>
                         {data?.me?.fullName && (

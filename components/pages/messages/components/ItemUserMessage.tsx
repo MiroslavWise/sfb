@@ -78,7 +78,13 @@ const $ItemUserMessage: TItemMessage = ({ photo, messages }) => {
     return (
         <li className={styles.containerItemUserMessage}>
             {photo ? (
-                <Image src={photo!} alt="avatar" width={70} height={70} />
+                <Image
+                    src={photo!}
+                    alt="avatar"
+                    width={70}
+                    height={70}
+                    unoptimized
+                />
             ) : (
                 <div data-not-avatar />
             )}
@@ -159,6 +165,7 @@ const $ItemUserMessage: TItemMessage = ({ photo, messages }) => {
                                                 alt="photo"
                                                 width={70}
                                                 height={70}
+                                                unoptimized
                                             />
                                         )
                                     }
@@ -202,6 +209,7 @@ const $ItemUserMessage: TItemMessage = ({ photo, messages }) => {
                                     alt="photo"
                                     width={70}
                                     height={70}
+                                    unoptimized
                                 />
                             </div>
                         )
