@@ -1,26 +1,22 @@
 const installEvent = () => {
     self.addEventListener("install", (event) => {
         async function onInstall() {
-            return caches.open("static").then((cache) =>
-                cache.addAll([
-                    "/png/susan-wilkinson-DNCcYq71BSE-unsplash.jpg",
-                    "/png/2h-media-GOrLkr-7q1U-unsplash.jpg",
-                    // "/magazine/daniel-bradley-y_WDEY9e6mA-unsplash.jpg",
-                    // "/magazine/erwan-hesry-RJjY5Hpnifk-unsplash.jpg",
-                    // "/magazine/marcos-rivas-HX_QUGNAjDo-unsplash.jpg",
-                    // "/magazine/med-badr-chemmaoui-ZSPBhokqDMc-unsplash.jpg",
-                    // "/magazine/nathan-dumlao-lvWw_G8tKsk-unsplash.jpg",
-                    // "/magazine/rosebox-BFdSCxmqvYc-unsplash.jpg",
-                    "/magazine/daniel-bradley-y_WDEY9e6mA-unsplash.avif",
-                    "/magazine/erwan-hesry-RJjY5Hpnifk-unsplash.avif",
-                    "/magazine/marcos-rivas-HX_QUGNAjDo-unsplash.avif",
-                    "/magazine/med-badr-chemmaoui-ZSPBhokqDMc-unsplash.avif",
-                    "/magazine/nathan-dumlao-lvWw_G8tKsk-unsplash.avif",
-                    "/magazine/rosebox-BFdSCxmqvYc-unsplash.avif",
-                    "/svg/shopping-cart-01-red.svg",
-                    "/svg/shopping-cart-01.svg",
-                ]),
-            )
+            return caches
+                .open("static")
+                .then((cache) =>
+                    cache.addAll([
+                        "/png/susan-wilkinson-DNCcYq71BSE-unsplash.jpg",
+                        "/png/2h-media-GOrLkr-7q1U-unsplash.jpg",
+                        "/magazine/daniel-bradley-y_WDEY9e6mA-unsplash.avif",
+                        "/magazine/erwan-hesry-RJjY5Hpnifk-unsplash.avif",
+                        "/magazine/marcos-rivas-HX_QUGNAjDo-unsplash.avif",
+                        "/magazine/med-badr-chemmaoui-ZSPBhokqDMc-unsplash.avif",
+                        "/magazine/nathan-dumlao-lvWw_G8tKsk-unsplash.avif",
+                        "/magazine/rosebox-BFdSCxmqvYc-unsplash.avif",
+                        "/svg/shopping-cart-01-red.svg",
+                        "/svg/shopping-cart-01.svg",
+                    ]),
+                )
         }
 
         event.waitUntil(onInstall(event))
