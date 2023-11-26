@@ -55,6 +55,14 @@ export const ShopMainPage = () => {
                                   </button>
                               </footer>
                           </div>
+                          <div data-verification>
+                              <img
+                                  src="/svg/check-verified-03.svg"
+                                  alt="check-verified"
+                                  width={25}
+                                  height={25}
+                              />
+                          </div>
                       </li>
                   ))
                 : null}

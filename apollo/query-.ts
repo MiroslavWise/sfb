@@ -106,3 +106,17 @@ export const queryChatUnreadCount = gql`
         }
     }
 `
+
+export const mutationProductCreate = gql`
+    mutation ($shopId: UUID) {
+        productCreate(input: { shopId: $shopId }) {
+            ok
+            product {
+                id
+            }
+            errors {
+                messages
+            }
+        }
+    }
+`

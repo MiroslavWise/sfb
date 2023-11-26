@@ -11,26 +11,26 @@ export const TABS_SHOP_DETAIL: IItemTab<TTypeValue>[] = [
     {
         value: "basic-information",
         label: "Основная информация",
-        // icon: "",
+        icon: "/magazine/icons/grid-01.svg",
     },
     {
         value: "store-managers",
         label: "Менеджеры магазина",
-        // icon: "",
+        icon: "/magazine/icons/users-03.svg",
     },
     {
         value: "merchandise",
         label: "Товары",
-        // icon: "",
+        icon: "/magazine/icons/package.svg",
     },
     {
         value: "sales",
         label: "Продажи",
-        // icon: "",
+        icon: "/magazine/icons/package-check.svg",
     },
     {
         value: "delivery-of-goods",
         label: "Доставки товаров",
-        // icon: "",
+        icon: "/magazine/icons/dataflow-03.svg",
     },
 ]

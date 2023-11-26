@@ -25,8 +25,8 @@ export const Navigation = () => {
     }, [i18n.language])
 
     return (
-        <nav>
-            {MENU_ITEMS.map((item) => (
+        <ul>
+            {/* {MENU_ITEMS.map((item) => (
                 <li
                     key={item.value + "-item-menu-"}
                     onClick={() => handlePush(item.value)}
@@ -35,9 +35,9 @@ export const Navigation = () => {
                     <img src={item.icon} alt="icon" width={24} height={24} />
                     <a>{item.label}</a>
                 </li>
-            ))}
+            ))} */}
             {state === "Main" ? <ProfilePanel /> : null}
             <ButtonLogin />
-        </nav>
+        </ul>
     )
 }

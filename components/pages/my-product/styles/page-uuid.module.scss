@@ -12,8 +12,8 @@
         flex-direction: row;
         align-items: center;
         gap: 24px;
-        background-color: #fff;
         border-radius: 7px;
+        background-color: var(--gray-200);
 
         & > h1 {
             color: var(--main-black);
@@ -101,7 +101,7 @@
         grid-template-columns: calc(300px) calc(100% - 300px - 40px);
         gap: 40px;
         padding: 30px 40px;
-        background-color: #fff;
+        background-color: var(--gray-200);
         border-radius: 7px;
 
         & > article {

@@ -58,7 +58,7 @@ export const MyProductPageChange = () => {
         useLazyQuery<IProductAttributeList>(queryProductAttributesByCategoryId)
     const [update] = useMutation(mutateUpdateProduct)
     const [create] = useMutation(createProductFull)
-    const [updateAttr] = useMutation(mutationProductAttributeUpdate)
+    // const [updateAttr] = useMutation(mutationProductAttributeUpdate)
     const { productById } = data ?? {}
     const {
         register,
@@ -66,7 +66,11 @@ export const MyProductPageChange = () => {
         handleSubmit,
         setValue,
         formState: { errors },
-    } = useForm<IValues>({})
+    } = useForm<IValues>({
+        defaultValues: {
+            is_files: false,
+        },
+    })
 
     function submit(values: IValues) {
         const data: Record<string, any> = {
@@ -157,6 +161,22 @@ export const MyProductPageChange = () => {
             setValue("quantity", productById?.quantity)
         }
     }, [productById])
+
+    useEffect(() => {
+        if (productById && productById?.photoListUrl?.length > 0) {
+            setValue("is_files", true)
+        }
+        if (files.length > 0) {
+            setValue("is_files", true)
+        }
+        if (
+            productById &&
+            productById?.photoListUrl?.length === 0 &&
+            files.length === 0
+        ) {
+            setValue("is_files", false)
+        }
+    }, [productById, files])
 
     useEffect(() => {
         if (uuid) {
@@ -315,6 +335,11 @@ export const MyProductPageChange = () => {
                                   ))
                                 : null}
                         </div>
+                        <i {...register("is_files", { required: true })}>
+                            {errors?.is_files
+                                ? "Обязательно наличие хотя-бы одной фотографии"
+                                : null}
+                        </i>
                         <Input
                             value={watch("title")}
                             label="Название товара"
@@ -508,6 +533,7 @@ interface IValues {
             url: string
         }
     }
+    is_files: boolean
     title: string
     category: string
     category_: string

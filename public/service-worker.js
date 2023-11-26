@@ -15,6 +15,11 @@ const installEvent = () => {
                         "/magazine/rosebox-BFdSCxmqvYc-unsplash.avif",
                         "/svg/shopping-cart-01-red.svg",
                         "/svg/shopping-cart-01.svg",
+                        "/magazine/icons/grid-01.svg",
+                        "/magazine/icons/users-03.svg",
+                        "/magazine/icons/package.svg",
+                        "/magazine/icons/package-check.svg",
+                        "/magazine/icons/dataflow-03.svg",
                     ]),
                 )
         }

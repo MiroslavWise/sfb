@@ -65,6 +65,12 @@ export const PRODUCT = gql`
             id
             name
         }
+        shop {
+            id
+            name
+            address
+            photoUrl
+        }
         createdAt
         commercial
         isActive

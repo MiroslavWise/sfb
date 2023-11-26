@@ -103,6 +103,12 @@ export interface IRequestProduct {
 
 export interface IProduct extends IRequestProduct {
     attributeList: IProductAttribute[]
+    shop: {
+        id: string
+        name: string
+        address: string
+        photoUrl: string
+    }
 }
 
 export interface IProductRoot {
@@ -148,6 +154,12 @@ export interface ICategoryRecommendation {
 
 export interface IProductList {
     productList: {
+        totalCount: number
+        results: IProduct[]
+    }
+}
+export interface IProductListShopManagement {
+    productListShopManagement: {
         totalCount: number
         results: IProduct[]
     }

@@ -118,7 +118,7 @@ export const ProposalsPageUUID = () => {
                         </div>
                     </Outline>
                     <Outline label="Количество">
-                        <TagAmount count={productRequestById?.quantity!} />
+                        <p>{productRequestById?.quantity!}</p>
                     </Outline>
                     <Outline label="Адрес">
                         <div data-regions>

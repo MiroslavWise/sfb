@@ -24,7 +24,7 @@
     --opacity-white-hard-1: rgba(255, 255, 255, 0.1);
     --stroke-1: #fff;
     --button-default-background: #fff;
-    --transition: all 0.3s ease-in-out 0.01s;
+    --transition: 0.3s ease-in-out;
 
     //Color Gary
     --gray-900: #101828;
@@ -120,8 +120,6 @@
     box-sizing: border-box;
     -webkit-touch-callout: none;
 
-    transition: var(--transition);
-
     [data-regions] {
         display: flex;
         flex-direction: row;
@@ -200,6 +198,10 @@ article {
             background-color: rgba(133, 120, 226, 1);
         }
     }
+}
+
+a {
+    text-decoration: none;
 }
 
 li {

@@ -5,7 +5,7 @@ import { useAuth } from "@/store/state/useAuth"
 
 export const ButtonOut = () => {
     const { handlePush } = usePush()
-    const { out } = useAuth((_) => ({ out: _.out }))
+    const out = useAuth(({ out }) => out)
 
     function handle() {
         out()

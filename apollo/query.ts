@@ -230,9 +230,29 @@ export const queryProductList = gql`
 
 export const queryProductById = gql`
     ${PRODUCT}
+    ${PHOTOS}
     query ($id: UUID!) {
         productById(id: $id) {
             ...product
+            photoListUrl {
+                ...photos
+            }
+        }
+    }
+`
+
+export const queryProductListShopManagement = gql`
+    ${PRODUCT}
+    ${PHOTOS}
+    query ($shopId: UUID) {
+        productListShopManagement(shopId: $shopId) {
+            totalCount
+            results {
+                ...product
+                photoListUrl {
+                    ...photos
+                }
+            }
         }
     }
 `

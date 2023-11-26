@@ -19,6 +19,13 @@
         & > form {
             & > [data-div-main] {
                 grid-area: main;
+
+                & > i {
+                    color: #d92d20;
+                    font-size: 12px;
+                    font-style: normal;
+                    font-weight: 500;
+                }
             }
 
             & > [data-div-secondary] {

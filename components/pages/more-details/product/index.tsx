@@ -133,8 +133,68 @@ export const ProductId = () => {
                             </h3>
                         </div>
                     </Outline>
-                    <Outline label="Количество">
-                        <TagAmount count={productById?.quantity!} />
+                    <Outline label={`Количество`}>
+                        <p>{productById?.quantity!}</p>
+                    </Outline>
+                    <Outline label={productById?.shop ? "Магазин" : "Продацев"}>
+                        <div
+                            style={{
+                                position: "relative",
+                                display: "flex",
+                                flexDirection: "row",
+                                gap: 8,
+                            }}
+                        >
+                            <Image
+                                src={
+                                    productById?.shop
+                                        ? productById?.shop?.photoUrl!
+                                        : productById?.author?.photo!
+                                }
+                                alt="avatar"
+                                width={42}
+                                height={42}
+                                style={{
+                                    objectFit: "cover",
+                                    borderRadius: 21,
+                                    border: productById?.shop
+                                        ? "1px solid green"
+                                        : "",
+                                }}
+                                unoptimized
+                            />
+                            {productById?.shop ? (
+                                <img
+                                    src="/svg/check-verified-03.svg"
+                                    alt="check-verified"
+                                    width={18}
+                                    height={18}
+                                    style={{
+                                        position: "absolute",
+                                        top: "calc(100% - 18px)",
+                                        left: "calc(42px - 18px)",
+                                    }}
+                                />
+                            ) : null}
+                            <div
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    gap: 4,
+                                }}
+                            >
+                                <p>
+                                    {productById?.shop
+                                        ? productById?.shop?.name
+                                        : productById?.author?.fullName}
+                                </p>
+                                <i style={{ fontSize: 12 }}>
+                                    {productById?.shop
+                                        ? productById?.shop?.address
+                                        : productById?.author?.address}
+                                </i>
+                            </div>
+                        </div>
                     </Outline>
                     <Outline label="Адрес">
                         <div data-regions>

@@ -15,9 +15,13 @@
             position: relative;
             width: 100%;
             aspect-ratio: 1/1;
-            border-radius: 16px;
+            border-radius: 7px;
             overflow: hidden;
             cursor: pointer;
+
+            & > img {
+                transition: scale var(--transition);
+            }
 
             & > [data-info] {
                 position: absolute;
@@ -25,6 +29,8 @@
                 z-index: 2;
                 background: rgba(#000000, 0.3);
                 padding: 16px;
+
+                transition: background var(--transition);
 
                 display: flex;
                 flex-direction: column;
@@ -64,6 +70,8 @@
                     flex-direction: column;
                     gap: 6px;
 
+                    transition: opacity var(--transition);
+
                     & > button {
                         width: 100%;
                         padding: 6px 12px;
@@ -90,6 +98,19 @@
                 }
             }
 
+            & > [data-verification] {
+                position: absolute;
+                bottom: 12px;
+                right: 12px;
+                opacity: 1;
+                transition: opacity var(--transition);
+
+                & > img {
+                    width: 35px;
+                    height: 35px;
+                }
+            }
+
             &:hover {
                 & > [data-info] {
                     background: rgba(#000000, 0.4);
@@ -102,6 +123,10 @@
                 & > [data-info] > footer {
                     opacity: 1 !important;
                     visibility: visible;
+                }
+
+                & > [data-verification] {
+                    opacity: 0;
                 }
             }
         }

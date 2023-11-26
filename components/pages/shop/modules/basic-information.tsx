@@ -28,6 +28,19 @@ export const BasicInformation = () => {
                 />
             ) : null}
             <div data-set>
+                <label>Потверждение:</label>
+                <p>
+                    <img
+                        src="/svg/check-verified-03.svg"
+                        alt="check-verified"
+                        width={15}
+                        height={15}
+                    />{" "}
+                    Магазин прошёл верификацию от государственных огранов и
+                    имеет право на продажу товаров
+                </p>
+            </div>
+            <div data-set>
                 <label>Название:</label>
                 <p>{data?.shopById?.name}</p>
             </div>

@@ -13,8 +13,8 @@
         align-items: center;
         justify-content: space-between;
         gap: 24px;
-        background-color: #fff;
         border-radius: 7px;
+        background-color: var(--gray-200);
 
         & > [data-add-buttons] {
             display: flex;
@@ -87,8 +87,8 @@
         grid-template-columns: calc(300px) calc(100% - 300px - 40px);
         gap: 40px;
         padding: 30px 40px;
-        background-color: #fff;
         border-radius: 7px;
+        background-color: var(--gray-200);
 
         & > article {
             width: 100%;

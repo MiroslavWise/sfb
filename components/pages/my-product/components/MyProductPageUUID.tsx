@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { motion } from "framer-motion"
 import { useMemo, useState } from "react"
 import { useSearchParams } from "next/navigation"
@@ -114,7 +113,8 @@ export const MyProductPageUUID = () => {
             !!item?.category?.id &&
             !!item?.name &&
             !!item?.description &&
-            !!item?.price
+            !!item?.price &&
+            !!item?.photoListUrl?.length
         )
     }, [data?.productById])
 
@@ -217,7 +217,7 @@ export const MyProductPageUUID = () => {
                             </div>
                         </Outline>
                         <Outline label="Количество">
-                            <TagAmount count={productById?.quantity!} />
+                            <p>{productById?.quantity!}</p>
                         </Outline>
                         <Outline label="Адресс">
                             <div data-regions>

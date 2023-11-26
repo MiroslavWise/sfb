@@ -24,12 +24,10 @@ interface ISocket {
 }
 
 export const WebSocketContext = memo(({ children }: IChildrenProps) => {
-    const { token, user } = useAuth((_) => ({
-        token: _.token,
-        user: _.user,
-    }))
-    const { handlePush } = usePush()
     const chatId = useSearchParams().get("chat-id")
+    const token = useAuth(({ token }) => token)
+    const user = useAuth(({ user }) => user)
+    const { handlePush } = usePush()
     const [chanel, setChanel] = useState<WebSocket | null | any>(null)
     const [reloadMessages] = useLazyQuery(queryChatUnreadCount)
 
