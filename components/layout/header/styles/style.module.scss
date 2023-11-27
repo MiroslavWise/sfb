@@ -3,7 +3,7 @@
     height: calc(78px + 58px);
     display: flex;
     flex-direction: column;
-    background-color: var(--gray-300);
+    background-color: var(--gray-200);
 
     & > [data-header] {
         width: 100%;
@@ -22,10 +22,13 @@
             gap: 24px;
 
             [data-svg] {
-                width: 32px;
-                height: 32px;
+                width: 24px;
+                height: 24px;
                 background-repeat: no-repeat;
                 background-size: cover;
+
+                & > svg {
+                }
 
                 & > svg > g > path {
                     stroke: var(--main-black);
@@ -48,7 +51,7 @@
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                gap: 8px;
+                gap: 4px;
 
                 & > img {
                     filter: invert(1);
@@ -58,7 +61,7 @@
                 a {
                     text-align: center;
                     color: var(main-black);
-                    font-size: 18px;
+                    font-size: 16px;
                     font-style: normal;
                     font-weight: 500;
                     transition: color, font-weight var(--transition);
@@ -102,10 +105,10 @@
                 & > [data-count] {
                     position: absolute;
                     top: -4px;
-                    left: calc(36px - 14px);
+                    left: calc(24px - 10px);
                     background: var(--warning-600);
-                    height: 16px;
-                    width: 16px;
+                    height: 12px;
+                    width: 12px;
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -129,7 +132,7 @@
                 & > p {
                     text-align: center;
                     color: var(--main-black);
-                    font-size: 24px;
+                    font-size: 16px;
                     font-style: normal;
                     font-weight: 500;
                     cursor: pointer;

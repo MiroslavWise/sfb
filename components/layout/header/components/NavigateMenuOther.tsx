@@ -12,7 +12,7 @@ import { IResponseGeocode } from "@/types/map"
 import { useFavorites } from "@/store/state/useFavorites"
 
 export const Svg = ({ pathD }: { pathD: string }) => (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
         <g id="--123--">
             <path
                 id="Icon"
