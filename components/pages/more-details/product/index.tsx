@@ -136,7 +136,7 @@ export const ProductId = () => {
                     <Outline label={`Количество`}>
                         <p>{productById?.quantity!}</p>
                     </Outline>
-                    <Outline label={productById?.shop ? "Магазин" : "Продацев"}>
+                    <Outline label={productById?.shop ? "Магазин" : "Продавец"}>
                         <div
                             style={{
                                 position: "relative",
@@ -196,7 +196,7 @@ export const ProductId = () => {
                             </div>
                         </div>
                     </Outline>
-                    <Outline label="Адрес">
+                    {/* <Outline label="Адрес">
                         <div data-regions>
                             {data?.productById?.author.city?.region && (
                                 <ComponentArea
@@ -217,7 +217,7 @@ export const ProductId = () => {
                                 />
                             )}
                         </div>
-                    </Outline>
+                    </Outline> */}
                 </article>
             </section>
         </motion.div>

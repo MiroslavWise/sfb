@@ -14,11 +14,11 @@ export const ITEMS_PROFILE: IItemsProfile[] = [
         label: "Изменить платежные данные",
         value: "/change-payment",
     },
-    {
-        icon: "/svg/profile/trash-03.svg",
-        label: "Удалить аккаунт",
-        value: "/delete-account",
-    },
+    // {
+    //     icon: "/svg/profile/trash-03.svg",
+    //     label: "Удалить аккаунт",
+    //     value: "/delete-account",
+    // },
 ]
 
 export interface IItemsProfile {

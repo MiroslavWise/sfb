@@ -3,17 +3,19 @@
     padding: 60px;
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: flex-start;
 
     & > [data-profile] {
+        max-width: 1440px;
         width: 100%;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         gap: 16px;
 
         & > [data-header-profile] {
             width: 100%;
-            max-width: 780px;
+            max-width: 580px;
             display: flex;
             flex-direction: row;
             align-items: flex-start;

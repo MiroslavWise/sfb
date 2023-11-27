@@ -120,6 +120,11 @@
     box-sizing: border-box;
     -webkit-touch-callout: none;
 
+    font-family: system, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "Segoe WP", Roboto, Ubuntu, Oxygen, Cantarell, "Fira Sans",
+        "Helvetica Neue", Helvetica, "Lucida Grande", "Droid Sans", Tahoma,
+        "Microsoft Sans Serif", sans-serif;
+
     [data-regions] {
         display: flex;
         flex-direction: row;

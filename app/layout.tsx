@@ -35,7 +35,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: IChildrenProps) {
     return (
         <html lang="ru">
-            <body className={cx(inter.className)}>
+            <body
+            // className={cx(inter.className)}
+            >
                 <Provider>
                     <Header />
                     <main>{children}</main>

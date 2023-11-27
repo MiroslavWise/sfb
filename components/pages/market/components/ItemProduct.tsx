@@ -12,7 +12,7 @@ import { useAuth } from "@/store/state/useAuth"
 
 export const ItemProduct: FC<IProduct> = (props) => {
     const token = useAuth(({ token }) => token)
-    const { photoListUrl, price, name, city, createdAt, id } = props ?? {}
+    const { photoListUrl, price, name, city, createdAt, id, shop } = props ?? {}
     const { handlePush } = usePush()
     const { isFavorite, handleFavorite, loading } = useFavoritesClick()
 
@@ -39,6 +39,11 @@ export const ItemProduct: FC<IProduct> = (props) => {
                     <p>Фотографий нет</p>
                 </div>
             )}
+            {shop?.id ? (
+                <div data-is-verification>
+                    <p>Качество</p>
+                </div>
+            ) : null}
             <h3>{Number(price)?.toFixed(0) || 0} ₸</h3>
             <h5>{name}</h5>
             <a data-city>{city?.name}</a>

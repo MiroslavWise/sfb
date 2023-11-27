@@ -4,6 +4,22 @@
     flex-direction: column;
     gap: 16px;
 
+    &.basic {
+        & > section {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            gap: 32px;
+
+            & > article {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+            }
+        }
+    }
+
     & > h4 {
         font-size: 14px;
         max-width: 550px;
@@ -17,6 +33,7 @@
         }
     }
 
+    & > section > img,
     & > img {
         width: 270px;
         height: 270px;
@@ -25,6 +42,7 @@
         border-radius: 7px;
     }
 
+    & > section > article > [data-set],
     & > [data-set] {
         width: 100%;
         display: flex;
@@ -32,10 +50,10 @@
         gap: 4px;
 
         & > label {
-            color: var(--gray-500) !important;
+            color: var(--gray-600) !important;
             font-size: 16px;
             font-style: normal;
-            font-weight: 400;
+            font-weight: 600;
             line-height: 16px;
             letter-spacing: -0.4px;
         }
@@ -46,6 +64,12 @@
             font-style: normal;
             font-weight: 500;
             letter-spacing: -0.4px;
+        }
+    }
+
+    & > section > article > [data-set] {
+        & > p {
+            text-align: justify;
         }
     }
 

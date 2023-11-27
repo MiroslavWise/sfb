@@ -120,3 +120,19 @@ export const mutationProductCreate = gql`
         }
     }
 `
+
+export const queryTop10Vip = gql`
+    ${PRODUCT}
+    query {
+        productList(limit: 10, isActive: true) {
+            totalCount
+            results {
+                ...product
+                photoListUrl {
+                    id
+                    photoUrl
+                }
+            }
+        }
+    }
+`
