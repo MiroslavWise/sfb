@@ -1,4 +1,4 @@
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import dynamic from "next/dynamic"
 import { Open_Sans } from "next/font/google"
 
@@ -13,9 +13,20 @@ import { cx } from "@/helpers/lib/cx"
 
 import "@/scss/init.scss"
 import "@coreui/coreui/dist/css/coreui.min.css"
-import "animate.css"
 
 const inter = Open_Sans({ subsets: ["latin"] })
+
+export function generateViewport(): Viewport {
+    return {
+        width: "device-width",
+        initialScale: 1,
+        userScalable: false,
+        maximumScale: 1,
+        minimumScale: 1,
+        height: "device-height",
+        viewportFit: "cover",
+    }
+}
 
 export const metadata: Metadata = {
     title: "SFB",

@@ -14,9 +14,9 @@ import styles from "../styles/main-use-form.module.scss"
 
 export const ComponentMainUseFormMainPage = () => {
     const [state, setState] = useState<"start" | "purchase" | "sale">("start")
-    const { token } = useAuth((_) => ({ token: _.token }))
+    const token = useAuth(({ token }) => token)
+    const dispatch = useEnter(({ dispatch }) => dispatch)
     const { handlePush } = usePush()
-    const { dispatch } = useEnter((_) => ({ dispatch: _.dispatch }))
 
     function handleMarket() {
         handlePush(`/market`)

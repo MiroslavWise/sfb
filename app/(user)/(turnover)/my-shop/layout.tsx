@@ -10,9 +10,9 @@ import { usePush } from "@/helpers/hooks/usePush"
 export default function Layout({ children }: IChildrenProps) {
     useTitle("Магазины")
     const { handlePush } = usePush()
-    const { isCommercial } = useAuth((_) => ({
-        isCommercial: _.user?.isCommercial,
-    }))
+    const user = useAuth(({ user }) => user)
+
+    const { isCommercial } = user ?? {}
 
     useEffect(() => {
         if (typeof isCommercial !== "undefined" && !isCommercial) {

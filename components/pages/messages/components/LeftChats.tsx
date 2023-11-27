@@ -13,20 +13,21 @@ import { queryChatListBuyerId, queryChatListSellerId } from "@/apollo/chat"
 import { useTitle } from "@/helpers/hooks/useTitle"
 
 const $LeftChats = () => {
-    const { user } = useAuth((_) => ({ user: _.user }))
+    const user = useAuth(({ user }) => user)
+    const { id: userId } = user ?? {}
     const { handleReplace } = usePush()
     const [isBuyer, setIsBuyer] = useState(false)
     const { data: dataSeller } = useQuery<IQueryChatList>(
         queryChatListSellerId,
         {
             variables: {
-                seller_Id: user?.id!,
+                seller_Id: userId,
             },
         },
     )
     const { data: dataBuyer } = useQuery<IQueryChatList>(queryChatListBuyerId, {
         variables: {
-            buyer_Id: user?.id!,
+            buyer_Id: userId,
         },
     })
 

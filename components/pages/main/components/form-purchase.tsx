@@ -37,8 +37,8 @@ export const FormPurchase = ({
 }) => {
     const [filesString, setFilesString] = useState<string[]>([])
     const [files, setFiles] = useState<File[]>([])
-    const { token } = useAuth((_) => ({ token: _.token }))
-    const { dispatch } = useEnter((_) => ({ dispatch: _.dispatch }))
+    const token = useAuth(({ token }) => token)
+    const dispatch = useEnter(({ dispatch }) => dispatch)
     const [isLoading, setIsLoading] = useState(false)
     const { handlePush } = usePush()
     const { data, loading } = useQuery<ICategoriesRoot>(queryCategoriesRoot)

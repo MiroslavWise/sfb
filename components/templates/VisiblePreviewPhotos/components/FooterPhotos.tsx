@@ -5,11 +5,9 @@ import Image from "next/image"
 import { useVisiblePhotos } from "@/store/state/useVisiblePhotos"
 
 export const FooterPhotos = () => {
-    const { photos, current, setCurrent } = useVisiblePhotos((_) => ({
-        photos: _.photos,
-        current: _.current,
-        setCurrent: _.setCurrent,
-    }))
+    const current = useVisiblePhotos(({ current }) => current)
+    const photos = useVisiblePhotos(({ photos }) => photos)
+    const setCurrent = useVisiblePhotos(({ setCurrent }) => setCurrent)
 
     return (
         <footer>

@@ -9,7 +9,7 @@ import { FooterPhotos } from "./components/FooterPhotos"
 import { ButtonClose } from "./components/ButtonClose"
 
 export const VisiblePreviewPhotos = () => {
-    const { visible } = useVisiblePhotos((_) => ({ visible: _.visible }))
+    const visible = useVisiblePhotos(({ visible }) => visible)
 
     return visible ? (
         <div className={styles.wrapper} data-visible={visible}>

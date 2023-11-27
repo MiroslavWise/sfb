@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
-import { useLazyQuery } from "@apollo/client"
+import { useQuery } from "@apollo/client"
 
 import type { IChildrenProps } from "@/types/types"
 
@@ -10,17 +10,15 @@ import { useFavorites } from "@/store/state/useFavorites"
 import { queryFavoriteProductList } from "@/apollo/query"
 
 export const ApolloData = ({ children }: IChildrenProps) => {
-    const { token } = useAuth((_) => ({
-        token: _.token,
-    }))
-    const { dispatchFavorites } = useFavorites((_) => ({
-        dispatchFavorites: _.dispatchFavorites,
-    }))
-    const [lazyFavorites] = useLazyQuery(queryFavoriteProductList)
+    const token = useAuth(({ token }) => token)
+    const dispatchFavorites = useFavorites(
+        ({ dispatchFavorites }) => dispatchFavorites,
+    )
+    const { refetch } = useQuery(queryFavoriteProductList)
 
     useEffect(() => {
         if (!!token) {
-            lazyFavorites().then((response) => {
+            refetch().then((response) => {
                 if (response?.data) {
                     if (
                         Array.isArray(

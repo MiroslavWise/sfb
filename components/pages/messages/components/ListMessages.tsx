@@ -10,7 +10,7 @@ import { ItemUserMessage } from "./ItemUserMessage"
 import { ItemTime } from "./ItemTime"
 
 const $ListMessages: TListMessages = ({ messages, dataUser }) => {
-    const { user } = useAuth((_) => ({ user: _.user }))
+    const user = useAuth(({ user }) => user)
     const { join } = useJoinMessage()
     const { id: userId } = user ?? {}
     const ulChat = useRef<HTMLUListElement>(null)

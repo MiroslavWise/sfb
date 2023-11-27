@@ -11,10 +11,8 @@ import { useAuth } from "@/store/state/useAuth"
 import { usePush } from "@/helpers/hooks/usePush"
 
 const $ItemListChats = (props: IChatItem) => {
-    const { user, userId } = useAuth((_) => ({
-        user: _.user,
-        userId: _.user?.id,
-    }))
+    const user = useAuth(({ user }) => user)
+    const { id: userId } = user ?? {}
     const { id, buyer, seller, product, productRequest, updatedAt } =
         props ?? {}
 

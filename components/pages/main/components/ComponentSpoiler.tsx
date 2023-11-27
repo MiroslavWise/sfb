@@ -6,11 +6,9 @@ import { useEnter } from "@/store/state/useEnter"
 import styles from "../styles/component-spoiler.module.scss"
 
 export const ComponentSpoiler = () => {
-    const { token, state } = useAuth((_) => ({
-        token: _.token,
-        state: _.state,
-    }))
-    const { dispatch } = useEnter((_) => ({ dispatch: _.dispatch }))
+    const state = useAuth(({ state }) => state)
+    const token = useAuth(({ token }) => token)
+    const dispatch = useEnter(({ dispatch }) => dispatch)
 
     return (
         <div

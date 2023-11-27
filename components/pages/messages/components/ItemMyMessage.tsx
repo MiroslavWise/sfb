@@ -17,9 +17,9 @@ import { useVisiblePhotos } from "@/store/state/useVisiblePhotos"
 import styles from "../styles/item-message.module.scss"
 
 const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
-    const { dispatchPhotos } = useVisiblePhotos((_) => ({
-        dispatchPhotos: _.dispatchPhotos,
-    }))
+    const dispatchPhotos = useVisiblePhotos(
+        ({ dispatchPhotos }) => dispatchPhotos,
+    )
 
     const newMessages: (INewMessage & {
         dataImages?: {

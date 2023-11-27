@@ -14,10 +14,10 @@ export const useFavoritesClick = () => {
     const [use, { refetch }] = useLazyQuery(queryFavoriteProductList)
     const [deleteProduct] = useMutation(mutationFavoriteProductDelete)
 
-    const { favorites, dispatchFavorites } = useFavorites((_) => ({
-        favorites: _.favorites,
-        dispatchFavorites: _.dispatchFavorites,
-    }))
+    const favorites = useFavorites(({ favorites }) => favorites)
+    const dispatchFavorites = useFavorites(
+        ({ dispatchFavorites }) => dispatchFavorites,
+    )
 
     function handleFavorite(value: string) {
         setLoading(true)

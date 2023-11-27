@@ -10,10 +10,8 @@ import { usePush } from "@/helpers/hooks/usePush"
 import styles from "./layout.module.scss"
 
 export default function LayoutUser({ children }: IChildrenProps) {
-    const { token, state } = useAuth((_) => ({
-        token: _.token,
-        state: _.state,
-    }))
+    const token = useAuth(({ token }) => token)
+    const state = useAuth(({ state }) => state)
     const { handlePush } = usePush()
 
     useEffect(() => {

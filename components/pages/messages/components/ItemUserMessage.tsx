@@ -17,9 +17,9 @@ import { IPhotoCarousel } from "@/store/types/createVisiblePhotosCarousel"
 import styles from "../styles/item-message.module.scss"
 
 const $ItemUserMessage: TItemMessage = ({ photo, messages }) => {
-    const { dispatchPhotos } = useVisiblePhotos((_) => ({
-        dispatchPhotos: _.dispatchPhotos,
-    }))
+    const dispatchPhotos = useVisiblePhotos(
+        ({ dispatchPhotos }) => dispatchPhotos,
+    )
 
     const newMessages: (INewMessage & {
         dataImages?: {

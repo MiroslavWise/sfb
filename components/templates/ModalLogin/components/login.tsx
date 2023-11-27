@@ -8,11 +8,9 @@ import { InputPassword } from "@/components/common/input-password"
 import { MarketButtons } from "./MarketButtons"
 
 export const LoginFormComponent = () => {
-    const { visible, dispatch } = useEnter((_) => ({
-        visible: _.visible,
-        dispatch: _.dispatch,
-    }))
-    const { login } = useAuth((_) => ({ login: _.login }))
+    const visible = useEnter(({ visible }) => visible)
+    const dispatch = useEnter(({ dispatch }) => dispatch)
+    const login = useAuth(({ login }) => login)
     const {
         register,
         setError,

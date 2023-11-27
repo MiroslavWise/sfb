@@ -47,9 +47,11 @@ export const MerchandiseChangeId = () => {
     )
     const [update] = useMutation(mutateUpdateProduct)
     const { productById } = data ?? {}
-    const { refetch: refetchShop } = useQuery<IProductListShopManagement>(
+    const { reobserve } = useQuery<IProductListShopManagement>(
         queryProductListShopManagement,
-        { variables: { shopId: productById?.shop?.id! } },
+        {
+            variables: { shopId: productById?.shop?.id! },
+        },
     )
     const {
         register,
@@ -95,11 +97,12 @@ export const MerchandiseChangeId = () => {
                 variables: { ...data },
             }),
         ]).then(() => {
-            refetch().finally(() => {
-                refetchShop().finally(() => {
-                    cancel(productId!)
-                    setLoadingF(false)
-                })
+            Promise.all([
+                refetch(),
+                reobserve({ variables: { shopId: productById?.shop?.id! } }),
+            ]).finally(() => {
+                cancel(productId!)
+                setLoadingF(false)
             })
         })
     }

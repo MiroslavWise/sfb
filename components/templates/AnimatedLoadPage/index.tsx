@@ -10,10 +10,10 @@ import styles from "./style.module.scss"
 
 export const AnimatedLoadPage = memo(function AnimatedLoadPage() {
     const pathname = usePathname()
-    const { isAnimated, setIsAnimated } = useAnimateLoadPage((_) => ({
-        isAnimated: _.isAnimated,
-        setIsAnimated: _.setIsAnimated,
-    }))
+    const isAnimated = useAnimateLoadPage(({ isAnimated }) => isAnimated)
+    const setIsAnimated = useAnimateLoadPage(
+        ({ setIsAnimated }) => setIsAnimated,
+    )
 
     useEffect(() => {
         if (pathname) {

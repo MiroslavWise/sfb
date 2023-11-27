@@ -7,7 +7,7 @@ import { useFavoritesClick } from "@/helpers/hooks/useFavoritesClick"
 import { ButtonDeleteCart } from "@/components/common/button-add-cart"
 
 export const ItemBasket = (props: ICart) => {
-    const { token } = useAuth((_) => ({ token: _.token }))
+    const token = useAuth(({ token }) => token)
     const { product, id, quantity } = props ?? {}
     const { photoListUrl } = product ?? {}
 

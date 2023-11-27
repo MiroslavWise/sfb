@@ -14,7 +14,7 @@ import { Selector } from "@/components/common/selector"
 import { useAuth } from "@/store/state/useAuth"
 
 export default function ChangeData() {
-    const { setUserData } = useAuth((_) => ({ setUserData: _.setUserData }))
+    const setUserData = useAuth(({ setUserData }) => setUserData)
     const { handlePush } = usePush()
     const { data, refetch } = useQuery(me)
     const { data: dataCity } = useQuery(queryCity)
@@ -138,7 +138,7 @@ export default function ChangeData() {
                         }
                         {...register("city", { required: false })}
                         value={watch("city")}
-                        onChange={(event) =>
+                        onChange={(event: any) =>
                             setValue("city", event.target.value)
                         }
                     />
@@ -160,7 +160,7 @@ export default function ChangeData() {
                         disabled={!watch("city")}
                         {...register("region", { required: false })}
                         value={watch("region")}
-                        onChange={(event) =>
+                        onChange={(event: any) =>
                             setValue("region", event.target.value)
                         }
                     />

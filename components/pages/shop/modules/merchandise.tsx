@@ -87,6 +87,7 @@ export const Merchandise = () => {
                         {item?.draft ? (
                             <div data-hover-button>
                                 <button
+                                    data-public
                                     onClick={(event) => {
                                         event.preventDefault()
                                         event.stopPropagation()
@@ -102,7 +103,6 @@ export const Merchandise = () => {
                                 !!item?.draft &&
                                 !!item?.photoListUrl?.length ? (
                                     <button
-                                        data-public
                                         onClick={(event) => {
                                             event.preventDefault()
                                             event.stopPropagation()

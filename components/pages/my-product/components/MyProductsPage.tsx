@@ -18,7 +18,7 @@ import { ITEMS_TABS } from "@/app/(user)/(turnover)/my-products/constants"
 import { useOrderingProduct } from "@/store/state/useOrderingProduct"
 
 export function MyProductsPage() {
-    const { price } = useOrderingProduct((_) => ({ price: _.price }))
+    const price = useOrderingProduct(({ price }) => price)
     const { data } = useQuery(queryProductListMe, {
         variables: {
             ordering: price,

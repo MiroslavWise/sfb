@@ -3,9 +3,9 @@
 import { useVisiblePhotos } from "@/store/state/useVisiblePhotos"
 
 export const ButtonClose = () => {
-    const { dispatchPhotos } = useVisiblePhotos((_) => ({
-        dispatchPhotos: _.dispatchPhotos,
-    }))
+    const dispatchPhotos = useVisiblePhotos(
+        ({ dispatchPhotos }) => dispatchPhotos,
+    )
 
     function handle() {
         dispatchPhotos({ visible: false })

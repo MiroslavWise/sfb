@@ -6,8 +6,8 @@ import { useAuth } from "@/store/state/useAuth"
 import { useEnter } from "@/store/state/useEnter"
 
 export const ButtonLogin = () => {
-    const { dispatch } = useEnter((_) => ({ dispatch: _.dispatch }))
-    const { state } = useAuth((_) => ({ state: _.state }))
+    const state = useAuth(({ state }) => state)
+    const dispatch = useEnter(({ dispatch }) => dispatch)
 
     function handle() {
         dispatch({ visible: true })

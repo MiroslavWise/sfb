@@ -17,10 +17,8 @@ import { useEnter } from "@/store/state/useEnter"
 import styles from "./styles/style.module.scss"
 
 export const ModalLogin = () => {
-    const { visible, dispatch } = useEnter((_) => ({
-        visible: _.visible,
-        dispatch: _.dispatch,
-    }))
+    const visible = useEnter(({ visible }) => visible)
+    const dispatch = useEnter(({ dispatch }) => dispatch)
     const [isLogin, setIsLogin] = useState(true)
 
     return visible ? (

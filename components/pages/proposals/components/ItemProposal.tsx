@@ -18,7 +18,7 @@ import { usePush } from "@/helpers/hooks/usePush"
 import styles from "../styles/item-proposal.module.scss"
 
 const $ItemProposal = (props: IProductOfferItem) => {
-    const { user } = useAuth((_) => ({ user: _.user }))
+    const user = useAuth(({ user }) => user)
     const { id, product, productRequest, createdAt } = props ?? {}
     const { id: userId } = user ?? {}
     const [state, setState] = useState(0)

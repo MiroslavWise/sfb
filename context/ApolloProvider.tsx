@@ -7,23 +7,32 @@ import {
     HttpLink,
     ApolloLink,
 } from "@apollo/client"
-import { memo } from "react"
+import { memo, useEffect } from "react"
 
 import type { IChildrenProps } from "@/types/types"
 
 import { CONFIG_ENV } from "@/helpers/config/ENV"
+import { useAuth } from "@/store/state/useAuth"
+
+let tokenAuth: string | undefined
 
 const httpLink = new HttpLink({ uri: CONFIG_ENV.urlGraphQL })
 
 const authMiddleware = new ApolloLink((operation, forward) => {
-    operation.setContext(({ headers = {} }) => ({
-        headers: {
-            ...headers,
-            authorization: JSON.parse(localStorage.getItem("auth")!).state.token
-                ? `JWT ${JSON.parse(localStorage.getItem("auth")!).state.token}`
-                : null,
-        },
-    }))
+    operation.setContext(({ headers = {} }) => {
+        return {
+            headers: {
+                ...headers,
+                authorization: tokenAuth
+                    ? `JWT ${tokenAuth}`
+                    : JSON.parse(localStorage.getItem("auth")!).state.token
+                    ? `JWT ${
+                          JSON.parse(localStorage.getItem("auth")!).state.token
+                      }`
+                    : null,
+            },
+        }
+    })
 
     return forward(operation)
 }).concat(httpLink)
@@ -38,13 +47,19 @@ export const client = new ApolloClient({
     connectToDevTools: true,
     defaultOptions: {
         watchQuery: {
-            nextFetchPolicy: "cache-first",
+            initialFetchPolicy: "cache-and-network",
+            nextFetchPolicy: "cache-and-network",
         },
     },
 })
 
-export const ApolloProviderContext = memo(function Apollo({
+export const ApolloProviderContext = memo(function ApolloProviderContext({
     children,
 }: IChildrenProps) {
+    const token = useAuth(({ token }) => token)
+    useEffect(() => {
+        tokenAuth = token
+    }, [token])
+
     return <ApolloProvider client={client}>{children}</ApolloProvider>
 })

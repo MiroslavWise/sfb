@@ -27,7 +27,7 @@ const TABS: IItemTab[] = [
 ]
 
 export default function MyOrders() {
-    const { user } = useAuth((_) => ({ user: _.user }))
+    const user = useAuth(({ user }) => user)
     const [value, setValue] = useState(TABS[0])
 
     const { data } = useQuery(queryProductList)

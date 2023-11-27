@@ -28,7 +28,10 @@ import styles from "../styles/chat-uuid.module.scss"
 
 export const MessagesChatUUID = () => {
     const id = useSearchParams().get("chat-id")
-    const { user } = useAuth((_) => ({ user: _.user }))
+    const user = useAuth(({ user }) => user)
+    const dispatchPhotos = useVisiblePhotos(
+        ({ dispatchPhotos }) => dispatchPhotos,
+    )
     const { readyState, getWebSocket } = useSocket()
     const { id: userId } = user ?? {}
     const { handlePush } = usePush()
@@ -41,9 +44,6 @@ export const MessagesChatUUID = () => {
     const [allRead] = useMutation(mutationChatMessageReadAll, {
         variables: { chatId: id },
     })
-    const { dispatchPhotos } = useVisiblePhotos((_) => ({
-        dispatchPhotos: _.dispatchPhotos,
-    }))
     const [dataUser, setDataUser] = useState<IDataUser>({
         id: null,
         photo: null,

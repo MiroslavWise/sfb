@@ -11,13 +11,10 @@ import { usePush } from "@/helpers/hooks/usePush"
 import { queryTotalCountProfileAside } from "@/apollo/query"
 import { ITEMS_ASIDE_LEFT_PICTURE } from "../constants/ITEMS-ASIDE-LEFT"
 
-import { myImageLoader } from "@/helpers/lib/loading"
-
 export function LeftAsideUser() {
     const pathname = usePathname()
-    const { isCommercial } = useAuth((_) => ({
-        isCommercial: _.user?.isCommercial,
-    }))
+    const user = useAuth(({ user }) => user)
+    const { isCommercial } = user ?? {}
     const { handlePush } = usePush()
     const { data } = useQuery<IQueryTotalCountProfileAside>(
         queryTotalCountProfileAside,
