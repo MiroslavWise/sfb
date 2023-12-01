@@ -42,7 +42,7 @@ export const WebSocketContext = memo(({ children }: IChildrenProps) => {
                     const qwer = () =>
                         toast(
                             <p className="__toast_p__">
-                                {data?.sender?.full_name}: <span>{data?.message || "__"}</span>
+                                {data?.sender?.full_name}: <span>{data?.message_text || "__"}</span>
                             </p>,
                             {
                                 position: "top-center",
