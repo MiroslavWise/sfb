@@ -1,21 +1,19 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
 import { motion } from "framer-motion"
 
 import { FormPurchase } from "./form-purchase"
 
 import { useAuth } from "@/store/state/useAuth"
 import { usePush } from "@/helpers/hooks/usePush"
-import { useEnter } from "@/store/state/useEnter"
+import { dispatchEnter } from "@/store/state/useEnter"
 
 import styles from "../styles/main-use-form.module.scss"
 
 export const ComponentMainUseFormMainPage = () => {
     const [state, setState] = useState<"start" | "purchase" | "sale">("start")
     const token = useAuth(({ token }) => token)
-    const dispatch = useEnter(({ dispatch }) => dispatch)
     const { handlePush } = usePush()
 
     function handleMarket() {
@@ -23,7 +21,7 @@ export const ComponentMainUseFormMainPage = () => {
     }
 
     function handleOnEnter() {
-        dispatch({ visible: true })
+        dispatchEnter(true)
     }
 
     return (

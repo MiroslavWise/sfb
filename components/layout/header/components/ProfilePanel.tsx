@@ -25,14 +25,7 @@ export const ProfilePanel = () => {
         return dataTotalNotifications?.notificationList?.totalCount || 0
     }, [dataTotalNotifications?.notificationList?.totalCount])
 
-    const isBuilding = [
-        "/my-requests",
-        "/my-products",
-        "/delivery",
-        "/my-sales",
-        "/my-orders",
-        "/my-shop",
-    ].includes(pathname)
+    const isBuilding = ["/my-requests", "/my-products", "/delivery", "/my-sales", "/my-orders", "/my-shop"].includes(pathname)
 
     return (
         <div data-chat-notification>
@@ -57,12 +50,7 @@ export const ProfilePanel = () => {
                     <Svg pathD="M11.707 3.03647C7.38421 3.43621 3.99962 7.07285 3.99962 11.5C3.99962 12.45 4.15547 13.3636 4.44299 14.2166C4.55119 14.5376 4.60529 14.6981 4.61505 14.8214C4.62469 14.9432 4.6174 15.0286 4.58728 15.1469C4.55677 15.2668 4.48942 15.3915 4.35472 15.6408L2.71906 18.6684C2.48575 19.1002 2.36909 19.3161 2.3952 19.4828C2.41794 19.6279 2.50337 19.7557 2.6288 19.8322C2.7728 19.9201 3.01692 19.8948 3.50517 19.8444L8.62619 19.315C8.78121 19.299 8.85882 19.291 8.92949 19.2937C8.999 19.2963 9.04807 19.3029 9.11586 19.3185C9.18478 19.3344 9.27145 19.3678 9.44478 19.4345C10.3928 19.7998 11.4228 20 12.4996 20C16.9304 20 20.5694 16.6098 20.9641 12.2819M20.1209 3.87868C21.2925 5.05025 21.2925 6.94975 20.1209 8.12132C18.9494 9.29289 17.0499 9.29289 15.8783 8.12132C14.7067 6.94975 14.7067 5.05025 15.8783 3.87868C17.0499 2.70711 18.9494 2.70711 20.1209 3.87868Z" />
                     {dataCountChatUnread?.chatUnreadCount?.totalCount ? (
                         <div data-count data-chat>
-                            <span>
-                                {
-                                    dataCountChatUnread?.chatUnreadCount
-                                        ?.totalCount
-                                }
-                            </span>
+                            <span>{dataCountChatUnread?.chatUnreadCount?.totalCount}</span>
                         </div>
                     ) : null}
                 </div>
@@ -92,13 +80,7 @@ export const ProfilePanel = () => {
             >
                 <div data-svg>
                     {photo ? (
-                        <Image
-                            src={photo}
-                            alt="avatar"
-                            width={32}
-                            height={32}
-                            unoptimized
-                        />
+                        <Image src={photo} alt="avatar" width={32} height={32} unoptimized />
                     ) : (
                         <Svg pathD="M5.3163 19.4384C5.92462 18.0052 7.34492 17 9 17H15C16.6551 17 18.0754 18.0052 18.6837 19.4384M16 9.5C16 11.7091 14.2091 13.5 12 13.5C9.79086 13.5 8 11.7091 8 9.5C8 7.29086 9.79086 5.5 12 5.5C14.2091 5.5 16 7.29086 16 9.5ZM22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" />
                     )}

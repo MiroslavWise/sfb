@@ -1,14 +1,13 @@
 "use client"
 
 import { useAuth } from "@/store/state/useAuth"
-import { useEnter } from "@/store/state/useEnter"
+import { dispatchEnter } from "@/store/state/useEnter"
 
 import styles from "../styles/component-spoiler.module.scss"
 
 export const ComponentSpoiler = () => {
     const state = useAuth(({ state }) => state)
     const token = useAuth(({ token }) => token)
-    const dispatch = useEnter(({ dispatch }) => dispatch)
 
     return (
         <div
@@ -23,7 +22,7 @@ export const ComponentSpoiler = () => {
                 </h4>
             </div>
             <footer>
-                <button onClick={() => dispatch({ visible: true })}>
+                <button onClick={() => dispatchEnter(true)}>
                     <span>Войти на сайт</span>
                 </button>
             </footer>

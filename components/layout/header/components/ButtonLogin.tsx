@@ -3,14 +3,13 @@
 import { motion } from "framer-motion"
 
 import { useAuth } from "@/store/state/useAuth"
-import { useEnter } from "@/store/state/useEnter"
+import { dispatchEnter } from "@/store/state/useEnter"
 
 export const ButtonLogin = () => {
     const state = useAuth(({ state }) => state)
-    const dispatch = useEnter(({ dispatch }) => dispatch)
 
     function handle() {
-        dispatch({ visible: true })
+        dispatchEnter(true)
     }
 
     if (state === "SignIn")

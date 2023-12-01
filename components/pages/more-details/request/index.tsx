@@ -5,26 +5,16 @@ import { motion } from "framer-motion"
 import { useQuery } from "@apollo/client"
 import { useSearchParams } from "next/navigation"
 
-import type {
-    IPhotoProductRequestData,
-    IRequestProductRoot,
-} from "@/types/types"
+import type { IPhotoProductRequestData, IRequestProductRoot } from "@/types/types"
 
-import {
-    ComponentAddress,
-    ComponentArea,
-    ComponentCity,
-} from "@/components/common/component-regions"
 import { Outline } from "@/components/common/outline"
 import { PhotoStage } from "@/components/common/PhotoStage"
-import { TagAmount } from "@/components/common/tag-amount"
 import { ButtonBack } from "@/components/common/button-back"
 import { TagCategory } from "../../proposals/components/TagCategory"
+import { ComponentAddress, ComponentArea, ComponentCity } from "@/components/common/component-regions"
 
-import {
-    queryProductRequestById,
-    queryPhotosProductRequestById,
-} from "@/apollo/query"
+import { queryProductRequestById, queryPhotosProductRequestById } from "@/apollo/query"
+
 import { usePush } from "@/helpers/hooks/usePush"
 
 import styles from "../styles/style.module.scss"
@@ -32,28 +22,22 @@ import styles from "../styles/style.module.scss"
 export const RequestId = () => {
     const { back } = usePush()
     const requestId = useSearchParams().get("request-id")
-    const { data, loading } = useQuery<IRequestProductRoot>(
-        queryProductRequestById,
-        {
-            variables: {
-                id: requestId,
-            },
+    const { data, loading } = useQuery<IRequestProductRoot>(queryProductRequestById, {
+        variables: {
+            id: requestId,
         },
-    )
-    const { data: dataPhotos, loading: loadingPhoto } =
-        useQuery<IPhotoProductRequestData>(queryPhotosProductRequestById, {
-            variables: {
-                id: requestId,
-            },
-        })
+    })
+    const { data: dataPhotos, loading: loadingPhoto } = useQuery<IPhotoProductRequestData>(queryPhotosProductRequestById, {
+        variables: {
+            id: requestId,
+        },
+    })
 
     const { productRequestById } = data ?? {}
 
     const images = useMemo(() => {
         if (dataPhotos?.productRequestById?.photoListUrl) {
-            return dataPhotos?.productRequestById?.photoListUrl?.map(
-                (item, index) => ({ item, index }),
-            )
+            return dataPhotos?.productRequestById?.photoListUrl?.map((item, index) => ({ item, index }))
         }
 
         return []
@@ -81,11 +65,7 @@ export const RequestId = () => {
                     </Outline>
                     <Outline label="Категории">
                         <div data-tags>
-                            {productRequestById?.category?.id ? (
-                                <TagCategory
-                                    text={productRequestById?.category?.name}
-                                />
-                            ) : null}
+                            {productRequestById?.category?.id ? <TagCategory text={productRequestById?.category?.name} /> : null}
                         </div>
                     </Outline>
                     <Outline label="Цена">
@@ -99,25 +79,10 @@ export const RequestId = () => {
                     <Outline label="Адрес">
                         <div data-regions>
                             {productRequestById?.author.city?.region && (
-                                <ComponentArea
-                                    name={
-                                        productRequestById?.author?.city?.region
-                                            ?.name
-                                    }
-                                />
+                                <ComponentArea name={productRequestById?.author?.city?.region?.name} />
                             )}
-                            {productRequestById?.author?.city && (
-                                <ComponentCity
-                                    name={
-                                        productRequestById?.author?.city?.name
-                                    }
-                                />
-                            )}
-                            {productRequestById?.author?.address && (
-                                <ComponentAddress
-                                    name={productRequestById?.author?.address}
-                                />
-                            )}
+                            {productRequestById?.author?.city && <ComponentCity name={productRequestById?.author?.city?.name} />}
+                            {productRequestById?.author?.address && <ComponentAddress name={productRequestById?.author?.address} />}
                         </div>
                     </Outline>
                 </article>

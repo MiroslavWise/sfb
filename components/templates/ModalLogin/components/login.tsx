@@ -2,19 +2,18 @@ import { useEffect } from "react"
 import { motion } from "framer-motion"
 import { useForm } from "react-hook-form"
 
-import { useAuth } from "@/store/state/useAuth"
-import { useEnter } from "@/store/state/useEnter"
 import { InputPassword } from "@/components/common/input-password"
+
+import { useAuth } from "@/store/state/useAuth"
 import { MarketButtons } from "./MarketButtons"
+import { useEnter, dispatchEnter } from "@/store/state/useEnter"
 
 export const LoginFormComponent = () => {
     const visible = useEnter(({ visible }) => visible)
-    const dispatch = useEnter(({ dispatch }) => dispatch)
     const login = useAuth(({ login }) => login)
     const {
         register,
         setError,
-        setValue,
         setFocus,
         handleSubmit,
         formState: { errors },
@@ -25,20 +24,18 @@ export const LoginFormComponent = () => {
     }, [visible])
 
     function onSubmit(values: IValues) {
-        login(values.login?.trim()!, values?.password?.trim()!).then(
-            (response) => {
-                if (response.ok) {
-                    dispatch({ visible: false })
-                    return
-                }
-                if (!response.ok) {
-                    setError("root", {
-                        type: "deps",
-                        message: "Проверьте, правильно ли введы ваши данные",
-                    })
-                }
-            },
-        )
+        login(values.login?.trim()!, values?.password?.trim()!).then((response) => {
+            if (response.ok) {
+                dispatchEnter(false)
+                return
+            }
+            if (!response.ok) {
+                setError("root", {
+                    type: "deps",
+                    message: "Проверьте, правильно ли введы ваши данные",
+                })
+            }
+        })
     }
 
     return (
@@ -50,16 +47,8 @@ export const LoginFormComponent = () => {
             onSubmit={handleSubmit(onSubmit)}
         >
             <div data-inputs>
-                <input
-                    placeholder="Электронная почта или телефон"
-                    {...register("login", { required: true })}
-                    type="email"
-                />
-                <InputPassword
-                    placeholder="Пароль"
-                    {...register("password", { required: true })}
-                    error={errors?.root?.message}
-                />
+                <input placeholder="Электронная почта или телефон" {...register("login", { required: true })} type="email" />
+                <InputPassword placeholder="Пароль" {...register("password", { required: true })} error={errors?.root?.message} />
                 {/* <input
                     placeholder="Пароль"
                     {...register("password", { required: true })}

@@ -16,6 +16,8 @@ export const ItemFavorite = (props: IProduct) => {
         handleFavorite(id)
     }
 
+    const is = isFavorite(id!)
+
     return (
         <li
             onClick={() => {
@@ -23,12 +25,7 @@ export const ItemFavorite = (props: IProduct) => {
             }}
         >
             {photoListUrl[0] ? (
-                <Image
-                    src={photoListUrl[0]?.photoUrl!}
-                    alt="photo"
-                    width={200}
-                    height={200}
-                />
+                <Image src={photoListUrl[0]?.photoUrl!} alt="photo" width={200} height={200} />
             ) : (
                 <div data-img>
                     <p>Фотографий нет</p>
@@ -38,12 +35,7 @@ export const ItemFavorite = (props: IProduct) => {
             <h5>{name}</h5>
             <a data-city>{city?.name}</a>
             <div data-time>
-                <img
-                    src="/svg/calendar-date.svg"
-                    alt="calendar"
-                    width={12}
-                    height={12}
-                />
+                <img src="/svg/calendar-date.svg" alt="calendar" width={12} height={12} />
                 <a>{dayjs(createdAt).format("HH:mm DD.MM.YY")}</a>
             </div>
             <div data-absolute>
@@ -56,16 +48,7 @@ export const ItemFavorite = (props: IProduct) => {
                         handle()
                     }}
                 >
-                    <img
-                        src={
-                            isFavorite(id!)
-                                ? "/svg/tag-fill.svg"
-                                : "/svg/tag-regular.svg"
-                        }
-                        alt="tag--"
-                        width={25}
-                        height={25}
-                    />
+                    <img src={is ? "/svg/heart-fill.svg" : "/svg/heart.svg"} alt="--heart--" width={25} height={25} />
                 </div>
                 <ButtonAddCart id={id} int={1} />
             </div>

@@ -2,16 +2,19 @@ export const LINKS_SOCIAL: ILinksSocial[] = [
     {
         src: "/svg/fb.svg",
         alt: "fb",
+        path: "https://www.facebook.com/",
     },
     {
         src: "/svg/twitter.svg",
         alt: "twitter",
+        path: "https://twitter.com/",
     },
 ]
 
 interface ILinksSocial {
     src: string
     alt: string
+    path: string
 }
 
 export const LINKS_SECTION_FOOTER: ILinksSectionFooter[] = [

@@ -14,7 +14,7 @@ import { cx } from "@/helpers/lib/cx"
 import "@/scss/init.scss"
 import "@coreui/coreui/dist/css/coreui.min.css"
 
-const inter = Open_Sans({ subsets: ["latin"] })
+const openSans = Open_Sans({ subsets: ["latin"] })
 
 export function generateViewport(): Viewport {
     return {
@@ -35,9 +35,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: IChildrenProps) {
     return (
         <html lang="ru">
-            <body
-            // className={cx(inter.className)}
-            >
+            <body className={cx(openSans.className)}>
                 <Provider>
                     <Header />
                     <main>{children}</main>

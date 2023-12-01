@@ -14,14 +14,7 @@ import { useFavorites } from "@/store/state/useFavorites"
 export const Svg = ({ pathD }: { pathD: string }) => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
         <g id="--123--">
-            <path
-                id="Icon"
-                d={pathD}
-                stroke="#002f34"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-            />
+            <path id="Icon" d={pathD} stroke="#002f34" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
         </g>
     </svg>
 )
@@ -29,8 +22,7 @@ export const Svg = ({ pathD }: { pathD: string }) => (
 export const NavigateMenuOther = () => {
     const isAuth = useAuth(({ token }) => !!token)
     const favorites = useFavorites(({ favorites }) => favorites)
-    const { data: dataCart, refetch: refetchDataCart } =
-        useQuery<ICartList>(queryCart)
+    const { data: dataCart, refetch: refetchDataCart } = useQuery<ICartList>(queryCart)
     const [name, setName] = useState("Астана")
 
     const totalCart = dataCart?.cart?.cartItemList?.length || 0
@@ -42,14 +34,8 @@ export const NavigateMenuOther = () => {
         const dataResponse: IResponseGeocode = await response.json()
 
         if (dataResponse) {
-            if (
-                dataResponse?.response?.GeoObjectCollection?.featureMember[0]
-                    ?.GeoObject?.description
-            ) {
-                setName(
-                    dataResponse?.response?.GeoObjectCollection
-                        ?.featureMember[0]?.GeoObject?.description,
-                )
+            if (dataResponse?.response?.GeoObjectCollection?.featureMember[0]?.GeoObject?.description) {
+                setName(dataResponse?.response?.GeoObjectCollection?.featureMember[0]?.GeoObject?.description)
             }
         }
     }
@@ -57,10 +43,7 @@ export const NavigateMenuOther = () => {
     useEffect(() => {
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(function (position) {
-                do_something(
-                    position.coords.latitude,
-                    position.coords.longitude,
-                )
+                do_something(position.coords.latitude, position.coords.longitude)
             })
         }
     }, [])
@@ -81,7 +64,7 @@ export const NavigateMenuOther = () => {
             </Link>
             <Link href="/favorites">
                 <div data-svg>
-                    <Svg pathD="M8 8H8.01M2 5.2L2 9.67451C2 10.1637 2 10.4083 2.05526 10.6385C2.10425 10.8425 2.18506 11.0376 2.29472 11.2166C2.4184 11.4184 2.59135 11.5914 2.93726 11.9373L10.6059 19.6059C11.7939 20.7939 12.388 21.388 13.0729 21.6105C13.6755 21.8063 14.3245 21.8063 14.927 21.6105C15.612 21.388 16.2061 20.7939 17.3941 19.6059L19.6059 17.3941C20.7939 16.2061 21.388 15.612 21.6105 14.927C21.8063 14.3245 21.8063 13.6755 21.6105 13.0729C21.388 12.388 20.7939 11.7939 19.6059 10.6059L11.9373 2.93726C11.5914 2.59135 11.4184 2.4184 11.2166 2.29472C11.0376 2.18506 10.8425 2.10425 10.6385 2.05526C10.4083 2 10.1637 2 9.67452 2L5.2 2C4.0799 2 3.51984 2 3.09202 2.21799C2.7157 2.40973 2.40973 2.71569 2.21799 3.09202C2 3.51984 2 4.07989 2 5.2ZM8.5 8C8.5 8.27614 8.27614 8.5 8 8.5C7.72386 8.5 7.5 8.27614 7.5 8C7.5 7.72386 7.72386 7.5 8 7.5C8.27614 7.5 8.5 7.72386 8.5 8Z" />
+                    <Svg pathD="M11.9932 5.13581C9.9938 2.7984 6.65975 2.16964 4.15469 4.31001C1.64964 6.45038 1.29697 10.029 3.2642 12.5604C4.89982 14.6651 9.84977 19.1041 11.4721 20.5408C11.6536 20.7016 11.7444 20.7819 11.8502 20.8135C11.9426 20.8411 12.0437 20.8411 12.1361 20.8135C12.2419 20.7819 12.3327 20.7016 12.5142 20.5408C14.1365 19.1041 19.0865 14.6651 20.7221 12.5604C22.6893 10.029 22.3797 6.42787 19.8316 4.31001C17.2835 2.19216 13.9925 2.7984 11.9932 5.13581Z" />
                 </div>
                 <p>Избранное</p>
                 {favorites.length ? (

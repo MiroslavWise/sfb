@@ -92,23 +92,11 @@
     --SOS-CARD: linear-gradient(180deg, #ff8da2 0%, #eb3f5e 49.32%);
     --gradient-primary: linear-gradient(180deg, #ada2fc 0%, #6e5cf0 100%);
     --gradient-optional-1: linear-gradient(180deg, #ff9e88 0%, #ee4e29 100%);
-    --gradient-optional-1-reverb: linear-gradient(
-        180deg,
-        #ee4e29 0%,
-        #ff9e88 100%
-    );
+    --gradient-optional-1-reverb: linear-gradient(180deg, #ee4e29 0%, #ff9e88 100%);
     --gradient-optional-2: linear-gradient(180deg, #8ccfff 0%, #3aaafa 100%);
     --gradient-optional-3: linear-gradient(180deg, #ffa8c7 0%, #ee4381 100%);
-    --gradient-barter: linear-gradient(
-        90deg,
-        rgba(148, 125, 231, 0.65) 0%,
-        rgba(191, 120, 196, 0.65) 100%
-    );
-    --gradient-barter-red: linear-gradient(
-        90deg,
-        rgba(219, 65, 65, 0.65) 0%,
-        rgba(191, 120, 196, 0.65) 100%
-    );
+    --gradient-barter: linear-gradient(90deg, rgba(148, 125, 231, 0.65) 0%, rgba(191, 120, 196, 0.65) 100%);
+    --gradient-barter-red: linear-gradient(90deg, rgba(219, 65, 65, 0.65) 0%, rgba(191, 120, 196, 0.65) 100%);
 
     //Permanent
     --supporting-white: #ffffff;
@@ -120,10 +108,10 @@
     box-sizing: border-box;
     -webkit-touch-callout: none;
 
-    font-family: system, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        "Segoe WP", Roboto, Ubuntu, Oxygen, Cantarell, "Fira Sans",
-        "Helvetica Neue", Helvetica, "Lucida Grande", "Droid Sans", Tahoma,
-        "Microsoft Sans Serif", sans-serif;
+    // font-family: system, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    //     "Segoe WP", Roboto, Ubuntu, Oxygen, Cantarell, "Fira Sans",
+    //     "Helvetica Neue", Helvetica, "Lucida Grande", "Droid Sans", Tahoma,
+    //     "Microsoft Sans Serif", sans-serif;
 
     [data-regions] {
         display: flex;
@@ -251,4 +239,16 @@ h6 {
 
 .c-p {
     cursor: pointer;
+}
+
+.__toast_p__ {
+    color: var(--gray-900);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: -0.2px;
+
+    & > span {
+        color: var(--gray-500);
+    }
 }

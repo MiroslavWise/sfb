@@ -20,12 +20,7 @@ export const ItemBasket = (props: ICart) => {
     return (
         <li>
             {photoListUrl && photoListUrl?.length ? (
-                <Image
-                    src={photoListUrl[0]?.photoUrl}
-                    alt="photo"
-                    width={250}
-                    height={250}
-                />
+                <Image src={photoListUrl[0]?.photoUrl} alt="photo" width={250} height={250} />
             ) : (
                 <div data-img>
                     <span>Нет фотографий</span>
@@ -33,11 +28,7 @@ export const ItemBasket = (props: ICart) => {
             )}
             <div data-info>
                 <h3>{product?.name}</h3>
-                <h4>
-                    {product?.attributeList
-                        ?.map((item) => item?.name)
-                        ?.join(", ")}
-                </h4>
+                <h4>{product?.attributeList?.map((item) => item?.name)?.join(", ")}</h4>
                 <h5>Кол-во товара: {quantity}</h5>
                 <p>Стоимость: {(+product?.price * quantity)?.toFixed(0)} ₸</p>
             </div>
@@ -48,17 +39,12 @@ export const ItemBasket = (props: ICart) => {
                         data-favorite
                         onClick={(event) => {
                             event.stopPropagation()
-                            event.preventDefault()
                             handle()
                         }}
                     >
                         <img
-                            src={
-                                isFavorite(product.id!)
-                                    ? "/svg/tag-fill.svg"
-                                    : "/svg/tag-regular.svg"
-                            }
-                            alt="tag--"
+                            src={isFavorite(product.id!) ? "/svg/heart-fill.svg" : "/svg/heart.svg"}
+                            alt="--heart--"
                             width={25}
                             height={25}
                         />

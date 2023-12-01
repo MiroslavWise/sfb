@@ -2,9 +2,11 @@ import { create } from "zustand"
 
 import type { IUseAnimateLoadPage } from "../types/createAnimateLoadPage"
 
-export const useAnimateLoadPage = create<IUseAnimateLoadPage>((set, get) => ({
+export const useAnimateLoadPage = create<IUseAnimateLoadPage>()(() => ({
     isAnimated: false,
-    setIsAnimated(value) {
-        set({ isAnimated: value })
-    },
 }))
+
+export const animatedLoadPage = (value: boolean) =>
+    useAnimateLoadPage.setState((_) => ({
+        isAnimated: value,
+    }))

@@ -7,7 +7,7 @@ interface IStateFavorites {
     }[]
 }
 
-interface IAction {
+export interface IAction {
     add?: {
         id: string
         productId: string
@@ -20,8 +20,8 @@ interface IAction {
     }[]
 }
 
-interface IActionFavorites {
-    dispatchFavorites: Dispatch<IAction>
+export interface IActionFavorites {
+    // dispatchFavorites: Dispatch<IAction>
 }
 
 export type TUseFavorites = IStateFavorites & IActionFavorites

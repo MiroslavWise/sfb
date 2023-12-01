@@ -29,9 +29,7 @@ import styles from "../styles/chat-uuid.module.scss"
 export const MessagesChatUUID = () => {
     const id = useSearchParams().get("chat-id")
     const user = useAuth(({ user }) => user)
-    const dispatchPhotos = useVisiblePhotos(
-        ({ dispatchPhotos }) => dispatchPhotos,
-    )
+    const dispatchPhotos = useVisiblePhotos(({ dispatchPhotos }) => dispatchPhotos)
     const { readyState, getWebSocket } = useSocket()
     const { id: userId } = user ?? {}
     const { handlePush } = usePush()
@@ -40,7 +38,7 @@ export const MessagesChatUUID = () => {
     const [files, setFiles] = useState<File[]>([])
     const [stringsFileImg, setStringsFileImg] = useState<string[]>([])
     const [createMessage] = useMutation(mutateChatMessageCreate)
-    const [useLazyCount] = useLazyQuery(queryChatUnreadCount)
+    const { refetch: useLazyCount } = useQuery(queryChatUnreadCount)
     const [allRead] = useMutation(mutationChatMessageReadAll, {
         variables: { chatId: id },
     })
@@ -54,14 +52,11 @@ export const MessagesChatUUID = () => {
             chatId: id,
         },
     })
-    const { data, refetch } = useQuery<IQueryChatMessageByChatId>(
-        queryChatMessageByChatId,
-        {
-            variables: {
-                chatId: id,
-            },
+    const { data, refetch } = useQuery<IQueryChatMessageByChatId>(queryChatMessageByChatId, {
+        variables: {
+            chatId: id,
         },
-    )
+    })
 
     function submit(values: IValues) {
         async function create() {
@@ -139,11 +134,7 @@ export const MessagesChatUUID = () => {
     useEffect(() => {
         const messageListener = (event: any) => {
             const data = JSON.parse(event?.data)
-            if (
-                data?.data?.type === "new_message" &&
-                data?.data?.chat_id === id &&
-                data?.data?.sender?.id !== userId
-            ) {
+            if (data?.data?.type === "new_message" && data?.data?.chat_id === id && data?.data?.sender?.id !== userId) {
                 refetch()
             }
         }
@@ -181,9 +172,7 @@ export const MessagesChatUUID = () => {
             if (chat?.buyer?.id !== userId) {
                 handlePush(`/more-details?product-id=${chat?.product?.id}`)
             } else {
-                handlePush(
-                    `/proposals?proposal-id=${chat?.product?.id}:${chat?.productRequest?.id}`,
-                )
+                handlePush(`/proposals?proposal-id=${chat?.product?.id}:${chat?.productRequest?.id}`)
             }
         }
     }
@@ -197,10 +186,7 @@ export const MessagesChatUUID = () => {
                     reader.onloadend = () => {
                         setStringsFileImg((prev) => {
                             if (prev.length >= 7) {
-                                return [
-                                    ...prev.slice(1, 7),
-                                    reader.result as string,
-                                ]
+                                return [...prev.slice(1, 7), reader.result as string]
                             }
                             return [...prev, reader.result as string]
                         })
@@ -238,70 +224,46 @@ export const MessagesChatUUID = () => {
                 >
                     {infoCommodity?.photoListUrl?.length ? (
                         <div data-photos>
-                            {infoCommodity?.photoListUrl
-                                ?.slice(0, 4)
-                                ?.map((item, index) => (
-                                    <Image
-                                        data-active={value === index}
-                                        onClick={(event) => {
-                                            event.stopPropagation()
-                                            event.preventDefault()
-                                            handleValue(index)
-                                        }}
-                                        key={`${item.id}-phtoosasf---`}
-                                        src={item.photoUrl!}
-                                        alt="---"
-                                        width={150}
-                                        height={150}
-                                    />
-                                ))}
+                            {infoCommodity?.photoListUrl?.slice(0, 4)?.map((item, index) => (
+                                <Image
+                                    data-active={value === index}
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        event.preventDefault()
+                                        handleValue(index)
+                                    }}
+                                    key={`${item.id}-phtoosasf---`}
+                                    src={item.photoUrl!}
+                                    alt="---"
+                                    width={150}
+                                    height={150}
+                                />
+                            ))}
                         </div>
                     ) : null}
                     <div data-info>
                         <h2>{infoCommodity?.name}</h2>
-                        <h1>
-                            {`${
-                                Number(infoCommodity?.price)?.toFixed(0) || 0
-                            } ₸` || "Договорная"}{" "}
-                        </h1>
+                        <h1>{`${Number(infoCommodity?.price)?.toFixed(0) || 0} ₸` || "Договорная"} </h1>
                     </div>
                     <div data-buttons>
                         <button data-completed>
-                            <span>
-                                {dataChatInfo?.chatById?.buyer?.id === userId
-                                    ? "Оплатить товар"
-                                    : "Сделка заключена"}
-                            </span>
+                            <span>{dataChatInfo?.chatById?.buyer?.id === userId ? "Оплатить товар" : "Сделка заключена"}</span>
                         </button>
                         <button data-path onClick={handleInfo}>
                             <span>Перейти</span>
-                            <img
-                                src="/svg/share-06.svg"
-                                alt="share"
-                                width={18}
-                                height={18}
-                            />
+                            <img src="/svg/share-06.svg" alt="share" width={18} height={18} />
                         </button>
                     </div>
                 </motion.header>
             ) : null}
-            <ListMessages
-                messages={data?.chatMessageByChatId?.results || []}
-                dataUser={dataUser}
-            />
+            <ListMessages messages={data?.chatMessageByChatId?.results || []} dataUser={dataUser} />
             <form onSubmit={onSubmit}>
                 {stringsFileImg.length ? (
                     <ul data-files>
                         {stringsFileImg.map((item, index) => (
                             <li key={`${item.slice(0, 100)}-${index}`}>
                                 {item.includes("image") ? (
-                                    <Image
-                                        src={item}
-                                        alt="photo"
-                                        width={48}
-                                        height={48}
-                                        unoptimized
-                                    />
+                                    <Image src={item} alt="photo" width={48} height={48} unoptimized />
                                 ) : item.includes("video") ? (
                                     <video width={400} height={300} controls>
                                         <source src={item} type="video/mp4" />
@@ -310,32 +272,19 @@ export const MessagesChatUUID = () => {
                                 <div data-preview-delete>
                                     <img
                                         onClick={() => {
-                                            const photos: IPhotoCarousel[] =
-                                                stringsFileImg
-                                                    .filter((item) =>
-                                                        item.includes("image"),
-                                                    )
-                                                    .map((item, index) => ({
-                                                        id: `${index}`,
-                                                        index: index,
-                                                        url: item,
-                                                    }))
+                                            const photos: IPhotoCarousel[] = stringsFileImg
+                                                .filter((item) => item.includes("image"))
+                                                .map((item, index) => ({
+                                                    id: `${index}`,
+                                                    index: index,
+                                                    url: item,
+                                                }))
                                             dispatchPhotos({
                                                 visible: true,
                                                 photos: photos,
                                                 current: {
                                                     id:
-                                                        photos.find(
-                                                            (item_) =>
-                                                                item_.url.slice(
-                                                                    0,
-                                                                    125,
-                                                                ) ===
-                                                                item.slice(
-                                                                    0,
-                                                                    125,
-                                                                ),
-                                                        )?.id! ||
+                                                        photos.find((item_) => item_.url.slice(0, 125) === item.slice(0, 125))?.id! ||
                                                         photos[0]?.id!,
                                                 },
                                             })
@@ -348,18 +297,8 @@ export const MessagesChatUUID = () => {
                                     />
                                     <img
                                         onClick={() => {
-                                            setFiles((prev) =>
-                                                prev.filter(
-                                                    (_, index_) =>
-                                                        index_ !== index,
-                                                ),
-                                            )
-                                            setStringsFileImg((prev) =>
-                                                prev.filter(
-                                                    (_, index_) =>
-                                                        index_ !== index,
-                                                ),
-                                            )
+                                            setFiles((prev) => prev.filter((_, index_) => index_ !== index))
+                                            setStringsFileImg((prev) => prev.filter((_, index_) => index_ !== index))
                                         }}
                                         src="/svg/profile/trash-03.svg"
                                         alt="trash"
@@ -395,21 +334,11 @@ export const MessagesChatUUID = () => {
                         {...register("files", { required: false })}
                         onChange={handleImageChange}
                     />
-                    <img
-                        src="/svg/paperclip.svg"
-                        alt="send"
-                        width={16}
-                        height={16}
-                    />
+                    <img src="/svg/paperclip.svg" alt="send" width={16} height={16} />
                 </div>
                 <button type="submit" data-send>
                     <span>Отправить</span>
-                    <img
-                        src="/svg/send-01.svg"
-                        alt="send"
-                        width={16}
-                        height={16}
-                    />
+                    <img src="/svg/send-01.svg" alt="send" width={16} height={16} />
                 </button>
             </form>
         </article>

@@ -6,32 +6,22 @@ import { useQuery } from "@apollo/client"
 import type { IChildrenProps } from "@/types/types"
 
 import { useAuth } from "@/store/state/useAuth"
-import { useFavorites } from "@/store/state/useFavorites"
+import { dispatchFavorites } from "@/store/state/useFavorites"
 import { queryFavoriteProductList } from "@/apollo/query"
 
 export const ApolloData = ({ children }: IChildrenProps) => {
     const token = useAuth(({ token }) => token)
-    const dispatchFavorites = useFavorites(
-        ({ dispatchFavorites }) => dispatchFavorites,
-    )
     const { refetch } = useQuery(queryFavoriteProductList)
 
     useEffect(() => {
         if (!!token) {
             refetch().then((response) => {
                 if (response?.data) {
-                    if (
-                        Array.isArray(
-                            response?.data?.favoriteProductList?.results,
-                        )
-                    ) {
-                        const results =
-                            response?.data?.favoriteProductList?.results?.map(
-                                (item: any) => ({
-                                    id: item?.id,
-                                    productId: item?.product?.id!,
-                                }),
-                            )
+                    if (Array.isArray(response?.data?.favoriteProductList?.results)) {
+                        const results = response?.data?.favoriteProductList?.results?.map((item: any) => ({
+                            id: item?.id,
+                            productId: item?.product?.id!,
+                        }))
                         dispatchFavorites({
                             all: results,
                         })

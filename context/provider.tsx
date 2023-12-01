@@ -5,15 +5,11 @@ import { ToastContainer } from "react-toastify"
 
 import type { TChildrenProps } from "@/types/types"
 
-import {
-    ModalLogin,
-    VisiblePreviewPhotos,
-    AnimatedLoadPage,
-} from "@/components/templates"
 import { ApolloData } from "./ApolloData"
 import { Toast } from "@/components/layout/toast"
 import { ApolloProviderContext } from "./ApolloProvider"
 import { WebSocketContext } from "./WebSocketContext"
+import { ModalLogin, VisiblePreviewPhotos, AnimatedLoadPage } from "@/components/templates"
 
 import { useAuth } from "@/store/state/useAuth"
 
@@ -25,17 +21,16 @@ const Provider: TChildrenProps = ({ children }) => {
     const refresh = useAuth(({ refresh }) => refresh)
 
     useEffect(() => {
+        console.log("useEffect Provider")
         refresh()
     }, [])
 
     useEffect(() => {
         window.addEventListener("load", () => {
             if ("serviceWorker" in navigator) {
-                navigator.serviceWorker
-                    .register("/service-worker.js")
-                    .then((response) => {
-                        console.log("serviceWorker: ", response.scope)
-                    })
+                navigator.serviceWorker.register("/service-worker.js").then((response) => {
+                    console.log("serviceWorker: ", response.scope)
+                })
             }
         })
     }, [])

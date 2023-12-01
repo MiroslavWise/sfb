@@ -2,16 +2,16 @@ import { useEffect } from "react"
 import { motion } from "framer-motion"
 import { useForm } from "react-hook-form"
 
-import { useEnter } from "@/store/state/useEnter"
-import { serviceAuth } from "@/helpers/services/serviceAuth"
-import { useAuth } from "@/store/state/useAuth"
 import { InputPassword } from "@/components/common/input-password"
+
+import { useAuth } from "@/store/state/useAuth"
 import { MarketButtons } from "./MarketButtons"
+import { serviceAuth } from "@/helpers/services/serviceAuth"
+import { useEnter, dispatchEnter } from "@/store/state/useEnter"
 
 export const RegisterFormComponent = () => {
     const login = useAuth(({ login }) => login)
     const visible = useEnter(({ visible }) => visible)
-    const dispatch = useEnter(({ dispatch }) => dispatch)
     const {
         register,
         setFocus,
@@ -34,11 +34,9 @@ export const RegisterFormComponent = () => {
             })
             .then((response) => {
                 if (response?.data?.userRegistration?.ok) {
-                    login(values?.login?.trim()!, values?.password!).then(
-                        () => {
-                            dispatch({ visible: false })
-                        },
-                    )
+                    login(values?.login?.trim()!, values?.password!).then(() => {
+                        dispatchEnter(false)
+                    })
                 }
             })
     }
@@ -54,20 +52,9 @@ export const RegisterFormComponent = () => {
             onSubmit={omSubmit}
         >
             <div data-inputs>
-                <input
-                    placeholder="Электронная почта"
-                    {...register("login", { required: true })}
-                    type="email"
-                />
-                <input
-                    placeholder="Телефон"
-                    {...register("number", { required: true })}
-                    type="text"
-                />
-                <InputPassword
-                    placeholder="Пароль"
-                    {...register("password", { required: true })}
-                />
+                <input placeholder="Электронная почта" {...register("login", { required: true })} type="email" />
+                <input placeholder="Телефон" {...register("number", { required: true })} type="text" />
+                <InputPassword placeholder="Пароль" {...register("password", { required: true })} />
                 <InputPassword
                     placeholder="Пароль"
                     {...register("password_", {

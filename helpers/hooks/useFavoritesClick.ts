@@ -1,30 +1,21 @@
 import { useState } from "react"
 import { useLazyQuery, useMutation } from "@apollo/client"
 
-import { useFavorites } from "@/store/state/useFavorites"
-import {
-    mutationFavoriteProductAdd,
-    mutationFavoriteProductDelete,
-} from "@/apollo/mutation"
 import { queryFavoriteProductList } from "@/apollo/query"
+import { useFavorites, dispatchFavorites } from "@/store/state/useFavorites"
+import { mutationFavoriteProductAdd, mutationFavoriteProductDelete } from "@/apollo/mutation"
 
 export const useFavoritesClick = () => {
     const [loading, setLoading] = useState(false)
     const [add] = useMutation(mutationFavoriteProductAdd)
     const [use, { refetch }] = useLazyQuery(queryFavoriteProductList)
     const [deleteProduct] = useMutation(mutationFavoriteProductDelete)
-
     const favorites = useFavorites(({ favorites }) => favorites)
-    const dispatchFavorites = useFavorites(
-        ({ dispatchFavorites }) => dispatchFavorites,
-    )
 
     function handleFavorite(value: string) {
         setLoading(true)
         if (favorites.some((item) => item.productId === value)) {
-            const favoriteId = favorites.find(
-                (item) => item.productId === value,
-            )?.id
+            const favoriteId = favorites.find((item) => item.productId === value)?.id
 
             deleteProduct({
                 variables: {
@@ -50,8 +41,7 @@ export const useFavoritesClick = () => {
             })
                 .then((response) => {
                     if (response?.data?.favoriteProductAdd?.ok) {
-                        const data =
-                            response?.data?.favoriteProductAdd?.favorite
+                        const data = response?.data?.favoriteProductAdd?.favorite
                         refetch()
                         dispatchFavorites({
                             add: {

@@ -10,7 +10,7 @@ import { CONFIG_ENV } from "@/helpers/config/ENV"
 import useWebSocket, { ReadyState } from "react-use-websocket"
 import { WebSocketLike } from "react-use-websocket/dist/lib/types"
 import { usePush } from "@/helpers/hooks/usePush"
-import { useLazyQuery } from "@apollo/client"
+import { useLazyQuery, useQuery } from "@apollo/client"
 import { queryChatUnreadCount } from "@/apollo/query-"
 
 const CreateContext = createContext<ISocket>({
@@ -29,7 +29,7 @@ export const WebSocketContext = memo(({ children }: IChildrenProps) => {
     const user = useAuth(({ user }) => user)
     const { handlePush } = usePush()
     const [chanel, setChanel] = useState<WebSocket | null | any>(null)
-    const [reloadMessages] = useLazyQuery(queryChatUnreadCount)
+    const { refetch: reloadMessages } = useQuery(queryChatUnreadCount)
 
     const { readyState, getWebSocket } = useWebSocket(chanel)
 
@@ -38,14 +38,12 @@ export const WebSocketContext = memo(({ children }: IChildrenProps) => {
             const events = (event: any) => {
                 const data = JSON.parse(event?.data)?.data
 
-                if (
-                    data?.type === "new_message" &&
-                    data?.sender?.id !== user?.id &&
-                    chatId !== data?.chat_id
-                ) {
+                if (data?.type === "new_message" && data?.sender?.id !== user?.id && chatId !== data?.chat_id) {
                     const qwer = () =>
                         toast(
-                            `Тебе новое сообщение от ${data?.sender?.full_name}`,
+                            <p className="__toast_p__">
+                                {data?.sender?.full_name}: <span>{data?.message || "__"}</span>
+                            </p>,
                             {
                                 position: "top-center",
                                 autoClose: 7000,
@@ -56,9 +54,7 @@ export const WebSocketContext = memo(({ children }: IChildrenProps) => {
                                 progress: undefined,
                                 theme: "colored",
                                 onClick() {
-                                    handlePush(
-                                        `/messages?chat-id=${data?.chat_id}`,
-                                    )
+                                    handlePush(`/messages?chat-id=${data?.chat_id}`)
                                 },
                             },
                         )
@@ -86,11 +82,7 @@ export const WebSocketContext = memo(({ children }: IChildrenProps) => {
         }
     }, [token, chanel])
 
-    return (
-        <CreateContext.Provider value={{ readyState, getWebSocket }}>
-            {children}
-        </CreateContext.Provider>
-    )
+    return <CreateContext.Provider value={{ readyState, getWebSocket }}>{children}</CreateContext.Provider>
 })
 
 export const useSocket = () => {

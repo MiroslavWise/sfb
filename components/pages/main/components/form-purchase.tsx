@@ -15,7 +15,7 @@ import {
 } from "@/apollo/mutation"
 import { queryCategoriesRoot } from "@/apollo/query"
 import { useAuth } from "@/store/state/useAuth"
-import { useEnter } from "@/store/state/useEnter"
+import { dispatchEnter } from "@/store/state/useEnter"
 import { usePush } from "@/helpers/hooks/usePush"
 import { uploadFile } from "@/helpers/services/fetch"
 import { useOutsideClickEvent } from "@/helpers/hooks/useOutsideClickEvent"
@@ -38,7 +38,6 @@ export const FormPurchase = ({
     const [filesString, setFilesString] = useState<string[]>([])
     const [files, setFiles] = useState<File[]>([])
     const token = useAuth(({ token }) => token)
-    const dispatch = useEnter(({ dispatch }) => dispatch)
     const [isLoading, setIsLoading] = useState(false)
     const { handlePush } = usePush()
     const { data, loading } = useQuery<ICategoriesRoot>(queryCategoriesRoot)
@@ -62,7 +61,7 @@ export const FormPurchase = ({
 
     function onSubmit(values: IValues) {
         if (!token) {
-            dispatch({ visible: true })
+            dispatchEnter(true)
             return
         }
         if (token && !isLoading) {

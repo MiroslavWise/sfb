@@ -8,23 +8,17 @@ import { useSearchParams } from "next/navigation"
 
 import type { IPhotoProductData, IProductRoot } from "@/types/types"
 
-import {
-    ComponentAddress,
-    ComponentArea,
-    ComponentCity,
-} from "@/components/common/component-regions"
 import { Outline } from "@/components/common/outline"
 import { PhotoStage } from "@/components/common/PhotoStage"
-import { TagAmount } from "@/components/common/tag-amount"
 import { ButtonBack } from "@/components/common/button-back"
 import { TagCategory } from "../../proposals/components/TagCategory"
+import { ButtonAddCart } from "@/components/common/button-add-cart"
 
 import { usePush } from "@/helpers/hooks/usePush"
 import { useFavoritesClick } from "@/helpers/hooks/useFavoritesClick"
 import { queryPhotosProductById, queryProductById } from "@/apollo/query"
 
 import styles from "../styles/style.module.scss"
-import { ButtonAddCart } from "@/components/common/button-add-cart"
 
 export const ProductId = () => {
     const { back } = usePush()
@@ -34,26 +28,19 @@ export const ProductId = () => {
             id: productId,
         },
     })
-    const { data: dataPhotos, loading: loadingPhoto } =
-        useQuery<IPhotoProductData>(queryPhotosProductById, {
-            variables: {
-                id: productId,
-            },
-        })
+    const { data: dataPhotos, loading: loadingPhoto } = useQuery<IPhotoProductData>(queryPhotosProductById, {
+        variables: {
+            id: productId,
+        },
+    })
 
-    const {
-        isFavorite,
-        handleFavorite,
-        loading: loadingFavorite,
-    } = useFavoritesClick()
+    const { isFavorite, handleFavorite, loading: loadingFavorite } = useFavoritesClick()
 
     const { productById } = data ?? {}
 
     const images = useMemo(() => {
         if (dataPhotos?.productById?.photoListUrl) {
-            return dataPhotos?.productById?.photoListUrl?.map(
-                (item, index) => ({ item, index }),
-            )
+            return dataPhotos?.productById?.photoListUrl?.map((item, index) => ({ item, index }))
         }
 
         return []
@@ -89,17 +76,9 @@ export const ProductId = () => {
                             handle()
                         }}
                     >
-                        <p>
-                            {is
-                                ? "Убрать из избранного"
-                                : "Добавить в избранное"}
-                        </p>
+                        <p>{is ? "Убрать из избранного" : "Добавить в избранное"}</p>
                         <img
-                            src={
-                                is
-                                    ? "/svg/tag-fill.svg"
-                                    : "/svg/tag-regular.svg"
-                            }
+                            src={is ? "/svg/heart-fill.svg" : "/svg/heart.svg"}
                             data-loading={loadingFavorite}
                             alt="tag--"
                             width={25}
@@ -118,19 +97,11 @@ export const ProductId = () => {
                         <h2>{productById?.description}</h2>
                     </Outline>
                     <Outline label="Категории">
-                        <div data-tags>
-                            {productById?.category?.id ? (
-                                <TagCategory
-                                    text={productById?.category?.name}
-                                />
-                            ) : null}
-                        </div>
+                        <div data-tags>{productById?.category?.id ? <TagCategory text={productById?.category?.name} /> : null}</div>
                     </Outline>
                     <Outline label="Цена">
                         <div data-price-block>
-                            <h3>
-                                {Number(productById?.price)?.toFixed(0) || 0} ₸
-                            </h3>
+                            <h3>{Number(productById?.price)?.toFixed(0) || 0} ₸</h3>
                         </div>
                     </Outline>
                     <Outline label={`Количество`}>
@@ -146,20 +117,14 @@ export const ProductId = () => {
                             }}
                         >
                             <Image
-                                src={
-                                    productById?.shop
-                                        ? productById?.shop?.photoUrl!
-                                        : productById?.author?.photo!
-                                }
+                                src={productById?.shop ? productById?.shop?.photoUrl! : productById?.author?.photo!}
                                 alt="avatar"
                                 width={42}
                                 height={42}
                                 style={{
                                     objectFit: "cover",
                                     borderRadius: 21,
-                                    border: productById?.shop
-                                        ? "1px solid green"
-                                        : "",
+                                    border: productById?.shop ? "1px solid green" : "",
                                 }}
                                 unoptimized
                             />
@@ -183,15 +148,9 @@ export const ProductId = () => {
                                     gap: 4,
                                 }}
                             >
-                                <p>
-                                    {productById?.shop
-                                        ? productById?.shop?.name
-                                        : productById?.author?.fullName}
-                                </p>
+                                <p>{productById?.shop ? productById?.shop?.name : productById?.author?.fullName}</p>
                                 <i style={{ fontSize: 12 }}>
-                                    {productById?.shop
-                                        ? productById?.shop?.address
-                                        : productById?.author?.address}
+                                    {productById?.shop ? productById?.shop?.address : productById?.author?.address}
                                 </i>
                             </div>
                         </div>

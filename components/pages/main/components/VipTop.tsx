@@ -38,13 +38,7 @@ export const VipTop = () => {
                             }}
                         >
                             {item?.photoListUrl[0] ? (
-                                <Image
-                                    src={item?.photoListUrl[0]?.photoUrl!}
-                                    alt="photo"
-                                    width={200}
-                                    height={200}
-                                    unoptimized
-                                />
+                                <Image src={item?.photoListUrl[0]?.photoUrl!} alt="photo" width={200} height={200} unoptimized />
                             ) : (
                                 <div data-img>
                                     <p>Фотографий нет</p>
@@ -57,17 +51,8 @@ export const VipTop = () => {
                             <h5>{item?.name}</h5>
                             <a data-city>{item?.city?.name}</a>
                             <div data-time>
-                                <img
-                                    src="/svg/calendar-date.svg"
-                                    alt="calendar"
-                                    width={12}
-                                    height={12}
-                                />
-                                <a>
-                                    {dayjs(item?.createdAt).format(
-                                        "HH:mm DD.MM.YY",
-                                    )}
-                                </a>
+                                <img src="/svg/calendar-date.svg" alt="calendar" width={12} height={12} />
+                                <a>{dayjs(item?.createdAt).format("HH:mm DD.MM.YY")}</a>
                             </div>
                             <div data-add>
                                 {isAuth ? (
@@ -81,12 +66,8 @@ export const VipTop = () => {
                                         }}
                                     >
                                         <img
-                                            src={
-                                                isFavorite(item?.id!)
-                                                    ? "/svg/tag-fill.svg"
-                                                    : "/svg/tag-regular.svg"
-                                            }
-                                            alt="tag--"
+                                            src={isFavorite(item?.id!) ? "/svg/heart-fill.svg" : "/svg/heart.svg"}
+                                            alt="--heart--"
                                             width={25}
                                             height={25}
                                         />

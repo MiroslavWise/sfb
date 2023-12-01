@@ -1,11 +1,9 @@
 import type { Dispatch } from "react"
 
-interface IActionEnter{
+interface IActionEnter {
     visible?: boolean
 }
 
 export interface IUseEnter {
     visible: boolean
-
-    dispatch: Dispatch<IActionEnter>
 }
