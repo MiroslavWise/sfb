@@ -104,9 +104,9 @@ export const ProductId = () => {
                             <h3>{Number(productById?.price)?.toFixed(0) || 0} ₸</h3>
                         </div>
                     </Outline>
-                    <Outline label={`Количество`}>
-                        <p>{productById?.quantity!}</p>
-                    </Outline>
+                    <h6>
+                        Количество: <span>{productById?.quantity!}</span>
+                    </h6>
                     <Outline label={productById?.shop ? "Магазин" : "Продавец"}>
                         <div
                             style={{
@@ -155,28 +155,6 @@ export const ProductId = () => {
                             </div>
                         </div>
                     </Outline>
-                    {/* <Outline label="Адрес">
-                        <div data-regions>
-                            {data?.productById?.author.city?.region && (
-                                <ComponentArea
-                                    name={
-                                        data?.productById?.author?.city?.region
-                                            ?.name
-                                    }
-                                />
-                            )}
-                            {data?.productById?.author?.city && (
-                                <ComponentCity
-                                    name={data?.productById?.author?.city?.name}
-                                />
-                            )}
-                            {data?.productById?.author?.address && (
-                                <ComponentAddress
-                                    name={data?.productById?.author?.address}
-                                />
-                            )}
-                        </div>
-                    </Outline> */}
                 </article>
             </section>
         </motion.div>

@@ -141,9 +141,7 @@ export const MyRequestsPageUUID = () => {
                                 )}
                             </div>
                         </Outline>
-                        <Outline label="Количество">
-                            <p>{productRequestById?.quantity}</p>
-                        </Outline>
+                        <h6>Количество: <span>{productRequestById?.quantity || 1}</span></h6>
                         <Outline label="Адресс">
                             <div data-regions>
                                 {productRequestById?.author.city?.region && (

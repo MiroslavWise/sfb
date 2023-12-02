@@ -89,9 +89,9 @@ export const ProposalsPageUUID = () => {
                             )}
                         </div>
                     </Outline>
-                    <Outline label="Количество">
-                        <p>{productRequestById?.quantity!}</p>
-                    </Outline>
+                    <h6>
+                        Количество: <span>{productRequestById?.quantity!}</span>
+                    </h6>
                     <Outline label="Адрес">
                         <div data-regions>
                             {productRequestById?.author?.city?.region && (

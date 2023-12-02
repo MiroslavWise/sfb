@@ -15,6 +15,7 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(180px, 250px));
         grid-gap: 16px;
+        height: fit-content;
 
         & > li {
             position: relative;

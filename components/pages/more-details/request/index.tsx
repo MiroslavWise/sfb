@@ -73,7 +73,7 @@ export const RequestId = () => {
                             <h3>{productRequestById?.price || 0} ₸</h3>\
                         </div>
                     </Outline>
-                    <p>Количество: {productRequestById?.quantity! || 1}</p>
+                    <h6>Количество: {productRequestById?.quantity! || 1}</h6>
                     <Outline label="Адрес">
                         <div data-regions>
                             {productRequestById?.author.city?.region && (
