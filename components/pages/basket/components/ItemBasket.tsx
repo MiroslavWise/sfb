@@ -11,7 +11,7 @@ import { mutationCartItemDelete, mutationCartItemUpdate } from "@/apollo/mutatio
 
 export const ItemBasket = (props: ICart) => {
     const { product, id, quantity } = props ?? {}
-    const { photoListUrl } = product ?? {}
+    const { photoListUrl, quantity: quantityProduct } = product ?? {}
     const debounceUpdate = useDebounce(quantityUpdate, 800)
     const [qInt, setQInt] = useState(quantity)
 
@@ -80,7 +80,7 @@ export const ItemBasket = (props: ICart) => {
                         style={{ borderRadius: `0 7px 7px 0` }}
                         onClick={(event) => {
                             event.stopPropagation()
-                            setQInt((prev) => prev + 1)
+                            setQInt((prev) => (prev >= quantityProduct ? quantityProduct : prev + 1))
                             debounceUpdate()
                         }}
                     >
