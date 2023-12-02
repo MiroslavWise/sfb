@@ -40,28 +40,30 @@ export const ItemProduct: FC<IProduct> = (props) => {
                     <p>Качество</p>
                 </div>
             ) : null}
-            <h3>{Number(price)?.toFixed(0) || 0} ₸</h3>
+            <div data-title>
+                <h3>{Number(price)?.toFixed(0) || 0} ₸</h3>
+                <div data-add>
+                    {token ? (
+                        <div
+                            data-loading={loading}
+                            data-favorite
+                            onClick={(event) => {
+                                event.stopPropagation()
+                                handle()
+                            }}
+                        >
+                            <img src={is ? "/svg/heart-fill.svg" : "/svg/heart.svg"} alt="tag--" width={24} height={24} />
+                        </div>
+                    ) : null}
+                    <ButtonAddCart id={id} int={1} />
+                </div>
+            </div>
+
             <h5>{name}</h5>
             <a data-city>{city?.name}</a>
             <div data-time>
                 <img src="/svg/calendar-date.svg" alt="calendar" width={12} height={12} />
                 <a>{dayjs(createdAt).format("HH:mm DD.MM.YY")}</a>
-            </div>
-            <div data-add>
-                {token ? (
-                    <div
-                        data-loading={loading}
-                        data-favorite
-                        onClick={(event) => {
-                            event.stopPropagation()
-                            event.preventDefault()
-                            handle()
-                        }}
-                    >
-                        <img src={is ? "/svg/heart-fill.svg" : "/svg/heart.svg"} alt="tag--" width={25} height={25} />
-                    </div>
-                ) : null}
-                <ButtonAddCart id={id} int={1} />
             </div>
         </li>
     )
