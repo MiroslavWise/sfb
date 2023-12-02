@@ -2,9 +2,10 @@
 
 import { useMemo } from "react"
 import Image from "next/image"
+import { toast } from "react-toastify"
 import { motion } from "framer-motion"
-import { useQuery } from "@apollo/client"
 import { useSearchParams } from "next/navigation"
+import { useMutation, useQuery } from "@apollo/client"
 
 import type { IPhotoProductData, IProductRoot } from "@/types/types"
 
@@ -12,16 +13,18 @@ import { Outline } from "@/components/common/outline"
 import { PhotoStage } from "@/components/common/PhotoStage"
 import { ButtonBack } from "@/components/common/button-back"
 import { TagCategory } from "../../proposals/components/TagCategory"
-import { ButtonAddCart } from "@/components/common/button-add-cart"
 
 import { usePush } from "@/helpers/hooks/usePush"
+import { mutationCartItemAdd } from "@/apollo/mutation"
 import { useFavoritesClick } from "@/helpers/hooks/useFavoritesClick"
 import { queryPhotosProductById, queryProductById } from "@/apollo/query"
 
 import styles from "../styles/style.module.scss"
+import { ICartList } from "@/types/shop"
+import { queryCart } from "@/apollo/query-"
 
 export const ProductId = () => {
-    const { back } = usePush()
+    const { back, handlePush } = usePush()
     const productId = useSearchParams().get("product-id")
     const { data, loading } = useQuery<IProductRoot>(queryProductById, {
         variables: {
@@ -33,6 +36,13 @@ export const ProductId = () => {
             id: productId,
         },
     })
+    const [useAdd] = useMutation(mutationCartItemAdd, {
+        variables: {
+            productId: productId,
+            quantity: 1,
+        },
+    })
+    const { refetch } = useQuery<ICartList>(queryCart)
 
     const { isFavorite, handleFavorite, loading: loadingFavorite } = useFavoritesClick()
 
@@ -48,6 +58,24 @@ export const ProductId = () => {
 
     function handle() {
         handleFavorite(productId!)
+    }
+    function handleAddCart() {
+        useAdd().then(() => {
+            refetch()
+            toast(`Товар добавлен в корзину!`, {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                onClick() {
+                    handlePush("/basket")
+                },
+            })
+        })
     }
 
     const is = isFavorite(productId!)
@@ -67,30 +95,34 @@ export const ProductId = () => {
                     <ButtonBack onClick={back} />
                     <h1>{productById?.name}</h1>
                 </div>
+            </header>
+            <section>
                 <div data-add-buttons>
-                    <div
-                        data-favorite={is}
+                    <button
                         onClick={(event) => {
                             event.stopPropagation()
-                            event.preventDefault()
                             handle()
                         }}
                     >
-                        <p>{is ? "Убрать из избранного" : "Добавить в избранное"}</p>
+                        <span>{is ? "Убрать из избранного" : "Добавить в избранное"}</span>
                         <img
                             src={is ? "/svg/heart-fill.svg" : "/svg/heart.svg"}
                             data-loading={loadingFavorite}
                             alt="tag--"
-                            width={25}
-                            height={25}
+                            width={24}
+                            height={24}
                         />
-                    </div>
-                    <div data-basket>
-                        <ButtonAddCart id={productId!} int={1} isTitle />
-                    </div>
+                    </button>
+                    <button
+                        onClick={(event) => {
+                            event.stopPropagation()
+                            handleAddCart()
+                        }}
+                    >
+                        <span>Добавить в корзину</span>
+                        <img src="/svg/shopping-cart-01.svg" width={24} height={24} />
+                    </button>
                 </div>
-            </header>
-            <section>
                 <PhotoStage images={images} />
                 <article>
                     <Outline label="Описание">
