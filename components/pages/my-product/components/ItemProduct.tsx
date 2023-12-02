@@ -2,14 +2,15 @@
 
 import dayjs from "dayjs"
 import Image from "next/image"
-import { memo, useMemo } from "react"
+import { useMemo } from "react"
 
 import type { TItemProposalsPage } from "../../proposals/types/types"
+
+import { ComponentAddress, ComponentArea, ComponentCity } from "@/components/common/component-regions"
 
 import { usePush } from "@/helpers/hooks/usePush"
 
 import styles from "../styles/item.module.scss"
-import { ComponentAddress, ComponentArea, ComponentCity } from "@/components/common/component-regions"
 
 export const ItemProduct: TItemProposalsPage = (props) => {
     const {
@@ -35,8 +36,6 @@ export const ItemProduct: TItemProposalsPage = (props) => {
                 index: index,
             }))
     }, [photoListUrl])
-
-    console.log("images: ", images)
 
     return (
         <section

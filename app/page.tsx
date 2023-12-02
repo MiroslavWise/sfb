@@ -1,8 +1,4 @@
-import {
-    VipTop,
-    ComponentMainUseFormMainPage,
-    ComponentCarouselBannerMainPage,
-} from "@/components/pages/main"
+import { VipTop, ComponentMainUseFormMainPage, ComponentCarouselBannerMainPage } from "@/components/pages/main"
 
 import styles from "./page.module.scss"
 

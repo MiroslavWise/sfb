@@ -3,9 +3,7 @@ import dayjs from "dayjs"
 import { IItemChatMessageByChatId, TTypeMessage } from "@/types/chat"
 
 function useJoinMessage() {
-    function join(
-        item_messages: IItemChatMessageByChatId[],
-    ): IReturnMessages[] {
+    function join(item_messages: IItemChatMessageByChatId[]): IReturnMessages[] {
         const items: IReturnMessages[] = []
 
         if (item_messages) {
@@ -18,10 +16,7 @@ function useJoinMessage() {
                 }
                 if (
                     index !== 0 &&
-                    dayjs(message.createdAt).format("DD.MM.YYYY") !==
-                        dayjs(items.at(-1)?.messages?.at(-1)?.time).format(
-                            "DD.MM.YYYY",
-                        )
+                    dayjs(message.createdAt).format("DD.MM.YYYY") !== dayjs(items.at(-1)?.messages?.at(-1)?.time).format("DD.MM.YYYY")
                 ) {
                     items.push({
                         type: "time",

@@ -1,20 +1,12 @@
 "use client"
 
-import Image from "next/image"
 import React, { useEffect, useMemo, useState } from "react"
 
-import {
-    IItemCarouselBanner,
-    ITEM_CAROUSEL_BANNER,
-} from "../constants/ITEM-CAROUSEL"
+import { IItemCarouselBanner, ITEM_CAROUSEL_BANNER } from "../constants/ITEM-CAROUSEL"
 
 import styles from "../styles/carousel-banner.module.scss"
 
-export const ComponentCarouselBannerMainPage = ({
-    type,
-}: {
-    type: "main" | "aside"
-}) => {
+export const ComponentCarouselBannerMainPage = ({ type }: { type: "main" | "aside" }) => {
     const [state, setState] = useState(0)
 
     const current: IItemCarouselBanner = useMemo(() => {
@@ -23,9 +15,7 @@ export const ComponentCarouselBannerMainPage = ({
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setState((prev) =>
-                prev !== ITEM_CAROUSEL_BANNER.length - 1 ? prev + 1 : 0,
-            )
+            setState((prev) => (prev !== ITEM_CAROUSEL_BANNER.length - 1 ? prev + 1 : 0))
         }, 3888)
 
         return () => clearInterval(interval)
@@ -44,27 +34,11 @@ export const ComponentCarouselBannerMainPage = ({
                 }}
             >
                 <h2>{current.label}</h2>
-                <img
-                    data-img-banner
-                    src={current.img.src}
-                    alt={current.img.alt}
-                    width={184}
-                    height={135}
-                />
-                <img
-                    data-logo
-                    src="/svg/logo.svg"
-                    alt="logo"
-                    width={86}
-                    height={40}
-                />
+                <img data-img-banner src={current.img.src} alt={current.img.alt} width={184} height={135} />
+                <img data-logo src="/svg/logo.svg" alt="logo" width={86} height={40} />
                 <div data-dots>
                     {ITEM_CAROUSEL_BANNER.map((_, index) => (
-                        <div
-                            key={`${index}=dots`}
-                            data-active={index === state}
-                            onClick={() => handle(index)}
-                        />
+                        <div key={`${index}=dots`} data-active={index === state} onClick={() => handle(index)} />
                     ))}
                 </div>
             </div>

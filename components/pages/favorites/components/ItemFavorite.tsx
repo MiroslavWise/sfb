@@ -25,7 +25,7 @@ export const ItemFavorite = (props: IProduct) => {
             }}
         >
             {photoListUrl[0] ? (
-                <Image src={photoListUrl[0]?.photoUrl!} alt="photo" width={200} height={200} />
+                <Image src={photoListUrl[0]?.photoUrl!} alt="photo" width={200} height={200} unoptimized />
             ) : (
                 <div data-img>
                     <p>Фотографий нет</p>

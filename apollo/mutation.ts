@@ -1,20 +1,8 @@
 import { gql } from "@apollo/client"
 
 export const updateProfile = gql`
-    mutation (
-        $fullName: String
-        $phone: String
-        $address: String
-        $cityId: UUID
-    ) {
-        userUpdate(
-            input: {
-                fullName: $fullName
-                phone: $phone
-                address: $address
-                cityId: $cityId
-            }
-        ) {
+    mutation ($fullName: String, $phone: String, $address: String, $cityId: UUID) {
+        userUpdate(input: { fullName: $fullName, phone: $phone, address: $address, cityId: $cityId }) {
             ok
         }
     }
@@ -33,9 +21,7 @@ export const createProductRequestEmpty = gql`
 
 export const createProductRequestSmall = gql`
     mutation ($categoryId: UUID, $name: String) {
-        productRequestCreate(
-            input: { categoryId: $categoryId, name: $name, draft: true }
-        ) {
+        productRequestCreate(input: { categoryId: $categoryId, name: $name, draft: true }) {
             ok
             productRequest {
                 id
@@ -45,20 +31,8 @@ export const createProductRequestSmall = gql`
 `
 
 export const createProductRequestFull = gql`
-    mutation (
-        $categoryId: UUID
-        $name: String
-        $description: String
-        $price: Float
-    ) {
-        productRequestCreate(
-            input: {
-                categoryId: $categoryId
-                name: $name
-                description: $description
-                price: $price
-            }
-        ) {
+    mutation ($categoryId: UUID, $name: String, $description: String, $price: Float) {
+        productRequestCreate(input: { categoryId: $categoryId, name: $name, description: $description, price: $price }) {
             ok
             productRequest {
                 id
@@ -69,9 +43,7 @@ export const createProductRequestFull = gql`
 
 export const createProductSmall = gql`
     mutation ($categoryId: UUID, $name: String) {
-        productCreate(
-            input: { categoryId: $categoryId, name: $name, draft: true }
-        ) {
+        productCreate(input: { categoryId: $categoryId, name: $name, draft: true }) {
             ok
             product {
                 id
@@ -81,20 +53,8 @@ export const createProductSmall = gql`
 `
 
 export const createProductFull = gql`
-    mutation (
-        $categoryId: UUID
-        $name: String
-        $description: String
-        $price: Float
-    ) {
-        productCreate(
-            input: {
-                categoryId: $categoryId
-                name: $name
-                description: $description
-                price: $price
-            }
-        ) {
+    mutation ($categoryId: UUID, $name: String, $description: String, $price: Float) {
+        productCreate(input: { categoryId: $categoryId, name: $name, description: $description, price: $price }) {
             ok
             product {
                 id
@@ -104,22 +64,9 @@ export const createProductFull = gql`
 `
 
 export const mutateUpdateProductRequest = gql`
-    mutation (
-        $productRequestId: UUID!
-        $categoryId: UUID
-        $name: String
-        $description: String
-        $price: Float
-        $quantity: Int
-    ) {
+    mutation ($productRequestId: UUID!, $categoryId: UUID, $name: String, $description: String, $price: Float, $quantity: Int) {
         productRequestUpdate(
-            input: {
-                categoryId: $categoryId
-                name: $name
-                description: $description
-                price: $price
-                quantity: $quantity
-            }
+            input: { categoryId: $categoryId, name: $name, description: $description, price: $price, quantity: $quantity }
             productRequestId: $productRequestId
         ) {
             ok
@@ -129,10 +76,7 @@ export const mutateUpdateProductRequest = gql`
 
 export const mutateUpdateProductRequestDraft = gql`
     mutation ($productRequestId: UUID!) {
-        productRequestUpdate(
-            input: { draft: false }
-            productRequestId: $productRequestId
-        ) {
+        productRequestUpdate(input: { draft: false }, productRequestId: $productRequestId) {
             ok
         }
     }
@@ -147,22 +91,9 @@ export const mutateUpdateProductDraft = gql`
 `
 
 export const mutateUpdateProduct = gql`
-    mutation (
-        $productId: UUID!
-        $categoryId: UUID
-        $name: String
-        $description: String
-        $price: Float
-        $quantity: Int
-    ) {
+    mutation ($productId: UUID!, $categoryId: UUID, $name: String, $description: String, $price: Float, $quantity: Int) {
         productUpdate(
-            input: {
-                categoryId: $categoryId
-                name: $name
-                description: $description
-                price: $price
-                quantity: $quantity
-            }
+            input: { categoryId: $categoryId, name: $name, description: $description, price: $price, quantity: $quantity }
             productId: $productId
         ) {
             ok
@@ -219,10 +150,7 @@ export const mutationProductDelete = gql`
 
 export const mutationProductRequestUpdate = gql`
     mutation ($productRequestId: UUID!) {
-        productRequestUpdate(
-            productRequestId: $productRequestId
-            input: { isActive: false }
-        ) {
+        productRequestUpdate(productRequestId: $productRequestId, input: { isActive: false }) {
             ok
         }
     }
@@ -258,9 +186,7 @@ export const mutationFavoriteProductDelete = gql`
 
 export const mutationShopCreate = gql`
     mutation ($name: String, $description: String, $address: String) {
-        shopCreate(
-            input: { name: $name, description: $description, address: $address }
-        ) {
+        shopCreate(input: { name: $name, description: $description, address: $address }) {
             ok
             shop {
                 id
@@ -273,16 +199,8 @@ export const mutationShopCreate = gql`
 `
 
 export const mutationShopUpdate = gql`
-    mutation (
-        $shopId: UUID!
-        $name: String
-        $description: String
-        $address: String
-    ) {
-        shopUpdate(
-            shopId: $shopId
-            input: { name: $name, description: $description, address: $address }
-        ) {
+    mutation ($shopId: UUID!, $name: String, $description: String, $address: String) {
+        shopUpdate(shopId: $shopId, input: { name: $name, description: $description, address: $address }) {
             ok
             errors {
                 messages
@@ -319,6 +237,17 @@ export const queryCartItemUpdate = gql`
 export const mutationCartItemDelete = gql`
     mutation ($cartItemId: UUID!) {
         cartItemDelete(cartItemId: $cartItemId) {
+            ok
+            errors {
+                messages
+            }
+        }
+    }
+`
+
+export const mutationCartItemUpdate = gql`
+    mutation ($cartItemId: UUID!, $quantity: Int!) {
+        cartItemUpdate(cartItemId: $cartItemId, quantity: $quantity) {
             ok
             errors {
                 messages

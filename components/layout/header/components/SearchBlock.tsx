@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { useLazyQuery } from "@apollo/client"
@@ -21,9 +20,7 @@ export const SearchBlock = () => {
     const { handleSubmit, register, setValue } = useForm<IValues>({
         mode: "onChange",
     })
-    const [search, { data }] = useLazyQuery<ICategoryRecommendation>(
-        queryCategoryRecommendation,
-    )
+    const [search, { data }] = useLazyQuery<ICategoryRecommendation>(queryCategoryRecommendation)
     function submit(values: IValues) {
         if (values.input.trim().length > 2)
             search({
@@ -59,11 +56,7 @@ export const SearchBlock = () => {
                     onFocus={() => setFocus(true)}
                 />
                 <img
-                    src={
-                        loading
-                            ? "/svg/loading-03.svg"
-                            : "/svg/menu/search-refraction.svg"
-                    }
+                    src={loading ? "/svg/loading-03.svg" : "/svg/menu/search-refraction.svg"}
                     alt="search-refraction"
                     width={24}
                     height={24}
@@ -78,9 +71,7 @@ export const SearchBlock = () => {
                             onClick={(event) => {
                                 event.preventDefault()
                                 event.stopPropagation()
-                                handlePush(
-                                    `/market?search=${item?.name}&category-id=${item.id}`,
-                                )
+                                handlePush(`/market?search=${item?.name}&category-id=${item.id}`)
                                 setFocus(false)
                             }}
                         >

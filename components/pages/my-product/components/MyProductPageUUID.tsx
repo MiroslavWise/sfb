@@ -94,7 +94,9 @@ export const MyProductPageUUID = () => {
 
     function handleDelete() {
         deleteProduct().finally(() => {
-            Promise.all([refetch(), refetchLazy(), refetchLazyArchive()]).finally(() => {})
+            setTimeout(() => {
+                Promise.all([refetch(), refetchLazy(), refetchLazyArchive()]).finally(() => {})
+            }, 150)
         })
     }
 
@@ -130,12 +132,7 @@ export const MyProductPageUUID = () => {
             </header>
             <TabsDetails items={ITEMS_TABS} set={setTab} current={tab} />
             {tab.value === "main" ? (
-                <motion.section
-                    initial={{ opacity: 0, visibility: "hidden" }}
-                    animate={{ opacity: 1, visibility: "visible" }}
-                    exit={{ opacity: 0, visibility: "hidden" }}
-                    transition={{ duration: 0.3 }}
-                >
+                <section>
                     <PhotoStage images={images} />
                     <article>
                         <Outline label="Краткое описание">
@@ -166,7 +163,7 @@ export const MyProductPageUUID = () => {
                             </div>
                         </Outline>
                     </article>
-                </motion.section>
+                </section>
             ) : tab.value === "proposals" ? (
                 <ProposalsMeUUID />
             ) : tab.value === "testimonials" ? (

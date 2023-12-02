@@ -2,10 +2,7 @@ import { useEffect, useMemo, useCallback, useLayoutEffect, useRef } from "react"
 
 import { debounce } from "../lib/debounce"
 
-export function useDebounce<Fn extends (...args: any[]) => any>(
-    fn: Fn,
-    ms: number,
-) {
+export function useDebounce<Fn extends (...args: any[]) => any>(fn: Fn, ms: number) {
     const memoizedFn = useEvent(fn)
 
     const debouncedFn = useMemo(

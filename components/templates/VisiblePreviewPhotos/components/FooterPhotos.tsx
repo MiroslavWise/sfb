@@ -12,11 +12,7 @@ export const FooterPhotos = () => {
     return (
         <footer>
             {photos.map((item) => (
-                <div
-                    data-mini-photo
-                    data-active={item.id === current?.id}
-                    key={item?.id}
-                >
+                <div data-mini-photo data-active={item.id === current?.id} key={item?.id}>
                     <Image
                         src={item.url}
                         alt="mini"
@@ -25,6 +21,7 @@ export const FooterPhotos = () => {
                         onClick={() => {
                             setCurrent({ id: item.id })
                         }}
+                        unoptimized
                     />
                 </div>
             ))}

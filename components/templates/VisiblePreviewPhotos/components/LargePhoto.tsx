@@ -10,13 +10,7 @@ export const LargePhoto = () => {
 
     return (
         <section>
-            <Image
-                onClick={setNext}
-                src={current?.url!}
-                alt="large"
-                height={960}
-                width={540}
-            />
+            <Image onClick={setNext} src={current?.url!} alt="large" height={960} width={540} unoptimized />
         </section>
     )
 }

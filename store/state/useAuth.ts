@@ -21,26 +21,14 @@ export const useAuth = create(
             updateUser() {},
             async login(email, password) {
                 try {
-                    const response = await serviceAuth.login(
-                        email.trim(),
-                        password.trim(),
-                    )
+                    const response = await serviceAuth.login(email.trim(), password.trim())
                     const {
                         data: {
                             tokenAuth: {
                                 token,
                                 refreshToken,
                                 refreshExpiresIn,
-                                user: {
-                                    id,
-                                    isAdmin,
-                                    isActive,
-                                    isSuperuser,
-                                    photo,
-                                    fullName,
-                                    isStaff,
-                                    isCommercial,
-                                },
+                                user: { id, isAdmin, isActive, isSuperuser, photo, fullName, isStaff, isCommercial },
                             },
                         },
                     } = response
@@ -85,10 +73,7 @@ export const useAuth = create(
             },
             async refresh() {
                 try {
-                    if (
-                        !isTokenExpired(get().expiration) &&
-                        typeof get().expiration === "number"
-                    ) {
+                    if (!isTokenExpired(get().expiration) && typeof get().expiration === "number") {
                         set({ state: "Main" })
                         return {
                             ok: true,
@@ -110,9 +95,7 @@ export const useAuth = create(
                         isTokenExpired(get().expiration) &&
                         typeof get().refreshToken === "string"
                     ) {
-                        const response = await serviceAuth.refresh(
-                            get().refreshToken!,
-                        )
+                        const response = await serviceAuth.refresh(get().refreshToken!)
                         const {
                             data: {
                                 refreshToken: { token, refreshToken },
@@ -150,10 +133,7 @@ export const useAuth = create(
                         ok: false,
                     }
                 } catch (e) {
-                    console.warn(
-                        "---ERROR UPDATE REFRESH TOKEN OR TOKEN--- ",
-                        e,
-                    )
+                    console.warn("---ERROR UPDATE REFRESH TOKEN OR TOKEN--- ", e)
                     set({
                         token: undefined,
                         refreshToken: undefined,

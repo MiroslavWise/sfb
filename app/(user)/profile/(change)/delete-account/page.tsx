@@ -8,13 +8,7 @@ export default function DeleteAccount() {
     return (
         <>
             <header>
-                <img
-                    data-image
-                    src="/svg/profile/trash-03.svg"
-                    alt="change"
-                    width={30}
-                    height={30}
-                />
+                <img data-image src="/svg/profile/trash-03.svg" alt="change" width={30} height={30} />
                 <h2>Удалить аккаунт</h2>
             </header>
             <div data-not-form>

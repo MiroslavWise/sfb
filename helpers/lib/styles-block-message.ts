@@ -1,9 +1,6 @@
 type TReturnTypeStyle = "only" | "end" | "middle" | "start"
 
-export function stylesBlockRight(
-    length: number,
-    index: number,
-): TReturnTypeStyle {
+export function stylesBlockRight(length: number, index: number): TReturnTypeStyle {
     if (length === 1) {
         return "only"
     }

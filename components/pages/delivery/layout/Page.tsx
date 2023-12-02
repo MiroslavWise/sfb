@@ -17,8 +17,7 @@ export const DeliveryPage = () => {
             {data?.orderList?.results?.map((item) => (
                 <div key={`${item.id}`} data-item-order>
                     <h2>
-                        Номер доставки: {item.orderNumber}{" "}
-                        <span>(Статус: {item?.status})</span>
+                        Номер доставки: {item.orderNumber} <span>(Статус: {item?.status})</span>
                     </h2>
                     <h3>Доставляемый товар</h3>
                     <ul>
@@ -26,13 +25,11 @@ export const DeliveryPage = () => {
                             <li key={`${liItem.id}-${item.id}`}>
                                 {liItem.product?.photoListUrl?.length ? (
                                     <Image
-                                        src={
-                                            liItem.product?.photoListUrl[0]
-                                                ?.photoUrl!
-                                        }
+                                        src={liItem.product?.photoListUrl[0]?.photoUrl!}
                                         alt="photo"
                                         width={250}
                                         height={250}
+                                        unoptimized
                                     />
                                 ) : (
                                     <div data-img>

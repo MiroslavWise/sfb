@@ -40,9 +40,7 @@ export default function ChangeData() {
 
     function onSubmit(values: IValues) {
         Promise.all([
-            files
-                ? uploadFile(files!, { type: "user/photo-upload/" })
-                : Promise.resolve(),
+            files ? uploadFile(files!, { type: "user/photo-upload/" }) : Promise.resolve(),
             update({
                 variables: {
                     fullName: values?.fullName,
@@ -69,25 +67,13 @@ export default function ChangeData() {
     return (
         <>
             <header>
-                <img
-                    data-image
-                    src="/svg/profile/user-edit.svg"
-                    alt="change"
-                    width={30}
-                    height={30}
-                />
+                <img data-image src="/svg/profile/user-edit.svg" alt="change" width={30} height={30} />
                 <h2>Изменить контактные данные</h2>
             </header>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div data-uploads>
                     {filesString || data?.me?.photo ? (
-                        <Image
-                            data-photo-avatar
-                            src={filesString || data?.me?.photo}
-                            alt="avatar"
-                            width={200}
-                            height={200}
-                        />
+                        <Image data-photo-avatar src={filesString || data?.me?.photo} alt="avatar" width={200} height={200} unoptimized />
                     ) : null}
                     <span>
                         <input
@@ -106,12 +92,7 @@ export default function ChangeData() {
                                 }
                             }}
                         />
-                        <img
-                            src="/svg/plus.svg"
-                            alt="plus"
-                            height={50}
-                            width={50}
-                        />
+                        <img src="/svg/plus.svg" alt="plus" height={50} width={50} />
                     </span>
                 </div>
                 <section>
@@ -120,9 +101,7 @@ export default function ChangeData() {
                         type="text"
                         {...register("fullName", { required: true })}
                         value={watch("fullName")}
-                        onChange={(event) =>
-                            setValue("fullName", event.target.value)
-                        }
+                        onChange={(event) => setValue("fullName", event.target.value)}
                         error={errors?.fullName ? "Обязательное поле" : null}
                     />
 
@@ -138,19 +117,14 @@ export default function ChangeData() {
                         }
                         {...register("city", { required: false })}
                         value={watch("city")}
-                        onChange={(event: any) =>
-                            setValue("city", event.target.value)
-                        }
+                        onChange={(event: any) => setValue("city", event.target.value)}
                     />
                     <Selector
                         label="Область"
                         options={
                             Array.isArray(dataCity?.cityList)
                                 ? dataCity?.cityList
-                                      ?.filter(
-                                          (item: any) =>
-                                              item?.id === watch("city"),
-                                      )
+                                      ?.filter((item: any) => item?.id === watch("city"))
                                       ?.map((item: any) => ({
                                           label: item?.region?.name,
                                           value: item?.region?.id,
@@ -160,18 +134,14 @@ export default function ChangeData() {
                         disabled={!watch("city")}
                         {...register("region", { required: false })}
                         value={watch("region")}
-                        onChange={(event: any) =>
-                            setValue("region", event.target.value)
-                        }
+                        onChange={(event: any) => setValue("region", event.target.value)}
                     />
                     <Input
                         label="Адрес"
                         type="text"
                         {...register("address", { required: true })}
                         value={watch("address")}
-                        onChange={(event) =>
-                            setValue("address", event.target.value)
-                        }
+                        onChange={(event) => setValue("address", event.target.value)}
                         error={errors?.address ? "Обязательное поле" : null}
                     />
                     <Input
@@ -180,9 +150,7 @@ export default function ChangeData() {
                         {...register("email")}
                         value={watch("email")}
                         disabled
-                        onChange={(event) =>
-                            setValue("email", event.target.value)
-                        }
+                        onChange={(event) => setValue("email", event.target.value)}
                         error={errors?.email ? "Обязательное поле" : null}
                     />
                     <Input
@@ -194,9 +162,7 @@ export default function ChangeData() {
                             maxLength: 11,
                         })}
                         value={watch("phone")}
-                        onChange={(event) =>
-                            setValue("phone", event.target.value)
-                        }
+                        onChange={(event) => setValue("phone", event.target.value)}
                         error={errors?.phone ? "Обязательное поле" : null}
                     />
                 </section>

@@ -1,7 +1,7 @@
 "use client"
 
-import { memo, useMemo } from "react"
 import Image from "next/image"
+import { memo, useMemo } from "react"
 
 import type { TItemMessage } from "../types/types"
 import type { TTypeMessage } from "@/types/chat"
@@ -17,9 +17,7 @@ import { useVisiblePhotos } from "@/store/state/useVisiblePhotos"
 import styles from "../styles/item-message.module.scss"
 
 const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
-    const dispatchPhotos = useVisiblePhotos(
-        ({ dispatchPhotos }) => dispatchPhotos,
-    )
+    const dispatchPhotos = useVisiblePhotos(({ dispatchPhotos }) => dispatchPhotos)
 
     const newMessages: (INewMessage & {
         dataImages?: {
@@ -42,11 +40,7 @@ const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
             }
             if (["IMAGE", "VIDEO"].includes(item.type)) {
                 if (["IMAGE", "VIDEO"]?.includes(array.at(-1)?.type!)) {
-                    if (
-                        Array.isArray(array.at(-1)?.dataImages) &&
-                        array.at(-1) &&
-                        array.at(-1)?.dataImages
-                    ) {
+                    if (Array.isArray(array.at(-1)?.dataImages) && array.at(-1) && array.at(-1)?.dataImages) {
                         //@ts-ignore
                         array.at(-1).dataImages! = [
                             ...array.at(-1)?.dataImages!,
@@ -82,29 +76,15 @@ const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
                     if (item?.type === "TEXT") {
                         return (
                             <div
-                                className={cx(
-                                    styles.blockMessage,
-                                    styles[
-                                        stylesBlockRight(
-                                            messages?.length!,
-                                            index,
-                                        )
-                                    ],
-                                )}
+                                className={cx(styles.blockMessage, styles[stylesBlockRight(messages?.length!, index)])}
                                 key={`${item.id}_${item.message}`}
                                 id={`${item.id!}`}
                             >
                                 <p>{item.message}</p>
                                 <div className={styles.time}>
-                                    <span>
-                                        {timeNowOrBeforeChat(item?.time)}
-                                    </span>
+                                    <span>{timeNowOrBeforeChat(item?.time)}</span>
                                     <img
-                                        src={
-                                            item.isRead
-                                                ? "/messages/double-tick-white.svg"
-                                                : "/messages/double-tick-gray.svg"
-                                        }
+                                        src={item.isRead ? "/messages/double-tick-white.svg" : "/messages/double-tick-gray.svg"}
                                         alt="double-check"
                                         width={14}
                                         height={14}
@@ -116,27 +96,16 @@ const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
                     if (["IMAGE", "VIDEO"].includes(item.type)) {
                         return (
                             <div
-                                className={cx(
-                                    styles.blockMessage,
-                                    styles[
-                                        stylesBlockRight(
-                                            messages?.length!,
-                                            index,
-                                        )
-                                    ],
-                                )}
+                                className={cx(styles.blockMessage, styles[stylesBlockRight(messages?.length!, index)])}
                                 data-images-block
                                 key={`${item.id}_${item.id}`}
                                 id={`${item.id!}`}
                                 onClick={() => {
-                                    const photos: IPhotoCarousel[] =
-                                        item.dataImages!?.map(
-                                            (item, index) => ({
-                                                id: item.id!,
-                                                url: item.url!,
-                                                index: index,
-                                            }),
-                                        )
+                                    const photos: IPhotoCarousel[] = item.dataImages!?.map((item, index) => ({
+                                        id: item.id!,
+                                        url: item.url!,
+                                        index: index,
+                                    }))
                                     dispatchPhotos({
                                         visible: true,
                                         current: {
@@ -148,27 +117,12 @@ const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
                             >
                                 {item.dataImages?.map((item_) => {
                                     if (item_.type === "IMAGE") {
-                                        return (
-                                            <Image
-                                                src={item_.url!}
-                                                alt="photo"
-                                                width={250}
-                                                height={250}
-                                                unoptimized
-                                            />
-                                        )
+                                        return <Image src={item_.url!} alt="photo" width={250} height={250} unoptimized />
                                     }
                                     if (item_.type === "VIDEO") {
                                         return (
-                                            <video
-                                                width={400}
-                                                height={300}
-                                                controls
-                                            >
-                                                <source
-                                                    src={item_.url}
-                                                    type="video/mp4"
-                                                />
+                                            <video width={400} height={300} controls>
+                                                <source src={item_.url} type="video/mp4" />
                                             </video>
                                         )
                                     }
@@ -180,17 +134,7 @@ const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
                     return null
                 })}
             </div>
-            {photo ? (
-                <Image
-                    src={photo!}
-                    alt="avatar"
-                    width={100}
-                    height={100}
-                    unoptimized
-                />
-            ) : (
-                <div data-not-avatar />
-            )}
+            {photo ? <Image src={photo!} alt="avatar" width={100} height={100} unoptimized /> : <div data-not-avatar />}
         </li>
     )
 }

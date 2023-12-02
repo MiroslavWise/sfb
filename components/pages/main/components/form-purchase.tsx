@@ -1,18 +1,9 @@
 import Image from "next/image"
 import { useForm } from "react-hook-form"
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client"
-import {
-    ChangeEvent,
-    Dispatch,
-    SetStateAction,
-    useEffect,
-    useState,
-} from "react"
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react"
 
-import {
-    createProductRequestSmall,
-    createProductSmall,
-} from "@/apollo/mutation"
+import { createProductRequestSmall, createProductSmall } from "@/apollo/mutation"
 import { queryCategoriesRoot } from "@/apollo/query"
 import { useAuth } from "@/store/state/useAuth"
 import { dispatchEnter } from "@/store/state/useEnter"
@@ -21,11 +12,7 @@ import { uploadFile } from "@/helpers/services/fetch"
 import { useOutsideClickEvent } from "@/helpers/hooks/useOutsideClickEvent"
 import { queryCategoryRecommendation } from "@/apollo/attribute"
 import { useDebounce } from "@/helpers/hooks/useDebounce"
-import {
-    ICategoriesRoot,
-    IRecommendation,
-    ICategoryRecommendation,
-} from "@/types/types"
+import { ICategoriesRoot, IRecommendation, ICategoryRecommendation } from "@/types/types"
 import { CustomSelector } from "@/components/common/custom-selector"
 
 export const FormPurchase = ({
@@ -48,8 +35,7 @@ export const FormPurchase = ({
     const [focus, setFocus, ref] = useOutsideClickEvent()
     const [list, setList] = useState<null | IRecommendation[]>(null)
     const debouncedValue = useDebounce(onSearch, 1500)
-    const [search, { data: dataCategoryRecommendation }] =
-        useLazyQuery<ICategoryRecommendation>(queryCategoryRecommendation)
+    const [search, { data: dataCategoryRecommendation }] = useLazyQuery<ICategoryRecommendation>(queryCategoryRecommendation)
     //
     const {
         register,
@@ -69,19 +55,13 @@ export const FormPurchase = ({
             if (state === "purchase") {
                 createProductRequest({
                     variables: {
-                        categoryId: values?.id_
-                            ? values?.id_
-                            : values?.id
-                            ? values?.id
-                            : null,
+                        categoryId: values?.id_ ? values?.id_ : values?.id ? values?.id : null,
                         name: values?.name!,
                     },
                 })
                     .then((response) => {
                         if (response?.data) {
-                            const id =
-                                response?.data?.productRequestCreate
-                                    ?.productRequest?.id
+                            const id = response?.data?.productRequestCreate?.productRequest?.id
                             Promise.all([
                                 ...files.map((item) =>
                                     uploadFile(item, {
@@ -91,9 +71,7 @@ export const FormPurchase = ({
                                     }),
                                 ),
                             ]).finally(() => {
-                                handlePush(
-                                    `/my-requests/change?request-id=${id}`,
-                                )
+                                handlePush(`/my-requests/change?request-id=${id}`)
                             })
                         }
                     })
@@ -102,18 +80,13 @@ export const FormPurchase = ({
             if (state === "sale") {
                 createProduct({
                     variables: {
-                        categoryId: values?.id_
-                            ? values?.id_
-                            : values?.id
-                            ? values?.id
-                            : null,
+                        categoryId: values?.id_ ? values?.id_ : values?.id ? values?.id : null,
                         name: values?.name!,
                     },
                 })
                     .then((response) => {
                         if (response?.data) {
-                            const id =
-                                response?.data?.productCreate?.product?.id
+                            const id = response?.data?.productCreate?.product?.id
                             Promise.all([
                                 ...files.map((item) =>
                                     uploadFile(item, {
@@ -123,9 +96,7 @@ export const FormPurchase = ({
                                     }),
                                 ),
                             ]).finally(() => {
-                                handlePush(
-                                    `/my-products/change?product-id=${id}`,
-                                )
+                                handlePush(`/my-products/change?product-id=${id}`)
                             })
                         }
                     })
@@ -141,10 +112,7 @@ export const FormPurchase = ({
                 if (files[i]) {
                     const reader = new FileReader()
                     reader.onloadend = () => {
-                        setFilesString((prev) => [
-                            ...prev,
-                            reader.result as string,
-                        ])
+                        setFilesString((prev) => [...prev, reader.result as string])
                     }
                     reader.readAsDataURL(files[i])
                     setFiles((prev) => [...prev, files[i]])
@@ -169,57 +137,30 @@ export const FormPurchase = ({
     function handleOfSearch(values: IValuesSearchOfName) {
         setValue("id", null)
         setValue("id_", null)
-        if (
-            data?.categoryRootList?.some(
-                (item) => item?.id === values?.category?.id,
-            )
-        ) {
-            const valueId = data?.categoryRootList?.find(
-                (item) => item?.id === values?.category?.id,
-            )?.id!
+        if (data?.categoryRootList?.some((item) => item?.id === values?.category?.id)) {
+            const valueId = data?.categoryRootList?.find((item) => item?.id === values?.category?.id)?.id!
             setValue("id", valueId)
-        } else if (
-            data?.categoryRootList?.some((item) =>
-                item?.childrenList?.some(
-                    (_item) => _item?.id === values?.category?.id,
-                ),
-            )
-        ) {
+        } else if (data?.categoryRootList?.some((item) => item?.childrenList?.some((_item) => _item?.id === values?.category?.id))) {
             const valueFind = data?.categoryRootList?.find((item) =>
-                item?.childrenList?.some(
-                    (_item) => _item?.id === values?.category?.id,
-                ),
+                item?.childrenList?.some((_item) => _item?.id === values?.category?.id),
             )
             const valueId = valueFind?.id!
-            const valueId_ = valueFind?.childrenList?.find(
-                (item) => item?.id === values?.category?.id,
-            )?.id!
+            const valueId_ = valueFind?.childrenList?.find((item) => item?.id === values?.category?.id)?.id!
             setValue("id", valueId)
             setValue("id_", valueId_)
         }
         if (
             data?.categoryRootList?.some((item) =>
-                item?.childrenList?.some((_item) =>
-                    _item?.childrenList?.some(
-                        (__item) => __item?.id === values?.category?.id,
-                    ),
-                ),
+                item?.childrenList?.some((_item) => _item?.childrenList?.some((__item) => __item?.id === values?.category?.id)),
             )
         ) {
             const valueFind = data?.categoryRootList?.find((item) =>
-                item?.childrenList?.some((_item) =>
-                    _item?.childrenList?.some(
-                        (__item) => __item?.id === values?.category?.id,
-                    ),
-                ),
+                item?.childrenList?.some((_item) => _item?.childrenList?.some((__item) => __item?.id === values?.category?.id)),
             )
 
             const valueId = valueFind?.id!
-            const valueId_ = valueFind?.childrenList?.find((item) =>
-                item?.childrenList?.some(
-                    (item) => item.id === values?.category?.id,
-                ),
-            )?.id!
+            const valueId_ = valueFind?.childrenList?.find((item) => item?.childrenList?.some((item) => item.id === values?.category?.id))
+                ?.id!
 
             setValue("id", valueId)
             setValue("id_", valueId_)
@@ -249,15 +190,9 @@ export const FormPurchase = ({
                         }}
                         onFocus={() => setFocus(true)}
                     />
-                    {errors.name ? (
-                        <i>Обязательное поле(мин 5 символов)</i>
-                    ) : null}
+                    {errors.name ? <i>Обязательное поле(мин 5 символов)</i> : null}
                     <img
-                        src={
-                            loadingInput
-                                ? "/svg/loading-03.svg"
-                                : "/svg/x-circle.svg"
-                        }
+                        src={loadingInput ? "/svg/loading-03.svg" : "/svg/x-circle.svg"}
                         alt="search-refraction"
                         width={24}
                         height={24}
@@ -297,11 +232,7 @@ export const FormPurchase = ({
                 <span {...register("id", { required: true })} data-search>
                     <label>Категория товара</label>
                     <CustomSelector
-                        label={
-                            data?.categoryRootList?.find(
-                                (item) => item?.id === watch("id"),
-                            )?.name!
-                        }
+                        label={data?.categoryRootList?.find((item) => item?.id === watch("id"))?.name!}
                         placeholder="Выберите категорию товара"
                         onClick={(value) => {
                             setValue("id", value)
@@ -317,19 +248,13 @@ export const FormPurchase = ({
                     />
                     {errors?.id ? <i>Выберите категорию товара</i> : null}
                 </span>
-                {data?.categoryRootList?.find(
-                    (item: any) => item.id === watch("id"),
-                )?.childrenList?.length ? (
+                {data?.categoryRootList?.find((item: any) => item.id === watch("id"))?.childrenList?.length ? (
                     <span data-search {...register("id_", { required: false })}>
                         <CustomSelector
                             label={
                                 data?.categoryRootList
-                                    ?.find(
-                                        (item: any) => item.id === watch("id"),
-                                    )
-                                    ?.childrenList?.find(
-                                        (item) => item?.id === watch("id_"),
-                                    )?.name!
+                                    ?.find((item: any) => item.id === watch("id"))
+                                    ?.childrenList?.find((item) => item?.id === watch("id_"))?.name!
                             }
                             onClick={(value) => {
                                 setValue("id_", value)
@@ -337,10 +262,7 @@ export const FormPurchase = ({
                             list={
                                 Array.isArray(data?.categoryRootList)
                                     ? data?.categoryRootList
-                                          ?.find(
-                                              (item: any) =>
-                                                  item.id === watch("id"),
-                                          )
+                                          ?.find((item: any) => item.id === watch("id"))
                                           ?.childrenList?.map((item: any) => ({
                                               id: item?.id,
                                               p: item?.name,
@@ -353,21 +275,12 @@ export const FormPurchase = ({
                 ) : null}
                 <span data-file>
                     <input type="file" multiple onChange={handleImageChange} />
-                    <label>
-                        Нажмите или перетащите фото товара в эту область, чтобы
-                        загрузить (.png, .jpeg, .jpg)
-                    </label>
+                    <label>Нажмите или перетащите фото товара в эту область, чтобы загрузить (.png, .jpeg, .jpg)</label>
                 </span>
                 {filesString.length ? (
                     <div data-files>
                         {filesString?.map((item) => (
-                            <Image
-                                src={item}
-                                alt={item}
-                                width={500}
-                                height={500}
-                                unoptimized
-                            />
+                            <Image src={item} alt={item} width={500} height={500} unoptimized />
                         ))}
                     </div>
                 ) : null}

@@ -3,15 +3,16 @@
 import Image from "next/image"
 import { useMemo } from "react"
 import { useQuery } from "@apollo/client"
+import { useSearchParams } from "next/navigation"
 
 import { ICategoriesRoot } from "@/types/types"
+
+import { CatalogMany } from "./CatalogMany"
 
 import { usePush } from "@/helpers/hooks/usePush"
 import { queryCategoriesRoot } from "@/apollo/query"
 
 import styles from "../styles/catalog-main.module.scss"
-import { useSearchParams } from "next/navigation"
-import { CatalogMany } from "./CatalogMany"
 
 export const CatalogMain = () => {
     const categoryId = useSearchParams().get("category-id")
@@ -33,17 +34,7 @@ export const CatalogMain = () => {
                         handleReplace(`/market?category-id=${item.id}`)
                     }}
                 >
-                    <Image
-                        src={
-                            item.photoUrl
-                                ? item?.photoUrl
-                                : "/png/catalog/auto.png"
-                        }
-                        alt="icon"
-                        width={200}
-                        height={200}
-                        unoptimized
-                    />
+                    <Image src={item.photoUrl ? item?.photoUrl : "/png/catalog/auto.png"} alt="icon" width={200} height={200} unoptimized />
                     <p>{item.name}</p>
                 </li>
             ))}

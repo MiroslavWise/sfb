@@ -237,6 +237,7 @@ export const MessagesChatUUID = () => {
                                     alt="---"
                                     width={150}
                                     height={150}
+                                    unoptimized
                                 />
                             ))}
                         </div>

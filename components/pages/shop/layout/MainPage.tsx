@@ -21,12 +21,7 @@ export const ShopMainPage = () => {
                           }}
                       >
                           {item.photoUrl ? (
-                              <Image
-                                  src={item.photoUrl}
-                                  alt="photo"
-                                  width={380}
-                                  height={380}
-                              />
+                              <Image src={item.photoUrl} alt="photo" width={380} height={380} unoptimized />
                           ) : (
                               <div data-img>
                                   <span>Нет фотографии</span>
@@ -46,9 +41,7 @@ export const ShopMainPage = () => {
                                       onClick={(event) => {
                                           event.preventDefault()
                                           event.stopPropagation()
-                                          handlePush(
-                                              `/my-shop/change?id=${item.id}`,
-                                          )
+                                          handlePush(`/my-shop/change?id=${item.id}`)
                                       }}
                                   >
                                       <span>Редактировать</span>
@@ -56,12 +49,7 @@ export const ShopMainPage = () => {
                               </footer>
                           </div>
                           <div data-verification>
-                              <img
-                                  src="/svg/check-verified-03.svg"
-                                  alt="check-verified"
-                                  width={25}
-                                  height={25}
-                              />
+                              <img src="/svg/check-verified-03.svg" alt="check-verified" width={25} height={25} />
                           </div>
                       </li>
                   ))

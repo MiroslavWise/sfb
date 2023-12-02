@@ -17,12 +17,7 @@ export const ItemMany: TItemMany = ({ id, name, photoUrl, childrenList }) => {
     const isActive = useMemo(() => {
         if (categoryId === id) return true
         if (childrenList?.some((item) => item.id === categoryId)) return true
-        if (
-            childrenList?.some((item) =>
-                item.childrenList?.some((item) => item.id === categoryId),
-            )
-        )
-            return true
+        if (childrenList?.some((item) => item.childrenList?.some((item) => item.id === categoryId))) return true
 
         return false
     }, [categoryId, id])
@@ -36,22 +31,15 @@ export const ItemMany: TItemMany = ({ id, name, photoUrl, childrenList }) => {
                 }}
             >
                 {photoUrl ? (
-                    <Image src={photoUrl} alt="icon" width={30} height={30} />
+                    <Image src={photoUrl} alt="icon" width={30} height={30} unoptimized />
                 ) : (
-                    <img
-                        src="/svg/globe-06.svg"
-                        alt="icon"
-                        width={30}
-                        height={30}
-                    />
+                    <img src="/svg/globe-06.svg" alt="icon" width={30} height={30} />
                 )}
 
                 <a>{name}</a>
             </div>
             {(active || isActive) && !!childrenList?.length
-                ? childrenList.map((item) => (
-                      <ItemMany key={`${item.id}-key-children`} {...item} />
-                  ))
+                ? childrenList.map((item) => <ItemMany key={`${item.id}-key-children`} {...item} />)
                 : null}
         </li>
     )

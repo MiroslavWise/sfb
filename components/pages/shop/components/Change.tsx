@@ -75,10 +75,7 @@ export const ChangeShop = ({}) => {
                       })
                     : Promise.resolve(),
             ]).then((response) => {
-                Promise.all([
-                    lazyUpdate({ variables: { shopId: id } }),
-                    lazyUpdateList(),
-                ]).then(() => {
+                Promise.all([lazyUpdate({ variables: { shopId: id } }), lazyUpdateList()]).then(() => {
                     handlePush(`/my-shop?id=${id}`)
                 })
             })
@@ -143,26 +140,11 @@ export const ChangeShop = ({}) => {
             <h3>{id ? "Редактирование магазина" : "Создание магазина"}</h3>
             <div data-image>
                 {strings ? (
-                    <Image
-                        src={strings}
-                        alt="photo"
-                        width={250}
-                        height={250}
-                        unoptimized
-                    />
+                    <Image src={strings} alt="photo" width={250} height={250} unoptimized />
                 ) : (
-                    <img
-                        src="/svg/plus.svg"
-                        alt="plus"
-                        width={250}
-                        height={250}
-                    />
+                    <img src="/svg/plus.svg" alt="plus" width={250} height={250} />
                 )}
-                <input
-                    type="file"
-                    multiple={false}
-                    onChange={(e) => onChangeFile(e)}
-                />
+                <input type="file" multiple={false} onChange={(e) => onChangeFile(e)} />
             </div>
             <Input
                 label="Название"
@@ -175,14 +157,10 @@ export const ChangeShop = ({}) => {
             <TextArea
                 label="Описание"
                 placeholder="Чем занимается ваш магазин?"
-                error={
-                    errors.description ? "Описание - важная часть магазина" : ""
-                }
+                error={errors.description ? "Описание - важная часть магазина" : ""}
                 {...register("description", { required: true })}
                 value={watch("description")}
-                onChange={(event) =>
-                    setValue("description", event.target.value)
-                }
+                onChange={(event) => setValue("description", event.target.value)}
             />
             <Input
                 label="Адрес"
