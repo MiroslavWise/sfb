@@ -20,5 +20,9 @@ export default function LayoutUser({ children }: IChildrenProps) {
         }
     }, [token, state])
 
-    return token ? <section className={styles.wrapper}>{children}</section> : null
+    return token ? (
+        <div className={styles.wrapper}>
+            <section>{children}</section>
+        </div>
+    ) : null
 }

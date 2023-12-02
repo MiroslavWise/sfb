@@ -1,55 +1,37 @@
 "use client"
 
-import Image from "next/image"
 import { useForm } from "react-hook-form"
-import { CFormSelect } from "@coreui/react"
 import { useSearchParams } from "next/navigation"
 import { ChangeEvent, useEffect, useState } from "react"
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client"
 
-import type {
-    ICategoriesRoot,
-    ICategoryList,
-    IRequestProductRoot,
-} from "@/types/types"
+import type { ICategoriesRoot, IRequestProductRoot } from "@/types/types"
 import type { IPhotoProductRequestData } from "@/types/types"
 
 import { MiniPhoto } from "../../proposals"
 import { Input } from "@/components/common/input"
+import { TextArea } from "@/components/common/text-area"
+import { CustomSelector } from "@/components/common/custom-selector"
 
 import { usePush } from "@/helpers/hooks/usePush"
 import { uploadFile } from "@/helpers/services/fetch"
-import {
-    createProductRequestFull,
-    mutateUpdateProductRequest,
-} from "@/apollo/mutation"
-import {
-    queryCategoriesRoot,
-    queryPhotosProductRequestById,
-    queryProductRequestById,
-} from "@/apollo/query"
+import { createProductRequestFull, mutateUpdateProductRequest } from "@/apollo/mutation"
+import { queryCategoriesRoot, queryPhotosProductRequestById, queryProductRequestById } from "@/apollo/query"
 
 import styles from "../styles/change.module.scss"
-import { CustomSelector } from "@/components/common/custom-selector"
-import { TextArea } from "@/components/common/text-area"
 
 export const MyRequestsPageChange = () => {
     const uuid = useSearchParams().get("request-id")
     const [files, setFiles] = useState<File[]>([])
     const [filesString, setFilesString] = useState<string[]>([])
-    const { data: dataCategories, loading: isLoadCategories } =
-        useQuery<ICategoriesRoot>(queryCategoriesRoot)
+    const { data: dataCategories, loading: isLoadCategories } = useQuery<ICategoriesRoot>(queryCategoriesRoot)
     const { handlePush } = usePush()
-    const [use, { data, loading, refetch }] = useLazyQuery<IRequestProductRoot>(
-        queryProductRequestById,
-        {
-            variables: { id: uuid },
-        },
-    )
-    const [usePhoto, { data: dataPhotos, refetch: refetchPhotos }] =
-        useLazyQuery<IPhotoProductRequestData>(queryPhotosProductRequestById, {
-            variables: { id: uuid },
-        })
+    const [use, { data, loading, refetch }] = useLazyQuery<IRequestProductRoot>(queryProductRequestById, {
+        variables: { id: uuid },
+    })
+    const [usePhoto, { data: dataPhotos, refetch: refetchPhotos }] = useLazyQuery<IPhotoProductRequestData>(queryPhotosProductRequestById, {
+        variables: { id: uuid },
+    })
     const [update] = useMutation(mutateUpdateProductRequest)
     const [create] = useMutation(createProductRequestFull)
     const { productRequestById } = data ?? {}
@@ -92,8 +74,7 @@ export const MyRequestsPageChange = () => {
                     ...data,
                 },
             }).then(async (response) => {
-                const id =
-                    response?.data?.productRequestCreate?.productRequest?.id
+                const id = response?.data?.productRequestCreate?.productRequest?.id
                 Promise.all([
                     ...files.map((item) =>
                         uploadFile(item, {
@@ -139,10 +120,7 @@ export const MyRequestsPageChange = () => {
                 if (files[i]) {
                     const reader = new FileReader()
                     reader.onloadend = () => {
-                        setFilesString((prev) => [
-                            ...prev,
-                            reader.result as string,
-                        ])
+                        setFilesString((prev) => [...prev, reader.result as string])
                     }
                     reader.readAsDataURL(files[i])
                     setFiles((prev) => [...prev, files[i]])
@@ -171,31 +149,17 @@ export const MyRequestsPageChange = () => {
         if (!!data?.productRequestById && !!dataCategories?.categoryRootList) {
             const categoryId = data?.productRequestById?.category?.id!
 
-            if (
-                dataCategories?.categoryRootList?.some(
-                    (item) => item?.id === categoryId,
-                )
-            ) {
+            if (dataCategories?.categoryRootList?.some((item) => item?.id === categoryId)) {
                 setValue("category", categoryId)
             }
 
-            if (
-                dataCategories?.categoryRootList?.some((item) =>
-                    item?.childrenList?.some(
-                        (item_) => item_?.id === categoryId,
-                    ),
-                )
-            ) {
+            if (dataCategories?.categoryRootList?.some((item) => item?.childrenList?.some((item_) => item_?.id === categoryId))) {
                 const value = dataCategories?.categoryRootList?.find((item) =>
-                    item?.childrenList?.some(
-                        (item_) => item_?.id === categoryId,
-                    ),
+                    item?.childrenList?.some((item_) => item_?.id === categoryId),
                 )
 
                 const main = value?.id!
-                const secondary = value?.childrenList?.find(
-                    (item) => item?.id === categoryId,
-                )?.id!
+                const secondary = value?.childrenList?.find((item) => item?.id === categoryId)?.id!
 
                 setValue("category", main)
                 setValue("category_", secondary)
@@ -203,24 +167,14 @@ export const MyRequestsPageChange = () => {
 
             if (
                 dataCategories?.categoryRootList?.some((item) =>
-                    item?.childrenList?.some((item_) =>
-                        item_?.childrenList?.some(
-                            (item__) => item__?.id === categoryId,
-                        ),
-                    ),
+                    item?.childrenList?.some((item_) => item_?.childrenList?.some((item__) => item__?.id === categoryId)),
                 )
             ) {
                 const value = dataCategories?.categoryRootList?.find((item) =>
-                    item?.childrenList?.some((item_) =>
-                        item_?.childrenList?.some(
-                            (item__) => item__?.id === categoryId,
-                        ),
-                    ),
+                    item?.childrenList?.some((item_) => item_?.childrenList?.some((item__) => item__?.id === categoryId)),
                 )
                 const main = value?.id!
-                const secondary = value?.childrenList?.find((item) =>
-                    item?.childrenList?.some((some) => some?.id === categoryId),
-                )?.id!
+                const secondary = value?.childrenList?.find((item) => item?.childrenList?.some((some) => some?.id === categoryId))?.id!
 
                 setValue("category", main)
                 setValue("category_", secondary)
@@ -236,42 +190,22 @@ export const MyRequestsPageChange = () => {
                 <h1>Редактировать запрос</h1>
                 <form onSubmit={onSubmit}>
                     <h3>Основная информация</h3>
-                    {Array.isArray(
-                        dataPhotos?.productRequestById?.photoListUrl,
-                    ) && dataPhotos?.productRequestById?.photoListUrl.length ? (
+                    {Array.isArray(dataPhotos?.productRequestById?.photoListUrl) && dataPhotos?.productRequestById?.photoListUrl.length ? (
                         <div data-photos>
                             {dataPhotos?.productRequestById?.photoListUrl
                                 ?.filter((item) => item?.photoUrl)
                                 ?.map((item) => (
-                                    <MiniPhoto
-                                        src={item.photoUrl}
-                                        key={item.id + item.photo}
-                                    />
+                                    <MiniPhoto src={item.photoUrl} key={item.id + item.photo} />
                                 ))}
                         </div>
                     ) : null}
                     <div data-photos>
                         <div data-input-file>
-                            <input
-                                {...register("files")}
-                                type="file"
-                                multiple
-                                onChange={handleImageChange}
-                            />
-                            <img
-                                src="/svg/plus.svg"
-                                alt="plus"
-                                width={80}
-                                height={80}
-                            />
+                            <input {...register("files")} type="file" multiple onChange={handleImageChange} />
+                            <img src="/svg/plus.svg" alt="plus" width={80} height={80} />
                         </div>
                         {filesString?.length && files?.length
-                            ? filesString?.map((item, index) => (
-                                  <MiniPhoto
-                                      src={item}
-                                      key={`${index}-${item}`}
-                                  />
-                              ))
+                            ? filesString?.map((item, index) => <MiniPhoto src={item} key={`${index}-${item}`} />)
                             : null}
                     </div>
                     <Input
@@ -279,77 +213,47 @@ export const MyRequestsPageChange = () => {
                         label="Название товара"
                         type="text"
                         {...register("title", { required: true })}
-                        error={
-                            errors.title
-                                ? "Обязательно заполните название товара"
-                                : null
-                        }
-                        onChange={(event) =>
-                            setValue("title", event.target.value)
-                        }
+                        error={errors.title ? "Обязательно заполните название товара" : null}
+                        onChange={(event) => setValue("title", event.target.value)}
                     />
                     <span>
                         <label>Категория товара</label>
                         <CustomSelector
-                            label={
-                                dataCategories?.categoryRootList?.find(
-                                    (item) => item?.id === watch("category"),
-                                )?.name!
-                            }
+                            label={dataCategories?.categoryRootList?.find((item) => item?.id === watch("category"))?.name!}
                             placeholder="Выберите категорию товара"
                             onClick={(value) => {
                                 setValue("category", value)
                             }}
                             list={
                                 Array.isArray(dataCategories?.categoryRootList)
-                                    ? dataCategories?.categoryRootList?.map(
-                                          (item: any) => ({
-                                              p: item.name,
-                                              id: item.id,
-                                          }),
-                                      )!
+                                    ? dataCategories?.categoryRootList?.map((item: any) => ({
+                                          p: item.name,
+                                          id: item.id,
+                                      }))!
                                     : []
                             }
                         />
-                        {errors.category ? (
-                            <i>Обязательно заполните категорию</i>
-                        ) : null}
+                        {errors.category ? <i>Обязательно заполните категорию</i> : null}
                     </span>
-                    {dataCategories?.categoryRootList?.find(
-                        (item: any) => item.id === watch("category"),
-                    )?.childrenList?.length ? (
+                    {dataCategories?.categoryRootList?.find((item: any) => item.id === watch("category"))?.childrenList?.length ? (
                         <span {...register("category_", { required: false })}>
                             <CustomSelector
                                 label={
                                     dataCategories?.categoryRootList
-                                        ?.find(
-                                            (item: any) =>
-                                                item.id === watch("category"),
-                                        )
-                                        ?.childrenList?.find(
-                                            (item) =>
-                                                item?.id === watch("category_"),
-                                        )?.name!
+                                        ?.find((item: any) => item.id === watch("category"))
+                                        ?.childrenList?.find((item) => item?.id === watch("category_"))?.name!
                                 }
                                 onClick={(value) => {
                                     setValue("category_", value)
                                 }}
                                 list={
-                                    Array.isArray(
-                                        dataCategories?.categoryRootList,
-                                    )
+                                    Array.isArray(dataCategories?.categoryRootList)
                                         ? dataCategories?.categoryRootList
-                                              ?.find(
-                                                  (item: any) =>
-                                                      item.id ===
-                                                      watch("category"),
-                                              )
-                                              ?.childrenList?.map(
-                                                  (item: any) => ({
-                                                      id: item?.id,
-                                                      p: item?.name,
-                                                  }),
-                                              )!
+                                              ?.find((item: any) => item.id === watch("category"))
+                                              ?.childrenList?.map((item: any) => ({
+                                                  id: item?.id,
+                                                  p: item?.name,
+                                              }))!
                                         : []
                                 }
                                 placeholder="Выберите подкатегорию товара"
@@ -362,9 +266,7 @@ export const MyRequestsPageChange = () => {
                         {...register("description", { required: false })}
                         error={""}
                         value={watch("description")!}
-                        onChange={(event) =>
-                            setValue("description", event.target.value)
-                        }
+                        onChange={(event) => setValue("description", event.target.value)}
                     />
                     <Input
                         value={watch("price")!}
@@ -372,31 +274,21 @@ export const MyRequestsPageChange = () => {
                         type="number"
                         {...register("price", { required: true })}
                         error={errors.price ? "Заполните цену товара" : null}
-                        onChange={(event) =>
-                            setValue("price", event.target.value)
-                        }
+                        onChange={(event) => setValue("price", event.target.value)}
                     />
                     <Input
                         value={watch("quantity")!}
                         label="Количество товаров"
                         type="number"
                         {...register("quantity", { required: true })}
-                        error={
-                            errors.quantity ? "Введите кол-во товаров" : null
-                        }
-                        onChange={(event) =>
-                            setValue("quantity", event.target.value)
-                        }
+                        error={errors.quantity ? "Введите кол-во товаров" : null}
+                        onChange={(event) => setValue("quantity", event.target.value)}
                     />
                     <footer>
                         <button data-primary type="submit">
                             <span>Сохранить</span>
                         </button>
-                        <button
-                            data-default
-                            onClick={() => cancel(uuid!)}
-                            type="button"
-                        >
+                        <button data-default onClick={() => cancel(uuid!)} type="button">
                             <span>Отмена</span>
                         </button>
                     </footer>

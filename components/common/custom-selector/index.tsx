@@ -6,27 +6,19 @@ import { TProps } from "./types"
 
 import styles from "./style.module.scss"
 
-export const CustomSelector: TProps = ({
-    label,
-    onClick,
-    list,
-    placeholder,
-}) => {
+export const CustomSelector: TProps = ({ label, onClick, list, placeholder }) => {
     const $id = useId()
     const [state, setState, ref] = useOutsideClickEvent()
 
     return (
-        <div ref={ref} className={styles.container}>
+        <div ref={ref} className={styles.container} data-selector>
             <div data-label onClick={() => setState(true)}>
-                <span data-is-label={!!label}>
-                    {label ? label : placeholder}
-                </span>
+                <span data-is-label={!!label}>{label ? label : placeholder}</span>
             </div>
             {state && list && list?.length ? (
                 <ul
                     data-visible={state}
                     onClick={(event) => {
-                        event.preventDefault()
                         event.stopPropagation()
                     }}
                 >
@@ -34,7 +26,6 @@ export const CustomSelector: TProps = ({
                         <li
                             key={`${item?.id}-${$id}`}
                             onClick={(event) => {
-                                event.preventDefault()
                                 event.stopPropagation()
                                 onClick(item?.id)
                                 setState(false)

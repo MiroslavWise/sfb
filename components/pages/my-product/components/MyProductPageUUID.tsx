@@ -1,11 +1,11 @@
 "use client"
 
-import { motion } from "framer-motion"
 import { useMemo, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { useMutation, useQuery } from "@apollo/client"
 
 import type { IPhotoProductData, IProductRoot } from "@/types/types"
+import type { IItemTab } from "@/components/common/tabs-details/types"
 
 import { ProposalsMeUUID } from "./ProposalsMeUUID"
 import { Outline } from "@/components/common/outline"
@@ -13,7 +13,6 @@ import { TabsDetails } from "@/components/common/tabs-details"
 import { PhotoStage } from "@/components/common/PhotoStage"
 import { ButtonBack } from "@/components/common/button-back"
 import { TagCategory } from "../../proposals/components/TagCategory"
-import type { IItemTab } from "@/components/common/tabs-details/types"
 import { ComponentAddress, ComponentArea, ComponentCity } from "@/components/common/component-regions"
 
 import { ITEMS_TABS } from "../constants/tabs"
@@ -96,7 +95,7 @@ export const MyProductPageUUID = () => {
         deleteProduct().finally(() => {
             setTimeout(() => {
                 Promise.all([refetch(), refetchLazy(), refetchLazyArchive()]).finally(() => {})
-            }, 150)
+            }, 800)
         })
     }
 
@@ -150,9 +149,9 @@ export const MyProductPageUUID = () => {
                                 )}
                             </div>
                         </Outline>
-                        <Outline label="Количество">
-                            <p>{productById?.quantity!}</p>
-                        </Outline>
+                        <p>
+                            Количество: <span>{productById?.quantity! || 1}</span>
+                        </p>
                         <Outline label="Адресс">
                             <div data-regions>
                                 {data?.productById?.author.city?.region && (

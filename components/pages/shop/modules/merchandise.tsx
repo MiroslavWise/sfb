@@ -7,11 +7,11 @@ import { useMutation, useQuery } from "@apollo/client"
 import type { IProductListShopManagement } from "@/types/types"
 
 import { usePush } from "@/helpers/hooks/usePush"
-import { queryProductListShopManagement } from "@/apollo/query"
 import { mutationProductCreate } from "@/apollo/query-"
+import { mutateUpdateProductDraft } from "@/apollo/mutation"
+import { queryProductListShopManagement } from "@/apollo/query"
 
 import styles from "../styles/modules.module.scss"
-import { mutateUpdateProductDraft } from "@/apollo/mutation"
 
 export const Merchandise = () => {
     const id = useSearchParams().get("id")
@@ -67,7 +67,6 @@ export const Merchandise = () => {
                                 <button
                                     data-public
                                     onClick={(event) => {
-                                        event.preventDefault()
                                         event.stopPropagation()
                                         handlePush(`/my-shop/merchandise/change?product-id=${item?.id}`)
                                     }}
