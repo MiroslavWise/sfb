@@ -1,6 +1,7 @@
 "use client"
 
 import { useSearchParams } from "next/navigation"
+
 import { MessagesChatUUID } from "@/components/pages/messages"
 
 export default function Messages() {

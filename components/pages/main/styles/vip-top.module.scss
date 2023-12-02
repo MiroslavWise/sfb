@@ -30,7 +30,7 @@
                 width: 25%;
                 height: auto;
                 aspect-ratio: 1/1;
-                clip-path: polygon(0 0, 0 100%, 100% 0);
+                clip-path: polygon(0 40%, 40% 0, 100% 0, 0% 100%);
                 pointer-events: none;
                 background-color: var(--warning-400);
 

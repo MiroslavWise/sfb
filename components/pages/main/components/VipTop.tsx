@@ -34,7 +34,7 @@ export const VipTop = () => {
                         <li
                             key={`${item.id}-vip`}
                             onClick={() => {
-                                handlePush(`/more-details?product-id=${item}`)
+                                handlePush(`/more-details?product-id=${item.id}`)
                             }}
                         >
                             {item?.photoListUrl[0] ? (

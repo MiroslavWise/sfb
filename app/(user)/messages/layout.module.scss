@@ -12,7 +12,7 @@
         display: flex;
         flex-direction: column;
         border-radius: 12px;
-        background: var(--gray-300);
+        background: #fff;
         border: 2px solid var(--gray-400);
 
         & > header {
@@ -97,7 +97,7 @@
                 position: relative;
                 height: auto;
                 padding: 16px;
-                background: var(--gray-100);
+                background: #fff;
                 transition: all 0.3s ease-in-out;
                 display: flex;
                 flex-direction: column;

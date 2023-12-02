@@ -1,4 +1,5 @@
 import { ItemLinkProfile, ButtonOut } from "@/components/pages/profile"
+
 import { ITEMS_PROFILE } from "./constants"
 
 export default function Profile() {

@@ -1,16 +1,16 @@
 "use client"
 
 import { toast } from "react-toastify"
+import { useQuery } from "@apollo/client"
 import { IChildrenProps } from "@/types/types"
 import { useAuth } from "@/store/state/useAuth"
-import { createContext, memo, useContext, useEffect, useState } from "react"
-
 import { useSearchParams } from "next/navigation"
-import { CONFIG_ENV } from "@/helpers/config/ENV"
 import useWebSocket, { ReadyState } from "react-use-websocket"
 import { WebSocketLike } from "react-use-websocket/dist/lib/types"
+import { createContext, memo, useContext, useEffect, useState } from "react"
+
 import { usePush } from "@/helpers/hooks/usePush"
-import { useLazyQuery, useQuery } from "@apollo/client"
+import { CONFIG_ENV } from "@/helpers/config/ENV"
 import { queryChatUnreadCount } from "@/apollo/query-"
 
 const CreateContext = createContext<ISocket>({
@@ -39,7 +39,7 @@ export const WebSocketContext = memo(({ children }: IChildrenProps) => {
                 const data = JSON.parse(event?.data)?.data
 
                 if (data?.type === "new_message" && data?.sender?.id !== user?.id && chatId !== data?.chat_id) {
-                    const qwer = () =>
+                    const message = () =>
                         toast(
                             <p className="__toast_p__">
                                 {data?.sender?.full_name}: <span>{data?.message_text || "__"}</span>
@@ -58,8 +58,10 @@ export const WebSocketContext = memo(({ children }: IChildrenProps) => {
                                 },
                             },
                         )
-                    qwer()
-                    reloadMessages()
+                    message()
+                    const time = setTimeout(reloadMessages, 150)
+
+                    return () => clearTimeout(time)
                 }
             }
             getWebSocket()?.addEventListener("message", events)

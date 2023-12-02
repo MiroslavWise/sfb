@@ -9,11 +9,7 @@ import type { TItemProposalsPage } from "../../proposals/types/types"
 import { usePush } from "@/helpers/hooks/usePush"
 
 import styles from "../styles/item.module.scss"
-import {
-    ComponentAddress,
-    ComponentArea,
-    ComponentCity,
-} from "@/components/common/component-regions"
+import { ComponentAddress, ComponentArea, ComponentCity } from "@/components/common/component-regions"
 
 export const ItemProduct: TItemProposalsPage = (props) => {
     const {
@@ -40,6 +36,8 @@ export const ItemProduct: TItemProposalsPage = (props) => {
             }))
     }, [photoListUrl])
 
+    console.log("images: ", images)
+
     return (
         <section
             className={styles.container}
@@ -49,12 +47,7 @@ export const ItemProduct: TItemProposalsPage = (props) => {
         >
             <div data-image>
                 {images.length ? (
-                    <Image
-                        src={images[0]?.file?.photoUrl!}
-                        alt={images[0]?.file?.id!}
-                        width={300}
-                        height={300}
-                    />
+                    <Image src={images[0]?.file?.photoUrl!} alt={images[0]?.file?.id!} width={300} height={300} unoptimized />
                 ) : (
                     <div data-null />
                 )}
@@ -67,9 +60,7 @@ export const ItemProduct: TItemProposalsPage = (props) => {
                 <section data-category-location>
                     <a>{category?.name}</a>
                     <div data-regions>
-                        {city?.region && (
-                            <ComponentArea name={city?.region?.name!} />
-                        )}
+                        {city?.region && <ComponentArea name={city?.region?.name!} />}
                         {city && <ComponentCity name={city?.name} />}
                         {address && <ComponentAddress name={address} />}
                     </div>
