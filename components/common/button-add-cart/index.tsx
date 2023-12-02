@@ -10,13 +10,10 @@ import { mutationCartItemAdd, mutationCartItemDelete } from "@/apollo/mutation"
 
 import styles from "./style.module.scss"
 
-export const ButtonAddCart = forwardRef(function ButtonAddCard(
-    props: TTypeButton,
-) {
+export const ButtonAddCart = forwardRef(function ButtonAddCard(props: TTypeButton) {
     const { id, int, isTitle, ...rest } = props ?? {}
 
-    const [da, { refetch, loading: loadingCart }] =
-        useLazyQuery<ICartList>(queryCart)
+    const [da, { refetch, loading: loadingCart }] = useLazyQuery<ICartList>(queryCart)
     const [useAdd, { loading }] = useMutation(mutationCartItemAdd, {
         variables: {
             productId: id,
@@ -47,24 +44,16 @@ export const ButtonAddCart = forwardRef(function ButtonAddCard(
         >
             {isTitle ? <p>Добавить в корзину</p> : null}
             <button {...rest} type="button" disabled={loading || loadingCart}>
-                <img
-                    className="animate__animated animate__jello"
-                    src="/svg/shopping-cart-01.svg"
-                    width={30}
-                    height={25}
-                />
+                <img className="animate__animated animate__jello" src="/svg/shopping-cart-01.svg" width={24} height={24} />
             </button>
         </div>
     )
 })
 
-export const ButtonDeleteCart = forwardRef(function ButtonAddCard(
-    props: TTypeButton,
-) {
+export const ButtonDeleteCart = forwardRef(function ButtonAddCard(props: TTypeButton) {
     const { id, ...rest } = props ?? {}
 
-    const [da, { refetch, loading: loadingCart }] =
-        useLazyQuery<ICartList>(queryCart)
+    const [da, { refetch, loading: loadingCart }] = useLazyQuery<ICartList>(queryCart)
     const [useDelete, { loading }] = useMutation(mutationCartItemDelete, {
         variables: {
             cartItemId: id,
@@ -96,12 +85,7 @@ export const ButtonDeleteCart = forwardRef(function ButtonAddCard(
                     })
                 }}
             >
-                <img
-                    className="animate__animated animate__jello"
-                    src="/svg/shopping-cart-01-red.svg"
-                    width={30}
-                    height={25}
-                />
+                <img className="animate__animated animate__jello" src="/svg/shopping-cart-01-red.svg" width={30} height={25} />
             </button>
         </div>
     )
