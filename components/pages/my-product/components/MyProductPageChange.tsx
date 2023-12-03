@@ -16,6 +16,7 @@ import { TextArea } from "@/components/common/text-area"
 import { Checkbox } from "@/components/common/checkbox"
 import { CustomSelector } from "@/components/common/custom-selector"
 
+import { useAuth } from "@/store/state/useAuth"
 import { queryProductAttributesByCategoryId } from "@/apollo/attribute"
 import { createProductFull, mutateUpdateProduct } from "@/apollo/mutation"
 import { DELIVERY_TYPE, type TTypeDelivery } from "../constants/delivery-type"
@@ -24,6 +25,7 @@ import { queryCategoriesRoot, queryPhotosProductById, queryProductById } from "@
 import styles from "../styles/change.module.scss"
 
 export const MyProductPageChange = () => {
+    const user = useAuth(({ user }) => user)
     const uuid = useSearchParams().get("product-id")
     const [files, setFiles] = useState<File[]>([])
     const [filesString, setFilesString] = useState<string[]>([])
@@ -233,6 +235,8 @@ export const MyProductPageChange = () => {
     }, [watch("category"), watch("category_")])
 
     if (loading || isLoadCategories) return null
+
+    if (data?.productById?.author?.id !== user?.id) return null
 
     return (
         <div className={styles.wrapper}>

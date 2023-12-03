@@ -17,7 +17,7 @@ import styles from "../styles/merchandise-id.module.scss"
 
 export const MerchandiseId = ({ id, productId }: { id: string; productId: string }) => {
     const { handlePush } = usePush()
-    const { data, refetch, loading } = useQuery<IProductRoot>(queryProductById, {
+    const { data, refetch } = useQuery<IProductRoot>(queryProductById, {
         variables: { id: productId },
     })
     const [mutateDraft] = useMutation(mutateUpdateProductDraft)

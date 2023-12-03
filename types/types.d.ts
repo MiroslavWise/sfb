@@ -101,6 +101,9 @@ export interface IRequestProduct {
 
 export interface IProduct extends IRequestProduct {
     attributeList: IProductAttribute[]
+    owner: {
+        id: string
+    }
     shop: {
         id: string
         name: string

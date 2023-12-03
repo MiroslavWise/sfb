@@ -132,12 +132,7 @@ export const productListMe_ID_NAME = gql`
 export const queryProductListMe = gql`
     ${PRODUCT}
     query ($offset: Int, $ordering: String) {
-        productListMe(
-            limit: 20
-            offset: $offset
-            ordering: $ordering
-            isActive: true
-        ) {
+        productListMe(limit: 20, offset: $offset, ordering: $ordering, isActive: true) {
             totalCount
             results {
                 ...product
@@ -210,12 +205,7 @@ export const queryPhotosProductById = gql`
 export const queryProductList = gql`
     ${PRODUCT}
     query ($offset: Int, $categoryId: String) {
-        productList(
-            limit: 16
-            offset: $offset
-            categoryId: $categoryId
-            isActive: true
-        ) {
+        productList(limit: 16, offset: $offset, categoryId: $categoryId, isActive: true) {
             totalCount
             results {
                 ...product

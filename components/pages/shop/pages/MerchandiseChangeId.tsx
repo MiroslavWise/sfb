@@ -19,8 +19,10 @@ import { mutateUpdateProduct } from "@/apollo/mutation"
 import { queryCategoriesRoot, queryProductById } from "@/apollo/query"
 
 import styles from "../styles/page-change.module.scss"
+import { useAuth } from "@/store/state/useAuth"
 
 export const MerchandiseChangeId = ({ id, productId }: { id: string; productId: string }) => {
+    const user = useAuth(({ user }) => user)
     const { handlePush } = usePush()
     const [files, setFiles] = useState<File[]>([])
     const [filesString, setFilesString] = useState<string[]>([])
@@ -157,6 +159,8 @@ export const MerchandiseChangeId = ({ id, productId }: { id: string; productId: 
             }
         }
     }, [dataCategories, data])
+
+    if (data?.productById?.author?.id !== user?.id) return null
 
     return (
         <div className={styles.wrapper}>

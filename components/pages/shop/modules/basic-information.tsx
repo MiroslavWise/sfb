@@ -21,8 +21,7 @@ export const BasicInformation = ({ id }: { id: string }) => {
         <div className={cx(styles.container, styles.basic)}>
             <h3>Информация о магазине</h3>
             <section>
-                {data?.shopById?.photoUrl ? <img src={data?.shopById?.photoUrl!} alt="photo" width={250} height={250} /> : null}
-
+                {data?.shopById?.photoUrl ? <img src={data?.shopById?.photoUrl!} alt="photo" width={250} height={250} /> : <div data-img />}
                 <article>
                     <div data-set>
                         <label>Потверждение:</label>

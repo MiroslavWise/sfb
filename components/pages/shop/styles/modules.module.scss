@@ -35,12 +35,16 @@
     }
 
     & > section > img,
+    & > section > [data-img],
+    & > [data-img],
     & > img {
         width: 270px;
         height: 270px;
         aspect-ratio: 1/1;
         object-fit: cover;
         border-radius: 7px;
+        background: var(--gray-100);
+        border: 1px solid var(--gray-200);
     }
 
     & > section > article > [data-set],
