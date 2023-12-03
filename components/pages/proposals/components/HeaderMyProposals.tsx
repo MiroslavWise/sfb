@@ -27,11 +27,7 @@ export const HeaderMyProposals = () => {
         <ul className={styles.header}>
             {Array.isArray(productListMe?.results)
                 ? productListMe?.results?.map((item) => (
-                      <ItemHeaderCurrentMyProposals
-                          label={item.name}
-                          key={`${item.id}-proposals`}
-                          value={item.id}
-                      />
+                      <ItemHeaderCurrentMyProposals key={`${item.id}-proposals`} label={item.name} value={item.id} />
                   ))
                 : null}
         </ul>

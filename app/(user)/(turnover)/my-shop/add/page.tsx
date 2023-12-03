@@ -1,5 +1,5 @@
 import { ChangeShop } from "@/components/pages/shop/components/Change"
 
 export default function AddShop() {
-    return <ChangeShop />
+    return <ChangeShop id={""} />
 }

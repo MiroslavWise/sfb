@@ -12,14 +12,11 @@ import { Filter } from "@/components/common/filters"
 
 export function PageProposals() {
     const productId = useSearchParams()?.get("request-id")
-    const { data, loading } = useQuery<IProductOfferListRoot>(
-        queryProductOfferList,
-        {
-            variables: {
-                product_Id: productId || null,
-            },
+    const { data, loading } = useQuery<IProductOfferListRoot>(queryProductOfferList, {
+        variables: {
+            product_Id: productId || null,
         },
-    )
+    })
 
     const { productOfferList } = data ?? {}
 
@@ -28,12 +25,7 @@ export function PageProposals() {
             <Filter />
             <article>
                 {Array.isArray(productOfferList?.results)
-                    ? productOfferList?.results?.map((item) => (
-                          <ItemProposal
-                              key={`${item.id}-proposals`}
-                              {...item}
-                          />
-                      ))
+                    ? productOfferList?.results?.map((item) => <ItemProposal key={`${item.id}-proposals`} {...item} />)
                     : null}
             </article>
         </>

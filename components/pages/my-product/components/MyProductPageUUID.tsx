@@ -17,14 +17,12 @@ import { ComponentAddress, ComponentArea, ComponentCity } from "@/components/com
 
 import { ITEMS_TABS } from "../constants/tabs"
 import { usePush } from "@/helpers/hooks/usePush"
-import { useOrderingProduct } from "@/store/state/useOrderingProduct"
+import { queryProductById, queryPhotosProductById } from "@/apollo/query"
 import { mutateUpdateProductDraft, mutationProductDelete } from "@/apollo/mutation"
-import { queryProductById, queryProductListMe, queryPhotosProductById, queryProductListMeArchive } from "@/apollo/query"
 
 import styles from "../styles/page-uuid.module.scss"
 
 export const MyProductPageUUID = () => {
-    const { price } = useOrderingProduct((_) => ({ price: _.price }))
     const { handlePush, handleReplace } = usePush()
     const [tab, setTab] = useState<IItemTab>(ITEMS_TABS[0])
     const uuid = useSearchParams().get("product-id")
@@ -32,22 +30,6 @@ export const MyProductPageUUID = () => {
     const [mutateDraft] = useMutation(mutateUpdateProductDraft)
     const [deleteProduct] = useMutation(mutationProductDelete, {
         variables: { productId: uuid },
-    })
-
-    const { refetch: refetchLazy } = useQuery(queryProductListMe, {
-        variables: {
-            variables: {
-                ordering: price,
-                offset: 0,
-            },
-        },
-    })
-    const { refetch: refetchLazyArchive } = useQuery(queryProductListMeArchive, {
-        variables: {
-            variables: {
-                offset: 0,
-            },
-        },
     })
 
     const { data, refetch } = useQuery<IProductRoot>(queryProductById, {
@@ -93,9 +75,7 @@ export const MyProductPageUUID = () => {
 
     function handleDelete() {
         deleteProduct().finally(() => {
-            setTimeout(() => {
-                Promise.all([refetch(), refetchLazy(), refetchLazyArchive()]).finally(() => {})
-            }, 800)
+            handleReplace("/my-products")
         })
     }
 
@@ -108,26 +88,6 @@ export const MyProductPageUUID = () => {
                     }}
                 />
                 <h1>{productById?.name}</h1>
-                {productById?.isActive ? (
-                    <div data-buttons>
-                        {productById?.draft && isDataFull ? (
-                            <button data-black onClick={handlePublish}>
-                                <span>Опубликовать</span>
-                                <img src="/svg/globe-06.svg" alt="globe-06" width={20} height={20} />
-                            </button>
-                        ) : null}
-                        {productById?.draft ? (
-                            <button data-black-border onClick={handleChange}>
-                                <span>Редактировать</span>
-                                <img src="/svg/replace.svg" alt="replace" width={20} height={20} />
-                            </button>
-                        ) : null}
-                        <button data-delete={!!productById?.draft} onClick={handleDelete}>
-                            <span>{productById?.draft ? "Удалить" : "В архив"}</span>
-                            <img src={productById?.draft ? "/svg/trash-01.svg" : "/svg/box.svg"} alt="replace" width={20} height={20} />
-                        </button>
-                    </div>
-                ) : null}
             </header>
             <TabsDetails items={ITEMS_TABS} set={setTab} current={tab} />
             {tab.value === "main" ? (
@@ -149,10 +109,10 @@ export const MyProductPageUUID = () => {
                                 )}
                             </div>
                         </Outline>
-                        <p>
+                        <h6>
                             Количество: <span>{productById?.quantity! || 1}</span>
-                        </p>
-                        <Outline label="Адресс">
+                        </h6>
+                        <Outline label="Адрес">
                             <div data-regions>
                                 {data?.productById?.author.city?.region && (
                                     <ComponentArea name={data?.productById?.author?.city?.region?.name} />
@@ -162,6 +122,26 @@ export const MyProductPageUUID = () => {
                             </div>
                         </Outline>
                     </article>
+                    {productById?.isActive ? (
+                        <div data-buttons>
+                            {productById?.draft && isDataFull ? (
+                                <button data-black onClick={handlePublish}>
+                                    <span>Опубликовать</span>
+                                    <img src="/svg/globe-06.svg" alt="globe-06" width={20} height={20} />
+                                </button>
+                            ) : null}
+                            {productById?.draft ? (
+                                <button data-black-border onClick={handleChange}>
+                                    <span>Редактировать</span>
+                                    <img src="/svg/replace.svg" alt="replace" width={20} height={20} />
+                                </button>
+                            ) : null}
+                            <button data-delete={!!productById?.draft} onClick={handleDelete}>
+                                <span>{productById?.draft ? "Удалить" : "В архив"}</span>
+                                <img src={productById?.draft ? "/svg/trash-01.svg" : "/svg/box.svg"} alt="replace" width={20} height={20} />
+                            </button>
+                        </div>
+                    ) : null}
                 </section>
             ) : tab.value === "proposals" ? (
                 <ProposalsMeUUID />

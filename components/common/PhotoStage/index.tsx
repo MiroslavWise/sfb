@@ -15,7 +15,7 @@ const $PhotoStage = (props: { images: { item: IPhoto; index: number }[] }) => {
     const dispatchPhotos = useVisiblePhotos(({ dispatchPhotos }) => dispatchPhotos)
 
     return (
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper} data-photos>
             {images.length ? (
                 <div data-image>
                     <Image

@@ -10,7 +10,7 @@ export const FooterComponentDataHeader = () => {
             <img src="/svg/logo.svg" alt="logo" width={54} height={25} />
             <div data-social-links>
                 {LINKS_SOCIAL.map((item) => (
-                    <Link href={item.path} target="_blank">
+                    <Link href={item.path} target="_blank" key={`${item.path}----footer-social`}>
                         <img key={item.src} src={item.src} alt={item.alt} width={40} height={40} />
                     </Link>
                 ))}

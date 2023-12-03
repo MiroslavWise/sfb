@@ -2,6 +2,7 @@ import { FC, ReactNode } from "react"
 
 export interface IChildrenProps {
     children: ReactNode
+    params?: any
 }
 
 export type TChildrenProps = FC<IChildrenProps>
@@ -93,10 +94,7 @@ export interface IRequestProduct {
     commercial: boolean
     isActive: boolean
     draft: boolean
-    photoListUrl: {
-        id: string
-        photoUrl: string
-    }[]
+    photoListUrl: IPhoto[]
     quantity: number
     createdAt: Date
 }

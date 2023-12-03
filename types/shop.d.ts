@@ -9,6 +9,9 @@ export interface IShop {
     address: string
     phone: string
     photoUrl: string
+    owner: {
+        id: string
+    }
 }
 
 export interface IListShop {
@@ -44,11 +47,7 @@ export interface IDeliveryMethodList {
     }[]
 }
 
-export type TOrderOrderStatusChoices =
-    | "REGISTERED"
-    | "PAYED"
-    | "EXECUTED"
-    | "REJECTED"
+export type TOrderOrderStatusChoices = "REGISTERED" | "PAYED" | "EXECUTED" | "REJECTED"
 export interface IOrderList {
     orderList: {
         totalCount: number

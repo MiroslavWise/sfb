@@ -117,11 +117,20 @@ const $ItemMyMessage: TItemMessage = ({ photo, messages }) => {
                             >
                                 {item.dataImages?.map((item_) => {
                                     if (item_.type === "IMAGE") {
-                                        return <Image src={item_.url!} alt="photo" width={250} height={250} unoptimized />
+                                        return (
+                                            <Image
+                                                key={`${item?.id}-${item_?.id}`}
+                                                src={item_.url!}
+                                                alt="photo"
+                                                width={250}
+                                                height={250}
+                                                unoptimized
+                                            />
+                                        )
                                     }
                                     if (item_.type === "VIDEO") {
                                         return (
-                                            <video width={400} height={300} controls>
+                                            <video key={`${item?.id}-${item_?.id}`} width={400} height={300} controls>
                                                 <source src={item_.url} type="video/mp4" />
                                             </video>
                                         )

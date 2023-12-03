@@ -3,8 +3,7 @@
 import { ChangeEvent, useEffect, useState } from "react"
 import Image from "next/image"
 import { useForm } from "react-hook-form"
-import { useLazyQuery, useMutation } from "@apollo/client"
-import { useSearchParams } from "next/navigation"
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client"
 
 import { Input } from "@/components/common/input"
 import { TextArea } from "@/components/common/text-area"
@@ -16,16 +15,21 @@ import { queryShopById, queryShopList } from "@/apollo/query-"
 
 import styles from "../styles/style.module.scss"
 import { IListShop, IShopById } from "@/types/shop"
+import { useAuth } from "@/store/state/useAuth"
 
-export const ChangeShop = ({}) => {
-    const id = useSearchParams().get("id")
+export const ChangeShop = ({ id }: { id: string }) => {
+    const user = useAuth(({ user }) => user)
     const { handlePush } = usePush()
     const [files, setFiles] = useState<File | null>(null)
     const [strings, setStrings] = useState<string>("")
 
     const [create] = useMutation(mutationShopCreate)
     const [update] = useMutation(mutationShopUpdate)
-    const [lazyUpdate] = useLazyQuery<IShopById>(queryShopById)
+    const { data, refetch } = useQuery<IShopById>(queryShopById, {
+        variables: {
+            shopId: id,
+        },
+    })
     const [lazyUpdateList] = useLazyQuery<IListShop>(queryShopList)
 
     const {
@@ -40,7 +44,7 @@ export const ChangeShop = ({}) => {
 
     useEffect(() => {
         if (id) {
-            lazyUpdate({ variables: { shopId: id } }).then((response) => {
+            refetch({ variables: { shopId: id } }).then((response) => {
                 if (response?.data) {
                     const data = response?.data?.shopById
 
@@ -75,8 +79,8 @@ export const ChangeShop = ({}) => {
                       })
                     : Promise.resolve(),
             ]).then((response) => {
-                Promise.all([lazyUpdate({ variables: { shopId: id } }), lazyUpdateList()]).then(() => {
-                    handlePush(`/my-shop?id=${id}`)
+                Promise.all([refetch({ variables: { shopId: id } }), lazyUpdateList()]).then(() => {
+                    handlePush(`/my-shop/${id}`)
                 })
             })
         } else {
@@ -92,7 +96,7 @@ export const ChangeShop = ({}) => {
                         const data = response?.data?.shopCreate
 
                         const push = () => {
-                            handlePush(`/my-shop?id=${data?.shop?.id}`)
+                            handlePush(`/my-shop/${data?.shop?.id}`)
                         }
 
                         if (files) {
@@ -134,6 +138,8 @@ export const ChangeShop = ({}) => {
     }
 
     const onSubmit = handleSubmit(submit)
+
+    if (data?.shopById?.owner?.id !== user?.id) return null
 
     return (
         <form className={styles.form} onSubmit={onSubmit}>
@@ -179,7 +185,7 @@ export const ChangeShop = ({}) => {
                     type="button"
                     onClick={() => {
                         if (id) {
-                            handlePush(`/my-shop?id=${id}`)
+                            handlePush(`/my-shop/${id}`)
                         } else {
                             handlePush(`/my-shop`)
                         }

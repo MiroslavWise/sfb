@@ -38,7 +38,10 @@ export const client = new ApolloClient({
     credentials: "include",
     connectToDevTools: true,
     defaultOptions: {
-        watchQuery: {},
+        watchQuery: {
+            fetchPolicy: "cache-and-network",
+            nextFetchPolicy: "cache-and-network",
+        },
     },
 })
 

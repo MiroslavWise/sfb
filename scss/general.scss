@@ -200,7 +200,12 @@ li {
     list-style: none;
 }
 
-ul {
+time {
+    padding: 0 !important;
+}
+
+ul,
+time {
     margin: 0 !important;
 }
 

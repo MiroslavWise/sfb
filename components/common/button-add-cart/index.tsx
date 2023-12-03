@@ -10,7 +10,7 @@ import { mutationCartItemAdd, mutationCartItemDelete } from "@/apollo/mutation"
 
 import styles from "./style.module.scss"
 
-export const ButtonAddCart = forwardRef(function ButtonAddCard(props: TTypeButton) {
+export const ButtonAddCart = forwardRef(function ButtonAddCard(props: TTypeButton, ref: any) {
     const { id, int, isTitle, ...rest } = props ?? {}
 
     const [da, { refetch, loading: loadingCart }] = useLazyQuery<ICartList>(queryCart)
@@ -43,7 +43,7 @@ export const ButtonAddCart = forwardRef(function ButtonAddCard(props: TTypeButto
             }}
         >
             {isTitle ? <p>Добавить в корзину</p> : null}
-            <button {...rest} type="button" disabled={loading || loadingCart}>
+            <button {...rest} type="button" disabled={loading || loadingCart} ref={ref}>
                 <img className="animate__animated animate__jello" src="/svg/shopping-cart-01.svg" width={24} height={24} />
             </button>
         </div>

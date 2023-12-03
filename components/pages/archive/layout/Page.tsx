@@ -17,7 +17,7 @@ export const PageArchive = () => {
     return (
         <ul>
             {list.map((item) => (
-                <ItemProduct {...item} />
+                <ItemProduct key={`${item?.id}-archive`} {...item} />
             ))}
         </ul>
     )

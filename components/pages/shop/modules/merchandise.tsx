@@ -1,7 +1,8 @@
+"use client"
+
 import dayjs from "dayjs"
 import { useMemo } from "react"
 import Image from "next/image"
-import { useSearchParams } from "next/navigation"
 import { useMutation, useQuery } from "@apollo/client"
 
 import type { IProductListShopManagement } from "@/types/types"
@@ -13,8 +14,7 @@ import { queryProductListShopManagement } from "@/apollo/query"
 
 import styles from "../styles/modules.module.scss"
 
-export const Merchandise = () => {
-    const id = useSearchParams().get("id")
+export const Merchandise = ({ id }: { id: string }) => {
     const { handlePush } = usePush()
     const [update] = useMutation(mutateUpdateProductDraft)
     const { data, refetch } = useQuery<IProductListShopManagement>(queryProductListShopManagement, {
@@ -32,8 +32,7 @@ export const Merchandise = () => {
         create().then((response) => {
             if (response?.data?.productCreate?.ok) {
                 const productId = response?.data?.productCreate?.product?.id
-
-                handlePush(`/my-shop/merchandise/change?product-id=${productId}`)
+                handlePush(`/my-shop/${id}/merchandise/${productId}/change`)
             }
         })
     }
@@ -52,9 +51,20 @@ export const Merchandise = () => {
                 <span>(в будущем данная функция будет автоматизирована)</span>
             </h4>
             <p>Всего товаров в магазине: {total}</p>
+            <footer>
+                <button onClick={handleCreate}>
+                    <span>Добавить новый товар</span>
+                    <img src="/svg/plus-circle.svg" alt="plus" width={22} height={22} data-loading={loading} />
+                </button>
+            </footer>
             <ul>
                 {list?.map((item) => (
-                    <li key={`${item?.id}-${item?.shop?.id}`}>
+                    <li
+                        key={`${item?.id}-${item?.shop?.id}----4340002-341`}
+                        onClick={() => {
+                            handlePush(`/my-shop/${id}/merchandise/${item?.id}`)
+                        }}
+                    >
                         {item?.photoListUrl[0] ? (
                             <Image src={item?.photoListUrl[0]?.photoUrl!} alt="photo" width={200} height={200} unoptimized />
                         ) : (
@@ -68,7 +78,7 @@ export const Merchandise = () => {
                                     data-public
                                     onClick={(event) => {
                                         event.stopPropagation()
-                                        handlePush(`/my-shop/merchandise/change?product-id=${item?.id}`)
+                                        handlePush(`/my-shop/${id}/merchandise/${item?.id}/change`)
                                     }}
                                 >
                                     <span>Редактировать</span>
@@ -76,7 +86,6 @@ export const Merchandise = () => {
                                 {!!item?.category?.id && item?.name?.length > 2 && !!item?.draft && !!item?.photoListUrl?.length ? (
                                     <button
                                         onClick={(event) => {
-                                            event.preventDefault()
                                             event.stopPropagation()
                                             update({
                                                 variables: {
@@ -98,17 +107,11 @@ export const Merchandise = () => {
                         <a data-city>{item?.city?.name}</a>
                         <div data-time>
                             <img src="/svg/calendar-date.svg" alt="calendar" width={12} height={12} />
-                            <a>{dayjs(item?.createdAt).format("HH:mm DD.MM.YY")}</a>
+                            <time>{dayjs(item?.createdAt).format("HH:mm DD.MM.YY")}</time>
                         </div>
                     </li>
                 ))}
             </ul>
-            <footer>
-                <button onClick={handleCreate}>
-                    <span>Добавить новый товар</span>
-                    <img src="/svg/plus-circle.svg" alt="plus" width={22} height={22} data-loading={loading} />
-                </button>
-            </footer>
         </div>
     )
 }

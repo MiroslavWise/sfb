@@ -14,7 +14,7 @@ import { useFavorites } from "@/store/state/useFavorites"
 export const Svg = ({ pathD }: { pathD: string }) => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
         <g id="--123--">
-            <path id="Icon" d={pathD} stroke="#002f34" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path id="Icon" d={pathD} stroke="#002f34" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </g>
     </svg>
 )

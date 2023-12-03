@@ -12,10 +12,10 @@ import { ItemProposal } from "../../proposals/components/ItemProposal"
 
 import { useTitle } from "@/helpers/hooks/useTitle"
 import { usePush } from "@/helpers/hooks/usePush"
-import { queryProductListMe, queryProductListMeArchive } from "@/apollo/query"
 import { queryProductOfferList } from "@/apollo/query-offers"
-import { ITEMS_TABS } from "@/app/(user)/(turnover)/my-products/constants"
 import { useOrderingProduct } from "@/store/state/useOrderingProduct"
+import { ITEMS_TABS } from "@/app/(user)/(turnover)/my-products/constants"
+import { queryProductListMe, queryProductListMeArchive } from "@/apollo/query"
 
 export function MyProductsPage() {
     const price = useOrderingProduct(({ price }) => price)
@@ -24,17 +24,17 @@ export function MyProductsPage() {
             ordering: price,
             offset: 0,
         },
+        partialRefetch: true,
     })
     const { data: dataArchive } = useQuery(queryProductListMeArchive, {
         variables: {
             ordering: price,
             offset: 0,
         },
+        partialRefetch: true,
     })
     useTitle(`Мои товары (${data?.productListMe?.totalCount || 0})`)
-    const { data: dataOffers } = useQuery<IProductOfferListRoot>(
-        queryProductOfferList,
-    )
+    const { data: dataOffers } = useQuery<IProductOfferListRoot>(queryProductOfferList)
     const [loadingCreate, setLoadingCreate] = useState(false)
     const { handlePush } = usePush()
     const [tab, setTab] = useState(ITEMS_TABS[0])
@@ -49,33 +49,18 @@ export function MyProductsPage() {
                     }}
                 >
                     <span>Создать</span>
-                    <img
-                        src="/svg/plus-circle.svg"
-                        alt="plus"
-                        width={22}
-                        height={22}
-                        data-loading={loadingCreate}
-                    />
+                    <img src="/svg/plus-circle.svg" alt="plus" width={22} height={22} data-loading={loadingCreate} />
                 </button>
             </header>
             <FilterProduct />
             <TabsDetails items={ITEMS_TABS} current={tab} set={setTab} />
             <article>
-                {Array.isArray(data?.productListMe?.results) &&
-                tab.value === "main"
-                    ? data?.productListMe?.results?.map((item: any) => (
-                          <ItemProduct key={`${item.id}-product`} {...item} />
-                      ))
-                    : Array.isArray(dataArchive?.productListMe?.results) &&
-                      tab.value === "archive"
-                    ? dataArchive?.productListMe?.results?.map((item: any) => (
-                          <ItemProduct key={`${item.id}-archive`} {...item} />
-                      ))
-                    : Array.isArray(dataOffers?.productOfferList?.results) &&
-                      tab.value === "proposals"
-                    ? dataOffers?.productOfferList?.results?.map((item) => (
-                          <ItemProposal key={`${item.id}-key---`} {...item} />
-                      ))
+                {Array.isArray(data?.productListMe?.results) && tab.value === "main"
+                    ? data?.productListMe?.results?.map((item: any) => <ItemProduct key={`${item.id}-product`} {...item} />)
+                    : Array.isArray(dataArchive?.productListMe?.results) && tab.value === "archive"
+                    ? dataArchive?.productListMe?.results?.map((item: any) => <ItemProduct key={`${item.id}-archive`} {...item} />)
+                    : Array.isArray(dataOffers?.productOfferList?.results) && tab.value === "proposals"
+                    ? dataOffers?.productOfferList?.results?.map((item) => <ItemProposal key={`${item.id}-key---`} {...item} />)
                     : null}
             </article>
         </>

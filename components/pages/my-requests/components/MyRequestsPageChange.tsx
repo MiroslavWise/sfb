@@ -195,7 +195,7 @@ export const MyRequestsPageChange = () => {
                             {dataPhotos?.productRequestById?.photoListUrl
                                 ?.filter((item) => item?.photoUrl)
                                 ?.map((item) => (
-                                    <MiniPhoto src={item.photoUrl} key={item.id + item.photo} />
+                                    <MiniPhoto src={item.photoUrl} key={item.id + item.photo + "---343"} />
                                 ))}
                         </div>
                     ) : null}
@@ -205,7 +205,7 @@ export const MyRequestsPageChange = () => {
                             <img src="/svg/plus.svg" alt="plus" width={80} height={80} />
                         </div>
                         {filesString?.length && files?.length
-                            ? filesString?.map((item, index) => <MiniPhoto src={item} key={`${index}-${item}`} />)
+                            ? filesString?.map((item, index) => <MiniPhoto src={item} key={`${index}-${item}-1234`} />)
                             : null}
                     </div>
                     <Input

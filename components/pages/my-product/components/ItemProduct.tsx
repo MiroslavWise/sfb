@@ -65,7 +65,7 @@ export const ItemProduct: TItemProposalsPage = (props) => {
                     </div>
                 </section>
             </div>
-            <p data-date>{dayjs(createdAt).format("HH:mm DD.MM.YYYY")}</p>
+            <time data-date>{dayjs(createdAt).format("HH:mm DD.MM.YYYY")}</time>
         </section>
     )
 }

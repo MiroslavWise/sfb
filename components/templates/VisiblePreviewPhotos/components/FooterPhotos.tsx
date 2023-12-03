@@ -12,7 +12,7 @@ export const FooterPhotos = () => {
     return (
         <footer>
             {photos.map((item) => (
-                <div data-mini-photo data-active={item.id === current?.id} key={item?.id}>
+                <div data-mini-photo data-active={item.id === current?.id} key={`${item?.id}----7qwe3wr7w3`}>
                     <Image
                         src={item.url}
                         alt="mini"

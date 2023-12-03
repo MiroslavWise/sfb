@@ -30,6 +30,9 @@ export const queryShopById = gql`
             address
             phone
             photoUrl
+            owner {
+                id
+            }
         }
     }
 `

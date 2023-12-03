@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image"
 import { useQuery } from "@apollo/client"
 
@@ -17,7 +19,7 @@ export const ShopMainPage = () => {
                       <li
                           key={`${item.id}-shop-my`}
                           onClick={() => {
-                              handleReplace(`/my-shop?id=${item.id}`)
+                              handleReplace(`/my-shop/${item.id}/`)
                           }}
                       >
                           {item.photoUrl ? (
@@ -39,9 +41,8 @@ export const ShopMainPage = () => {
                                   <button
                                       data-change
                                       onClick={(event) => {
-                                          event.preventDefault()
                                           event.stopPropagation()
-                                          handlePush(`/my-shop/change?id=${item.id}`)
+                                          handlePush(`/my-shop/${item.id}/change`)
                                       }}
                                   >
                                       <span>Редактировать</span>
@@ -49,7 +50,7 @@ export const ShopMainPage = () => {
                               </footer>
                           </div>
                           <div data-verification>
-                              <img src="/svg/check-verified-03.svg" alt="check-verified" width={25} height={25} />
+                              <img src="/svg/check-verified-03.svg" alt="check-verified" width={24} height={24} />
                           </div>
                       </li>
                   ))

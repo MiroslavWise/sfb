@@ -83,7 +83,7 @@ export const PageFavorites = () => {
                     </aside>
                     <ul>
                         {filter.map((item) => (
-                            <ItemFavorite key={`${item?.id}`} {...item?.product} />
+                            <ItemFavorite key={`${item?.id}-rew`} {...item?.product} />
                         ))}
                     </ul>
                 </>

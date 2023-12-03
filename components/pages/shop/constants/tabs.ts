@@ -1,15 +1,10 @@
 import type { IItemTab } from "@/components/common/tabs-details/types"
 
-export type TTypeValue =
-    | "basic-information"
-    | "store-managers"
-    | "merchandise"
-    | "sales"
-    | "delivery-of-goods"
+export type TTypeValue = "" | "store-managers" | "merchandise" | "sales" | "delivery-of-goods"
 
 export const TABS_SHOP_DETAIL: IItemTab<TTypeValue>[] = [
     {
-        value: "basic-information",
+        value: "",
         label: "Основная информация",
         icon: "/magazine/icons/grid-01.svg",
     },

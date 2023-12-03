@@ -4,15 +4,10 @@ import { TProps } from "./types"
 
 import styles from "./style.module.scss"
 
-export const ButtonBack = forwardRef(function $ButtonBack(props: TProps) {
+export const ButtonBack = forwardRef(function $ButtonBack(props: TProps, ref: any) {
     return (
-        <button {...props} className={styles.button}>
-            <img
-                src="/svg/chevron-left.svg"
-                alt="chevron"
-                width={20}
-                height={20}
-            />
+        <button {...props} className={styles.button} ref={ref}>
+            <img src="/svg/chevron-left.svg" alt="chevron" width={20} height={20} />
         </button>
     )
 })

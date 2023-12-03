@@ -280,7 +280,7 @@ export const FormPurchase = ({
                 {filesString.length ? (
                     <div data-files>
                         {filesString?.map((item) => (
-                            <Image src={item} alt={item} width={500} height={500} unoptimized />
+                            <Image key={`${item}-img`} src={item} alt={item} width={500} height={500} unoptimized />
                         ))}
                     </div>
                 ) : null}

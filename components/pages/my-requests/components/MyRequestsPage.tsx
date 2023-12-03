@@ -38,7 +38,7 @@ export function MyRequestsPage() {
             <Filter />
             <article>
                 {Array.isArray(data?.productRequestListMe?.results)
-                    ? data?.productRequestListMe?.results?.map((item: IRequestProduct) => <ItemRequestsPage key={`${item.id}`} {...item} />)
+                    ? data?.productRequestListMe?.results?.map((item: IRequestProduct) => <ItemRequestsPage key={`${item.id}---1023`} {...item} />)
                     : null}
             </article>
         </>

@@ -64,6 +64,7 @@ const $ItemProposal = (props: IProductOfferItem) => {
                     <div data-images-small>
                         {imagesRequest.slice(0, 3).map((item) => (
                             <Image
+                                key={`${item.index}-qwerrr1-1234`}
                                 src={item.file.photoUrl!}
                                 alt={item.file.id}
                                 width={450}

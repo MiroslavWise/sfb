@@ -1,25 +1,17 @@
-import { type Dispatch } from "react"
-
-import { type TTypeValue } from "../constants/tabs"
+import Link from "next/link"
 
 import styles from "../styles/modules.module.scss"
 
-export const Sales = ({ set }: { set: Dispatch<TTypeValue> }) => {
+export const Sales = ({ id }: { id: string }) => {
     return (
         <div className={styles.container}>
             <h3>Список проданных товаров магазином</h3>
             <h4>
-                Здесь отобрается полный список, и количество проданных едниц
-                товара, а если вам нужно отследить доставку по конкретному
+                Здесь отобрается полный список, и количество проданных едниц товара, а если вам нужно отследить доставку по конкретному
                 товару, вы можете перейти в разрел{" "}
-                <span
-                    className="c-p"
-                    onClick={() => {
-                        set("delivery-of-goods")
-                    }}
-                >
+                <Link href={`/my-shop/${id}/delivery-of-goods`} className="c-p">
                     "Доставка товара"
-                </span>
+                </Link>
             </h4>
         </div>
     )
