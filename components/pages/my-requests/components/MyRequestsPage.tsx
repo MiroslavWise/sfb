@@ -19,8 +19,6 @@ export function MyRequestsPage() {
     const { handlePush } = usePush()
     const [loadingCreate, setLoadingCreate] = useState(false)
 
-    if (loading) return <></>
-
     return (
         <>
             <header data-header-main>

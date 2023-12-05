@@ -18,9 +18,11 @@
             border-radius: 7px;
             overflow: hidden;
             cursor: pointer;
+            border: 1px solid var(--gray-200);
 
             & > img {
                 transition: scale var(--transition);
+                object-fit: cover;
             }
 
             & > [data-info] {

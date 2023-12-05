@@ -14,7 +14,6 @@ import { TabsDetails } from "@/components/common/tabs-details"
 import { PhotoStage } from "@/components/common/PhotoStage"
 import { ButtonBack } from "@/components/common/button-back"
 import { TagCategory } from "../../proposals/components/TagCategory"
-import { ComponentAddress, ComponentArea, ComponentCity } from "@/components/common/component-regions"
 
 import { ITEMS_TABS } from "../constants/tabs"
 import { usePush } from "@/helpers/hooks/usePush"
@@ -32,7 +31,7 @@ export const MyRequestsPageUUID = () => {
     const [deleteRequest] = useMutation(mutationProductRequestUpdate, {
         variables: { productRequestId: uuid },
     })
-    const { data, loading, refetch } = useQuery<IRequestProductRoot>(queryProductRequestById, {
+    const { data, previousData, loading, refetch } = useQuery<IRequestProductRoot>(queryProductRequestById, {
         variables: { id: uuid },
     })
     const { data: dataPhotos } = useQuery<IPhotoProductRequestData>(queryPhotosProductRequestById, {
@@ -84,35 +83,19 @@ export const MyRequestsPageUUID = () => {
         })
     }
 
-    if (loading || !productRequestById) return null
-
     return (
         <div className={styles.wrapper}>
             <header>
-                <ButtonBack
+                <img
+                    src="/svg/arrow-left.svg"
+                    alt="arrow-left"
+                    height={32}
+                    width={32}
                     onClick={() => {
                         handleReplace(`/my-requests`)
                     }}
                 />
-                <h1>{productRequestById?.name}</h1>
-                <div data-buttons>
-                    {productRequestById?.draft && isDataFull ? (
-                        <button data-black onClick={handlePublish}>
-                            <span>Опубликовать</span>
-                            <img src="/svg/globe-06.svg" alt="globe-06" width={20} height={20} />
-                        </button>
-                    ) : null}
-                    {productRequestById?.draft ? (
-                        <button data-black-border onClick={handleChange}>
-                            <span>Редактировать</span>
-                            <img src="/svg/replace.svg" alt="replace" width={20} height={20} />
-                        </button>
-                    ) : null}
-                    <button data-delete={!!productRequestById?.draft} onClick={handleDelete}>
-                        <span>Удалить</span>
-                        <img src={productRequestById?.draft ? "/svg/trash-01.svg" : "/svg/box.svg"} alt="replace" width={20} height={20} />
-                    </button>
-                </div>
+                <h3>{productRequestById?.name}</h3>
             </header>
             <TabsDetails items={ITEMS_TABS} set={setTab} current={tab} />
             {tab.value === "main" ? (
@@ -141,17 +124,33 @@ export const MyRequestsPageUUID = () => {
                                 )}
                             </div>
                         </Outline>
-                        <h6>Количество: <span>{productRequestById?.quantity || 1}</span></h6>
-                        <Outline label="Адресс">
-                            <div data-regions>
-                                {productRequestById?.author.city?.region && (
-                                    <ComponentArea name={productRequestById?.author?.city?.region?.name} />
-                                )}
-                                {productRequestById?.author?.city && <ComponentCity name={productRequestById?.author?.city?.name} />}
-                                {productRequestById?.author?.address && <ComponentAddress name={productRequestById?.author?.address} />}
-                            </div>
-                        </Outline>
+                        <h6>
+                            Количество: <span>{productRequestById?.quantity || 1}</span>
+                        </h6>
                     </article>
+                    <div data-buttons>
+                        {productRequestById?.draft && isDataFull ? (
+                            <button data-black onClick={handlePublish}>
+                                <span>Опубликовать</span>
+                                <img src="/svg/globe-06.svg" alt="globe-06" width={20} height={20} />
+                            </button>
+                        ) : null}
+                        {productRequestById?.draft ? (
+                            <button data-black-border onClick={handleChange}>
+                                <span>Редактировать</span>
+                                <img src="/svg/replace.svg" alt="replace" width={20} height={20} />
+                            </button>
+                        ) : null}
+                        <button data-delete={!!productRequestById?.draft} onClick={handleDelete}>
+                            <span>Удалить</span>
+                            <img
+                                src={productRequestById?.draft ? "/svg/trash-01.svg" : "/svg/box.svg"}
+                                alt="replace"
+                                width={20}
+                                height={20}
+                            />
+                        </button>
+                    </div>
                 </motion.section>
             ) : null}
         </div>

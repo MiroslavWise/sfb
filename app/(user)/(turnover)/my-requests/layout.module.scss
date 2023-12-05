@@ -2,7 +2,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 24px;
 
     & > [data-header-main="true"] {
         width: 100%;
@@ -38,7 +38,7 @@
                 line-height: normal;
             }
 
-            &>img{
+            & > img {
                 &[data-loading="true"] {
                     animation: rotate 3s ease-in-out infinite;
                 }
@@ -49,9 +49,10 @@
 
     & > article {
         width: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+        grid-gap: 16px;
+        height: fit-content;
     }
 }
 

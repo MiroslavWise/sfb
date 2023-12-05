@@ -13,13 +13,13 @@ import { TextArea } from "@/components/common/text-area"
 import { Checkbox } from "@/components/common/checkbox"
 import { CustomSelector } from "@/components/common/custom-selector"
 
+import { useAuth } from "@/store/state/useAuth"
 import { usePush } from "@/helpers/hooks/usePush"
 import { uploadFile } from "@/helpers/services/fetch"
 import { mutateUpdateProduct } from "@/apollo/mutation"
 import { queryCategoriesRoot, queryProductById } from "@/apollo/query"
 
 import styles from "../styles/page-change.module.scss"
-import { useAuth } from "@/store/state/useAuth"
 
 export const MerchandiseChangeId = ({ id, productId }: { id: string; productId: string }) => {
     const user = useAuth(({ user }) => user)
