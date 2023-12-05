@@ -50,7 +50,12 @@ export const ShopMainPage = () => {
                               </footer>
                           </div>
                           <div data-verification>
-                              <img src="/svg/check-verified-03.svg" alt="check-verified" width={24} height={24} />
+                              <img
+                                  src={item?.confirmation ? "/svg/check-verified-03.svg" : "/svg/x-circle-red.svg"}
+                                  alt="check-verified"
+                                  width={24}
+                                  height={24}
+                              />
                           </div>
                       </li>
                   ))

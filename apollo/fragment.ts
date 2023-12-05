@@ -68,6 +68,7 @@ export const PRODUCT = gql`
         shop {
             id
             name
+            confirmation
             address
             photoUrl
         }

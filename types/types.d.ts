@@ -109,6 +109,7 @@ export interface IProduct extends IRequestProduct {
         name: string
         address: string
         photoUrl: string
+        confirmation: boolean
     }
 }
 

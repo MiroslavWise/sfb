@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useQuery } from "@apollo/client"
 
 import type { IShopById } from "@/types/shop"
@@ -21,14 +22,26 @@ export const BasicInformation = ({ id }: { id: string }) => {
         <div className={cx(styles.container, styles.basic)}>
             <h3>Информация о магазине</h3>
             <section>
-                {data?.shopById?.photoUrl ? <img src={data?.shopById?.photoUrl!} alt="photo" width={250} height={250} /> : <div data-img />}
+                {data?.shopById?.photoUrl ? (
+                    <Image src={data?.shopById?.photoUrl!} alt="photo" width={250} height={250} unoptimized />
+                ) : (
+                    <div data-img />
+                )}
                 <article>
                     <div data-set>
                         <label>Потверждение:</label>
-                        <p>
-                            <img src="/svg/check-verified-03.svg" alt="check-verified" width={15} height={15} /> Магазин прошёл верификацию
-                            от государственных огранов и имеет право на продажу товаров
-                        </p>
+                        {data?.shopById?.confirmation ? (
+                            <p>
+                                <img src="/svg/check-verified-03.svg" alt="check-verified" width={15} height={15} /> Магазин прошёл
+                                верификацию от государственных огранов и имеет право на продажу товаров
+                            </p>
+                        ) : (
+                            <p>
+                                <img src="/svg/x-circle-red.svg" alt="check-verified" width={15} height={15} /> Магазин не прошёл
+                                верификацию от государственных огранов и не имеет приоритета продаж, а так-же гарантии оказываемых услуг на
+                                нашей торговой площадке
+                            </p>
+                        )}
                     </div>
                     <div data-set>
                         <label>Название:</label>

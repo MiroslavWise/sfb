@@ -156,13 +156,13 @@ export const ProductId = () => {
                                 style={{
                                     objectFit: "cover",
                                     borderRadius: 21,
-                                    border: productById?.shop ? "1px solid green" : "",
+                                    border: productById?.shop ? `1px solid ${productById?.shop?.confirmation ? "green" : "red"}` : "",
                                 }}
                                 unoptimized
                             />
                             {productById?.shop ? (
                                 <img
-                                    src="/svg/check-verified-03.svg"
+                                    src={productById?.shop?.confirmation ? "/svg/check-verified-03.svg" : "/svg/x-circle-red.svg"}
                                     alt="check-verified"
                                     width={18}
                                     height={18}
