@@ -2,10 +2,7 @@
 
 import { useSearchParams } from "next/navigation"
 
-import {
-    MyRequestsPageUUID,
-    MyRequestsPage,
-} from "@/components/pages/my-requests"
+import { MyRequestsPageUUID, MyRequestsPage } from "@/components/pages/my-requests"
 
 export default function PAGE_MY_REQUEST() {
     const uuid = useSearchParams().get("request-id")

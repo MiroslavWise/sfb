@@ -5,11 +5,7 @@ import Image from "next/image"
 import { memo, useMemo } from "react"
 
 import type { TItemProposalsPage } from "../../proposals/types/types"
-import {
-    ComponentAddress,
-    ComponentArea,
-    ComponentCity,
-} from "@/components/common/component-regions"
+import { ComponentAddress, ComponentArea, ComponentCity } from "@/components/common/component-regions"
 
 import { usePush } from "@/helpers/hooks/usePush"
 
@@ -49,12 +45,7 @@ const $ItemRequestsPage: TItemProposalsPage = (props) => {
         >
             <div data-image>
                 {images.length ? (
-                    <Image
-                        src={images[0]?.file?.photoUrl!}
-                        alt={images[0]?.file?.id!}
-                        width={300}
-                        height={300}
-                    />
+                    <Image src={images[0]?.file?.photoUrl!} alt={images[0]?.file?.id!} width={300} height={300} unoptimized />
                 ) : (
                     <div data-null />
                 )}
@@ -67,9 +58,7 @@ const $ItemRequestsPage: TItemProposalsPage = (props) => {
                 <section data-category-location>
                     <a>{category?.name}</a>
                     <div data-regions>
-                        {city?.region && (
-                            <ComponentArea name={city?.region?.name!} />
-                        )}
+                        {city?.region && <ComponentArea name={city?.region?.name!} />}
                         {city && <ComponentCity name={city?.name} />}
                         {address && <ComponentAddress name={address} />}
                     </div>
