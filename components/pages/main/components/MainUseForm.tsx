@@ -35,35 +35,17 @@ export const ComponentMainUseFormMainPage = () => {
                     transition={{ duration: 0.3 }}
                 >
                     <article>
-                        <img
-                            src="/svg/logo.svg"
-                            alt="logo"
-                            width={130}
-                            height={60}
-                        />
+                        <img src="/svg/logo.svg" alt="logo" width={130} height={60} />
                         <div data-crumbs>
                             <p>search</p>
-                            <img
-                                src="/svg/to-right-arrow.svg"
-                                alt="to-right-arrow"
-                                width={10}
-                                height={8.5}
-                            />
+                            <img src="/svg/to-right-arrow.svg" alt="to-right-arrow" width={10} height={8.5} />
                             <p>find</p>
-                            <img
-                                src="/svg/to-right-arrow.svg"
-                                alt="to-right-arrow"
-                                width={10}
-                                height={8.5}
-                            />
+                            <img src="/svg/to-right-arrow.svg" alt="to-right-arrow" width={10} height={8.5} />
                             <p>buy</p>
                         </div>
                     </article>
                     <footer>
-                        <button
-                            data-default
-                            onClick={() => setState("purchase")}
-                        >
+                        <button data-default onClick={() => setState("purchase")}>
                             <span>Хочу купить</span>
                         </button>
                         <button data-primary onClick={() => setState("sale")}>
@@ -82,7 +64,10 @@ export const ComponentMainUseFormMainPage = () => {
                 >
                     <header>
                         <h2>Вы покупатель</h2>
-                        <h4>введите данные товара, который хотите купить</h4>
+                        <h4>
+                            Для более точного поиска, введите название конкретного товара, который хотите купить, затем выберите категорию и
+                            подкатегорию
+                        </h4>
                     </header>
                     <FormPurchase setState={setState} state={state} />
                     {/* <ComponentSpoiler /> */}
@@ -100,7 +85,8 @@ export const ComponentMainUseFormMainPage = () => {
                         <header>
                             <h2>Вы продавец</h2>
                             <h4>
-                                введите данные товара, который хотите продать
+                                Для более точного поиска, введите название конкретного товара, который хотите продать, затем выберите
+                                категорию и подкатегорию
                             </h4>
                         </header>
                         <FormPurchase setState={setState} state={state} />
