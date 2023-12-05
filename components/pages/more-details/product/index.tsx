@@ -147,6 +147,12 @@ export const ProductId = () => {
                                 flexDirection: "row",
                                 gap: 8,
                             }}
+                            onClick={(event) => {
+                                event.stopPropagation()
+                                if (productById?.shop?.id) {
+                                    handlePush(`/shop/${productById?.shop?.id}`)
+                                }
+                            }}
                         >
                             <Image
                                 src={productById?.shop ? productById?.shop?.photoUrl! : productById?.author?.photo!}

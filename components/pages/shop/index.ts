@@ -15,3 +15,5 @@ export * from "./modules/store-managers"
 //Layout
 
 export * from "./layout/Navigation"
+
+export * from "./pages/PublicShopId"
