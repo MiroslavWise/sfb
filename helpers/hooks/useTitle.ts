@@ -1,8 +1,10 @@
 import { useEffect } from "react"
 
-export const useTitle = (value: string) => {
+export const useTitle = (value: string | undefined) => {
     useEffect(() => {
-        document.title = `SFB - ${value}`
+        if (value) {
+            document.title = `SFB - ${value}`
+        }
 
         return () => {
             document.title = "SFB"

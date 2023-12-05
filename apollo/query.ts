@@ -324,3 +324,19 @@ export const queryFavoriteProductList = gql`
         }
     }
 `
+
+export const queryProductListShopId = gql`
+    ${PRODUCT}
+    ${PHOTOS}
+    query ($shopId: UUID) {
+        productList(shopId: $shopId) {
+            totalCount
+            results {
+                ...product
+                photoListUrl {
+                    ...photos
+                }
+            }
+        }
+    }
+`

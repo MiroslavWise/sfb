@@ -5,22 +5,6 @@
     flex-direction: column;
     gap: 24px;
 
-    & > header {
-        width: 100%;
-        padding: 16px;
-        background: var(--gray-50);
-        border-radius: 7px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 16px;
-
-        & > img {
-            cursor: pointer;
-        }
-    }
-
     & > section {
         width: 100%;
         padding: 16px;

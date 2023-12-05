@@ -15,5 +15,8 @@ export * from "./modules/store-managers"
 //Layout
 
 export * from "./layout/Navigation"
+export * from "./layout/NavigationLayoutPublic"
 
 export * from "./pages/PublicShopId"
+export * from "./pages/PublicProductsId"
+export * from "./layout/HeaderLayoutPublicShopId"

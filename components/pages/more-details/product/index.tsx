@@ -150,7 +150,7 @@ export const ProductId = () => {
                             onClick={(event) => {
                                 event.stopPropagation()
                                 if (productById?.shop?.id) {
-                                    handlePush(`/shop/${productById?.shop?.id}`)
+                                    handlePush(`/shop/${productById?.shop?.id}/`)
                                 }
                             }}
                         >
