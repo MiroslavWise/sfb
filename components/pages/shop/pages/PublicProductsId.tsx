@@ -1,17 +1,18 @@
 "use client"
 
+import { useMemo } from "react"
 import { useQuery } from "@apollo/client"
 
 import type { IProductList } from "@/types/types"
 
+import { ItemPublicProductsId } from "../components/ItemPublicProductsId"
+
 import { queryProductListShopId } from "@/apollo/query"
 
 import styles from "../styles/public-products-id.module.scss"
-import { useMemo } from "react"
-import { ItemPublicProductsId } from "../components/ItemPublicProductsId"
 
 export const PublicProductsId = ({ id }: { id: string }) => {
-    const { data } = useQuery<IProductList>(queryProductListShopId, { variables: { shopId: id } })
+    const { data } = useQuery<IProductList>(queryProductListShopId, { variables: { shopId: id } }) 
 
     const list = useMemo(() => {
         return data?.productList?.results || []
@@ -20,7 +21,7 @@ export const PublicProductsId = ({ id }: { id: string }) => {
     return (
         <div className={styles.wrapper}>
             {list.map((item) => (
-                <ItemPublicProductsId key={`${item.id}-shop-`} {...item} />
+                <ItemPublicProductsId key={`${item.id}-shop-`} {...item} /> 
             ))}
         </div>
     )
