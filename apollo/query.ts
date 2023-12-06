@@ -230,6 +230,14 @@ export const queryProductById = gql`
         }
     }
 `
+export const queryProductByIdMeta = gql`
+    query ($id: UUID!) {
+        productById(id: $id) {
+            name
+            description
+        }
+    }
+`
 
 export const queryProductListShopManagement = gql`
     ${PRODUCT}

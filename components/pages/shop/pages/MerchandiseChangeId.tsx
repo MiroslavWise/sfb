@@ -1,7 +1,7 @@
 "use client"
 
 import { useForm } from "react-hook-form"
-import { ChangeEvent, useEffect, useState } from "react"
+import { ChangeEvent, useEffect, useMemo, useState } from "react"
 import { useMutation, useQuery } from "@apollo/client"
 
 import type { ICategoriesRoot, IProductRoot } from "@/types/types"
@@ -17,9 +17,11 @@ import { useAuth } from "@/store/state/useAuth"
 import { usePush } from "@/helpers/hooks/usePush"
 import { uploadFile } from "@/helpers/services/fetch"
 import { mutateUpdateProduct } from "@/apollo/mutation"
+import { mutationProductAttributeUpdate } from "@/apollo/attribute"
 import { queryCategoriesRoot, queryProductById } from "@/apollo/query"
 
 import styles from "../styles/page-change.module.scss"
+import { CustomsAttributes } from "@/components/common/customs-attributes"
 
 export const MerchandiseChangeId = ({ id, productId }: { id: string; productId: string }) => {
     const user = useAuth(({ user }) => user)
@@ -33,6 +35,7 @@ export const MerchandiseChangeId = ({ id, productId }: { id: string; productId: 
         variables: { id: productId },
     })
     const [update] = useMutation(mutateUpdateProduct)
+    const [updateAttr] = useMutation(mutationProductAttributeUpdate)
     const { productById } = data ?? {}
     const {
         register,
@@ -40,13 +43,13 @@ export const MerchandiseChangeId = ({ id, productId }: { id: string; productId: 
         handleSubmit,
         setValue,
         formState: { errors },
-    } = useForm<IValues>({
+    } = useForm<IValues | { [key: string]: string }>({
         defaultValues: {
             is_files: false,
         },
     })
 
-    function submit(values: IValues) {
+    function submit(values: IValues | { [key: string]: string }) {
         const data: Record<string, any> = {
             categoryId: values.category_ || values.category,
             name: values.title,
@@ -54,30 +57,44 @@ export const MerchandiseChangeId = ({ id, productId }: { id: string; productId: 
             price: +values.price,
             quantity: +values.quantity! || 1,
         }
-        const attributes = []
 
-        const slugs = Object.entries(values)
-            .filter((item) => item?.[0]?.includes("slug:"))
-            .forEach((item) => {
-                const id = item[0].split(":")[2]
-                const slug = item[0].split(":")[1]
-                const value = item[1]
-            })
+        const attrs = Object.entries(values)
+            ?.filter((item) => item[0]?.includes(`:attr`))
+            ?.filter((item) => ["string", "number"].includes(typeof item[1]) && item[1])
+            ?.map((item) => ({
+                id: item[0].replace(":attr", ""),
+                value: item[1],
+            }))
         setLoadingF(true)
+        console.log("attrs: ", attrs)
 
         data.productId = productId!
         Promise.all([
-            ...files.map((item) =>
-                uploadFile(item, {
-                    type: "product/photo-upload/",
-                    id: productId!,
-                    idType: "product_id",
-                }),
+            ...files.map(
+                (item) =>
+                    uploadFile(item, {
+                        type: "product/photo-upload/",
+                        id: productId!,
+                        idType: "product_id",
+                    }),
+                ...attrs.map((item) =>
+                    updateAttr({
+                        variables: {
+                            productId: productId,
+                            attrId: Number(item.id),
+                            attrValueId: Number(item.value),
+                        },
+                    }),
+                ),
             ),
             update({
                 variables: { ...data },
             }),
-        ]).then(cancel)
+        ])
+            .then((responses) => {
+                console.log("responses data: ", responses)
+            })
+            .finally(cancel)
     }
 
     const onSubmit = handleSubmit(submit)
@@ -159,6 +176,18 @@ export const MerchandiseChangeId = ({ id, productId }: { id: string; productId: 
             }
         }
     }, [dataCategories, data])
+
+    const listAttrs = useMemo(() => {
+        return productById?.attributeList || []
+    }, [productById])
+
+    useEffect(() => {
+        if (listAttrs?.length) {
+            listAttrs?.forEach((item) => {
+                setValue(`${item.attrId}:attr`, `${item.valueId}`)
+            })
+        }
+    }, [listAttrs])
 
     if (data?.productById?.author?.id !== user?.id) return null
 
@@ -275,11 +304,14 @@ export const MerchandiseChangeId = ({ id, productId }: { id: string; productId: 
                                 />
                             </span>
                         ) : null}
-                        <b>
-                            Скоро будут добавлены возможности заполнения характеристик, такие как: бренд, цвет, размер и т.д. В данный
-                            момент мы заполняем базу и тестируем данную механику, что-бы как можно лучше её сделать для конечного
-                            потребителя
-                        </b>
+                        <CustomsAttributes
+                            categoryId={watch("category_")!}
+                            {...{
+                                register,
+                                watch,
+                                setValue,
+                            }}
+                        />
                         <span>
                             <label>Закреплённый магазин за товаром</label>
                             <p>{productById?.shop?.name}</p>

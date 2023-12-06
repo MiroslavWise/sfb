@@ -7,7 +7,7 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap: 20px;
+        gap: 24px;
 
         & > h1 {
             color: var(--main-black);
@@ -17,44 +17,16 @@
         }
 
         & > form {
-            & > [data-div-main] {
-                grid-area: main;
-
-                & > i {
-                    color: #d92d20;
-                    font-size: 12px;
-                    font-style: normal;
-                    font-weight: 500;
-                }
-            }
-
-            & > [data-div-secondary] {
-                grid-area: secondary;
-            }
-            & > footer {
-                grid-area: footer;
-            }
-
             width: 100%;
-            display: grid;
-            grid-template-columns: repeat(2, calc(50% - 5px));
-            gap: 10px 10px;
-            grid-template-areas:
-                "main secondary"
-                "footer footer";
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
 
-            & > div {
+            & > section {
+                width: 100%;
                 display: flex;
                 flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-
-                h3 {
-                    color: var(--main-black);
-                    font-size: 18px;
-                    font-style: normal;
-                    font-weight: 600;
-                }
+                gap: 8px;
 
                 & > [data-photos="true"] {
                     display: flex;
@@ -97,40 +69,74 @@
                         background: transparent;
                     }
                 }
+            }
 
-                & > span {
-                    position: relative;
-                    width: 100%;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: flex-start;
-                    gap: 2px;
-                    border-radius: 7px;
+            & > article {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                gap: 24px;
 
-                    & > label {
-                        color: var(--gray-500) !important;
-                        font-size: 14px;
-                        font-style: normal;
-                        font-weight: 400;
-                        line-height: 16px;
-                        letter-spacing: -0.4px;
-                    }
-
-                    &[data-delivery] {
-                        flex-direction: row !important;
-                        gap: 16px;
-                        flex-wrap: wrap;
-                    }
-
-                    & > [data-select="true"] {
-                        width: 100%;
-                    }
-
+                & > [data-div-main] {
                     & > i {
                         color: #d92d20;
                         font-size: 12px;
                         font-style: normal;
                         font-weight: 500;
+                    }
+                }
+
+                & > [data-div-main],
+                & > [data-div-secondary] {
+                    h3 {
+                        color: var(--main-black);
+                        font-size: 18px;
+                        font-style: normal;
+                        font-weight: 600;
+                    }
+                }
+
+                & > div {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 16px;
+
+                    & > span {
+                        position: relative;
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 2px;
+                        border-radius: 7px;
+
+                        & > label {
+                            color: var(--gray-500) !important;
+                            font-size: 14px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: 16px;
+                            letter-spacing: -0.4px;
+                        }
+
+                        &[data-delivery] {
+                            flex-direction: row !important;
+                            gap: 16px;
+                            flex-wrap: wrap;
+                        }
+
+                        & > [data-select="true"] {
+                            width: 100%;
+                        }
+
+                        & > i {
+                            color: #d92d20;
+                            font-size: 12px;
+                            font-style: normal;
+                            font-weight: 500;
+                        }
                     }
                 }
             }

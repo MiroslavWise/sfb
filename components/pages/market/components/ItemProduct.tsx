@@ -25,7 +25,7 @@ export const ItemProduct: FC<IProduct> = (props) => {
     return (
         <li
             onClick={() => {
-                handlePush(`/more-details?product-id=${id}`)
+                handlePush(`/product/${id}`)
             }}
         >
             {photoListUrl[0] ? (

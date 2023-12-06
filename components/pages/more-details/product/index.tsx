@@ -4,41 +4,32 @@ import { useMemo } from "react"
 import Image from "next/image"
 import { toast } from "react-toastify"
 import { motion } from "framer-motion"
-import { useSearchParams } from "next/navigation"
 import { useMutation, useQuery } from "@apollo/client"
 
-import type { IPhotoProductData, IProductRoot } from "@/types/types"
+import type { ICartList } from "@/types/shop"
+import type { IProductRoot } from "@/types/types"
 
 import { Outline } from "@/components/common/outline"
 import { PhotoStage } from "@/components/common/PhotoStage"
 import { ButtonBack } from "@/components/common/button-back"
 import { TagCategory } from "../../proposals/components/TagCategory"
 
+import { queryCart } from "@/apollo/query-"
+import { queryProductById } from "@/apollo/query"
 import { usePush } from "@/helpers/hooks/usePush"
 import { mutationCartItemAdd } from "@/apollo/mutation"
 import { useFavoritesClick } from "@/helpers/hooks/useFavoritesClick"
-import { queryPhotosProductById, queryProductById } from "@/apollo/query"
 
 import styles from "../styles/style.module.scss"
-import { ICartList } from "@/types/shop"
-import { queryCart } from "@/apollo/query-"
 
-export const ProductId = () => {
+export const ProductId = ({ id }: { id: string }) => {
     const { back, handlePush } = usePush()
-    const productId = useSearchParams().get("product-id")
     const { data, loading } = useQuery<IProductRoot>(queryProductById, {
-        variables: {
-            id: productId,
-        },
-    })
-    const { data: dataPhotos, loading: loadingPhoto } = useQuery<IPhotoProductData>(queryPhotosProductById, {
-        variables: {
-            id: productId,
-        },
+        variables: { id },
     })
     const [useAdd] = useMutation(mutationCartItemAdd, {
         variables: {
-            productId: productId,
+            productId: id,
             quantity: 1,
         },
     })
@@ -49,15 +40,15 @@ export const ProductId = () => {
     const { productById } = data ?? {}
 
     const images = useMemo(() => {
-        if (dataPhotos?.productById?.photoListUrl) {
-            return dataPhotos?.productById?.photoListUrl?.map((item, index) => ({ item, index }))
+        if (productById?.photoListUrl) {
+            return productById?.photoListUrl?.map((item, index) => ({ item, index }))
         }
 
         return []
-    }, [dataPhotos?.productById])
+    }, [productById])
 
     function handle() {
-        handleFavorite(productId!)
+        handleFavorite(id!)
     }
     function handleAddCart() {
         useAdd().then(() => {
@@ -78,9 +69,9 @@ export const ProductId = () => {
         })
     }
 
-    const is = isFavorite(productId!)
+    const is = isFavorite(id!)
 
-    if (loading || loadingPhoto) return null
+    if (loading) return null
 
     return (
         <motion.div

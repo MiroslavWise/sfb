@@ -170,7 +170,7 @@ export const MessagesChatUUID = () => {
         if (userId && dataChatInfo) {
             const chat = dataChatInfo?.chatById
             if (chat?.buyer?.id !== userId) {
-                handlePush(`/more-details?product-id=${chat?.product?.id}`)
+                handlePush(`/product/${chat?.product?.id}`)
             } else {
                 handlePush(`/proposals?proposal-id=${chat?.product?.id}:${chat?.productRequest?.id}`)
             }

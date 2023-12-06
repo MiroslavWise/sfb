@@ -12,6 +12,15 @@ export const queryProductAttributesByCategoryId = gql`
                 description
                 name
                 datatype
+
+                enumGroup {
+                    name
+                    id
+                    values {
+                        value
+                        id
+                    }
+                }
             }
         }
     }
@@ -19,11 +28,7 @@ export const queryProductAttributesByCategoryId = gql`
 
 export const mutationProductAttributeUpdate = gql`
     mutation ($attrId: Int!, $attrValueId: Int!, $productId: UUID!) {
-        productAttributeUpdate(
-            attrId: $attrId
-            attrValueId: $attrValueId
-            productId: $productId
-        ) {
+        productAttributeUpdate(attrId: $attrId, attrValueId: $attrValueId, productId: $productId) {
             ok
         }
     }

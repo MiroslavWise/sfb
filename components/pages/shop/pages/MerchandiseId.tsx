@@ -50,24 +50,25 @@ export const MerchandiseId = ({ id, productId }: { id: string; productId: string
     function handlePublish() {
         if (productById?.draft) {
             mutateDraft({
-                variables: {
-                    productId: productId,
-                },
-            }).finally(() => {
-                refetch()
-            })
+                variables: { productId },
+            }).finally(refetch)
         }
     }
 
     function handleDelete() {
-        deleteProduct()
-            .then((response) => {
-                console.log("deleteProduct then: ", response?.data, response?.errors)
-            })
-            .finally(() => {
-                handlePush(`/my-shop/${id}/merchandise`)
-            })
+        deleteProduct().finally(() => {
+            handlePush(`/my-shop/${id}/merchandise`)
+        })
     }
+
+    const attrs = useMemo(() => {
+        return productById?.attributeList || []
+    }, [productById])
+
+    console.log("attrs: ", attrs)
+    console.log("productById: ", productById)
+
+    if (!productById) return null
 
     return (
         <div className={styles.wrapper}>
@@ -94,6 +95,19 @@ export const MerchandiseId = ({ id, productId }: { id: string; productId: string
                 <h6>
                     Количество: <span>{productById?.quantity! || 1}</span>
                 </h6>
+                {attrs.length ? (
+                    <Outline label="Дополнительные атрибуты">
+                        <div data-attrs>
+                            {attrs.map((item) => (
+                                <div data-h>
+                                    <p>{item.name}</p>
+                                    <div data-dashed />
+                                    <span>{item.value}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </Outline>
+                ) : null}
             </section>
             {productById?.isActive ? (
                 <div data-buttons>

@@ -21,7 +21,7 @@ export const ItemFavorite = (props: IProduct) => {
     return (
         <li
             onClick={() => {
-                handlePush(`/more-details?product-id=${id}`)
+                handlePush(`/product/${id}`)
             }}
         >
             {photoListUrl[0] ? (

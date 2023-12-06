@@ -67,8 +67,20 @@ export interface IProductAttribute {
     datatype: TDatatypeAttr
     description: string
     id: string
+    attrId: number
     name: string
     slug: string
+    value: string
+    valueId: number
+
+    enumGroup: {
+        name: string
+        id: string
+        values: {
+            value: string
+            id: string
+        }[]
+    }
 }
 
 export interface IProductAttributeList {

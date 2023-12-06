@@ -12,7 +12,6 @@ import { TabsDetails } from "@/components/common/tabs-details"
 import { PhotoStage } from "@/components/common/PhotoStage"
 import { ButtonBack } from "@/components/common/button-back"
 import { TagCategory } from "../../proposals/components/TagCategory"
-import { ComponentAddress, ComponentArea, ComponentCity } from "@/components/common/component-regions"
 
 import { ITEMS_TABS } from "../constants/tabs"
 import { usePush } from "@/helpers/hooks/usePush"
@@ -77,6 +76,12 @@ export const MyProductPageUUID = ({ id }: { id: string }) => {
         })
     }
 
+    const attrs = useMemo(() => {
+        return productById?.attributeList || []
+    }, [productById])
+
+    if (!productById) return null
+
     return (
         <div className={styles.wrapper}>
             <header>
@@ -85,7 +90,7 @@ export const MyProductPageUUID = ({ id }: { id: string }) => {
                         handleReplace(`/my-products`)
                     }}
                 />
-                <h1>{productById?.name}</h1>
+                <h3>{productById?.name}</h3>
             </header>
             <TabsDetails items={ITEMS_TABS} set={setTab} current={tab} />
             {tab.value === "main" ? (
@@ -110,15 +115,19 @@ export const MyProductPageUUID = ({ id }: { id: string }) => {
                         <h6>
                             Количество: <span>{productById?.quantity! || 1}</span>
                         </h6>
-                        <Outline label="Адрес">
-                            <div data-regions>
-                                {data?.productById?.author.city?.region && (
-                                    <ComponentArea name={data?.productById?.author?.city?.region?.name} />
-                                )}
-                                {data?.productById?.author?.city && <ComponentCity name={data?.productById?.author?.city?.name} />}
-                                {data?.productById?.author?.address && <ComponentAddress name={data?.productById?.author?.address} />}
-                            </div>
-                        </Outline>
+                        {attrs.length ? (
+                            <Outline label="Дополнительные атрибуты">
+                                <div data-attrs>
+                                    {attrs.map((item) => (
+                                        <div data-h>
+                                            <p>{item.name}</p>
+                                            <div data-dashed />
+                                            <span>{item.value}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </Outline>
+                        ) : null}
                     </article>
                     {productById?.isActive ? (
                         <div data-buttons>

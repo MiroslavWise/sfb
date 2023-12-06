@@ -1,10 +1,11 @@
 import Image from "next/image"
 import { useForm } from "react-hook-form"
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client"
-import { type ChangeEvent, type Dispatch, type SetStateAction, useEffect, useState } from "react"
+import { type Dispatch, type SetStateAction, useEffect, useState } from "react"
 
 import type { ICategoriesRoot, IRecommendation, ICategoryRecommendation } from "@/types/types"
 
+import { FormPurchaseTags } from "./form-purchase-tags"
 import { CustomSelector } from "@/components/common/custom-selector"
 
 import { useAuth } from "@/store/state/useAuth"
@@ -13,10 +14,10 @@ import { uploadFile } from "@/helpers/services/fetch"
 import { dispatchEnter } from "@/store/state/useEnter"
 import { queryCategoriesRoot } from "@/apollo/query"
 import { useDebounce } from "@/helpers/hooks/useDebounce"
-import { queryCategoryRecommendation } from "@/apollo/attribute"
+import { mutationProductAttributeUpdate, queryCategoryRecommendation } from "@/apollo/attribute"
 import { useOutsideClickEvent } from "@/helpers/hooks/useOutsideClickEvent"
 import { createProductRequestSmall, createProductSmall } from "@/apollo/mutation"
-import { FormPurchaseTags } from "./form-purchase-tags"
+import { CustomsAttributes } from "@/components/common/customs-attributes"
 
 export const FormPurchase = ({
     setState,
@@ -25,14 +26,15 @@ export const FormPurchase = ({
     setState: Dispatch<SetStateAction<"start" | "purchase" | "sale">>
     state: "start" | "purchase" | "sale"
 }) => {
-    const [filesString, setFilesString] = useState<string[]>([])
-    const [files, setFiles] = useState<File[]>([])
+    // const [filesString, setFilesString] = useState<string[]>([])
+    // const [files, setFiles] = useState<File[]>([])
     const token = useAuth(({ token }) => token)
     const [isLoading, setIsLoading] = useState(false)
     const { handlePush } = usePush()
     const { data, loading } = useQuery<ICategoriesRoot>(queryCategoriesRoot)
     const [createProductRequest] = useMutation(createProductRequestSmall)
     const [createProduct] = useMutation(createProductSmall)
+    const [updateAttr] = useMutation(mutationProductAttributeUpdate)
     //
     const [loadingInput, setLoadingInput] = useState(false)
     const [focus, setFocus, ref] = useOutsideClickEvent()
@@ -46,13 +48,22 @@ export const FormPurchase = ({
         handleSubmit,
         formState: { errors },
         setValue,
-    } = useForm<IValues>({ defaultValues: { id: null } })
+    } = useForm<IValuesForm>({ defaultValues: { id: null } })
 
-    function onSubmit(values: IValues) {
+    function onSubmit(values: IValuesForm) {
         if (!token) {
             dispatchEnter(true)
             return
         }
+
+        const attrs = Object.entries(values)
+            ?.filter((item) => item[0]?.includes(`:attr`))
+            ?.filter((item) => typeof item[1] === "string" && item[1])
+            ?.map((item) => ({
+                id: item[0].replace(":attr", ""),
+                value: item[1],
+            }))
+
         if (token && !isLoading) {
             setIsLoading(true)
             if (state === "purchase") {
@@ -65,22 +76,15 @@ export const FormPurchase = ({
                     .then((response) => {
                         if (response?.data) {
                             const id = response?.data?.productRequestCreate?.productRequest?.id
-                            Promise.all([
-                                ...files.map((item) =>
-                                    uploadFile(item, {
-                                        type: "product-request/photo-upload/",
-                                        id: id,
-                                        idType: "product_request_id",
-                                    }),
-                                ),
-                            ]).finally(() => {
-                                handlePush(`/my-requests/${id}/change`)
-                            })
+                            handlePush(`/my-requests/${id}/change`)
                         }
                     })
                     .finally(() => {})
             }
             if (state === "sale") {
+                if (values.id) {
+                }
+
                 createProduct({
                     variables: {
                         categoryId: values?.id_ ? values?.id_ : values?.id ? values?.id : null,
@@ -90,36 +94,26 @@ export const FormPurchase = ({
                     .then((response) => {
                         if (response?.data) {
                             const id = response?.data?.productCreate?.product?.id
-                            Promise.all([
-                                ...files.map((item) =>
-                                    uploadFile(item, {
-                                        type: "product/photo-upload/",
-                                        id: id,
-                                        idType: "product_id",
+                            Promise.all(
+                                attrs.map((item) =>
+                                    updateAttr({
+                                        variables: {
+                                            productId: id,
+                                            attrId: Number(item.id),
+                                            attrValueId: Number(item.value),
+                                        },
                                     }),
                                 ),
-                            ]).finally(() => {
-                                handlePush(`/my-products/${id}/change`)
-                            })
+                            )
+                                .then((responses) => {
+                                    console.log("responses: ", responses)
+                                })
+                                .finally(() => {
+                                    handlePush(`/my-products/${id}/change`)
+                                })
                         }
                     })
                     .finally(() => {})
-            }
-        }
-    }
-
-    function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
-        const files = event.target.files
-        if (files?.length) {
-            for (let i = 0; i < files.length; i++) {
-                if (files[i]) {
-                    const reader = new FileReader()
-                    reader.onloadend = () => {
-                        setFilesString((prev) => [...prev, reader.result as string])
-                    }
-                    reader.readAsDataURL(files[i])
-                    setFiles((prev) => [...prev, files[i]])
-                }
             }
         }
     }
@@ -277,18 +271,27 @@ export const FormPurchase = ({
                         />
                     </span>
                 ) : null}
-                <FormPurchaseTags categoryId={watch("id_")!} />
+                {state === "sale" ? (
+                    <CustomsAttributes
+                        categoryId={watch("id_")!}
+                        {...{
+                            register,
+                            watch,
+                            setValue,
+                        }}
+                    />
+                ) : null}
                 {/* <span data-file>
                     <input type="file" multiple onChange={handleImageChange} />
                     <label>Нажмите или перетащите фото товара в эту область, чтобы загрузить (.png, .jpeg, .jpg)</label>
                 </span> */}
-                {filesString.length ? (
+                {/* {filesString.length ? (
                     <div data-files>
                         {filesString?.map((item) => (
                             <Image key={`${item}-img`} src={item} alt={item} width={500} height={500} unoptimized />
                         ))}
                     </div>
-                ) : null}
+                ) : null} */}
             </section>
             <div data-buttons>
                 <button data-default onClick={() => setState("start")}>
@@ -302,11 +305,11 @@ export const FormPurchase = ({
     )
 }
 
-interface IValues {
+export interface IValuesForm {
     name: string
     id: string | null
     id_: string | null
-    // files: File[]
+    [key: string]: string | null
 }
 
 interface IValuesSearchOfName {
@@ -316,3 +319,15 @@ interface IValuesSearchOfName {
         name: string
     }
 }
+
+/* Promise.all([
+    ...files.map((item) =>
+        uploadFile(item, {
+            type: "product/photo-upload/",
+            id: id,
+            idType: "product_id",
+        }),
+    ),
+]).finally(() => {
+
+}) */

@@ -1,18 +1,19 @@
+"use client"
+
 import { useLazyQuery } from "@apollo/client"
 import { useEffect, useMemo, useState } from "react"
-import { UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form"
+import type { UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form"
 
-import type { IValuesForm } from "./form-purchase"
 import type { IProductAttributeList } from "@/types/types"
-
-import { CustomSelector } from "@/components/common/custom-selector"
 
 import { queryProductAttributesByCategoryId } from "@/apollo/attribute"
 
-import styles from "../styles/form-purchase-tags.module.scss"
+import styles from "./style.module.scss"
+import { CustomSelector } from "../custom-selector"
 
-export const FormPurchaseTags = ({ categoryId, register, watch, setValue }: IProps) => {
+export function CustomsAttributes(props: IProps) {
     const [isList, setIsList] = useState(false)
+    const { categoryId, register, watch, setValue } = props
     const [useAttribute, { data }] = useLazyQuery<IProductAttributeList>(queryProductAttributesByCategoryId, {
         variables: { categoryId },
     })
@@ -68,8 +69,8 @@ export const FormPurchaseTags = ({ categoryId, register, watch, setValue }: IPro
 }
 
 interface IProps {
-    categoryId: string | null
-    register: UseFormRegister<IValuesForm>
-    watch: UseFormWatch<IValuesForm>
-    setValue: UseFormSetValue<IValuesForm>
+    categoryId: string
+    register: UseFormRegister<any | { [key: string]: string }>
+    watch: UseFormWatch<any | { [key: string]: string }>
+    setValue: UseFormSetValue<any | { [key: string]: string }>
 }

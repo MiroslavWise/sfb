@@ -12,20 +12,23 @@
         background: var(--gray-300);
     }
 
-    & > [data-image="true"] {
+    & > [data-image] {
         height: auto;
         width: 100%;
-        padding: 0 !important;
         margin: 0 !important;
         aspect-ratio: 1/1;
         cursor: pointer;
+        border-radius: 7px;
+        border: 2px solid var(--main-black);
+        overflow: hidden;
+        padding: 2px;
 
         & > img {
             height: auto;
             width: 100%;
             aspect-ratio: 1/1;
             object-fit: cover;
-            border-radius: 2px;
+            border-radius: 5px;
         }
     }
 
@@ -40,12 +43,14 @@
             height: auto;
             object-fit: cover;
             padding: 3px;
-            border: 1px solid transparent;
+            border: 1px solid;
+            border-color: transparent;
             border-radius: 7px;
             cursor: pointer;
+            transition: border-color var(--transition);
 
             &[data-active="true"] {
-                border-color: var(--main-black);
+                border-color: var(--gray-500);
             }
         }
     }

@@ -3,11 +3,11 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 16px;
 
     & > header {
         width: 100%;
-        padding: 20px 40px;
+        padding: 24px;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -15,13 +15,12 @@
         border-radius: 7px;
         background-color: #fff;
 
-        & > h1 {
+        & > h3 {
             color: var(--main-black);
-            font-size: 36px;
             font-style: normal;
             font-weight: 500;
             white-space: nowrap;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.2px;
         }
     }
 
@@ -30,8 +29,8 @@
         height: min-content;
         display: flex;
         flex-direction: row;
-        gap: 30px;
-        padding: 30px;
+        gap: 24px;
+        padding: 24px;
         background-color: #fff;
         border-radius: 7px;
 
@@ -164,5 +163,39 @@
     sup {
         font-size: 14px;
         color: var(--error-500);
+    }
+
+    [data-attrs] {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        & > [data-h] {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            max-width: 460px;
+            width: 100%;
+            font-size: 16px;
+
+            & > p {
+                font-weight: 600;
+                color: var(--main-black);
+            }
+
+            & > [data-dashed] {
+                height: 1px;
+                width: 100%;
+                border-bottom: 1px dashed var(--gray-500);
+            }
+
+            & > span {
+                color: var(--gray-600);
+                font-weight: 500;
+            }
+        }
     }
 }

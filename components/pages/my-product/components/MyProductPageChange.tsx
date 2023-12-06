@@ -1,12 +1,10 @@
 "use client"
 
 import { useForm } from "react-hook-form"
-import { useSearchParams } from "next/navigation"
-import { ChangeEvent, useEffect, useState } from "react"
+import { ChangeEvent, useEffect, useMemo, useState } from "react"
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client"
 
-import type { IPhotoProductData } from "@/types/types"
-import type { ICategoriesRoot, IProductAttributeList, IProductRoot } from "@/types/types"
+import type { ICategoriesRoot, IProductRoot } from "@/types/types"
 
 import { MiniPhoto } from "../../proposals"
 import { Input } from "@/components/common/input"
@@ -15,12 +13,13 @@ import { uploadFile } from "@/helpers/services/fetch"
 import { TextArea } from "@/components/common/text-area"
 import { Checkbox } from "@/components/common/checkbox"
 import { CustomSelector } from "@/components/common/custom-selector"
+import { CustomsAttributes } from "@/components/common/customs-attributes"
 
 import { useAuth } from "@/store/state/useAuth"
-import { queryProductAttributesByCategoryId } from "@/apollo/attribute"
+import { mutationProductAttributeUpdate } from "@/apollo/attribute"
+import { queryCategoriesRoot, queryProductById } from "@/apollo/query"
 import { createProductFull, mutateUpdateProduct } from "@/apollo/mutation"
 import { DELIVERY_TYPE, type TTypeDelivery } from "../constants/delivery-type"
-import { queryCategoriesRoot, queryPhotosProductById, queryProductById } from "@/apollo/query"
 
 import styles from "../styles/change.module.scss"
 
@@ -28,16 +27,13 @@ export const MyProductChange = ({ id }: { id: string }) => {
     const user = useAuth(({ user }) => user)
     const [files, setFiles] = useState<File[]>([])
     const [filesString, setFilesString] = useState<string[]>([])
-    const { data: dataCategories, loading: isLoadCategories } = useQuery<ICategoriesRoot>(queryCategoriesRoot)
+    const { data: dataCategories } = useQuery<ICategoriesRoot>(queryCategoriesRoot)
     const { handlePush } = usePush()
-    const [use, { data, loading, refetch }] = useLazyQuery<IProductRoot>(queryProductById, {
+    const [use, { data }] = useLazyQuery<IProductRoot>(queryProductById, {
         variables: { id },
     })
     const [delivery, setDelivery] = useState<string[]>([])
-    const [usePhoto, { data: dataPhotos, refetch: refetchPhotos }] = useLazyQuery<IPhotoProductData>(queryPhotosProductById, {
-        variables: { id },
-    })
-    const [useAttribute, { data: dataAttributes }] = useLazyQuery<IProductAttributeList>(queryProductAttributesByCategoryId)
+    const [updateAttr] = useMutation(mutationProductAttributeUpdate)
     const [update] = useMutation(mutateUpdateProduct)
     const [create] = useMutation(createProductFull)
     const { productById } = data ?? {}
@@ -47,13 +43,13 @@ export const MyProductChange = ({ id }: { id: string }) => {
         handleSubmit,
         setValue,
         formState: { errors },
-    } = useForm<IValues>({
+    } = useForm<IValues | { [key: string]: any }>({
         defaultValues: {
             is_files: false,
         },
     })
 
-    function submit(values: IValues) {
+    function submit(values: IValues | { [key: string]: any }) {
         const data: Record<string, any> = {
             categoryId: values.category_ || values.category,
             name: values.title,
@@ -61,36 +57,43 @@ export const MyProductChange = ({ id }: { id: string }) => {
             price: +values.price,
             quantity: +values.quantity! || 1,
         }
-        const attributes = []
 
-        const slugs = Object.entries(values)
-            .filter((item) => item?.[0]?.includes("slug:"))
-            .forEach((item) => {
-                const id = item[0].split(":")[2]
-                const slug = item[0].split(":")[1]
-                const value = item[1]
-            })
-
-        console.log("slugs: ", slugs)
+        const attrs = Object.entries(values)
+            ?.filter((item) => item[0]?.includes(`:attr`))
+            ?.filter((item) => ["string", "number"].includes(typeof item[1]) && item[1])
+            ?.map((item) => ({
+                id: item[0].replace(":attr", ""),
+                value: item[1],
+            }))
 
         if (id && id !== "new") {
             data.productId = id!
             Promise.all([
-                ...files.map((item) =>
-                    uploadFile(item, {
-                        type: "product/photo-upload/",
-                        id: id!,
-                        idType: "product_id",
-                    }),
+                ...files.map(
+                    (item) =>
+                        uploadFile(item, {
+                            type: "product/photo-upload/",
+                            id: id!,
+                            idType: "product_id",
+                        }),
+                    ...attrs.map((item) =>
+                        updateAttr({
+                            variables: {
+                                productId: id,
+                                attrId: Number(item.id),
+                                attrValueId: Number(item.value),
+                            },
+                        }),
+                    ),
                 ),
                 update({
                     variables: { ...data },
                 }),
-            ]).then(() => {
-                Promise.all([refetchPhotos(), refetch()]).then(() => {
-                    cancel(id)
+            ])
+                .then((responses) => {
+                    console.log("responses: ", responses)
                 })
-            })
+                .finally(cancel)
         } else {
             create({
                 variables: { ...data },
@@ -104,31 +107,29 @@ export const MyProductChange = ({ id }: { id: string }) => {
                             idType: "product_id",
                         }),
                     ),
-                ]).then(async () => {
-                    Promise.all([
-                        usePhoto({
+                    ...attrs.map((item) =>
+                        updateAttr({
                             variables: {
-                                id: id,
+                                productId: id,
+                                attrId: Number(item.id),
+                                attrValueId: Number(item.value),
                             },
                         }),
-                        use({
-                            variables: {
-                                id: id,
-                            },
-                        }),
-                    ]).then(() => {
-                        cancel(id)
+                    ),
+                ])
+                    .then((responses) => {
+                        console.log("responses: ", responses)
                     })
-                })
+                    .finally(cancel)
             })
         }
     }
 
     const onSubmit = handleSubmit(submit)
 
-    function cancel(uuid?: string) {
-        if (uuid && uuid !== "new") {
-            handlePush(`/my-products/${uuid}/`)
+    function cancel() {
+        if (id && id !== "new") {
+            handlePush(`/my-products/${id}/`)
         } else {
             handlePush(`/my-products`)
         }
@@ -158,7 +159,6 @@ export const MyProductChange = ({ id }: { id: string }) => {
     useEffect(() => {
         if (id && id !== "new") {
             use()
-            usePhoto()
         }
     }, [id])
 
@@ -177,6 +177,18 @@ export const MyProductChange = ({ id }: { id: string }) => {
             }
         }
     }
+
+    const listAttrs = useMemo(() => {
+        return productById?.attributeList || []
+    }, [productById])
+
+    useEffect(() => {
+        if (listAttrs?.length) {
+            listAttrs?.forEach((item) => {
+                setValue(`${item.attrId}:attr`, `${item.valueId}`)
+            })
+        }
+    }, [listAttrs])
 
     useEffect(() => {
         if (!!data?.productById && !!dataCategories?.categoryRootList) {
@@ -218,22 +230,14 @@ export const MyProductChange = ({ id }: { id: string }) => {
     useEffect(() => {
         if (watch("category_")) {
             console.log("%c category_: ", "color: green", watch("category_"))
-            useAttribute({
-                variables: { categoryId: watch("category_") },
-            }).then((res) => {
-                console.log("%c res", "color: bue", res)
-            })
             return
         } else if (watch("category")) {
             console.log("%c category: ", "color: green", watch("category"))
-            useAttribute({ variables: { categoryId: watch("category") } }).then((res) => {
-                console.log("%c res", "color: bue", res)
-            })
             return
         }
     }, [watch("category"), watch("category_")])
 
-    if (loading || isLoadCategories) return null
+    if (!productById) return null
 
     if (data?.productById?.author?.id !== user?.id) return null
 
@@ -242,12 +246,11 @@ export const MyProductChange = ({ id }: { id: string }) => {
             <section>
                 <h1>Редактировать товар</h1>
                 <form onSubmit={onSubmit}>
-                    <div data-div-main>
-                        <h3>Основная информация</h3>
-                        {Array.isArray(dataPhotos?.productById?.photoListUrl) && dataPhotos?.productById?.photoListUrl?.length ? (
+                    <section>
+                        {Array.isArray(productById?.photoListUrl) && productById?.photoListUrl?.length ? (
                             <div data-photos>
-                                {Array.isArray(dataPhotos?.productById?.photoListUrl)
-                                    ? dataPhotos?.productById?.photoListUrl
+                                {Array.isArray(productById?.photoListUrl)
+                                    ? productById?.photoListUrl
                                           ?.filter((item) => item?.photoUrl)
                                           ?.map((item) => <MiniPhoto src={item.photoUrl} key={item.id + item.photo} />)
                                     : null}
@@ -265,122 +268,124 @@ export const MyProductChange = ({ id }: { id: string }) => {
                         <i {...register("is_files", { required: true })}>
                             {errors?.is_files ? "Обязательно наличие хотя-бы одной фотографии" : null}
                         </i>
-                        <Input
-                            value={watch("title")}
-                            label="Название товара"
-                            error={errors.title ? "Обязательно заполните название товара" : null}
-                            type="text"
-                            {...register("title", { required: true })}
-                            onChange={(event) => setValue("title", event.target.value)}
-                        />
-                        <TextArea
-                            label="Краткое описание товара"
-                            {...register("description", {
-                                required: false,
-                            })}
-                            error={""}
-                            value={watch("description")}
-                            onChange={(event) => setValue("description", event.target.value)}
-                        />
-                        <Input
-                            value={watch("price")}
-                            label="Цена товара"
-                            error={errors.price ? "Заполните цену товарa" : null}
-                            min={0}
-                            type="number"
-                            {...register("price", { required: true })}
-                            onChange={(event) => setValue("price", event.target.value)}
-                        />
-                        <Input
-                            value={watch("quantity")!}
-                            label="Количество товаров"
-                            error={errors.quantity}
-                            type="number"
-                            min={0}
-                            {...register("quantity", { required: true })}
-                            onChange={(event) => setValue("quantity", event.target.value)}
-                        />
-                    </div>
-                    <div data-div-secondary>
-                        <h3>Категория и характеристики товара</h3>
-                        <span {...register("category", { required: true })}>
-                            <CustomSelector
-                                label="Категория товара"
-                                valueTag={dataCategories?.categoryRootList?.find((item) => item?.id === watch("category"))?.name!}
-                                placeholder="Выберите категорию товара"
-                                onClick={(value) => {
-                                    setValue("category", value)
-                                }}
-                                list={
-                                    Array.isArray(dataCategories?.categoryRootList)
-                                        ? dataCategories?.categoryRootList?.map((item: any) => ({
-                                              p: item.name,
-                                              id: item.id,
-                                          }))!
-                                        : []
-                                }
+                    </section>
+                    <article>
+                        <div data-div-main>
+                            <h3>Основная информация</h3>
+                            <Input
+                                value={watch("title")}
+                                label="Название товара"
+                                error={errors.title ? "Обязательно заполните название товара" : null}
+                                type="text"
+                                {...register("title", { required: true })}
+                                onChange={(event) => setValue("title", event.target.value)}
                             />
-                            {errors.category ? <i>Обязательно заполните категорию</i> : null}
-                        </span>
-                        {dataCategories?.categoryRootList?.find((item: any) => item.id === watch("category"))?.childrenList?.length ? (
-                            <span {...register("category_", { required: false })}>
+                            <TextArea
+                                label="Краткое описание товара"
+                                {...register("description", {
+                                    required: false,
+                                })}
+                                error={""}
+                                value={watch("description")}
+                                onChange={(event) => setValue("description", event.target.value)}
+                            />
+                            <Input
+                                value={watch("price")}
+                                label="Цена товара"
+                                error={errors.price ? "Заполните цену товарa" : null}
+                                min={0}
+                                type="number"
+                                {...register("price", { required: true })}
+                                onChange={(event) => setValue("price", event.target.value)}
+                            />
+                            <Input
+                                value={watch("quantity")!}
+                                label="Количество товаров"
+                                error={errors.quantity}
+                                type="number"
+                                min={0}
+                                {...register("quantity", { required: true })}
+                                onChange={(event) => setValue("quantity", event.target.value)}
+                            />
+                        </div>
+                        <div data-div-secondary>
+                            <h3>Категория и характеристики товара</h3>
+                            <span {...register("category", { required: true })}>
                                 <CustomSelector
-                                    label="Подкатегория товара"
-                                    valueTag={
-                                        dataCategories?.categoryRootList
-                                            ?.find((item: any) => item.id === watch("category"))
-                                            ?.childrenList?.find((item) => item?.id === watch("category_"))?.name!
-                                    }
+                                    label="Категория товара"
+                                    valueTag={dataCategories?.categoryRootList?.find((item) => item?.id === watch("category"))?.name!}
+                                    placeholder="Выберите категорию товара"
                                     onClick={(value) => {
-                                        setValue("category_", value)
+                                        setValue("category", value)
                                     }}
                                     list={
                                         Array.isArray(dataCategories?.categoryRootList)
-                                            ? dataCategories?.categoryRootList
-                                                  ?.find((item: any) => item.id === watch("category"))
-                                                  ?.childrenList?.map((item: any) => ({
-                                                      id: item?.id,
-                                                      p: item?.name,
-                                                  }))!
+                                            ? dataCategories?.categoryRootList?.map((item: any) => ({
+                                                  p: item.name,
+                                                  id: item.id,
+                                              }))!
                                             : []
                                     }
-                                    placeholder="Выберите подкатегорию товара"
                                 />
+                                {errors.category ? <i>Обязательно заполните категорию</i> : null}
                             </span>
-                        ) : null}
-                        {dataAttributes?.productAttributesByCategoryId &&
-                            dataAttributes?.productAttributesByCategoryId?.attribute?.map((item) => (
-                                <Input
-                                    key={`${item.slug}-${item.id}`}
-                                    label={item.name}
-                                    error={null}
-                                    {...register(item.slug)}
-                                    value={watch(item.slug)}
-                                    onChange={(event) => setValue(`slug:${item.slug}:${item.id}`, event.target.value)}
-                                />
-                            ))}
-                        <span data-delivery>
-                            {DELIVERY_TYPE.map((item) => (
-                                <Checkbox
-                                    key={`${item?.value}-check-`}
-                                    label={item.label}
-                                    active={delivery.includes(item.value)}
-                                    dispatch={() => {
-                                        if (delivery.includes(item.value)) {
-                                            setDelivery((prev) => prev.filter((_) => _ !== item.value))
-                                        } else {
-                                            setDelivery((prev) => [...prev, item.value])
+                            {dataCategories?.categoryRootList?.find((item: any) => item.id === watch("category"))?.childrenList?.length ? (
+                                <span {...register("category_", { required: false })}>
+                                    <CustomSelector
+                                        label="Подкатегория товара"
+                                        valueTag={
+                                            dataCategories?.categoryRootList
+                                                ?.find((item: any) => item.id === watch("category"))
+                                                ?.childrenList?.find((item) => item?.id === watch("category_"))?.name!
                                         }
-                                    }}
-                                />
-                            ))}
-                        </span>
-                    </div>
+                                        onClick={(value) => {
+                                            setValue("category_", value)
+                                        }}
+                                        list={
+                                            Array.isArray(dataCategories?.categoryRootList)
+                                                ? dataCategories?.categoryRootList
+                                                      ?.find((item: any) => item.id === watch("category"))
+                                                      ?.childrenList?.map((item: any) => ({
+                                                          id: item?.id,
+                                                          p: item?.name,
+                                                      }))!
+                                                : []
+                                        }
+                                        placeholder="Выберите подкатегорию товара"
+                                    />
+                                </span>
+                            ) : null}
+                            <CustomsAttributes
+                                categoryId={watch("category_")!}
+                                {...{
+                                    register,
+                                    watch,
+                                    setValue,
+                                }}
+                            />
+                            <span data-delivery>
+                                {DELIVERY_TYPE.map((item) => (
+                                    <Checkbox
+                                        key={`${item?.value}-check-`}
+                                        label={item.label}
+                                        active={delivery.includes(item.value)}
+                                        dispatch={() => {
+                                            if (delivery.includes(item.value)) {
+                                                setDelivery((prev) => prev.filter((_) => _ !== item.value))
+                                            } else {
+                                                setDelivery((prev) => [...prev, item.value])
+                                            }
+                                        }}
+                                    />
+                                ))}
+                            </span>
+                        </div>
+                    </article>
                     <footer>
                         <button data-primary type="submit">
                             <span>Сохранить</span>
                         </button>
-                        <button data-default onClick={() => cancel(id!)} type="button">
+                        <button data-default onClick={cancel} type="button">
                             <span>Отмена</span>
                         </button>
                     </footer>
@@ -406,5 +411,4 @@ interface IValues {
     price: number | string
     quantity: number | string
     deliveryType?: TTypeDelivery
-    [key: string]: any
 }

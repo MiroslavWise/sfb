@@ -1,20 +1,20 @@
+import dayjs from "dayjs"
 import Link from "next/link"
+import Image from "next/image"
 
 import { IProduct } from "@/types/types"
 
-import Image from "next/image"
+import { ButtonAddCart } from "@/components/common/button-add-cart"
 
-import styles from "../styles/item-public-products-id.module.scss"
 import { useAuth } from "@/store/state/useAuth"
 import { usePush } from "@/helpers/hooks/usePush"
 import { useFavoritesClick } from "@/helpers/hooks/useFavoritesClick"
-import { ButtonAddCart } from "@/components/common/button-add-cart"
-import dayjs from "dayjs"
+
+import styles from "../styles/item-public-products-id.module.scss"
 
 export const ItemPublicProductsId = (props: IProduct) => {
     const { name, city, createdAt, price, id, photoListUrl } = props ?? {}
     const token = useAuth(({ token }) => token)
-    const { handlePush } = usePush()
     const { isFavorite, handleFavorite, loading } = useFavoritesClick()
 
     function handle() {
@@ -23,7 +23,7 @@ export const ItemPublicProductsId = (props: IProduct) => {
 
     const is = isFavorite(id!)
     return (
-        <Link href={`/more-details?product-id=${id}`} className={styles.container}>
+        <Link href={`/product/${id}`} className={styles.container}>
             {photoListUrl.length > 0 ? (
                 <Image src={photoListUrl[0]?.photoUrl} alt="photo" width={270} height={270} unoptimized />
             ) : (

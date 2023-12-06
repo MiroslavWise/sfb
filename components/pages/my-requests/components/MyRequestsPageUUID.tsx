@@ -73,6 +73,8 @@ export const MyRequestsPageUUID = ({ id }: { id: string }) => {
         })
     }
 
+    if (!data?.productRequestById) return null
+
     return (
         <div className={styles.wrapper}>
             <header>
