@@ -20,17 +20,16 @@ import { queryCategoriesRoot, queryPhotosProductRequestById, queryProductRequest
 
 import styles from "../styles/change.module.scss"
 
-export const MyRequestsPageChange = () => {
-    const uuid = useSearchParams().get("request-id")
+export const MyRequestsPageChange = ({ id }: { id: string }) => {
     const [files, setFiles] = useState<File[]>([])
     const [filesString, setFilesString] = useState<string[]>([])
     const { data: dataCategories, loading: isLoadCategories } = useQuery<ICategoriesRoot>(queryCategoriesRoot)
     const { handlePush } = usePush()
     const [use, { data, loading, refetch }] = useLazyQuery<IRequestProductRoot>(queryProductRequestById, {
-        variables: { id: uuid },
+        variables: { id },
     })
     const [usePhoto, { data: dataPhotos, refetch: refetchPhotos }] = useLazyQuery<IPhotoProductRequestData>(queryPhotosProductRequestById, {
-        variables: { id: uuid },
+        variables: { id },
     })
     const [update] = useMutation(mutateUpdateProductRequest)
     const [create] = useMutation(createProductRequestFull)
@@ -50,13 +49,13 @@ export const MyRequestsPageChange = () => {
             price: +values.price,
             quantity: +values.quantity! || 1,
         }
-        if (uuid) {
-            data.productRequestId = uuid!
+        if (id && id !== "new") {
+            data.productRequestId = id!
             Promise.all([
                 ...files.map((item) =>
                     uploadFile(item, {
                         type: "product-request/photo-upload/",
-                        id: uuid!,
+                        id: id!,
                         idType: "product_request_id",
                     }),
                 ),
@@ -65,7 +64,7 @@ export const MyRequestsPageChange = () => {
                 }),
             ]).then(() => {
                 Promise.all([refetchPhotos(), refetch()]).then(() => {
-                    cancel(uuid)
+                    cancel(id)
                 })
             })
         } else {
@@ -106,8 +105,8 @@ export const MyRequestsPageChange = () => {
     const onSubmit = handleSubmit(submit)
 
     function cancel(uuid: string) {
-        if (uuid) {
-            handlePush(`/my-requests?request-id=${uuid}`)
+        if (uuid && uuid !== "new") {
+            handlePush(`/my-requests/${uuid}/`)
         } else {
             handlePush(`/my-requests`)
         }
@@ -139,11 +138,11 @@ export const MyRequestsPageChange = () => {
     }, [productRequestById])
 
     useEffect(() => {
-        if (uuid) {
+        if (id && id !== "new") {
             use()
             usePhoto()
         }
-    }, [uuid])
+    }, [id])
 
     useEffect(() => {
         if (!!data?.productRequestById && !!dataCategories?.categoryRootList) {
@@ -288,7 +287,7 @@ export const MyRequestsPageChange = () => {
                         <button data-primary type="submit">
                             <span>Сохранить</span>
                         </button>
-                        <button data-default onClick={() => cancel(uuid!)} type="button">
+                        <button data-default onClick={() => cancel(id!)} type="button">
                             <span>Отмена</span>
                         </button>
                     </footer>

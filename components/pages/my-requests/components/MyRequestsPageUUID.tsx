@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion"
 import { useMemo, useState } from "react"
-import { useSearchParams } from "next/navigation"
 import { useMutation, useQuery } from "@apollo/client"
 
 import type { IRequestProductRoot } from "@/types/types"
@@ -12,49 +11,42 @@ import type { IItemTab } from "@/components/common/tabs-details/types"
 import { Outline } from "@/components/common/outline"
 import { TabsDetails } from "@/components/common/tabs-details"
 import { PhotoStage } from "@/components/common/PhotoStage"
-import { ButtonBack } from "@/components/common/button-back"
 import { TagCategory } from "../../proposals/components/TagCategory"
 
 import { ITEMS_TABS } from "../constants/tabs"
 import { usePush } from "@/helpers/hooks/usePush"
+import { queryPhotosProductRequestById, queryProductRequestById } from "@/apollo/query"
 import { mutateUpdateProductRequestDraft, mutationProductRequestUpdate } from "@/apollo/mutation"
-import { productRequestListMe, queryPhotosProductRequestById, queryProductRequestById } from "@/apollo/query"
 
 import styles from "../styles/page-uuid.module.scss"
 
-export const MyRequestsPageUUID = () => {
-    const uuid = useSearchParams().get("request-id")
+export const MyRequestsPageUUID = ({ id }: { id: string }) => {
     const { handlePush, handleReplace } = usePush()
     const [tab, setTab] = useState<IItemTab>(ITEMS_TABS[0])
 
     const [mutateDraft] = useMutation(mutateUpdateProductRequestDraft)
     const [deleteRequest] = useMutation(mutationProductRequestUpdate, {
-        variables: { productRequestId: uuid },
+        variables: { productRequestId: id },
     })
-    const { data, previousData, loading, refetch } = useQuery<IRequestProductRoot>(queryProductRequestById, {
-        variables: { id: uuid },
+    const { data, refetch } = useQuery<IRequestProductRoot>(queryProductRequestById, {
+        variables: { id: id },
     })
     const { data: dataPhotos } = useQuery<IPhotoProductRequestData>(queryPhotosProductRequestById, {
-        variables: { id: uuid },
-    })
-    const { refetch: refetchRequestList } = useQuery(productRequestListMe, {
-        variables: { offset: 0 },
+        variables: { id: id },
     })
     const { productRequestById } = data ?? {}
 
     function handleChange() {
-        handlePush(`/my-requests/change?request-id=${uuid}`)
+        handlePush(`/my-requests/${id}/change`)
     }
 
     function handlePublish() {
         if (productRequestById?.draft) {
             mutateDraft({
                 variables: {
-                    productRequestId: uuid,
+                    productRequestId: id,
                 },
-            }).finally(() => {
-                refetch().finally(() => {})
-            })
+            }).finally(refetch)
         }
     }
 
@@ -77,9 +69,7 @@ export const MyRequestsPageUUID = () => {
 
     function handleDelete() {
         deleteRequest().finally(() => {
-            Promise.all([refetchRequestList(), refetch()]).finally(() => {
-                handleReplace(`/my-requests`)
-            })
+            handleReplace(`/my-requests`)
         })
     }
 

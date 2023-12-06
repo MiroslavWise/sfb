@@ -166,14 +166,13 @@ export const MerchandiseChangeId = ({ id, productId }: { id: string; productId: 
         <div className={styles.wrapper}>
             <h3>Редактирование товара</h3>
             <form onSubmit={onSubmit}>
-                <section data-section-main>
-                    <h3>Основная информация</h3>
+                <section>
                     {Array.isArray(productById?.photoListUrl) && productById?.photoListUrl?.length ? (
                         <div data-photos>
                             {Array.isArray(productById?.photoListUrl)
                                 ? productById?.photoListUrl
                                       ?.filter((item) => item?.photoUrl)
-                                      ?.map((item) => <MiniPhoto src={item.photoUrl} key={item.id + item.photoUrl + "asdf"} />)
+                                      ?.map((item) => <MiniPhoto loaded src={item.photoUrl} key={item.id + item.photoUrl + "asdf"} />)
                                 : null}
                         </div>
                     ) : null}
@@ -189,116 +188,122 @@ export const MerchandiseChangeId = ({ id, productId }: { id: string; productId: 
                     <i {...register("is_files", { required: true })}>
                         {errors?.is_files ? "Обязательно наличие хотя-бы одной фотографии" : null}
                     </i>
-                    <Input
-                        value={watch("title")}
-                        label="Название товара"
-                        error={errors.title ? "Обязательно заполните название товара" : null}
-                        type="text"
-                        {...register("title", { required: true })}
-                        onChange={(event) => setValue("title", event.target.value)}
-                    />
-                    <TextArea
-                        label="Краткое описание товара"
-                        {...register("description", {
-                            required: false,
-                        })}
-                        error={""}
-                        value={watch("description")}
-                        onChange={(event) => setValue("description", event.target.value)}
-                    />
-                    <Input
-                        value={watch("price")}
-                        label="Цена товара"
-                        error={errors.price ? "Заполните цену товарa" : null}
-                        min={0}
-                        type="number"
-                        {...register("price", { required: true })}
-                        onChange={(event) => setValue("price", event.target.value)}
-                    />
-                    <Input
-                        value={watch("quantity")!}
-                        label="Количество товаров"
-                        error={errors.quantity}
-                        type="number"
-                        min={0}
-                        {...register("quantity", { required: true })}
-                        onChange={(event) => setValue("quantity", event.target.value)}
-                    />
                 </section>
-                <section data-section-secondary>
-                    <h3>Категория и характеристики товара</h3>
-                    <span {...register("category", { required: true })}>
-                        <label>Категория товара</label>
-                        <CustomSelector
-                            label={dataCategories?.categoryRootList?.find((item) => item?.id === watch("category"))?.name!}
-                            placeholder="Выберите категорию товара"
-                            onClick={(value) => {
-                                setValue("category", value)
-                            }}
-                            list={
-                                Array.isArray(dataCategories?.categoryRootList)
-                                    ? dataCategories?.categoryRootList?.map((item: any) => ({
-                                          p: item.name,
-                                          id: item.id,
-                                      }))!
-                                    : []
-                            }
+                <div data-columns>
+                    <section data-section-main>
+                        <h3>Основная информация</h3>
+                        <Input
+                            value={watch("title")}
+                            label="Название товара"
+                            error={errors.title ? "Обязательно заполните название товара" : null}
+                            type="text"
+                            {...register("title", { required: true })}
+                            onChange={(event) => setValue("title", event.target.value)}
                         />
-                        {errors.category ? <i>Обязательно заполните категорию</i> : null}
-                    </span>
-                    {dataCategories?.categoryRootList?.find((item: any) => item.id === watch("category"))?.childrenList?.length ? (
-                        <span {...register("category_", { required: false })}>
+                        <TextArea
+                            label="Краткое описание товара"
+                            {...register("description", {
+                                required: false,
+                            })}
+                            error={""}
+                            value={watch("description")}
+                            onChange={(event) => setValue("description", event.target.value)}
+                        />
+                        <Input
+                            value={watch("price")}
+                            label="Цена товара"
+                            error={errors.price ? "Заполните цену товарa" : null}
+                            min={0}
+                            type="number"
+                            {...register("price", { required: true })}
+                            onChange={(event) => setValue("price", event.target.value)}
+                        />
+                        <Input
+                            value={watch("quantity")!}
+                            label="Количество товаров"
+                            error={errors.quantity}
+                            type="number"
+                            min={0}
+                            {...register("quantity", { required: true })}
+                            onChange={(event) => setValue("quantity", event.target.value)}
+                        />
+                    </section>
+                    <section data-section-secondary>
+                        <h3>Категория и характеристики товара</h3>
+                        <span {...register("category", { required: true })}>
+                            <label>Категория товара</label>
                             <CustomSelector
-                                label={
-                                    dataCategories?.categoryRootList
-                                        ?.find((item: any) => item.id === watch("category"))
-                                        ?.childrenList?.find((item) => item?.id === watch("category_"))?.name!
-                                }
+                                label={dataCategories?.categoryRootList?.find((item) => item?.id === watch("category"))?.name!}
+                                placeholder="Выберите категорию товара"
                                 onClick={(value) => {
-                                    setValue("category_", value)
+                                    setValue("category", value)
                                 }}
                                 list={
                                     Array.isArray(dataCategories?.categoryRootList)
-                                        ? dataCategories?.categoryRootList
-                                              ?.find((item: any) => item.id === watch("category"))
-                                              ?.childrenList?.map((item: any) => ({
-                                                  id: item?.id,
-                                                  p: item?.name,
-                                              }))!
+                                        ? dataCategories?.categoryRootList?.map((item: any) => ({
+                                              p: item.name,
+                                              id: item.id,
+                                          }))!
                                         : []
                                 }
-                                placeholder="Выберите подкатегорию товара"
                             />
+                            {errors.category ? <i>Обязательно заполните категорию</i> : null}
                         </span>
-                    ) : null}
-                    <b>
-                        Скоро будут добавлены возможности заполнения характеристик, такие как: бренд, цвет, размер и т.д. В данный момент мы
-                        заполняем базу и тестируем данную механику, что-бы как можно лучше её сделать для конечного потребителя
-                    </b>
-                    <span>
-                        <label>Закреплённый магазин за товаром</label>
-                        <p>{productById?.shop?.name}</p>
-                    </span>
-                    <span data-delivery>
-                        <label>Возможные варианты доставки довара, предостовляемые вашим магазином</label>
-                        <div>
-                            {DELIVERY_TYPE.map((item) => (
-                                <Checkbox
-                                    key={`${item?.value}-check-482`}
-                                    label={item.label}
-                                    active={delivery.includes(item.value)}
-                                    dispatch={() => {
-                                        if (delivery.includes(item.value)) {
-                                            setDelivery((prev) => prev.filter((_) => _ !== item.value))
-                                        } else {
-                                            setDelivery((prev) => [...prev, item.value])
-                                        }
+                        {dataCategories?.categoryRootList?.find((item: any) => item.id === watch("category"))?.childrenList?.length ? (
+                            <span {...register("category_", { required: false })}>
+                                <CustomSelector
+                                    label={
+                                        dataCategories?.categoryRootList
+                                            ?.find((item: any) => item.id === watch("category"))
+                                            ?.childrenList?.find((item) => item?.id === watch("category_"))?.name!
+                                    }
+                                    onClick={(value) => {
+                                        setValue("category_", value)
                                     }}
+                                    list={
+                                        Array.isArray(dataCategories?.categoryRootList)
+                                            ? dataCategories?.categoryRootList
+                                                  ?.find((item: any) => item.id === watch("category"))
+                                                  ?.childrenList?.map((item: any) => ({
+                                                      id: item?.id,
+                                                      p: item?.name,
+                                                  }))!
+                                            : []
+                                    }
+                                    placeholder="Выберите подкатегорию товара"
                                 />
-                            ))}
-                        </div>
-                    </span>
-                </section>
+                            </span>
+                        ) : null}
+                        <b>
+                            Скоро будут добавлены возможности заполнения характеристик, такие как: бренд, цвет, размер и т.д. В данный
+                            момент мы заполняем базу и тестируем данную механику, что-бы как можно лучше её сделать для конечного
+                            потребителя
+                        </b>
+                        <span>
+                            <label>Закреплённый магазин за товаром</label>
+                            <p>{productById?.shop?.name}</p>
+                        </span>
+                        <span data-delivery>
+                            <label>Возможные варианты доставки довара, предостовляемые вашим магазином</label>
+                            <div>
+                                {DELIVERY_TYPE.map((item) => (
+                                    <Checkbox
+                                        key={`${item?.value}-check-482`}
+                                        label={item.label}
+                                        active={delivery.includes(item.value)}
+                                        dispatch={() => {
+                                            if (delivery.includes(item.value)) {
+                                                setDelivery((prev) => prev.filter((_) => _ !== item.value))
+                                            } else {
+                                                setDelivery((prev) => [...prev, item.value])
+                                            }
+                                        }}
+                                    />
+                                ))}
+                            </div>
+                        </span>
+                    </section>
+                </div>
                 <footer>
                     <button data-primary type="submit">
                         <span>Сохранить</span>

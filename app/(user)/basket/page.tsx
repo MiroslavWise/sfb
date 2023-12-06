@@ -1,14 +1,12 @@
-"use client"
-
-import { useSearchParams } from "next/navigation"
+import type { Metadata } from "next"
 
 import { BasketPage } from "@/components/pages/basket"
 
-import { useTitle } from "@/helpers/hooks/useTitle"
+export const metadata: Metadata = {
+    title: "SFB - Корзина",
+    description: "Товары, которые находятся у вас в корзине",
+}
 
 export default function Basket() {
-    const id = useSearchParams().get("id")
-    useTitle("Корзина")
-
     return <BasketPage />
 }

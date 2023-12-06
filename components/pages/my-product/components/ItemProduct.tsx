@@ -1,14 +1,13 @@
 "use client"
 
 import dayjs from "dayjs"
+import Link from "next/link"
 import Image from "next/image"
 import { useMemo } from "react"
 
 import type { TItemProposalsPage } from "../../proposals/types/types"
 
 import { ComponentAddress, ComponentArea, ComponentCity } from "@/components/common/component-regions"
-
-import { usePush } from "@/helpers/hooks/usePush"
 
 import styles from "../styles/item.module.scss"
 
@@ -23,8 +22,6 @@ export const ItemProduct: TItemProposalsPage = (props) => {
         createdAt,
     } = props ?? {}
 
-    const { handleReplace } = usePush()
-
     const images = useMemo(() => {
         if (!Array.isArray(photoListUrl) || !photoListUrl) {
             return []
@@ -38,12 +35,7 @@ export const ItemProduct: TItemProposalsPage = (props) => {
     }, [photoListUrl])
 
     return (
-        <section
-            className={styles.container}
-            onClick={() => {
-                handleReplace(`/my-products?product-id=${id}`)
-            }}
-        >
+        <Link className={styles.container} href={`/my-products/${id}/`} prefetch>
             <div data-image>
                 {images.length ? (
                     <Image src={images[0]?.file?.photoUrl!} alt={images[0]?.file?.id!} width={300} height={300} unoptimized />
@@ -66,6 +58,6 @@ export const ItemProduct: TItemProposalsPage = (props) => {
                 </section>
             </div>
             <time data-date>{dayjs(createdAt).format("HH:mm DD.MM.YYYY")}</time>
-        </section>
+        </Link>
     )
 }

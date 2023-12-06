@@ -1,23 +1,25 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { useQuery } from "@apollo/client"
 import type { IRequestProduct } from "@/types/types"
 
+import { Filter } from "@/components/common/filters"
 import { ItemRequestsPage } from "./ItemRequestsPage"
 
 import { useTitle } from "@/helpers/hooks/useTitle"
 import { usePush } from "@/helpers/hooks/usePush"
-import { Filter } from "@/components/common/filters"
 import { productRequestListMe } from "@/apollo/query"
 
-export function MyRequestsPage() {
-    const { data, loading } = useQuery(productRequestListMe, {
+export function MyRequests() {
+    const { data } = useQuery(productRequestListMe, {
         variables: { offset: 0 },
     })
     useTitle(`Мои запросы (${data?.productRequestListMe?.totalCount || 0})`)
     const { handlePush } = usePush()
     const [loadingCreate, setLoadingCreate] = useState(false)
+
+    const list = useMemo(() => (data?.productRequestListMe?.results as any[]) || [], [data?.productRequestListMe])
 
     return (
         <>
@@ -26,7 +28,7 @@ export function MyRequestsPage() {
                     data-create
                     onClick={() => {
                         setLoadingCreate(true)
-                        handlePush(`/my-requests/change`)
+                        handlePush(`/my-requests/new/change`)
                     }}
                 >
                     <span>Создать</span>
@@ -35,11 +37,9 @@ export function MyRequestsPage() {
             </header>
             <Filter />
             <article>
-                {Array.isArray(data?.productRequestListMe?.results)
-                    ? data?.productRequestListMe?.results?.map((item: IRequestProduct) => (
-                          <ItemRequestsPage key={`${item.id}---1023`} {...item} />
-                      ))
-                    : null}
+                {list.map((item: IRequestProduct) => (
+                    <ItemRequestsPage key={`${item.id}`} {...item} />
+                ))}
             </article>
         </>
     )

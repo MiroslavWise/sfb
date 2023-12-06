@@ -12,8 +12,8 @@ import { dispatchEnter } from "@/store/state/useEnter"
 import styles from "../styles/main-use-form.module.scss"
 
 export const ComponentMainUseFormMainPage = () => {
-    const [state, setState] = useState<"start" | "purchase" | "sale">("start")
     const token = useAuth(({ token }) => token)
+    const [state, setState] = useState<"start" | "purchase" | "sale">("start")
     const { handlePush } = usePush()
 
     function handleMarket() {
@@ -70,7 +70,6 @@ export const ComponentMainUseFormMainPage = () => {
                         </h4>
                     </header>
                     <FormPurchase setState={setState} state={state} />
-                    {/* <ComponentSpoiler /> */}
                 </motion.div>
             ) : null}
             {state === "sale" ? (
@@ -90,7 +89,6 @@ export const ComponentMainUseFormMainPage = () => {
                             </h4>
                         </header>
                         <FormPurchase setState={setState} state={state} />
-                        {/* <ComponentSpoiler /> */}
                     </motion.div>
                 ) : (
                     <motion.div

@@ -23,7 +23,12 @@ export const ItemBasket = (props: ICart) => {
             cartItemId: id,
         },
     })
-    const [updateQuantity] = useMutation(mutationCartItemUpdate)
+    const [updateQuantity] = useMutation(mutationCartItemUpdate, {
+        variables: {
+            cartItemId: id,
+            quantity: qInt,
+        },
+    })
 
     function handle() {
         handleFavorite(product.id)
@@ -32,16 +37,9 @@ export const ItemBasket = (props: ICart) => {
     const is = isFavorite(product.id!)
 
     function quantityUpdate() {
-        console.log("quantityUpdate: ", qInt)
-        updateQuantity({
-            variables: {
-                cartItemId: id,
-                quantity: qInt,
-            },
-        }).then((response) => {
-            refetch()
-            console.log("quantityUpdate response: ", response?.data)
-        })
+        if (qInt !== quantityProduct) {
+            updateQuantity().then(refetch)
+        }
     }
 
     return (
@@ -106,9 +104,7 @@ export const ItemBasket = (props: ICart) => {
                     <button
                         data-cart
                         onClick={() => {
-                            useDelete().finally(() => {
-                                refetch()
-                            })
+                            useDelete().finally(refetch)
                         }}
                     >
                         <span>Удалить из корзины</span>

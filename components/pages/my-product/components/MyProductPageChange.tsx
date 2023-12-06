@@ -24,19 +24,18 @@ import { queryCategoriesRoot, queryPhotosProductById, queryProductById } from "@
 
 import styles from "../styles/change.module.scss"
 
-export const MyProductPageChange = () => {
+export const MyProductChange = ({ id }: { id: string }) => {
     const user = useAuth(({ user }) => user)
-    const uuid = useSearchParams().get("product-id")
     const [files, setFiles] = useState<File[]>([])
     const [filesString, setFilesString] = useState<string[]>([])
     const { data: dataCategories, loading: isLoadCategories } = useQuery<ICategoriesRoot>(queryCategoriesRoot)
     const { handlePush } = usePush()
     const [use, { data, loading, refetch }] = useLazyQuery<IProductRoot>(queryProductById, {
-        variables: { id: uuid },
+        variables: { id },
     })
     const [delivery, setDelivery] = useState<string[]>([])
     const [usePhoto, { data: dataPhotos, refetch: refetchPhotos }] = useLazyQuery<IPhotoProductData>(queryPhotosProductById, {
-        variables: { id: uuid },
+        variables: { id },
     })
     const [useAttribute, { data: dataAttributes }] = useLazyQuery<IProductAttributeList>(queryProductAttributesByCategoryId)
     const [update] = useMutation(mutateUpdateProduct)
@@ -74,13 +73,13 @@ export const MyProductPageChange = () => {
 
         console.log("slugs: ", slugs)
 
-        if (uuid) {
-            data.productId = uuid!
+        if (id && id !== "new") {
+            data.productId = id!
             Promise.all([
                 ...files.map((item) =>
                     uploadFile(item, {
                         type: "product/photo-upload/",
-                        id: uuid!,
+                        id: id!,
                         idType: "product_id",
                     }),
                 ),
@@ -89,7 +88,7 @@ export const MyProductPageChange = () => {
                 }),
             ]).then(() => {
                 Promise.all([refetchPhotos(), refetch()]).then(() => {
-                    cancel(uuid)
+                    cancel(id)
                 })
             })
         } else {
@@ -128,8 +127,8 @@ export const MyProductPageChange = () => {
     const onSubmit = handleSubmit(submit)
 
     function cancel(uuid?: string) {
-        if (uuid) {
-            handlePush(`/my-products?product-id=${uuid}`)
+        if (uuid && uuid !== "new") {
+            handlePush(`/my-products/${uuid}/`)
         } else {
             handlePush(`/my-products`)
         }
@@ -157,11 +156,11 @@ export const MyProductPageChange = () => {
     }, [productById, files])
 
     useEffect(() => {
-        if (uuid) {
+        if (id && id !== "new") {
             use()
             usePhoto()
         }
-    }, [uuid])
+    }, [id])
 
     function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
         const files = event.target.files
@@ -380,7 +379,7 @@ export const MyProductPageChange = () => {
                         <button data-primary type="submit">
                             <span>Сохранить</span>
                         </button>
-                        <button data-default onClick={() => cancel(uuid!)} type="button">
+                        <button data-default onClick={() => cancel(id!)} type="button">
                             <span>Отмена</span>
                         </button>
                     </footer>

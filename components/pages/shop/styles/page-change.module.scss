@@ -12,28 +12,9 @@
 
     & > form {
         width: 100%;
-        display: grid;
-        grid-template-columns: repeat(2, calc(50% - 12px));
-        grid-gap: 24px 24px;
-        gap: 10px 10px;
-        grid-template-areas:
-            "main secondary"
-            "footer footer";
-
-        & > [data-section-main] {
-            grid-area: main;
-
-            & > i {
-                color: #d92d20;
-                font-size: 12px;
-                font-style: normal;
-                font-weight: 500;
-            }
-        }
-
-        & > [data-section-secondary] {
-            grid-area: secondary;
-        }
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
 
         & > section {
             display: flex;
@@ -41,11 +22,11 @@
             align-items: flex-start;
             gap: 16px;
 
-            h3 {
-                color: var(--main-black);
-                font-size: 18px;
+            & > i {
+                color: #d92d20;
+                font-size: 12px;
                 font-style: normal;
-                font-weight: 600;
+                font-weight: 500;
             }
 
             & > [data-photos="true"] {
@@ -85,55 +66,27 @@
                     aspect-ratio: 1/1;
                     border-radius: 7px;
                     object-fit: cover;
-                    border: 2px dashed var(--gray-500);
+                    border: 2px dashed var(--gray-400);
                     background: transparent;
+
+                    &[data-loaded="true"] {
+                        border-color: var(--main-black);
+                    }
                 }
             }
+        }
 
-            & > b {
-                color: #d92d20;
-                font-size: 14px;
-                font-style: italic;
-                font-weight: 500;
-            }
+        & > [data-columns] {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(2, calc(50% - 12px));
+            gap: 24px;
 
-            & > span {
-                position: relative;
-                width: 100%;
+            & > section {
                 display: flex;
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 2px;
-                border-radius: 7px;
-
-                & > p {
-                    color: var(--main-black);
-                    font-size: 16px;
-                    font-style: normal;
-                    font-weight: 500;
-                }
-
-                & > label {
-                    color: var(--gray-500) !important;
-                    font-size: 14px;
-                    font-style: normal;
-                    font-weight: 400;
-                    line-height: 16px;
-                    letter-spacing: -0.4px;
-                }
-
-                &[data-delivery] {
-                    & > div {
-                        display: flex;
-                        flex-direction: row !important;
-                        gap: 16px;
-                        flex-wrap: wrap;
-                    }
-                }
-
-                & > [data-select="true"] {
-                    width: 100%;
-                }
+                gap: 16px;
 
                 & > i {
                     color: #d92d20;
@@ -141,11 +94,70 @@
                     font-style: normal;
                     font-weight: 500;
                 }
+
+                h3 {
+                    color: var(--main-black);
+                    font-size: 18px;
+                    font-style: normal;
+                    font-weight: 600;
+                }
+
+                & > b {
+                    color: #d92d20;
+                    font-size: 14px;
+                    font-style: italic;
+                    font-weight: 500;
+                }
+
+                & > span {
+                    position: relative;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 2px;
+                    border-radius: 7px;
+
+                    & > p {
+                        color: var(--main-black);
+                        font-size: 16px;
+                        font-style: normal;
+                        font-weight: 500;
+                    }
+
+                    & > label {
+                        color: var(--gray-500) !important;
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: 16px;
+                        letter-spacing: -0.4px;
+                    }
+
+                    &[data-delivery] {
+                        & > div {
+                            display: flex;
+                            flex-direction: row !important;
+                            gap: 16px;
+                            flex-wrap: wrap;
+                        }
+                    }
+
+                    & > [data-select="true"] {
+                        width: 100%;
+                    }
+
+                    & > i {
+                        color: #d92d20;
+                        font-size: 12px;
+                        font-style: normal;
+                        font-weight: 500;
+                    }
+                }
             }
         }
 
         & > footer {
-            grid-area: footer;
             width: 100%;
             display: flex;
             flex-direction: row;

@@ -1,19 +1,21 @@
 import Image from "next/image"
 import { useForm } from "react-hook-form"
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client"
-import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react"
+import { type ChangeEvent, type Dispatch, type SetStateAction, useEffect, useState } from "react"
 
-import { createProductRequestSmall, createProductSmall } from "@/apollo/mutation"
-import { queryCategoriesRoot } from "@/apollo/query"
+import type { ICategoriesRoot, IRecommendation, ICategoryRecommendation } from "@/types/types"
+
+import { CustomSelector } from "@/components/common/custom-selector"
+
 import { useAuth } from "@/store/state/useAuth"
-import { dispatchEnter } from "@/store/state/useEnter"
 import { usePush } from "@/helpers/hooks/usePush"
 import { uploadFile } from "@/helpers/services/fetch"
-import { useOutsideClickEvent } from "@/helpers/hooks/useOutsideClickEvent"
-import { queryCategoryRecommendation } from "@/apollo/attribute"
+import { dispatchEnter } from "@/store/state/useEnter"
+import { queryCategoriesRoot } from "@/apollo/query"
 import { useDebounce } from "@/helpers/hooks/useDebounce"
-import { ICategoriesRoot, IRecommendation, ICategoryRecommendation } from "@/types/types"
-import { CustomSelector } from "@/components/common/custom-selector"
+import { queryCategoryRecommendation } from "@/apollo/attribute"
+import { useOutsideClickEvent } from "@/helpers/hooks/useOutsideClickEvent"
+import { createProductRequestSmall, createProductSmall } from "@/apollo/mutation"
 
 export const FormPurchase = ({
     setState,
@@ -71,7 +73,7 @@ export const FormPurchase = ({
                                     }),
                                 ),
                             ]).finally(() => {
-                                handlePush(`/my-requests/change?request-id=${id}`)
+                                handlePush(`/my-requests/${id}/change`)
                             })
                         }
                     })
@@ -96,7 +98,7 @@ export const FormPurchase = ({
                                     }),
                                 ),
                             ]).finally(() => {
-                                handlePush(`/my-products/change?product-id=${id}`)
+                                handlePush(`/my-products/${id}/change`)
                             })
                         }
                     })

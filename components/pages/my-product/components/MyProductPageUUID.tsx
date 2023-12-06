@@ -1,7 +1,6 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import { useSearchParams } from "next/navigation"
 import { useMutation, useQuery } from "@apollo/client"
 
 import type { IPhotoProductData, IProductRoot } from "@/types/types"
@@ -22,33 +21,32 @@ import { mutateUpdateProductDraft, mutationProductDelete } from "@/apollo/mutati
 
 import styles from "../styles/page-uuid.module.scss"
 
-export const MyProductPageUUID = () => {
+export const MyProductPageUUID = ({ id }: { id: string }) => {
     const { handlePush, handleReplace } = usePush()
     const [tab, setTab] = useState<IItemTab>(ITEMS_TABS[0])
-    const uuid = useSearchParams().get("product-id")
 
     const [mutateDraft] = useMutation(mutateUpdateProductDraft)
     const [deleteProduct] = useMutation(mutationProductDelete, {
-        variables: { productId: uuid },
+        variables: { productId: id },
     })
 
     const { data, refetch } = useQuery<IProductRoot>(queryProductById, {
-        variables: { id: uuid },
+        variables: { id: id },
     })
     const { productById } = data ?? {}
     const { data: dataPhotos } = useQuery<IPhotoProductData>(queryPhotosProductById, {
-        variables: { id: uuid },
+        variables: { id: id },
     })
 
     function handleChange() {
-        handlePush(`/my-products/change?product-id=${uuid}`)
+        handlePush(`/my-products/${id}/change`)
     }
 
     function handlePublish() {
         if (productById?.draft) {
             mutateDraft({
                 variables: {
-                    productId: uuid,
+                    productId: id,
                 },
             }).finally(() => {
                 refetch().finally(() => {})

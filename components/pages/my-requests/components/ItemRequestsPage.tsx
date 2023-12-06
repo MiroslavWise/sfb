@@ -1,12 +1,13 @@
 "use client"
 
 import dayjs from "dayjs"
+import Link from "next/link"
 import { useMemo } from "react"
 import Image from "next/image"
 
 import type { TItemProposalsPage } from "../../proposals/types/types"
+
 import styles from "../styles/item.module.scss"
-import Link from "next/link"
 
 export const ItemRequestsPage: TItemProposalsPage = (props) => {
     const { id, name, price, draft, photoListUrl, createdAt } = props ?? {}
@@ -24,7 +25,7 @@ export const ItemRequestsPage: TItemProposalsPage = (props) => {
     }, [photoListUrl])
 
     return (
-        <Link className={styles.container} href={`/my-requests?request-id=${id}`}>
+        <Link className={styles.container} href={`/my-requests/${id}/`} prefetch>
             {images.length ? (
                 <Image src={images[0]?.file?.photoUrl!} alt={images[0]?.file?.id!} width={300} height={300} unoptimized />
             ) : (

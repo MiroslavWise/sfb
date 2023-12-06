@@ -50,7 +50,7 @@
     & > article {
         width: 100%;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(170px, 300px));
         grid-gap: 16px;
         height: fit-content;
     }
