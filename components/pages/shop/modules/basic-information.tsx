@@ -44,10 +44,6 @@ export const BasicInformation = ({ id }: { id: string }) => {
                         )}
                     </div>
                     <div data-set>
-                        <label>Название:</label>
-                        <p>{data?.shopById?.name}</p>
-                    </div>
-                    <div data-set>
                         <label>Описание:</label>
                         <p>{data?.shopById?.description}</p>
                     </div>

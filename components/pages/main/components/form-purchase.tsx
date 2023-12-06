@@ -16,6 +16,7 @@ import { useDebounce } from "@/helpers/hooks/useDebounce"
 import { queryCategoryRecommendation } from "@/apollo/attribute"
 import { useOutsideClickEvent } from "@/helpers/hooks/useOutsideClickEvent"
 import { createProductRequestSmall, createProductSmall } from "@/apollo/mutation"
+import { FormPurchaseTags } from "./form-purchase-tags"
 
 export const FormPurchase = ({
     setState,
@@ -232,9 +233,9 @@ export const FormPurchase = ({
                     ) : null}
                 </span>
                 <span {...register("id", { required: true })} data-search>
-                    <label>Категория товара</label>
                     <CustomSelector
-                        label={data?.categoryRootList?.find((item) => item?.id === watch("id"))?.name!}
+                        label="Категория товара"
+                        valueTag={data?.categoryRootList?.find((item) => item?.id === watch("id"))?.name!}
                         placeholder="Выберите категорию товара"
                         onClick={(value) => {
                             setValue("id", value)
@@ -253,7 +254,8 @@ export const FormPurchase = ({
                 {data?.categoryRootList?.find((item: any) => item.id === watch("id"))?.childrenList?.length ? (
                     <span data-search {...register("id_", { required: false })}>
                         <CustomSelector
-                            label={
+                            label="Подкатегория товара"
+                            valueTag={
                                 data?.categoryRootList
                                     ?.find((item: any) => item.id === watch("id"))
                                     ?.childrenList?.find((item) => item?.id === watch("id_"))?.name!
@@ -275,10 +277,11 @@ export const FormPurchase = ({
                         />
                     </span>
                 ) : null}
-                <span data-file>
+                <FormPurchaseTags categoryId={watch("id_")!} />
+                {/* <span data-file>
                     <input type="file" multiple onChange={handleImageChange} />
                     <label>Нажмите или перетащите фото товара в эту область, чтобы загрузить (.png, .jpeg, .jpg)</label>
-                </span>
+                </span> */}
                 {filesString.length ? (
                     <div data-files>
                         {filesString?.map((item) => (
@@ -301,9 +304,9 @@ export const FormPurchase = ({
 
 interface IValues {
     name: string
-    id: string | number | null
-    id_: string | number | null
-    files: File[]
+    id: string | null
+    id_: string | null
+    // files: File[]
 }
 
 interface IValuesSearchOfName {

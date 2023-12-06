@@ -13,6 +13,7 @@ import { mutateUpdateProductDraft } from "@/apollo/mutation"
 import { queryProductListShopManagement } from "@/apollo/query"
 
 import styles from "../styles/modules.module.scss"
+import Link from "next/link"
 
 export const Merchandise = ({ id }: { id: string }) => {
     const { handlePush } = usePush()
@@ -59,11 +60,12 @@ export const Merchandise = ({ id }: { id: string }) => {
             </footer>
             <ul>
                 {list?.map((item) => (
-                    <li
+                    <Link
                         key={`${item?.id}-${item?.shop?.id}----4340002-341`}
-                        onClick={() => {
-                            handlePush(`/my-shop/${id}/merchandise/${item?.id}`)
+                        href={{
+                            pathname: `/my-shop/${id}/merchandise/${item?.id}`,
                         }}
+                        data-is-draft={item?.draft}
                     >
                         {item?.photoListUrl[0] ? (
                             <Image src={item?.photoListUrl[0]?.photoUrl!} alt="photo" width={200} height={200} unoptimized />
@@ -77,6 +79,7 @@ export const Merchandise = ({ id }: { id: string }) => {
                                 <button
                                     data-public
                                     onClick={(event) => {
+                                        event.preventDefault()
                                         event.stopPropagation()
                                         handlePush(`/my-shop/${id}/merchandise/${item?.id}/change`)
                                     }}
@@ -86,6 +89,7 @@ export const Merchandise = ({ id }: { id: string }) => {
                                 {!!item?.category?.id && item?.name?.length > 2 && !!item?.draft && !!item?.photoListUrl?.length ? (
                                     <button
                                         onClick={(event) => {
+                                            event.preventDefault()
                                             event.stopPropagation()
                                             update({
                                                 variables: {
@@ -109,7 +113,7 @@ export const Merchandise = ({ id }: { id: string }) => {
                             <img src="/svg/calendar-date.svg" alt="calendar" width={12} height={12} />
                             <time>{dayjs(item?.createdAt).format("HH:mm DD.MM.YY")}</time>
                         </div>
-                    </li>
+                    </Link>
                 ))}
             </ul>
         </div>

@@ -6,14 +6,15 @@ import { TProps } from "./types"
 
 import styles from "./style.module.scss"
 
-export const CustomSelector: TProps = ({ label, onClick, list, placeholder }) => {
+export const CustomSelector: TProps = ({ label, valueTag, onClick, list, placeholder }) => {
     const $id = useId()
     const [state, setState, ref] = useOutsideClickEvent()
 
     return (
         <div ref={ref} className={styles.container} data-selector>
+            <label>{label}</label>
             <div data-label onClick={() => setState(true)}>
-                <span data-is-label={!!label}>{label ? label : placeholder}</span>
+                <span data-is-label={!!valueTag}>{valueTag ? valueTag : placeholder}</span>
             </div>
             {state && list && list?.length ? (
                 <ul

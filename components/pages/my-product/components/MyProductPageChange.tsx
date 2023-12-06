@@ -304,9 +304,9 @@ export const MyProductChange = ({ id }: { id: string }) => {
                     <div data-div-secondary>
                         <h3>Категория и характеристики товара</h3>
                         <span {...register("category", { required: true })}>
-                            <label>Категория товара</label>
                             <CustomSelector
-                                label={dataCategories?.categoryRootList?.find((item) => item?.id === watch("category"))?.name!}
+                                label="Категория товара"
+                                valueTag={dataCategories?.categoryRootList?.find((item) => item?.id === watch("category"))?.name!}
                                 placeholder="Выберите категорию товара"
                                 onClick={(value) => {
                                     setValue("category", value)
@@ -325,7 +325,8 @@ export const MyProductChange = ({ id }: { id: string }) => {
                         {dataCategories?.categoryRootList?.find((item: any) => item.id === watch("category"))?.childrenList?.length ? (
                             <span {...register("category_", { required: false })}>
                                 <CustomSelector
-                                    label={
+                                    label="Подкатегория товара"
+                                    valueTag={
                                         dataCategories?.categoryRootList
                                             ?.find((item: any) => item.id === watch("category"))
                                             ?.childrenList?.find((item) => item?.id === watch("category_"))?.name!

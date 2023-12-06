@@ -20,3 +20,5 @@ export * from "./layout/NavigationLayoutPublic"
 export * from "./pages/PublicShopId"
 export * from "./pages/PublicProductsId"
 export * from "./layout/HeaderLayoutPublicShopId"
+
+export * from "./layout/HeaderShopId"

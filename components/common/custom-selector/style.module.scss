@@ -1,16 +1,30 @@
 .container {
     position: relative;
-    height: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
     width: 100%;
-    background: var(--gray-200);
     border-radius: 7px;
+    background: transparent !important;
+
+    & > label {
+        color: var(--gray-500) !important;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 16px;
+        letter-spacing: -0.4px;
+    }
 
     & > [data-label] {
+        background: var(--gray-200);
         display: flex;
         flex-direction: row;
         align-items: center;
-        padding: 20px 16px;
-        height: 100%;
+        padding-left: 6px;
+        height: 40px;
+        border-radius: 7px;
+        border: 1px solid var(--gray-400);
         & > span {
             color: var(--gray-600);
             font-weight: 500;

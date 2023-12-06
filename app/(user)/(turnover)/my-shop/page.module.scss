@@ -1,5 +1,5 @@
 .wrapper {
-    max-width: 960px;
+    max-width: 1440px;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -8,10 +8,11 @@
     & > ul {
         width: 100%;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(170px, 270px));
+        grid-template-columns: repeat(auto-fit, minmax(170px, 300px));
         grid-gap: 16px;
 
-        & > li {
+        & > li,
+        & > a {
             position: relative;
             width: 100%;
             aspect-ratio: 1/1;
