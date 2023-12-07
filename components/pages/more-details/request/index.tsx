@@ -37,6 +37,10 @@ export const RequestId = ({ id }: { id: string }) => {
         return []
     }, [dataPhotos?.productRequestById])
 
+    const attrs = useMemo(() => {
+        return productRequestById?.attributeList || []
+    }, [productRequestById])
+
     if (loading || loadingPhoto) return null
 
     return (
@@ -68,15 +72,19 @@ export const RequestId = ({ id }: { id: string }) => {
                         </div>
                     </Outline>
                     <h6>Количество: {productRequestById?.quantity! || 1}</h6>
-                    <Outline label="Адрес">
-                        <div data-regions>
-                            {productRequestById?.author.city?.region && (
-                                <ComponentArea name={productRequestById?.author?.city?.region?.name} />
-                            )}
-                            {productRequestById?.author?.city && <ComponentCity name={productRequestById?.author?.city?.name} />}
-                            {productRequestById?.author?.address && <ComponentAddress name={productRequestById?.author?.address} />}
-                        </div>
-                    </Outline>
+                    {attrs.length ? (
+                        <Outline label="Дополнительные атрибуты">
+                            <div data-attrs>
+                                {attrs.map((item) => (
+                                    <div data-h>
+                                        <p>{item.name}</p>
+                                        <div data-dashed />
+                                        <span>{item.value}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </Outline>
+                    ) : null}
                 </article>
             </section>
         </motion.div>

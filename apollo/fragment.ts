@@ -42,7 +42,7 @@ export const ProductAttribute = gql`
         valueBool
         valueText
         valueInt
-        valueId
+        valueEnumId
     }
 `
 
@@ -85,6 +85,7 @@ export const PRODUCT = gql`
 
 export const PRODUCT_REQUEST = gql`
     ${AUTHOR}
+    ${ProductAttribute}
     fragment productRequest on ProductRequestType {
         id
         category {
@@ -106,6 +107,9 @@ export const PRODUCT_REQUEST = gql`
         draft
         quantity
         createdAt
+        attributeList {
+            ...ProductAttribute
+        }
     }
 `
 

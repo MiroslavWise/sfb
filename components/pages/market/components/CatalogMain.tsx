@@ -1,20 +1,18 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
 import { useMemo } from "react"
 import { useQuery } from "@apollo/client"
 import { useSearchParams } from "next/navigation"
 
 import { ICategoriesRoot } from "@/types/types"
 
-import { CatalogMany } from "./CatalogMany"
+import { DataCategories } from "./DataCategories"
 import { ItemLinkCategory } from "./ItemLinkCategory"
 
 import { queryCategoriesRoot } from "@/apollo/query"
 
 import styles from "../styles/catalog-main.module.scss"
-import { DataCategories } from "./DataCategories"
 
 export const CatalogMain = () => {
     const categoryId = useSearchParams().get("category-id")

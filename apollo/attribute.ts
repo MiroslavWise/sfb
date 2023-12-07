@@ -42,3 +42,11 @@ export const queryCategoryRecommendation = gql`
         }
     }
 `
+
+export const mutationProductRequestAttributeUpdate = gql`
+    mutation ($attrId: Int!, $productRequestId: UUID!, $attrValueId: Int!) {
+        productRequestAttributeUpdate(attrId: $attrId, productRequestId: $productRequestId, attrValueId: $attrValueId) {
+            ok
+        }
+    }
+`

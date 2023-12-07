@@ -185,7 +185,7 @@ export const MyProductChange = ({ id }: { id: string }) => {
     useEffect(() => {
         if (listAttrs?.length) {
             listAttrs?.forEach((item) => {
-                setValue(`${item.attrId}:attr`, `${item.valueId}`)
+                setValue(`${item.attrId}:attr`, `${item.valueEnumId}`)
             })
         }
     }, [listAttrs])

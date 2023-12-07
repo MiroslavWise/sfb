@@ -6,8 +6,9 @@ import { useSearchParams } from "next/navigation"
 
 import type { ICategoriesChildren, IProductList } from "@/types/types"
 
-import { queryProductList } from "@/apollo/query"
 import { ItemProduct } from "./ItemProduct"
+
+import { queryProductList } from "@/apollo/query"
 
 export const DataCategories = ({ items }: { items: ICategoriesChildren[] }) => {
     const categoryId = useSearchParams().get("category-id")

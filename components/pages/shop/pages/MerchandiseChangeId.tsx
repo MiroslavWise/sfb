@@ -184,7 +184,7 @@ export const MerchandiseChangeId = ({ id, productId }: { id: string; productId: 
     useEffect(() => {
         if (listAttrs?.length) {
             listAttrs?.forEach((item) => {
-                setValue(`${item.attrId}:attr`, `${item.valueId}`)
+                setValue(`${item.attrId}:attr`, `${item.valueEnumId}`)
             })
         }
         console.log("listAttrs: ", listAttrs)

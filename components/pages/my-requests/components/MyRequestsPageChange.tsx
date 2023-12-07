@@ -1,7 +1,6 @@
 "use client"
 
 import { useForm } from "react-hook-form"
-import { useSearchParams } from "next/navigation"
 import { ChangeEvent, useEffect, useState } from "react"
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client"
 
@@ -19,18 +18,21 @@ import { createProductRequestFull, mutateUpdateProductRequest } from "@/apollo/m
 import { queryCategoriesRoot, queryPhotosProductRequestById, queryProductRequestById } from "@/apollo/query"
 
 import styles from "../styles/change.module.scss"
+import { CustomsAttributes } from "@/components/common/customs-attributes"
+import { mutationProductRequestAttributeUpdate } from "@/apollo/attribute"
 
 export const MyRequestsPageChange = ({ id }: { id: string }) => {
     const [files, setFiles] = useState<File[]>([])
     const [filesString, setFilesString] = useState<string[]>([])
     const { data: dataCategories, loading: isLoadCategories } = useQuery<ICategoriesRoot>(queryCategoriesRoot)
     const { handlePush } = usePush()
-    const [use, { data, loading, refetch }] = useLazyQuery<IRequestProductRoot>(queryProductRequestById, {
+    const [use, { data, loading }] = useLazyQuery<IRequestProductRoot>(queryProductRequestById, {
         variables: { id },
     })
-    const [usePhoto, { data: dataPhotos, refetch: refetchPhotos }] = useLazyQuery<IPhotoProductRequestData>(queryPhotosProductRequestById, {
+    const [usePhoto, { data: dataPhotos }] = useLazyQuery<IPhotoProductRequestData>(queryPhotosProductRequestById, {
         variables: { id },
     })
+    const [updateAttr] = useMutation(mutationProductRequestAttributeUpdate)
     const [update] = useMutation(mutateUpdateProductRequest)
     const [create] = useMutation(createProductRequestFull)
     const { productRequestById } = data ?? {}
@@ -49,6 +51,15 @@ export const MyRequestsPageChange = ({ id }: { id: string }) => {
             price: +values.price,
             quantity: +values.quantity! || 1,
         }
+
+        const attrs = Object.entries(values)
+            ?.filter((item) => item[0]?.includes(`:attr`))
+            ?.filter((item) => ["string", "number"].includes(typeof item[1]) && item[1])
+            ?.map((item) => ({
+                id: item[0].replace(":attr", ""),
+                value: item[1],
+            }))
+
         if (id && id !== "new") {
             data.productRequestId = id!
             Promise.all([
@@ -59,13 +70,20 @@ export const MyRequestsPageChange = ({ id }: { id: string }) => {
                         idType: "product_request_id",
                     }),
                 ),
+                ...attrs.map((item) =>
+                    updateAttr({
+                        variables: {
+                            productRequestId: id,
+                            attrId: Number(item.id),
+                            attrValueId: Number(item.value),
+                        },
+                    }),
+                ),
                 update({
                     variables: { ...data },
                 }),
             ]).then(() => {
-                Promise.all([refetchPhotos(), refetch()]).then(() => {
-                    cancel(id)
-                })
+                cancel(id)
             })
         } else {
             create({
@@ -82,21 +100,17 @@ export const MyRequestsPageChange = ({ id }: { id: string }) => {
                             idType: "product_request_id",
                         }),
                     ),
-                ]).then(async () => {
-                    Promise.all([
-                        use({
+                    ...attrs.map((item) =>
+                        updateAttr({
                             variables: {
-                                id: id,
+                                productId: id,
+                                attrId: Number(item.id),
+                                attrValueId: Number(item.value),
                             },
                         }),
-                        usePhoto({
-                            variables: {
-                                id: id,
-                            },
-                        }),
-                    ]).finally(() => {
-                        cancel(id)
-                    })
+                    ),
+                ]).then(() => {
+                    cancel(id)
                 })
             })
         }
@@ -292,6 +306,14 @@ export const MyRequestsPageChange = ({ id }: { id: string }) => {
                                     />
                                 </span>
                             ) : null}
+                            <CustomsAttributes
+                                categoryId={watch("category_")!}
+                                {...{
+                                    register,
+                                    watch,
+                                    setValue,
+                                }}
+                            />
                         </section>
                     </div>
                     <footer>

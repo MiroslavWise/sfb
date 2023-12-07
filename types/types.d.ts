@@ -71,7 +71,7 @@ export interface IProductAttribute {
     name: string
     slug: string
     value: string
-    valueId: number
+    valueEnumId: number
 
     enumGroup: {
         name: string
@@ -109,13 +109,10 @@ export interface IRequestProduct {
     photoListUrl: IPhoto[]
     quantity: number
     createdAt: Date
+    attributeList: IProductAttribute[]
 }
 
 export interface IProduct extends IRequestProduct {
-    attributeList: IProductAttribute[]
-    owner: {
-        id: string
-    }
     shop: {
         id: string
         name: string
