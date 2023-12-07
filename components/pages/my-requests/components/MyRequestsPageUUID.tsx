@@ -29,10 +29,10 @@ export const MyRequestsPageUUID = ({ id }: { id: string }) => {
         variables: { productRequestId: id },
     })
     const { data, refetch } = useQuery<IRequestProductRoot>(queryProductRequestById, {
-        variables: { id: id },
+        variables: { id },
     })
     const { data: dataPhotos } = useQuery<IPhotoProductRequestData>(queryPhotosProductRequestById, {
-        variables: { id: id },
+        variables: { id },
     })
     const { productRequestById } = data ?? {}
 
@@ -72,6 +72,10 @@ export const MyRequestsPageUUID = ({ id }: { id: string }) => {
             handleReplace(`/my-requests`)
         })
     }
+
+    const attrs = useMemo(() => {
+        return productRequestById?.attributeList || []
+    }, [productRequestById])
 
     if (!data?.productRequestById) return null
 
@@ -119,6 +123,19 @@ export const MyRequestsPageUUID = ({ id }: { id: string }) => {
                         <h6>
                             Количество: <span>{productRequestById?.quantity || 1}</span>
                         </h6>
+                        {attrs.length ? (
+                            <Outline label="Дополнительные атрибуты">
+                                <div data-attrs>
+                                    {attrs.map((item) => (
+                                        <div data-h>
+                                            <p>{item.name}</p>
+                                            <div data-dashed />
+                                            <span>{item.value}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </Outline>
+                        ) : null}
                     </article>
                     <div data-buttons>
                         {productRequestById?.draft && isDataFull ? (

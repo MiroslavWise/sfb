@@ -14,7 +14,7 @@ import { uploadFile } from "@/helpers/services/fetch"
 import { dispatchEnter } from "@/store/state/useEnter"
 import { queryCategoriesRoot } from "@/apollo/query"
 import { useDebounce } from "@/helpers/hooks/useDebounce"
-import { mutationProductAttributeUpdate, queryCategoryRecommendation } from "@/apollo/attribute"
+import { mutationProductAttributeUpdate, mutationProductRequestAttributeUpdate, queryCategoryRecommendation } from "@/apollo/attribute"
 import { useOutsideClickEvent } from "@/helpers/hooks/useOutsideClickEvent"
 import { createProductRequestSmall, createProductSmall } from "@/apollo/mutation"
 import { CustomsAttributes } from "@/components/common/customs-attributes"
@@ -26,15 +26,14 @@ export const FormPurchase = ({
     setState: Dispatch<SetStateAction<"start" | "purchase" | "sale">>
     state: "start" | "purchase" | "sale"
 }) => {
-    // const [filesString, setFilesString] = useState<string[]>([])
-    // const [files, setFiles] = useState<File[]>([])
     const token = useAuth(({ token }) => token)
     const [isLoading, setIsLoading] = useState(false)
     const { handlePush } = usePush()
     const { data, loading } = useQuery<ICategoriesRoot>(queryCategoriesRoot)
     const [createProductRequest] = useMutation(createProductRequestSmall)
     const [createProduct] = useMutation(createProductSmall)
-    const [updateAttr] = useMutation(mutationProductAttributeUpdate)
+    const [updateAttrProduct] = useMutation(mutationProductAttributeUpdate)
+    const [updateAttrProductRequest] = useMutation(mutationProductRequestAttributeUpdate)
     //
     const [loadingInput, setLoadingInput] = useState(false)
     const [focus, setFocus, ref] = useOutsideClickEvent()
@@ -76,15 +75,29 @@ export const FormPurchase = ({
                     .then((response) => {
                         if (response?.data) {
                             const id = response?.data?.productRequestCreate?.productRequest?.id
-                            handlePush(`/my-requests/${id}/change`)
+
+                            Promise.all(
+                                attrs.map((item) =>
+                                    updateAttrProductRequest({
+                                        variables: {
+                                            productRequestId: id,
+                                            attrId: Number(item.id),
+                                            attrValueId: Number(item.value),
+                                        },
+                                    }),
+                                ),
+                            )
+                                .then((responses) => {
+                                    console.log("responses: ", responses)
+                                })
+                                .finally(() => {
+                                    handlePush(`/my-requests/${id}/change`)
+                                })
                         }
                     })
                     .finally(() => {})
             }
             if (state === "sale") {
-                if (values.id) {
-                }
-
                 createProduct({
                     variables: {
                         categoryId: values?.id_ ? values?.id_ : values?.id ? values?.id : null,
@@ -96,7 +109,7 @@ export const FormPurchase = ({
                             const id = response?.data?.productCreate?.product?.id
                             Promise.all(
                                 attrs.map((item) =>
-                                    updateAttr({
+                                    updateAttrProduct({
                                         variables: {
                                             productId: id,
                                             attrId: Number(item.id),
@@ -271,27 +284,14 @@ export const FormPurchase = ({
                         />
                     </span>
                 ) : null}
-                {state === "sale" ? (
-                    <CustomsAttributes
-                        categoryId={watch("id_")!}
-                        {...{
-                            register,
-                            watch,
-                            setValue,
-                        }}
-                    />
-                ) : null}
-                {/* <span data-file>
-                    <input type="file" multiple onChange={handleImageChange} />
-                    <label>Нажмите или перетащите фото товара в эту область, чтобы загрузить (.png, .jpeg, .jpg)</label>
-                </span> */}
-                {/* {filesString.length ? (
-                    <div data-files>
-                        {filesString?.map((item) => (
-                            <Image key={`${item}-img`} src={item} alt={item} width={500} height={500} unoptimized />
-                        ))}
-                    </div>
-                ) : null} */}
+                <CustomsAttributes
+                    categoryId={watch("id_")!}
+                    {...{
+                        register,
+                        watch,
+                        setValue,
+                    }}
+                />
             </section>
             <div data-buttons>
                 <button data-default onClick={() => setState("start")}>
@@ -319,15 +319,3 @@ interface IValuesSearchOfName {
         name: string
     }
 }
-
-/* Promise.all([
-    ...files.map((item) =>
-        uploadFile(item, {
-            type: "product/photo-upload/",
-            id: id,
-            idType: "product_id",
-        }),
-    ),
-]).finally(() => {
-
-}) */
