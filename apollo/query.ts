@@ -251,7 +251,7 @@ export const queryProductListShopManagement = gql`
     ${PRODUCT}
     ${PHOTOS}
     query ($shopId: UUID) {
-        productListShopManagement(shopId: $shopId) {
+        productListShopManagement(shopId: $shopId, isActive: true) {
             totalCount
             results {
                 ...product

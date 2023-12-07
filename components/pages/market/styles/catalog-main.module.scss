@@ -135,7 +135,7 @@
 
     [data-is-category="true"] {
         [data-products] > section,
-        & > article {
+        article {
             & > a {
                 position: relative;
                 min-width: 180px;

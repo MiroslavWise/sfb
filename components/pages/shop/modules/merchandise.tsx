@@ -1,6 +1,7 @@
 "use client"
 
 import dayjs from "dayjs"
+import Link from "next/link"
 import { useMemo } from "react"
 import Image from "next/image"
 import { useMutation, useQuery } from "@apollo/client"
@@ -13,7 +14,6 @@ import { mutateUpdateProductDraft } from "@/apollo/mutation"
 import { queryProductListShopManagement } from "@/apollo/query"
 
 import styles from "../styles/modules.module.scss"
-import Link from "next/link"
 
 export const Merchandise = ({ id }: { id: string }) => {
     const { handlePush } = usePush()
