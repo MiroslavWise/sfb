@@ -47,7 +47,7 @@ export const MyRequestsPageChange = ({ id }: { id: string }) => {
     } = useForm<IValues & { [key: string]: string }>({})
     async function submit(values: IValues & { [key: string]: string }) {
         const data: Record<string, any> = {
-            categoryId: values.category,
+            categoryId: values.category_ ? values?.category_ : values?.category,
             name: values.title,
             description: values.description,
             price: +values.price,
@@ -105,7 +105,7 @@ export const MyRequestsPageChange = ({ id }: { id: string }) => {
                     ...attrs.map((item) =>
                         updateAttr({
                             variables: {
-                                productId: id,
+                                productRequestId: id,
                                 attrId: Number(item.id),
                                 attrValueId: Number(item.value),
                             },
