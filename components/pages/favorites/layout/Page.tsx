@@ -1,3 +1,6 @@
+"use client"
+
+import Link from "next/link"
 import { useMemo, useState } from "react"
 import { useQuery } from "@apollo/client"
 
@@ -6,7 +9,6 @@ import { ItemFavorite } from "../components/ItemFavorite"
 import { queryFavoriteProductList } from "@/apollo/query"
 
 import styles from "../styles/page.module.scss"
-import Link from "next/link"
 
 export const PageFavorites = () => {
     const { data } = useQuery(queryFavoriteProductList)

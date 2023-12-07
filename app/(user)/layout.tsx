@@ -7,7 +7,7 @@ import type { IChildrenProps } from "@/types/types"
 import { useAuth } from "@/store/state/useAuth"
 import { usePush } from "@/helpers/hooks/usePush"
 
-import styles from "./layout.module.scss"
+import "./layout.scss"
 
 export default function LayoutUser({ children }: IChildrenProps) {
     const state = useAuth(({ state }) => state)
@@ -21,7 +21,7 @@ export default function LayoutUser({ children }: IChildrenProps) {
     }, [token, state])
 
     return token ? (
-        <div className={styles.wrapper}>
+        <div className="__user-wrapper__">
             <section>{children}</section>
         </div>
     ) : null

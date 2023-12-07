@@ -19,5 +19,20 @@
             flex-direction: column;
             gap: 4px;
         }
+
+        height: 100%;
+        transition: var(--transition);
+        transition-property: max-height, opacity, visibility;
+
+        &[data-is-open="false"] {
+            opacity: 0;
+            visibility: hidden;
+            max-height: 0px;
+        }
+        &[data-is-open="true"] {
+            opacity: 1;
+            visibility: visible;
+            max-height: fit-content;
+        }
     }
 }

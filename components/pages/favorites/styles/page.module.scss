@@ -64,20 +64,22 @@
     & > ul {
         width: 100%;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(120px, 250px));
+        grid-template-columns: repeat(auto-fit, minmax(170px, 270px));
         grid-gap: 16px;
+        height: fit-content;
 
         & > li {
             position: relative;
-            min-width: 120px;
+            min-width: 170px;
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
             gap: 4px;
             border-radius: 7px;
-            height: fit-content;
+            height: 100%;
             cursor: pointer;
+            background-color: var(--gray-100);
 
             & > [data-absolute] {
                 position: absolute;

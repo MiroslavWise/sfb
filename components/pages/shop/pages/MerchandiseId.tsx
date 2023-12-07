@@ -65,9 +65,6 @@ export const MerchandiseId = ({ id, productId }: { id: string; productId: string
         return productById?.attributeList || []
     }, [productById])
 
-    console.log("attrs: ", attrs)
-    console.log("productById: ", productById)
-
     if (!productById) return null
 
     return (

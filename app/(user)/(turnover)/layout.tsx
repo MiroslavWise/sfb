@@ -2,11 +2,11 @@ import type { IChildrenProps } from "@/types/types"
 
 import { LeftAsideUser } from "@/components/layout/user/components/LeftAsideUser"
 
-import styles from "./layout.module.scss"
+import "./layout.scss"
 
 export default function Layout({ children }: IChildrenProps) {
     return (
-        <section className={styles.wrapper}>
+        <section className="__turnover-wrapper__">
             <LeftAsideUser />
             {children}
         </section>

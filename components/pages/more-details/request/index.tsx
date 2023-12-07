@@ -3,7 +3,6 @@
 import { useMemo } from "react"
 import { motion } from "framer-motion"
 import { useQuery } from "@apollo/client"
-import { useSearchParams } from "next/navigation"
 
 import type { IPhotoProductRequestData, IRequestProductRoot } from "@/types/types"
 
@@ -19,18 +18,13 @@ import { usePush } from "@/helpers/hooks/usePush"
 
 import styles from "../styles/style.module.scss"
 
-export const RequestId = () => {
+export const RequestId = ({ id }: { id: string }) => {
     const { back } = usePush()
-    const requestId = useSearchParams().get("request-id")
     const { data, loading } = useQuery<IRequestProductRoot>(queryProductRequestById, {
-        variables: {
-            id: requestId,
-        },
+        variables: { id },
     })
     const { data: dataPhotos, loading: loadingPhoto } = useQuery<IPhotoProductRequestData>(queryPhotosProductRequestById, {
-        variables: {
-            id: requestId,
-        },
+        variables: { id },
     })
 
     const { productRequestById } = data ?? {}

@@ -28,6 +28,8 @@ export function CustomsAttributes(props: IProps) {
         }
     }, [categoryId])
 
+    console.log("listAttributes watch: ", listAttributes)
+
     return (
         <div className={styles.container}>
             {listAttributes && listAttributes?.length ? (
@@ -39,31 +41,27 @@ export function CustomsAttributes(props: IProps) {
                     {isList ? "Атрибуты" : "Показать больше атрибутов"}
                 </a>
             ) : null}
-            {isList ? (
-                <section>
-                    {listAttributes &&
-                        listAttributes?.map((item) => (
-                            <div key={`${item.id}-${item.slug}`} {...register(`${item.id}:attr`, { required: false })}>
-                                <CustomSelector
-                                    label={item.name}
-                                    valueTag={
-                                        item?.enumGroup?.values?.find((_) => `${_?.id}` === watch(`${item.id}:attr` as string))?.value
-                                    }
-                                    placeholder={item.description}
-                                    onClick={(value) => {
-                                        setValue(`${item.id!}:attr`, value)
-                                    }}
-                                    list={
-                                        item?.enumGroup?.values?.map((item_) => ({
-                                            id: item_.id,
-                                            p: item_.value,
-                                        })) || []
-                                    }
-                                />
-                            </div>
-                        ))}
-                </section>
-            ) : null}
+            <section data-is-open={isList}>
+                {listAttributes &&
+                    listAttributes?.map((item) => (
+                        <div key={`${item.id}-${item.slug}`} {...register(`${item.id}:attr`, { required: false })}>
+                            <CustomSelector
+                                label={item.name}
+                                valueTag={item?.enumGroup?.values?.find((_) => `${_?.id}` === watch(`${item.id}:attr` as string))?.value}
+                                placeholder={item.description}
+                                onClick={(value) => {
+                                    setValue(`${item.id!}:attr`, value)
+                                }}
+                                list={
+                                    item?.enumGroup?.values?.map((item_) => ({
+                                        id: item_.id,
+                                        p: item_.value,
+                                    })) || []
+                                }
+                            />
+                        </div>
+                    ))}
+            </section>
         </div>
     )
 }

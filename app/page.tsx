@@ -1,10 +1,10 @@
 import { VipTop, ComponentMainUseFormMainPage, ComponentCarouselBannerMainPage } from "@/components/pages/main"
 
-import styles from "./page.module.scss"
+import "./page.scss"
 
 export default function Page() {
     return (
-        <div className={styles.wrapper}>
+        <div className="__main-page-wrapper__">
             <ComponentMainUseFormMainPage />
             <ComponentCarouselBannerMainPage type="main" />
             <VipTop />

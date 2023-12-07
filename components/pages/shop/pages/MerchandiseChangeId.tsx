@@ -12,6 +12,7 @@ import { Input } from "@/components/common/input"
 import { TextArea } from "@/components/common/text-area"
 import { Checkbox } from "@/components/common/checkbox"
 import { CustomSelector } from "@/components/common/custom-selector"
+import { CustomsAttributes } from "@/components/common/customs-attributes"
 
 import { useAuth } from "@/store/state/useAuth"
 import { usePush } from "@/helpers/hooks/usePush"
@@ -21,7 +22,6 @@ import { mutationProductAttributeUpdate } from "@/apollo/attribute"
 import { queryCategoriesRoot, queryProductById } from "@/apollo/query"
 
 import styles from "../styles/page-change.module.scss"
-import { CustomsAttributes } from "@/components/common/customs-attributes"
 
 export const MerchandiseChangeId = ({ id, productId }: { id: string; productId: string }) => {
     const user = useAuth(({ user }) => user)
@@ -187,6 +187,7 @@ export const MerchandiseChangeId = ({ id, productId }: { id: string; productId: 
                 setValue(`${item.attrId}:attr`, `${item.valueId}`)
             })
         }
+        console.log("listAttrs: ", listAttrs)
     }, [listAttrs])
 
     if (data?.productById?.author?.id !== user?.id) return null

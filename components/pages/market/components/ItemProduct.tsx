@@ -1,19 +1,18 @@
 import dayjs from "dayjs"
-import Image from "next/image"
+import Link from "next/link"
 import { type FC } from "react"
+import Image from "next/image"
 
 import type { IProduct } from "@/types/types"
 
 import { ButtonAddCart } from "@/components/common/button-add-cart"
 
 import { useAuth } from "@/store/state/useAuth"
-import { usePush } from "@/helpers/hooks/usePush"
 import { useFavoritesClick } from "@/helpers/hooks/useFavoritesClick"
 
 export const ItemProduct: FC<IProduct> = (props) => {
     const token = useAuth(({ token }) => token)
     const { photoListUrl, price, name, city, createdAt, id, shop } = props ?? {}
-    const { handlePush } = usePush()
     const { isFavorite, handleFavorite, loading } = useFavoritesClick()
 
     function handle() {
@@ -23,9 +22,9 @@ export const ItemProduct: FC<IProduct> = (props) => {
     const is = isFavorite(id!)
 
     return (
-        <li
-            onClick={() => {
-                handlePush(`/product/${id}`)
+        <Link
+            href={{
+                pathname: `/product/${id}`,
             }}
         >
             {photoListUrl[0] ? (
@@ -48,6 +47,7 @@ export const ItemProduct: FC<IProduct> = (props) => {
                             data-loading={loading}
                             data-favorite
                             onClick={(event) => {
+                                event.preventDefault()
                                 event.stopPropagation()
                                 handle()
                             }}
@@ -65,6 +65,6 @@ export const ItemProduct: FC<IProduct> = (props) => {
                 <img src="/svg/calendar-date.svg" alt="calendar" width={12} height={12} />
                 <a>{dayjs(createdAt).format("HH:mm DD.MM.YY")}</a>
             </div>
-        </li>
+        </Link>
     )
 }

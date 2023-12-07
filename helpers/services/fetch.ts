@@ -1,7 +1,7 @@
 import { TTypeMessage } from "@/types/chat"
 import { CONFIG_ENV } from "../config/ENV"
 
-const URL = CONFIG_ENV.url
+const URL = CONFIG_ENV.url_api
 
 const token = () => {
     if (typeof window === "undefined") {

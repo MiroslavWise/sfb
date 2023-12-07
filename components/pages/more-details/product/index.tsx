@@ -24,9 +24,10 @@ import styles from "../styles/style.module.scss"
 
 export const ProductId = ({ id }: { id: string }) => {
     const { back, handlePush } = usePush()
-    const { data, loading } = useQuery<IProductRoot>(queryProductById, {
+    const { data } = useQuery<IProductRoot>(queryProductById, {
         variables: { id },
     })
+    const { productById } = data ?? {}
     const [useAdd] = useMutation(mutationCartItemAdd, {
         variables: {
             productId: id,
@@ -36,8 +37,6 @@ export const ProductId = ({ id }: { id: string }) => {
     const { refetch } = useQuery<ICartList>(queryCart)
 
     const { isFavorite, handleFavorite, loading: loadingFavorite } = useFavoritesClick()
-
-    const { productById } = data ?? {}
 
     const images = useMemo(() => {
         if (productById?.photoListUrl) {
@@ -71,7 +70,11 @@ export const ProductId = ({ id }: { id: string }) => {
 
     const is = isFavorite(id!)
 
-    if (loading) return null
+    const attrs = useMemo(() => {
+        return productById?.attributeList || []
+    }, [productById])
+
+    if (!productById) return null
 
     return (
         <motion.div
@@ -184,6 +187,19 @@ export const ProductId = ({ id }: { id: string }) => {
                             </div>
                         </div>
                     </Outline>
+                    {attrs.length ? (
+                        <Outline label="Дополнительные атрибуты">
+                            <div data-attrs>
+                                {attrs.map((item) => (
+                                    <div data-h>
+                                        <p>{item.name}</p>
+                                        <div data-dashed />
+                                        <span>{item.value}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </Outline>
+                    ) : null}
                 </article>
             </section>
         </motion.div>

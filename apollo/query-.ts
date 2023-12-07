@@ -37,6 +37,18 @@ export const queryShopById = gql`
     }
 `
 
+export const queryShopByIdMeta = gql`
+    query ($shopId: UUID!) {
+        shopById(shopId: $shopId) {
+            name
+            description
+            shopPhoto
+            confirmation
+            address
+        }
+    }
+`
+
 export const queryCart = gql`
     ${PRODUCT}
     query {

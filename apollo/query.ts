@@ -38,11 +38,19 @@ export const queryCategoriesRoot = gql`
             childrenList {
                 id
                 name
+                photoUrl
                 iconName
                 childrenList {
                     id
+                    photoUrl
                     name
                     iconName
+                    childrenList {
+                        id
+                        photoUrl
+                        name
+                        iconName
+                    }
                 }
             }
         }
@@ -260,6 +268,15 @@ export const queryProductRequestById = gql`
     query ($id: UUID!) {
         productRequestById(id: $id) {
             ...productRequest
+        }
+    }
+`
+
+export const queryProductRequestByIdMeta = gql`
+    query ($id: UUID!) {
+        productRequestById(id: $id) {
+            name
+            description
         }
     }
 `

@@ -1,14 +1,11 @@
-import { useMemo } from "react"
+import Link from "next/link"
 import Image from "next/image"
 
-import type { TItemMany } from "../types/types"
-
+import type { ICategoriesChildren } from "@/types/types"
+import { useMemo } from "react"
 import { useSearchParams } from "next/navigation"
 
-import styles from "../styles/catalog-many.module.scss"
-import Link from "next/link"
-
-export const ItemMany: TItemMany = ({ id, name, photoUrl, childrenList }) => {
+export const ItemLinkCategory = ({ id, name, photoUrl, childrenList }: ICategoriesChildren) => {
     const categoryId = useSearchParams().get("category-id")
 
     const isActive = useMemo(() => {
@@ -21,7 +18,7 @@ export const ItemMany: TItemMany = ({ id, name, photoUrl, childrenList }) => {
 
     return (
         <Link
-            className={styles.containerLi}
+            key={`${id}-main-category`}
             href={{
                 query: {
                     ["category-id"]: id,
@@ -29,14 +26,8 @@ export const ItemMany: TItemMany = ({ id, name, photoUrl, childrenList }) => {
             }}
             data-active={isActive}
         >
-            <div data-title>
-                {photoUrl ? (
-                    <Image src={photoUrl} alt="icon" width={30} height={30} unoptimized />
-                ) : (
-                    <img src="/svg/globe-06.svg" alt="icon" width={30} height={30} />
-                )}
-                <a>{name}</a>
-            </div>
+            <Image src={photoUrl ? photoUrl : "/png/catalog/auto.png"} alt="photo" width={36} height={36} unoptimized />
+            <span>{name}</span>
         </Link>
     )
 }
