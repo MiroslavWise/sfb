@@ -237,9 +237,7 @@ export const MyProductChange = ({ id }: { id: string }) => {
         }
     }, [watch("category"), watch("category_")])
 
-    if (!productById) return null
-
-    if (data?.productById?.author?.id !== user?.id) return null
+    if (data?.productById?.author?.id !== user?.id && id !== "new") return null
 
     return (
         <div className={styles.wrapper}>

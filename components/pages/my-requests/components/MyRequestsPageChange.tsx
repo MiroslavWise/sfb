@@ -209,7 +209,7 @@ export const MyRequestsPageChange = ({ id }: { id: string }) => {
         }
     }, [listAttrs])
 
-    if (!productRequestById) return null
+    if (!productRequestById && id !== "new") return null
 
     return (
         <div className={styles.wrapper}>
