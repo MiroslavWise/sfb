@@ -1,7 +1,7 @@
 "use client"
 
 import { useForm } from "react-hook-form"
-import { ChangeEvent, useEffect, useState } from "react"
+import { ChangeEvent, useEffect, useMemo, useState } from "react"
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client"
 
 import type { ICategoriesRoot, IRequestProductRoot } from "@/types/types"
@@ -11,20 +11,22 @@ import { MiniPhoto } from "../../proposals"
 import { Input } from "@/components/common/input"
 import { TextArea } from "@/components/common/text-area"
 import { CustomSelector } from "@/components/common/custom-selector"
+import { CustomsAttributes } from "@/components/common/customs-attributes"
 
+import { useAuth } from "@/store/state/useAuth"
 import { usePush } from "@/helpers/hooks/usePush"
 import { uploadFile } from "@/helpers/services/fetch"
+import { mutationProductRequestAttributeUpdate } from "@/apollo/attribute"
 import { createProductRequestFull, mutateUpdateProductRequest } from "@/apollo/mutation"
 import { queryCategoriesRoot, queryPhotosProductRequestById, queryProductRequestById } from "@/apollo/query"
 
 import styles from "../styles/change.module.scss"
-import { CustomsAttributes } from "@/components/common/customs-attributes"
-import { mutationProductRequestAttributeUpdate } from "@/apollo/attribute"
 
 export const MyRequestsPageChange = ({ id }: { id: string }) => {
+    const user = useAuth(({ user }) => user)
     const [files, setFiles] = useState<File[]>([])
     const [filesString, setFilesString] = useState<string[]>([])
-    const { data: dataCategories, loading: isLoadCategories } = useQuery<ICategoriesRoot>(queryCategoriesRoot)
+    const { data: dataCategories } = useQuery<ICategoriesRoot>(queryCategoriesRoot)
     const { handlePush } = usePush()
     const [use, { data, loading }] = useLazyQuery<IRequestProductRoot>(queryProductRequestById, {
         variables: { id },
@@ -42,8 +44,8 @@ export const MyRequestsPageChange = ({ id }: { id: string }) => {
         handleSubmit,
         setValue,
         formState: { errors },
-    } = useForm<IValues>({})
-    async function submit(values: IValues) {
+    } = useForm<IValues & { [key: string]: string }>({})
+    async function submit(values: IValues & { [key: string]: string }) {
         const data: Record<string, any> = {
             categoryId: values.category,
             name: values.title,
@@ -195,7 +197,19 @@ export const MyRequestsPageChange = ({ id }: { id: string }) => {
         }
     }, [dataCategories, data])
 
-    if (loading || isLoadCategories) return null
+    const listAttrs = useMemo(() => {
+        return productRequestById?.attributeList || []
+    }, [productRequestById])
+
+    useEffect(() => {
+        if (listAttrs?.length) {
+            listAttrs?.forEach((item) => {
+                setValue(`${item.attrId}:attr`, `${item.valueEnumId}`)
+            })
+        }
+    }, [listAttrs])
+
+    if (!productRequestById) return null
 
     return (
         <div className={styles.wrapper}>

@@ -4,7 +4,6 @@ import { PublicShopId } from "@/components/pages/shop"
 
 import client from "@/helpers/services/initApollo"
 import { queryShopByIdMeta } from "@/apollo/query-"
-import { CONFIG_ENV } from "@/helpers/config/ENV"
 
 export async function generateMetadata({ params }: IProps): Promise<Metadata> {
     const {
@@ -16,7 +15,7 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
         variables: { shopId: params["shop-id"] },
     })
 
-    const url = new URL(`${CONFIG_ENV.url}/product/${params["shop-id"]}`)
+    const url = new URL(`/product/${params["shop-id"]}`)
 
     if (name) {
         return {

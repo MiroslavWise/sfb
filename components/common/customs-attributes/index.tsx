@@ -38,7 +38,7 @@ export function CustomsAttributes(props: IProps) {
                         setIsList((prev) => !prev)
                     }}
                 >
-                    {isList ? "Атрибуты" : "Показать больше атрибутов"}
+                    {isList ? "Скрыть атрибуты" : "Показать больше атрибутов"}
                 </a>
             ) : null}
             <section data-is-open={isList}>
