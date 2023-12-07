@@ -17,37 +17,16 @@ const $ListMessages: TListMessages = ({ messages, dataUser }) => {
     const numberIdMessage = useRef<string | null>(null)
 
     const messagesJoin: ReactNode = useMemo(() => {
-        console.log("%c messages:", "color: #0ff", messages)
         if (Array.isArray(messages)) {
             return join(messages).map((item, index) => {
                 if (item.emitterId === userId && item.type === "messages") {
-                    return (
-                        <ItemMyMessage
-                            key={`${item.id}_message_${item.id}`}
-                            photo={user?.photo!}
-                            messages={item.messages!}
-                        />
-                    )
+                    return <ItemMyMessage key={`${item.id}_message_${item.id}`} photo={user?.photo!} messages={item.messages!} />
                 }
-                if (
-                    item.emitterId === dataUser?.id &&
-                    item.type === "messages"
-                ) {
-                    return (
-                        <ItemUserMessage
-                            key={`${item?.id}_message_${item.id}`}
-                            photo={dataUser?.photo}
-                            messages={item.messages!}
-                        />
-                    )
+                if (item.emitterId === dataUser?.id && item.type === "messages") {
+                    return <ItemUserMessage key={`${item?.id}_message_${item.id}`} photo={dataUser?.photo} messages={item.messages!} />
                 }
                 if (item.type === "time") {
-                    return (
-                        <ItemTime
-                            time={item.time!}
-                            key={`${item.time}_time_block`}
-                        />
-                    )
+                    return <ItemTime time={item.time!} key={`${item.time}_time_block`} />
                 }
                 return null
             })

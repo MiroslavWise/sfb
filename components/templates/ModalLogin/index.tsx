@@ -14,10 +14,6 @@ export const ModalLogin = () => {
     const visible = useEnter(({ visible }) => visible)
     const [isLogin, setIsLogin] = useState(true)
 
-    useEffect(() => {
-        console.log("useEffect visible")
-    }, [])
-
     return visible ? (
         <motion.div
             className={styles.wrapper}

@@ -21,16 +21,13 @@ const Provider: TChildrenProps = ({ children }) => {
     const refresh = useAuth(({ refresh }) => refresh)
 
     useEffect(() => {
-        console.log("useEffect Provider")
         refresh()
     }, [])
 
     useEffect(() => {
         window.addEventListener("load", () => {
             if ("serviceWorker" in navigator) {
-                navigator.serviceWorker.register("/service-worker.js").then((response) => {
-                    console.log("serviceWorker: ", response.scope)
-                })
+                navigator.serviceWorker.register("/service-worker.js")
             }
         })
     }, [])

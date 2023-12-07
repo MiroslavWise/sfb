@@ -38,8 +38,6 @@ const $ItemProposal = (props: IProductOfferItem) => {
         handleReplace(`/proposals?proposal-id=${product?.id}:${productRequest?.id}`)
     }
 
-    console.log("%cprops", "color: blue;", props)
-
     return (
         <div className={styles.container} onClick={handle} data-item>
             <div

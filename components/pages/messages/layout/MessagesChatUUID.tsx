@@ -101,7 +101,6 @@ export const MessagesChatUUID = () => {
                     setLoading(false)
                     reset()
                     refetch()
-                    console.log("%c response files: ", "color: #f0f", response)
                 })
             } else {
                 setLoading(true)

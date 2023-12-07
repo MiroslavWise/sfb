@@ -88,7 +88,7 @@ export const FormPurchase = ({
                                 ),
                             )
                                 .then((responses) => {
-                                    console.log("responses: ", responses)
+                                    // console.log("responses: ", responses)
                                 })
                                 .finally(() => {
                                     handlePush(`/my-requests/${id}/change`)
@@ -119,7 +119,7 @@ export const FormPurchase = ({
                                 ),
                             )
                                 .then((responses) => {
-                                    console.log("responses: ", responses)
+                                    // console.log("responses: ", responses)
                                 })
                                 .finally(() => {
                                     handlePush(`/my-products/${id}/change`)

@@ -66,7 +66,6 @@ export const MerchandiseChangeId = ({ id, productId }: { id: string; productId: 
                 value: item[1],
             }))
         setLoadingF(true)
-        console.log("attrs: ", attrs)
 
         data.productId = productId!
         Promise.all([
@@ -187,7 +186,6 @@ export const MerchandiseChangeId = ({ id, productId }: { id: string; productId: 
                 setValue(`${item.attrId}:attr`, `${item.valueEnumId}`)
             })
         }
-        console.log("listAttrs: ", listAttrs)
     }, [listAttrs])
 
     if (data?.productById?.author?.id !== user?.id) return null

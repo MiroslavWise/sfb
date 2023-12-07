@@ -21,7 +21,6 @@ export const useFavorites = create(
 
 export const dispatchFavorites: Dispatch<IAction> = ({ add, remove, all }) =>
     useFavorites.setState((_) => {
-        console.log("dispatchFavorites: ", add, remove, all)
         if (add) {
             return {
                 favorites: [..._.favorites, add],

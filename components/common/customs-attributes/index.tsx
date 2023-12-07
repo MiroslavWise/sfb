@@ -28,8 +28,6 @@ export function CustomsAttributes(props: IProps) {
         }
     }, [categoryId])
 
-    console.log("listAttributes watch: ", listAttributes)
-
     return (
         <div className={styles.container}>
             {listAttributes && listAttributes?.length ? (
