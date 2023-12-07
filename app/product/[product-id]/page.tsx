@@ -1,26 +1,38 @@
 import type { Metadata } from "next"
 
-import client from "@/helpers/services/initApollo"
-import { queryProductByIdMeta } from "@/apollo/query"
 import { ProductId } from "@/components/pages/more-details"
 
-export async function generateMetadata({ params }: IProps): Promise<Metadata> {
-    const {
-        data: {
-            productById: { name, description },
-        },
-    } = await client.query({
-        query: queryProductByIdMeta,
-        variables: { id: params["product-id"] },
-    })
+import client from "@/helpers/services/initApollo"
+import { queryProductByIdMeta } from "@/apollo/query"
+import { IProductRoot } from "@/types/types"
 
-    if (name) {
-        return {
-            title: `SFB - ${name}`,
-            description: description,
+export async function generateMetadata({ params }: IProps): Promise<Metadata> {
+    try {
+        const {
+            data: {
+                productById: { name, description },
+            },
+            error,
+        } = await client.query<IProductRoot>({
+            query: queryProductByIdMeta,
+            variables: { id: params["product-id"] },
+        })
+
+        if (name) {
+            return {
+                title: `SFB - ${name}`,
+                description: description,
+            }
+        } else {
+            return {
+                description: error?.clientErrors?.map((item) => item.message)?.join(", "),
+            }
         }
-    } else {
-        return {}
+    } catch (e) {
+        return {
+            title: `Не существующая страница`,
+            description: "Ошибка загрузки страницы",
+        }
     }
 }
 

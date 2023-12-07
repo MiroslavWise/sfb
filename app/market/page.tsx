@@ -2,7 +2,7 @@ import { SearchBar, CatalogMain } from "@/components/pages/market"
 
 import styles from "./page.module.scss"
 
-export default function Market({ params, query }: any) {
+export default function Market() {
     return (
         <div className={styles.wrapper}>
             <section>

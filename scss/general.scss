@@ -256,3 +256,12 @@ h6 {
         color: var(--gray-500);
     }
 }
+
+.__not-found__ {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+}
