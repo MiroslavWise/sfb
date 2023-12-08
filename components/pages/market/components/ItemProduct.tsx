@@ -10,6 +10,8 @@ import { ButtonAddCart } from "@/components/common/button-add-cart"
 import { useAuth } from "@/store/state/useAuth"
 import { useFavoritesClick } from "@/helpers/hooks/useFavoritesClick"
 
+import styles from "../styles/item-product.module.scss"
+
 export const ItemProduct: FC<IProduct> = (props) => {
     const token = useAuth(({ token }) => token)
     const { photoListUrl, price, name, city, createdAt, id, shop } = props ?? {}
@@ -26,6 +28,7 @@ export const ItemProduct: FC<IProduct> = (props) => {
             href={{
                 pathname: `/product/${id}`,
             }}
+            className={styles.container}
         >
             {photoListUrl[0] ? (
                 <Image src={photoListUrl[0]?.photoUrl!} alt="photo" width={200} height={200} unoptimized />

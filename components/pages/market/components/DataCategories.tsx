@@ -7,6 +7,7 @@ import type { ICategoriesChildren } from "@/types/types"
 
 import { usePush } from "@/helpers/hooks/usePush"
 import { ItemsProductQuery } from "./ItemsProductQuery"
+import { Breadcrumbs } from "./Breadcrumbs"
 
 export const DataCategories = ({ items }: { items: ICategoriesChildren[] }) => {
     const categoryId = useSearchParams().get("category-id")
@@ -57,8 +58,12 @@ export const DataCategories = ({ items }: { items: ICategoriesChildren[] }) => {
 
     return categoryFullId ? (
         <div data-products>
+            <Breadcrumbs id={categoryId!} idFull={categoryFullId!} items={items} />
             <h3>{name}</h3>
-            <section>{categoryFullId ? <ItemsProductQuery id={categoryFullId} /> : null}</section>
+            <div data-flow>
+                <aside></aside>
+                <section>{categoryFullId ? <ItemsProductQuery id={categoryFullId} /> : null}</section>
+            </div>
         </div>
     ) : (
         <section>
@@ -92,7 +97,7 @@ export const DataCategories = ({ items }: { items: ICategoriesChildren[] }) => {
                                     data-title
                                     href={{
                                         query: {
-                                            ["category-id"]: item.id,
+                                            ["category-id"]: categoryId,
                                             ["category-full-id"]: item?.id,
                                         },
                                     }}
@@ -103,7 +108,7 @@ export const DataCategories = ({ items }: { items: ICategoriesChildren[] }) => {
                                     <Link
                                         href={{
                                             query: {
-                                                ["category-id"]: item.id,
+                                                ["category-id"]: categoryId,
                                                 ["category-full-id"]: _?.id,
                                             },
                                         }}

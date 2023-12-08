@@ -12,7 +12,10 @@ import { queryCategoriesRoot } from "@/apollo/query"
 import styles from "../styles/catalog-main.module.scss"
 
 export const CatalogMain = () => {
-    const { data } = useQuery<ICategoriesRoot>(queryCategoriesRoot)
+    const { data } = useQuery<ICategoriesRoot>(queryCategoriesRoot, {
+        fetchPolicy: "cache-first",
+        nextFetchPolicy: "cache-only",
+    })
 
     const list = useMemo(() => {
         return data?.categoryRootList || []

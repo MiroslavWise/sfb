@@ -1,0 +1,13 @@
+.nav {
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+
+    & > a {
+        white-space: nowrap;
+        font-size: 14px;
+        font-weight: 400;
+        color: var(--gray-600);
+    }
+}
