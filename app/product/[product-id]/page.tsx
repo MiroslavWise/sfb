@@ -22,10 +22,15 @@ export async function generateMetadata({ params }: IProps): Promise<Metadata> {
             return {
                 title: `SFB - ${name}`,
                 description: description,
+                openGraph: {
+                    title: `SFB - ${name}`,
+                    description,
+                },
             }
         } else {
             return {
                 description: error?.clientErrors?.map((item) => item.message)?.join(", "),
+                openGraph: { description: error?.clientErrors?.map((item) => item.message)?.join(", ") },
             }
         }
     } catch (e) {

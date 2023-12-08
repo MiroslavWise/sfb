@@ -6,21 +6,29 @@ import client from "@/helpers/services/initApollo"
 import { queryProductRequestByIdMeta } from "@/apollo/query"
 
 export async function generateMetadata({ params }: IProps): Promise<Metadata> {
-    const {
-        data: {
-            productRequestById: { name, description },
-        },
-    } = await client.query({
-        query: queryProductRequestByIdMeta,
-        variables: { id: params["request-id"] },
-    })
+    try {
+        const {
+            data: {
+                productRequestById: { name, description },
+            },
+        } = await client.query({
+            query: queryProductRequestByIdMeta,
+            variables: { id: params["request-id"] },
+        })
 
-    if (name) {
-        return {
-            title: `SFB - ${name}`,
-            description: description,
+        if (name) {
+            return {
+                title: `SFB - ${name}`,
+                description: description,
+                openGraph: {
+                    title: `SFB - ${name}`,
+                    description: description,
+                },
+            }
+        } else {
+            return {}
         }
-    } else {
+    } catch (e) {
         return {}
     }
 }

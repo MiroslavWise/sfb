@@ -5,14 +5,13 @@ import { useSearchParams } from "next/navigation"
 
 import type { ICategoriesChildren } from "@/types/types"
 
-import { usePush } from "@/helpers/hooks/usePush"
-import { ItemsProductQuery } from "./ItemsProductQuery"
 import { Breadcrumbs } from "./Breadcrumbs"
+
+import { ItemsProductQuery } from "./ItemsProductQuery"
 
 export const DataCategories = ({ items }: { items: ICategoriesChildren[] }) => {
     const categoryId = useSearchParams().get("category-id")
     const categoryFullId = useSearchParams().get("category-full-id")
-    const { handleReplace } = usePush()
 
     const listSecondary = useMemo(() => {
         const main = items?.find((item) => item?.id === categoryId)
