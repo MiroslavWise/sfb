@@ -1,32 +1,34 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useMemo } from "react"
-import { useQuery } from "@apollo/client"
 import { useSearchParams } from "next/navigation"
 
-import type { ICategoriesChildren, IProductList } from "@/types/types"
+import type { ICategoriesChildren } from "@/types/types"
 
-import { ItemProduct } from "./ItemProduct"
-
-import { queryProductList } from "@/apollo/query"
+import { usePush } from "@/helpers/hooks/usePush"
+import { ItemsProductQuery } from "./ItemsProductQuery"
 
 export const DataCategories = ({ items }: { items: ICategoriesChildren[] }) => {
     const categoryId = useSearchParams().get("category-id")
+    const categoryFullId = useSearchParams().get("category-full-id")
+    const { handleReplace } = usePush()
 
-    const { data: dataProductList } = useQuery<IProductList>(queryProductList, {
-        variables: { offset: 0, categoryId: categoryId },
-    })
+    const listSecondary = useMemo(() => {
+        const main = items?.find((item) => item?.id === categoryId)
 
-    const list = useMemo(() => {
-        if (items?.find((_) => _.id === categoryId)) {
-            return items?.find((_) => _.id === categoryId)?.childrenList!
-        } else if (items?.some((item) => item?.childrenList?.some((item) => item?.id === categoryId))) {
-            const id = items?.find((item) => item?.childrenList?.find((item) => item?.id === categoryId))?.id
-            const listItems = items?.find((item) => item?.id === id)?.childrenList!
-
-            return listItems?.find((item) => item?.id === categoryId)?.childrenList!
+        if (main) {
+            return main?.childrenList?.map((item) => ({
+                id: item?.id,
+                title: item?.name,
+                icon: item?.photoUrl,
+                children: item.childrenList.map((item_) => ({
+                    id: item_?.id,
+                    title: item_?.name,
+                    icon: item_?.photoUrl,
+                })),
+            }))
         } else {
-            return []
+            return null
         }
     }, [items, categoryId])
 
@@ -53,37 +55,67 @@ export const DataCategories = ({ items }: { items: ICategoriesChildren[] }) => {
         return null
     }, [categoryId, items])
 
-    const listProducts = useMemo(() => {
-        return dataProductList?.productList?.results! || []
-    }, [dataProductList])
-
-    return list?.length ? (
-        <>
+    return categoryFullId ? (
+        <div data-products>
+            <h3>{name}</h3>
+            <section>{categoryFullId ? <ItemsProductQuery id={categoryFullId} /> : null}</section>
+        </div>
+    ) : (
+        <section>
             <aside>
-                {list?.map((a) => (
+                {items?.map((a) => (
                     <Link
                         href={{
                             query: {
                                 ["category-id"]: a?.id,
                             },
                         }}
-                        data-active={categoryId === a?.id && !a?.childrenList?.length}
+                        data-active={categoryId === a?.id}
+                        onMouseEnter={(event) => {
+                            event.stopPropagation()
+                            handleReplace(`?category-id=${a?.id}`)
+                        }}
                     >
                         <Image src={a.photoUrl ? a.photoUrl : "/png/catalog/auto.png"} alt="icon" width={24} height={24} unoptimized />
                         <span>{a.name}</span>
+                        <img data-right src="/svg/chevron-right-red.svg" alt="chevron-right-red" width={12} height={12} />
                     </Link>
                 ))}
             </aside>
-            <article>
-                {listProducts?.length ? listProducts.map((item) => <ItemProduct key={`${item.id}-product`} {...item} />) : null}
-            </article>
-        </>
-    ) : (
-        <div data-products>
-            <h3>{name}</h3>
-            <section>
-                {listProducts?.length ? listProducts.map((item) => <ItemProduct key={`${item.id}-product`} {...item} />) : null}
-            </section>
-        </div>
+            {listSecondary ? (
+                <article>
+                    {listSecondary.map((item) => (
+                        <div data-second>
+                            <Image src={item.icon ? item.icon : "/png/catalog/auto.png"} alt="icon" width={50} height={50} unoptimized />
+                            <section>
+                                <Link
+                                    data-title
+                                    href={{
+                                        query: {
+                                            ["category-id"]: item.id,
+                                            ["category-full-id"]: item?.id,
+                                        },
+                                    }}
+                                >
+                                    {item?.title}
+                                </Link>
+                                {item.children.map((_) => (
+                                    <Link
+                                        href={{
+                                            query: {
+                                                ["category-id"]: item.id,
+                                                ["category-full-id"]: _?.id,
+                                            },
+                                        }}
+                                    >
+                                        {_?.title}
+                                    </Link>
+                                ))}
+                            </section>
+                        </div>
+                    ))}
+                </article>
+            ) : null}
+        </section>
     )
 }

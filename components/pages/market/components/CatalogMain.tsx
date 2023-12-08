@@ -1,21 +1,17 @@
 "use client"
 
-import Link from "next/link"
 import { useMemo } from "react"
 import { useQuery } from "@apollo/client"
-import { useSearchParams } from "next/navigation"
 
 import { ICategoriesRoot } from "@/types/types"
 
 import { DataCategories } from "./DataCategories"
-import { ItemLinkCategory } from "./ItemLinkCategory"
 
 import { queryCategoriesRoot } from "@/apollo/query"
 
 import styles from "../styles/catalog-main.module.scss"
 
 export const CatalogMain = () => {
-    const categoryId = useSearchParams().get("category-id")
     const { data } = useQuery<ICategoriesRoot>(queryCategoriesRoot)
 
     const list = useMemo(() => {
@@ -24,28 +20,7 @@ export const CatalogMain = () => {
 
     return (
         <div className={styles.wrapper}>
-            <nav>
-                {list.map((item) => (
-                    <ItemLinkCategory {...item} />
-                ))}
-            </nav>
-            <section data-is-category={!!categoryId}>
-                {!!categoryId ? (
-                    <DataCategories items={list} />
-                ) : (
-                    list.map((item) => (
-                        <Link
-                            href={{
-                                query: {
-                                    ["category-id"]: item.id,
-                                },
-                            }}
-                        >
-                            <h2>{item.name}</h2>
-                        </Link>
-                    ))
-                )}
-            </section>
+            <DataCategories items={list} />
         </div>
     )
 }

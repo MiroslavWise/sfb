@@ -20,6 +20,7 @@ export interface IAuthor {
     fullName: string
     photo: string
     address: string
+    isPaid: boolean
     city: {
         id: string
         name: string

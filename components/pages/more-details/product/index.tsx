@@ -156,23 +156,31 @@ export const ProductId = ({ id }: { id: string }) => {
                                 style={{
                                     objectFit: "cover",
                                     borderRadius: 21,
-                                    border: productById?.shop ? `1px solid ${productById?.shop?.confirmation ? "green" : "red"}` : "",
+                                    border: productById?.shop
+                                        ? `1px solid ${productById?.shop?.confirmation ? "green" : "red"}`
+                                        : productById?.author?.isPaid
+                                        ? `1px solid green`
+                                        : "1px solid red",
                                 }}
                                 unoptimized
                             />
-                            {productById?.shop ? (
-                                <img
-                                    src={productById?.shop?.confirmation ? "/svg/check-verified-03.svg" : "/svg/x-circle-red.svg"}
-                                    alt="check-verified"
-                                    width={18}
-                                    height={18}
-                                    style={{
-                                        position: "absolute",
-                                        top: "calc(100% - 18px)",
-                                        left: "calc(42px - 18px)",
-                                    }}
-                                />
-                            ) : null}
+                            <img
+                                src={
+                                    productById?.shop && productById?.shop?.confirmation
+                                        ? "/svg/check-verified-03.svg"
+                                        : productById?.author?.isPaid
+                                        ? "/svg/check-verified-03.svg"
+                                        : "/svg/x-circle-red.svg"
+                                }
+                                alt="check-verified"
+                                width={18}
+                                height={18}
+                                style={{
+                                    position: "absolute",
+                                    top: "calc(100% - 18px)",
+                                    left: "calc(42px - 18px)",
+                                }}
+                            />
                             <div
                                 style={{
                                     display: "flex",

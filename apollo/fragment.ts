@@ -6,6 +6,7 @@ export const AUTHOR = gql`
         fullName
         photo
         address
+        isPaid
         city {
             id
             name
