@@ -8,6 +8,7 @@ import type { ICategoriesChildren } from "@/types/types"
 import { Breadcrumbs } from "./Breadcrumbs"
 
 import { ItemsProductQuery } from "./ItemsProductQuery"
+import { ItemNotCategory } from "./ItemNotCategory"
 
 export const DataCategories = ({ items }: { items: ICategoriesChildren[] }) => {
     const categoryId = useSearchParams().get("category-id")
@@ -64,7 +65,7 @@ export const DataCategories = ({ items }: { items: ICategoriesChildren[] }) => {
                 <section>{categoryFullId ? <ItemsProductQuery id={categoryFullId} /> : null}</section>
             </div>
         </div>
-    ) : (
+    ) : categoryId ? (
         <section>
             <aside>
                 {items?.map((a) => (
@@ -117,5 +118,11 @@ export const DataCategories = ({ items }: { items: ICategoriesChildren[] }) => {
                 </article>
             ) : null}
         </section>
+    ) : (
+        <div data-not-category>
+            {items.map((item) => (
+                <ItemNotCategory key={`${item.id}-not-category`} {...item} />
+            ))}
+        </div>
     )
 }

@@ -3,7 +3,7 @@
 import { useMemo } from "react"
 import { useQuery } from "@apollo/client"
 
-import { ICategoriesRoot } from "@/types/types"
+import type { ICategoriesRoot } from "@/types/types"
 
 import { DataCategories } from "./DataCategories"
 
