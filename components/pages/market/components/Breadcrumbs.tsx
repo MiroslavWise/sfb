@@ -63,7 +63,6 @@ export const Breadcrumbs = ({ id, idFull, items }: { id: string; idFull: string;
                         href={{
                             query: {
                                 ["category-id"]: mainBread?.id,
-                                ["category-full-id"]: undefined,
                             },
                         }}
                     >
@@ -77,8 +76,8 @@ export const Breadcrumbs = ({ id, idFull, items }: { id: string; idFull: string;
                     <Link
                         href={{
                             query: {
-                                ["category-id"]: secondaryBread?.id,
-                                ["category-full-id"]: undefined,
+                                ["category-id"]: mainBread?.id,
+                                ["category-full-id"]: secondaryBread?.id,
                             },
                         }}
                     >
@@ -90,8 +89,8 @@ export const Breadcrumbs = ({ id, idFull, items }: { id: string; idFull: string;
                             <Link
                                 href={{
                                     query: {
-                                        ["category-id"]: secondaryBread?.child?.id,
-                                        ["category-full-id"]: undefined,
+                                        ["category-id"]: mainBread?.id,
+                                        ["category-full-id"]: secondaryBread?.child?.id,
                                     },
                                 }}
                             >

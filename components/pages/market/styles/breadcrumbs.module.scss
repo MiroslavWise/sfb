@@ -4,10 +4,17 @@
     flex-direction: row;
     gap: 8px;
 
-    & > a {
+    a {
         white-space: nowrap;
         font-size: 14px;
         font-weight: 400;
         color: var(--gray-600);
+
+        transition: var(--transition);
+        transition-property: color;
+
+        &:hover {
+            color: var(--error-600);
+        }
     }
 }

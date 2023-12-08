@@ -76,10 +76,6 @@ export const DataCategories = ({ items }: { items: ICategoriesChildren[] }) => {
                             },
                         }}
                         data-active={categoryId === a?.id}
-                        onMouseEnter={(event) => {
-                            event.stopPropagation()
-                            handleReplace(`?category-id=${a?.id}`)
-                        }}
                     >
                         <Image src={a.photoUrl ? a.photoUrl : "/png/catalog/auto.png"} alt="icon" width={24} height={24} unoptimized />
                         <span>{a.name}</span>
