@@ -98,14 +98,6 @@ export default function PageProfile() {
                     error={errors?.fullName ? "Обязательное поле" : null}
                 />
                 <Input
-                    label="Адрес"
-                    type="text"
-                    {...register("address", { required: true })}
-                    value={watch("address")}
-                    onChange={(event) => setValue("address", event.target.value)}
-                    error={errors?.address ? "Обязательное поле" : null}
-                />
-                <Input
                     label="Email"
                     type="email"
                     {...register("email")}
@@ -113,18 +105,6 @@ export default function PageProfile() {
                     disabled
                     onChange={(event) => setValue("email", event.target.value)}
                     error={errors?.email ? "Обязательное поле" : null}
-                />
-                <Input
-                    label="Номер телефона(11 символов)"
-                    type="text"
-                    {...register("phone", {
-                        required: true,
-                        minLength: 11,
-                        maxLength: 11,
-                    })}
-                    value={watch("phone")}
-                    onChange={(event) => setValue("phone", event.target.value)}
-                    error={errors?.phone ? "Обязательное поле" : null}
                 />
                 <footer>
                     <button type="submit">

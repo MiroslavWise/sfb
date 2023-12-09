@@ -1,25 +1,21 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import Image from "next/image"
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { useMutation, useQuery } from "@apollo/client"
 
 import { me, queryCity } from "@/apollo/query"
 import { updateProfile } from "@/apollo/mutation"
-import { usePush } from "@/helpers/hooks/usePush"
-import { uploadFile } from "@/helpers/services/fetch"
 import { Input } from "@/components/common/input"
 import { Selector } from "@/components/common/selector"
 import { useAuth } from "@/store/state/useAuth"
 
+import styles from "@/components/pages/profile/styles/page.module.scss"
+
 export default function ChangeData() {
     const setUserData = useAuth(({ setUserData }) => setUserData)
-    const { handlePush } = usePush()
     const { data, refetch } = useQuery(me)
     const { data: dataCity } = useQuery(queryCity)
-    const [filesString, setFilesString] = useState<string | null>(null)
-    const [files, setFiles] = useState<File | null>(null)
 
     const {
         register,
@@ -27,84 +23,84 @@ export default function ChangeData() {
         handleSubmit,
         setValue,
         watch,
-    } = useForm<IValues>()
+    } = useForm<IValuesAdress>()
+    const {
+        register: rPhone,
+        formState: { errors: errPhone },
+        handleSubmit: hPhone,
+        setValue: setVPhone,
+        watch: wPhone,
+    } = useForm<IValuesPhone>()
 
     useEffect(() => {
-        setValue("email", data?.me?.email)
-        setValue("phone", data?.me?.phone)
-        setValue("fullName", data?.me?.fullName)
-        setValue("address", data?.me?.address)
-        setValue("city", data?.me?.city?.id)
+        if (data?.me) {
+            setValue("address", data?.me?.address)
+            setValue("city", data?.me?.city?.id)
+            setVPhone("phone", data?.me?.phone)
+        }
     }, [data?.me])
     const [update] = useMutation(updateProfile)
 
-    function onSubmit(values: IValues) {
-        Promise.all([
-            files ? uploadFile(files!, { type: "user/photo-upload/" }) : Promise.resolve(),
-            update({
-                variables: {
-                    fullName: values?.fullName,
-                    phone: values.phone,
-                    address: values?.address,
-                    cityId: values?.city || null,
-                },
-            }),
-        ]).finally(() => {
-            refetch()
-                .then((response) => {
-                    if (response?.data?.me) {
-                        setUserData(response?.data?.me)
-                    }
-                })
-                .finally(() => {
-                    requestAnimationFrame(() => {
-                        handlePush("/profile")
-                    })
-                })
+    function submitAdress(values: IValuesAdress) {
+        update({
+            variables: {
+                address: values?.address,
+                cityId: values?.city || null,
+            },
+        }).finally(() => {
+            refetch().then((response) => {
+                if (response?.data?.me) {
+                    setUserData(response?.data?.me)
+                }
+            })
         })
     }
 
+    function submitPhone(values: IValuesPhone) {
+        update({
+            variables: {
+                phone: values?.phone || "",
+            },
+        }).finally(() => {
+            refetch().then((response) => {
+                if (response?.data?.me) {
+                    setUserData(response?.data?.me)
+                }
+            })
+        })
+    }
+
+    const onSubmitAddress = handleSubmit(submitAdress)
+    const onSubmitPhone = hPhone(submitPhone)
+
     return (
-        <>
-            <header>
-                <img data-image src="/svg/profile/user-edit.svg" alt="change" width={30} height={30} />
-                <h2>Изменить контактные данные</h2>
-            </header>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div data-uploads>
-                    {filesString || data?.me?.photo ? (
-                        <Image data-photo-avatar src={filesString || data?.me?.photo} alt="avatar" width={200} height={200} unoptimized />
-                    ) : null}
-                    <span>
-                        <input
-                            type="file"
-                            onChange={(event) => {
-                                event.stopPropagation()
-                                event.preventDefault()
-                                const file = event?.target?.files?.[0]
-                                if (file) {
-                                    const reader = new FileReader()
-                                    reader.onloadend = () => {
-                                        setFilesString(reader.result as string)
-                                    }
-                                    reader.readAsDataURL(file)
-                                    setFiles(file as File)
-                                }
-                            }}
-                        />
-                        <img src="/svg/plus.svg" alt="plus" height={50} width={50} />
-                    </span>
-                </div>
+        <div className={styles.wrapper}>
+            <h3>Контактный телефон</h3>
+            <form onSubmit={onSubmitPhone}>
                 <section>
                     <Input
-                        label="Имя Фамилия"
+                        label="Номер телефона(11 символов)"
                         type="text"
-                        {...register("fullName", { required: true })}
-                        value={watch("fullName")}
-                        onChange={(event) => setValue("fullName", event.target.value)}
-                        error={errors?.fullName ? "Обязательное поле" : null}
+                        {...rPhone("phone", {
+                            required: true,
+                            minLength: 11,
+                            maxLength: 11,
+                        })}
+                        value={wPhone("phone")}
+                        onChange={(event) => setVPhone("phone", event.target.value)}
+                        error={errPhone?.phone ? "Обязательное поле" : null}
                     />
-
+                </section>
+                <footer>
+                    <button type="submit">
+                        <span>Сохранить изменения</span>
+                    </button>
+                </footer>
+            </form>
+            <div data-divider />
+            <h3>Местоположение</h3>
+            <form onSubmit={onSubmitAddress}>
+                <section>
                     <Selector
                         label="Город"
                         options={
@@ -144,53 +140,22 @@ export default function ChangeData() {
                         onChange={(event) => setValue("address", event.target.value)}
                         error={errors?.address ? "Обязательное поле" : null}
                     />
-                    <Input
-                        label="Email"
-                        type="email"
-                        {...register("email")}
-                        value={watch("email")}
-                        disabled
-                        onChange={(event) => setValue("email", event.target.value)}
-                        error={errors?.email ? "Обязательное поле" : null}
-                    />
-                    <Input
-                        label="Номер телефона(11 символов)"
-                        type="text"
-                        {...register("phone", {
-                            required: true,
-                            minLength: 11,
-                            maxLength: 11,
-                        })}
-                        value={watch("phone")}
-                        onChange={(event) => setValue("phone", event.target.value)}
-                        error={errors?.phone ? "Обязательное поле" : null}
-                    />
                 </section>
                 <footer>
-                    <button data-primary type="submit">
-                        <span>Сохранить</span>
-                    </button>
-                    <button
-                        data-default
-                        onClick={() => {
-                            handlePush("/profile")
-                        }}
-                        type="button"
-                    >
-                        <span>Отменить</span>
+                    <button type="submit">
+                        <span>Сохранить изменения</span>
                     </button>
                 </footer>
             </form>
-        </>
+        </div>
     )
 }
 
-interface IValues {
-    username: string
-    fullName: string
+interface IValuesAdress {
     city: string
     region: string
-    email: string
-    phone: string
     address: string
+}
+interface IValuesPhone {
+    phone: string
 }

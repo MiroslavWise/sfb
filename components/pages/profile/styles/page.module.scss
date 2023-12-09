@@ -13,12 +13,27 @@
         line-height: 24px;
     }
 
+    & > [data-divider] {
+        width: 100%;
+        height: 2px;
+        background-color: var(--gray-400);
+    }
+
     & > form {
+        width: 100%;
         display: flex;
         flex-direction: column;
         gap: 16px;
 
-        input {
+        & > section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        input,
+        [data-select] {
             background: var(--gray-200) !important;
         }
 

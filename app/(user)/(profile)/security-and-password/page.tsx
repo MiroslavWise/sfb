@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form"
 import { usePush } from "@/helpers/hooks/usePush"
 import { InputPassword } from "@/components/common/input-password"
 
+import styles from "@/components/pages/profile/styles/page.module.scss"
+
 export default function ChangePassword() {
     const { handlePush } = usePush()
     const {
@@ -17,20 +19,11 @@ export default function ChangePassword() {
     } = useForm<IValues>({})
 
     function onSubmit(values: IValues) {
-        handlePush("/profile")
+        // handlePush("/profile")
     }
     return (
-        <>
-            <header>
-                <img
-                    data-image
-                    src="/svg/profile/passcode-lock.svg"
-                    alt="change"
-                    width={30}
-                    height={30}
-                />
-                <h2>Изменить пароль</h2>
-            </header>
+        <div className={styles.wrapper}>
+            <h3>Безопастность и пароль</h3>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <section>
                     <InputPassword
@@ -40,10 +33,7 @@ export default function ChangePassword() {
                         })}
                         error={errors?.current_password?.message}
                     />
-                    <InputPassword
-                        placeholder="Создать пароль*"
-                        {...register("new_password", { required: true })}
-                    />
+                    <InputPassword placeholder="Создать пароль*" {...register("new_password", { required: true })} />
                     <InputPassword
                         placeholder="Подтвердить пароль*"
                         {...register("new_2_password", {
@@ -58,21 +48,12 @@ export default function ChangePassword() {
                     />
                 </section>
                 <footer>
-                    <button data-primary type="submit">
-                        <span>Сохранить</span>
-                    </button>
-                    <button
-                        type="button"
-                        data-default
-                        onClick={() => {
-                            handlePush("/profile")
-                        }}
-                    >
-                        <span>Отменить</span>
+                    <button type="submit">
+                        <span>Сохранить изменения</span>
                     </button>
                 </footer>
             </form>
-        </>
+        </div>
     )
 }
 
