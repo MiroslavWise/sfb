@@ -1,7 +1,8 @@
 "use client"
 
 import { memo, useEffect } from "react"
-import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, ApolloLink } from "@apollo/client"
+import { InMemoryCache } from "@apollo/client/core"
+import { ApolloClient, ApolloProvider, HttpLink, ApolloLink } from "@apollo/client"
 
 import type { IChildrenProps } from "@/types/types"
 
@@ -29,12 +30,14 @@ const authMiddleware = new ApolloLink((operation, forward) => {
     return forward(operation)
 }).concat(httpLink)
 
-const links = authMiddleware
+const link = authMiddleware
+
+const cache = new InMemoryCache({})
 
 export const client = new ApolloClient({
+    link,
+    cache,
     ssrMode: false,
-    link: links,
-    cache: new InMemoryCache({}),
     credentials: "include",
     connectToDevTools: true,
     defaultOptions: {

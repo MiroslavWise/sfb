@@ -45,21 +45,21 @@ export const BasketPage = () => {
                             <div data-header>
                                 <h2>Способ доставки</h2>
                                 <p>
-                                    <Link href={"/profile/change-data"}>Добавьте </Link> адреса доставки в вашем личном кабинете
+                                    <Link href={"/contact-information"}>Добавьте </Link> адреса доставки в вашем личном кабинете
                                 </p>
                             </div>
                             <div data-footer>
                                 <div data-item>
                                     <h2>Способ оплаты</h2>
                                     <p>
-                                        У вас нет методов оплаты, <Link href="/profile/change-payment">добавьте</Link> их в личном кабинете
+                                        У вас нет методов оплаты, <Link href="/payment-information">добавьте</Link> их в личном кабинете
                                     </p>
                                 </div>
                                 <div data-item>
                                     <h2>Мои данные</h2>
                                     <p>
                                         У вас не достаточно информации, что-бы с вами связаться{" "}
-                                        <Link href="/profile/change-payment">дополните</Link> их в личном кабинете
+                                        <Link href="/payment-information">дополните</Link> их в личном кабинете
                                     </p>
                                 </div>
                             </div>

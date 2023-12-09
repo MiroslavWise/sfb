@@ -1,12 +1,12 @@
 "use client"
 
+import Link from "next/link"
 import { useState } from "react"
 import { motion } from "framer-motion"
 
 import { FormPurchase } from "./form-purchase"
 
 import { useAuth } from "@/store/state/useAuth"
-import { usePush } from "@/helpers/hooks/usePush"
 import { dispatchEnter } from "@/store/state/useEnter"
 
 import styles from "../styles/main-use-form.module.scss"
@@ -14,11 +14,6 @@ import styles from "../styles/main-use-form.module.scss"
 export const ComponentMainUseFormMainPage = () => {
     const token = useAuth(({ token }) => token)
     const [state, setState] = useState<"start" | "purchase" | "sale">("start")
-    const { handlePush } = usePush()
-
-    function handleMarket() {
-        handlePush(`/market`)
-    }
 
     function handleOnEnter() {
         dispatchEnter(true)
@@ -110,9 +105,9 @@ export const ComponentMainUseFormMainPage = () => {
                                 </span>
                             </button>
                         </div>
-                        <button data-default onClick={handleMarket}>
+                        <Link data-default href={"/market"}>
                             <span>Посмотреть товары</span>
-                        </button>
+                        </Link>
                     </motion.div>
                 )
             ) : null}

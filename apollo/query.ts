@@ -11,6 +11,7 @@ export const me = gql`
             phone
             address
             isStaff
+            isPaid
             isAdmin
             isSeller
             isSuperuser
@@ -155,7 +156,7 @@ export const queryProductListMe = gql`
 export const queryProductListMeArchive = gql`
     ${PRODUCT}
     query ($offset: Int) {
-        productListMe(limit: 20, offset: $offset, isActive: false) {
+        productListMe(limit: 20, offset: $offset, isActive: false, draft: false) {
             totalCount
             results {
                 ...product
@@ -268,6 +269,11 @@ export const queryProductRequestById = gql`
     query ($id: UUID!) {
         productRequestById(id: $id) {
             ...productRequest
+            photoListUrl {
+                id
+                photo
+                photoUrl
+            }
         }
     }
 `
@@ -283,12 +289,6 @@ export const queryProductRequestByIdMeta = gql`
 
 export const queryTotalCountProfileAside = gql`
     query {
-        productListMe(isActive: true, draft: false) {
-            totalCount
-        }
-        productRequestListMe(isActive: true, draft: false) {
-            totalCount
-        }
         chatList {
             totalCount
         }

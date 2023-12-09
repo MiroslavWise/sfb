@@ -70,7 +70,27 @@
         align-items: stretch;
         gap: 12px;
 
-        & > button {
+        & > article {
+            width: 100%;
+            max-width: 370px;
+
+            & > p {
+                color: var(--gray-600);
+                text-align: justify;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 500;
+                letter-spacing: -0.6px;
+
+                & > a {
+                    color: var(--error-600);
+                    font-weight: 400;
+                }
+            }
+        }
+
+        & > button,
+        & > a {
             padding: 15px 23px;
             height: 40px;
             width: 100%;

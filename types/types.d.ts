@@ -121,6 +121,7 @@ export interface IProduct extends IRequestProduct {
         photoUrl: string
         confirmation: boolean
     }
+    photoListUrl: IPhoto[]
 }
 
 export interface IProductRoot {

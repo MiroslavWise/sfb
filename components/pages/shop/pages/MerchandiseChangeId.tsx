@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useForm } from "react-hook-form"
 import { ChangeEvent, useEffect, useMemo, useState } from "react"
 import { useMutation, useQuery } from "@apollo/client"
@@ -343,9 +344,9 @@ export const MerchandiseChangeId = ({ id, productId }: { id: string; productId: 
                             <img src="/svg/loading-03.svg" alt="loading" width={20} height={20} style={{ filter: `invert(1)` }} />
                         ) : null}
                     </button>
-                    <button data-default onClick={cancel} type="button">
+                    <Link data-default href={{ pathname: `/my-shop/${id}/merchandise/${productId}` }}>
                         <span>Отмена</span>
-                    </button>
+                    </Link>
                 </footer>
             </form>
         </div>

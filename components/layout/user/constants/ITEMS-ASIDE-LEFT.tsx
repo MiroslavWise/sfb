@@ -72,5 +72,4 @@ interface IValuesData {
     isCommercial?: boolean
     countMyRequests?: number
     countMyProducts?: number
-    constMessages?: number
 }

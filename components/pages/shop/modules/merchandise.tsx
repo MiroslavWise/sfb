@@ -76,16 +76,9 @@ export const Merchandise = ({ id }: { id: string }) => {
                         )}
                         {item?.draft ? (
                             <div data-hover-button>
-                                <button
-                                    data-public
-                                    onClick={(event) => {
-                                        event.preventDefault()
-                                        event.stopPropagation()
-                                        handlePush(`/my-shop/${id}/merchandise/${item?.id}/change`)
-                                    }}
-                                >
+                                <Link data-public href={{ pathname: `/my-shop/${id}/merchandise/${item?.id}/change` }}>
                                     <span>Редактировать</span>
-                                </button>
+                                </Link>
                                 {!!item?.category?.id && item?.name?.length > 2 && !!item?.draft && !!item?.photoListUrl?.length ? (
                                     <button
                                         onClick={(event) => {

@@ -4,11 +4,12 @@ import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { useMutation, useQuery } from "@apollo/client"
 
-import { me, queryCity } from "@/apollo/query"
-import { updateProfile } from "@/apollo/mutation"
 import { Input } from "@/components/common/input"
-import { Selector } from "@/components/common/selector"
+import { CustomSelector } from "@/components/common/custom-selector"
+
+import { me, queryCity } from "@/apollo/query"
 import { useAuth } from "@/store/state/useAuth"
+import { updateProfile } from "@/apollo/mutation"
 
 import styles from "@/components/pages/profile/styles/page.module.scss"
 
@@ -24,19 +25,12 @@ export default function ChangeData() {
         setValue,
         watch,
     } = useForm<IValuesAdress>()
-    const {
-        register: rPhone,
-        formState: { errors: errPhone },
-        handleSubmit: hPhone,
-        setValue: setVPhone,
-        watch: wPhone,
-    } = useForm<IValuesPhone>()
 
     useEffect(() => {
         if (data?.me) {
             setValue("address", data?.me?.address)
             setValue("city", data?.me?.city?.id)
-            setVPhone("phone", data?.me?.phone)
+            setValue("phone", data?.me?.phone)
         }
     }, [data?.me])
     const [update] = useMutation(updateProfile)
@@ -46,19 +40,6 @@ export default function ChangeData() {
             variables: {
                 address: values?.address,
                 cityId: values?.city || null,
-            },
-        }).finally(() => {
-            refetch().then((response) => {
-                if (response?.data?.me) {
-                    setUserData(response?.data?.me)
-                }
-            })
-        })
-    }
-
-    function submitPhone(values: IValuesPhone) {
-        update({
-            variables: {
                 phone: values?.phone || "",
             },
         }).finally(() => {
@@ -71,67 +52,60 @@ export default function ChangeData() {
     }
 
     const onSubmitAddress = handleSubmit(submitAdress)
-    const onSubmitPhone = hPhone(submitPhone)
 
     return (
         <div className={styles.wrapper}>
-            <h3>Контактный телефон</h3>
-            <form onSubmit={onSubmitPhone}>
+            <h3>Контактный телефон и местоположение</h3>
+            <form onSubmit={onSubmitAddress}>
                 <section>
                     <Input
                         label="Номер телефона(11 символов)"
                         type="text"
-                        {...rPhone("phone", {
+                        {...register("phone", {
                             required: true,
                             minLength: 11,
                             maxLength: 11,
                         })}
-                        value={wPhone("phone")}
-                        onChange={(event) => setVPhone("phone", event.target.value)}
-                        error={errPhone?.phone ? "Обязательное поле" : null}
+                        value={watch("phone")}
+                        onChange={(event) => setValue("phone", event.target.value)}
+                        error={errors?.phone ? "Обязательное поле" : null}
                     />
-                </section>
-                <footer>
-                    <button type="submit">
-                        <span>Сохранить изменения</span>
-                    </button>
-                </footer>
-            </form>
-            <div data-divider />
-            <h3>Местоположение</h3>
-            <form onSubmit={onSubmitAddress}>
-                <section>
-                    <Selector
+                    <CustomSelector
                         label="Город"
-                        options={
+                        onClick={(value) => {
+                            setValue("city", value)
+                        }}
+                        list={
                             Array.isArray(dataCity?.cityList)
                                 ? dataCity?.cityList?.map((item: any) => ({
-                                      label: item?.name,
-                                      value: item?.id,
-                                  }))
+                                      p: item.name,
+                                      id: item.id,
+                                  }))!
                                 : []
                         }
-                        {...register("city", { required: false })}
-                        value={watch("city")}
-                        onChange={(event: any) => setValue("city", event.target.value)}
+                        valueTag={dataCity?.cityList?.find((item: any) => item?.id === watch("city"))?.name! || null}
+                        placeholder="Выберите ваш город"
                     />
-                    <Selector
-                        label="Область"
-                        options={
-                            Array.isArray(dataCity?.cityList)
-                                ? dataCity?.cityList
-                                      ?.filter((item: any) => item?.id === watch("city"))
-                                      ?.map((item: any) => ({
-                                          label: item?.region?.name,
-                                          value: item?.region?.id,
-                                      }))
-                                : []
-                        }
-                        disabled={!watch("city")}
-                        {...register("region", { required: false })}
-                        value={watch("region")}
-                        onChange={(event: any) => setValue("region", event.target.value)}
-                    />
+                    {!!watch("city") ? (
+                        <CustomSelector
+                            label="Область"
+                            list={
+                                Array.isArray(dataCity?.cityList)
+                                    ? dataCity?.cityList
+                                          ?.filter((item: any) => item?.id === watch("city"))
+                                          ?.map((item: any) => ({
+                                              p: item?.region?.name,
+                                              id: item?.region?.id,
+                                          }))!
+                                    : []
+                            }
+                            valueTag={dataCity?.cityList?.find((item: any) => item?.id === watch("city"))?.region?.name || null}
+                            onClick={(value) => {
+                                setValue("region", value)
+                            }}
+                            placeholder="Выберите вашу область"
+                        />
+                    ) : null}
                     <Input
                         label="Адрес"
                         type="text"
@@ -155,7 +129,5 @@ interface IValuesAdress {
     city: string
     region: string
     address: string
-}
-interface IValuesPhone {
     phone: string
 }

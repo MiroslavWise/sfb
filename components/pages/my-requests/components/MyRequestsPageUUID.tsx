@@ -1,11 +1,11 @@
 "use client"
 
+import Link from "next/link"
 import { motion } from "framer-motion"
 import { useMemo, useState } from "react"
 import { useMutation, useQuery } from "@apollo/client"
 
 import type { IRequestProductRoot } from "@/types/types"
-import type { IPhotoProductRequestData } from "@/types/types"
 import type { IItemTab } from "@/components/common/tabs-details/types"
 
 import { Outline } from "@/components/common/outline"
@@ -15,13 +15,13 @@ import { TagCategory } from "../../proposals/components/TagCategory"
 
 import { ITEMS_TABS } from "../constants/tabs"
 import { usePush } from "@/helpers/hooks/usePush"
-import { queryPhotosProductRequestById, queryProductRequestById } from "@/apollo/query"
+import { queryProductRequestById } from "@/apollo/query"
 import { mutateUpdateProductRequestDraft, mutationProductRequestUpdate } from "@/apollo/mutation"
 
 import styles from "../styles/page-uuid.module.scss"
 
 export const MyRequestsPageUUID = ({ id }: { id: string }) => {
-    const { handlePush, handleReplace } = usePush()
+    const { handlePush } = usePush()
     const [tab, setTab] = useState<IItemTab>(ITEMS_TABS[0])
 
     const [mutateDraft] = useMutation(mutateUpdateProductRequestDraft)
@@ -31,14 +31,7 @@ export const MyRequestsPageUUID = ({ id }: { id: string }) => {
     const { data, refetch } = useQuery<IRequestProductRoot>(queryProductRequestById, {
         variables: { id },
     })
-    const { data: dataPhotos } = useQuery<IPhotoProductRequestData>(queryPhotosProductRequestById, {
-        variables: { id },
-    })
     const { productRequestById } = data ?? {}
-
-    function handleChange() {
-        handlePush(`/my-requests/${id}/change`)
-    }
 
     function handlePublish() {
         if (productRequestById?.draft) {
@@ -51,27 +44,50 @@ export const MyRequestsPageUUID = ({ id }: { id: string }) => {
     }
 
     const images = useMemo(() => {
-        if (!dataPhotos?.productRequestById || !Array.isArray(dataPhotos?.productRequestById?.photoListUrl)) {
+        if (!productRequestById || !Array.isArray(productRequestById?.photoListUrl)) {
             return []
         }
-        return dataPhotos?.productRequestById?.photoListUrl
+        return productRequestById?.photoListUrl
             ?.filter((item) => item.photoUrl)
             ?.map((item, index) => ({
                 item: item,
                 index: index,
             }))
-    }, [dataPhotos?.productRequestById])
-
-    const isDataFull = useMemo(() => {
-        const item = data?.productRequestById
-        return !!item?.category?.id && !!item?.name && !!item?.description && !!item?.price
-    }, [data?.productRequestById])
+    }, [productRequestById])
 
     function handleDelete() {
         deleteRequest().finally(() => {
-            handleReplace(`/my-requests`)
+            handlePush(`/my-requests`)
         })
     }
+
+    const isDataFull = useMemo(() => {
+        const boolean = [
+            !!productRequestById?.category?.id,
+            !!productRequestById?.name,
+            !!productRequestById?.description,
+            !!productRequestById?.price,
+            !!productRequestById?.photoListUrl?.length,
+        ].every((item) => item === true)
+        return boolean
+    }, [productRequestById])
+
+    const dataNotCategory = useMemo(() => {
+        if (isDataFull) {
+            return null
+        }
+        const obj = {
+            category: !productRequestById?.category?.id ? `категории` : null,
+            name: !productRequestById?.name ? `названия` : null,
+            description: !productRequestById?.description ? `описания` : null,
+            price: !productRequestById?.price ? `не установлена цена` : null,
+            photoListUrl: !productRequestById?.photoListUrl?.length ? `фотографии` : null,
+        }
+
+        return Object.values(obj)
+            .filter((item) => !!item)
+            .join(", ")
+    }, [productRequestById, isDataFull])
 
     const attrs = useMemo(() => {
         return productRequestById?.attributeList || []
@@ -82,15 +98,9 @@ export const MyRequestsPageUUID = ({ id }: { id: string }) => {
     return (
         <div className={styles.wrapper}>
             <header>
-                <img
-                    src="/svg/arrow-left.svg"
-                    alt="arrow-left"
-                    height={32}
-                    width={32}
-                    onClick={() => {
-                        handleReplace(`/my-requests`)
-                    }}
-                />
+                <Link href={{ pathname: `/my-requests` }}>
+                    <img src="/svg/arrow-left.svg" alt="chevron" width={24} height={24} />
+                </Link>
                 <h3>{productRequestById?.name}</h3>
             </header>
             <TabsDetails items={ITEMS_TABS} set={setTab} current={tab} />
@@ -143,12 +153,19 @@ export const MyRequestsPageUUID = ({ id }: { id: string }) => {
                                 <span>Опубликовать</span>
                                 <img src="/svg/globe-06.svg" alt="globe-06" width={20} height={20} />
                             </button>
-                        ) : null}
+                        ) : (
+                            <article>
+                                <p>
+                                    Для того, что-бы опубликовать ваш запрос, вам не хватает некоторой информации о запросе, а именно:{" "}
+                                    <Link href={{ pathname: `/my-products/${id}/change` }}>{dataNotCategory}</Link>
+                                </p>
+                            </article>
+                        )}
                         {productRequestById?.draft ? (
-                            <button data-black-border onClick={handleChange}>
+                            <Link data-black-border href={{ pathname: `/my-requests/${id}/change` }}>
                                 <span>Редактировать</span>
                                 <img src="/svg/replace.svg" alt="replace" width={20} height={20} />
-                            </button>
+                            </Link>
                         ) : null}
                         <button data-delete={!!productRequestById?.draft} onClick={handleDelete}>
                             <span>Удалить</span>

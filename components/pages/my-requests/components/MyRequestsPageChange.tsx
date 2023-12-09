@@ -1,11 +1,11 @@
 "use client"
 
+import Link from "next/link"
 import { useForm } from "react-hook-form"
 import { ChangeEvent, useEffect, useMemo, useState } from "react"
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client"
 
 import type { ICategoriesRoot, IRequestProductRoot } from "@/types/types"
-import type { IPhotoProductRequestData } from "@/types/types"
 
 import { MiniPhoto } from "../../proposals"
 import { Input } from "@/components/common/input"
@@ -13,25 +13,20 @@ import { TextArea } from "@/components/common/text-area"
 import { CustomSelector } from "@/components/common/custom-selector"
 import { CustomsAttributes } from "@/components/common/customs-attributes"
 
-import { useAuth } from "@/store/state/useAuth"
 import { usePush } from "@/helpers/hooks/usePush"
 import { uploadFile } from "@/helpers/services/fetch"
 import { mutationProductRequestAttributeUpdate } from "@/apollo/attribute"
+import { queryCategoriesRoot, queryProductRequestById } from "@/apollo/query"
 import { createProductRequestFull, mutateUpdateProductRequest } from "@/apollo/mutation"
-import { queryCategoriesRoot, queryPhotosProductRequestById, queryProductRequestById } from "@/apollo/query"
 
 import styles from "../styles/change.module.scss"
 
-export const MyRequestsPageChange = ({ id }: { id: string }) => {
-    const user = useAuth(({ user }) => user)
+export const MyRequestsPageChange = ({ id }: { id: string | "new" }) => {
     const [files, setFiles] = useState<File[]>([])
     const [filesString, setFilesString] = useState<string[]>([])
     const { data: dataCategories } = useQuery<ICategoriesRoot>(queryCategoriesRoot)
     const { handlePush } = usePush()
-    const [use, { data, loading }] = useLazyQuery<IRequestProductRoot>(queryProductRequestById, {
-        variables: { id },
-    })
-    const [usePhoto, { data: dataPhotos }] = useLazyQuery<IPhotoProductRequestData>(queryPhotosProductRequestById, {
+    const [use, { data }] = useLazyQuery<IRequestProductRoot>(queryProductRequestById, {
         variables: { id },
     })
     const [updateAttr] = useMutation(mutationProductRequestAttributeUpdate)
@@ -156,7 +151,6 @@ export const MyRequestsPageChange = ({ id }: { id: string }) => {
     useEffect(() => {
         if (id && id !== "new") {
             use()
-            usePhoto()
         }
     }, [id])
 
@@ -217,10 +211,9 @@ export const MyRequestsPageChange = ({ id }: { id: string }) => {
                 <h1>Редактировать запрос</h1>
                 <form onSubmit={onSubmit}>
                     <section>
-                        {Array.isArray(dataPhotos?.productRequestById?.photoListUrl) &&
-                        dataPhotos?.productRequestById?.photoListUrl.length ? (
+                        {Array.isArray(productRequestById?.photoListUrl) && productRequestById?.photoListUrl.length ? (
                             <div data-photos>
-                                {dataPhotos?.productRequestById?.photoListUrl
+                                {productRequestById?.photoListUrl
                                     ?.filter((item) => item?.photoUrl)
                                     ?.map((item) => (
                                         <MiniPhoto src={item.photoUrl} key={item.id + item.photo + "---343"} />
@@ -334,9 +327,9 @@ export const MyRequestsPageChange = ({ id }: { id: string }) => {
                         <button data-primary type="submit">
                             <span>Сохранить</span>
                         </button>
-                        <button data-default onClick={() => cancel(id!)} type="button">
+                        <Link data-default href={{ pathname: id && id !== "new" ? `/my-requests/${id}/` : `/my-requests` }}>
                             <span>Отмена</span>
-                        </button>
+                        </Link>
                     </footer>
                 </form>
             </section>

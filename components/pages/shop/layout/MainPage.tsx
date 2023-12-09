@@ -2,12 +2,12 @@
 
 import Link from "next/link"
 import Image from "next/image"
+import { useMemo } from "react"
 import { useQuery } from "@apollo/client"
 
 import type { IListShop } from "@/types/shop"
 
 import { queryShopList } from "@/apollo/query-"
-import { useMemo } from "react"
 
 export const ShopMainPage = () => {
     const { data } = useQuery<IListShop>(queryShopList)

@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import Image from "next/image"
 import { useForm } from "react-hook-form"
 import { ChangeEvent, useEffect, useState } from "react"
@@ -178,19 +179,9 @@ export const ChangeShop = ({ id }: { id: string }) => {
                 <button data-primary type="submit">
                     <span>Сохранить</span>
                 </button>
-                <button
-                    data-default
-                    type="button"
-                    onClick={() => {
-                        if (id) {
-                            handlePush(`/my-shop/${id}`)
-                        } else {
-                            handlePush(`/my-shop`)
-                        }
-                    }}
-                >
+                <Link data-default href={{ pathname: id ? `/my-shop/${id}` : `/my-shop` }}>
                     <span>Отмена</span>
-                </button>
+                </Link>
             </footer>
         </form>
     )

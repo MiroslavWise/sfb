@@ -5,26 +5,33 @@ import Image from "next/image"
 import { useQuery } from "@apollo/client"
 import { usePathname } from "next/navigation"
 
-import type { IQueryTotalCountProfileAside } from "@/types/total"
-
 import { useAuth } from "@/store/state/useAuth"
-import { queryTotalCountProfileAside } from "@/apollo/query"
+import { useOrderingProduct } from "@/store/state/useOrderingProduct"
 import { ITEMS_ASIDE_LEFT_PICTURE } from "../constants/ITEMS-ASIDE-LEFT"
+import { productRequestListMe, queryProductListMe } from "@/apollo/query"
 
 export function LeftAsideUser() {
     const pathname = usePathname()
+    const price = useOrderingProduct(({ price }) => price)
     const user = useAuth(({ user }) => user)
     const { isCommercial } = user ?? {}
-    const { data } = useQuery<IQueryTotalCountProfileAside>(queryTotalCountProfileAside)
+    const { data: dataRequestListMe } = useQuery(productRequestListMe, {
+        variables: { offset: 0 },
+    })
+    const { data: dataProductListMe } = useQuery(queryProductListMe, {
+        variables: {
+            ordering: price,
+            offset: 0,
+        },
+    })
 
     return (
         <aside>
             <ul data-links>
                 {ITEMS_ASIDE_LEFT_PICTURE({
                     isCommercial: isCommercial,
-                    constMessages: data?.chatList?.totalCount,
-                    countMyProducts: data?.productListMe?.totalCount,
-                    countMyRequests: data?.productRequestListMe?.totalCount,
+                    countMyProducts: dataProductListMe?.productListMe?.totalCount,
+                    countMyRequests: dataRequestListMe?.productRequestListMe?.totalCount,
                 }).map((item) => (
                     <Link
                         data-picture

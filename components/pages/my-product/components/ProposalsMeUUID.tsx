@@ -1,16 +1,17 @@
 "use client"
 
+import { useMemo } from "react"
 import { motion } from "framer-motion"
 import { useQuery } from "@apollo/client"
 import { useSearchParams } from "next/navigation"
 
 import type { IProductOfferListRoot } from "@/types/types"
 
+import { ItemProposal } from "../../proposals/components/ItemProposal"
+
 import { queryProductOfferList } from "@/apollo/query-offers"
 
 import styles from "../styles/proposals-me-uuid.module.scss"
-import { useMemo } from "react"
-import { ItemProposal } from "../../proposals/components/ItemProposal"
 
 export const ProposalsMeUUID = () => {
     const productId = useSearchParams().get("product-id")
@@ -36,14 +37,11 @@ export const ProposalsMeUUID = () => {
             className={styles.wrapper}
         >
             {items ? (
-                items?.map((item) => (
-                    <ItemProposal key={`${item.id}-proposals-item`} {...item} />
-                ))
+                items?.map((item) => <ItemProposal key={`${item.id}-proposals-item`} {...item} />)
             ) : (
                 <h2>
-                    По вашим товарам вам ещё не поступило предложений. Возможно,
-                    вам нужно указать более точное название или более конкретную
-                    категорию
+                    По вашим товарам вам ещё не поступило предложений. Возможно, вам нужно указать более точное название или более
+                    конкретную категорию
                 </h2>
             )}
         </motion.div>

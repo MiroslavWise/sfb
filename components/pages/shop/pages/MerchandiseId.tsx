@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useMemo } from "react"
 import { useMutation, useQuery } from "@apollo/client"
 
@@ -39,13 +40,32 @@ export const MerchandiseId = ({ id, productId }: { id: string; productId: string
     }, [data?.productById])
 
     const isDataFull = useMemo(() => {
-        const item = data?.productById
-        return !!item?.category?.id && !!item?.name && !!item?.description && !!item?.price && !!item?.photoListUrl?.length
-    }, [data?.productById])
+        const boolean = [
+            !!productById?.category?.id,
+            !!productById?.name,
+            !!productById?.description,
+            !!productById?.price,
+            !!productById?.photoListUrl?.length,
+        ].every((item) => item === true)
+        return boolean
+    }, [productById])
 
-    function handleChange() {
-        handlePush(`/my-shop/${id}/merchandise/${productId}/change`)
-    }
+    const dataNotCategory = useMemo(() => {
+        if (isDataFull) {
+            return null
+        }
+        const obj = {
+            category: !productById?.category?.id ? `категории` : null,
+            name: !productById?.name ? `названия` : null,
+            description: !productById?.description ? `описания` : null,
+            price: !productById?.price ? `не установлена цена` : null,
+            photoListUrl: !productById?.photoListUrl?.length ? `фотографии` : null,
+        }
+
+        return Object.values(obj)
+            .filter((item) => !!item)
+            .join(", ")
+    }, [productById, isDataFull])
 
     function handlePublish() {
         if (productById?.draft) {
@@ -60,6 +80,8 @@ export const MerchandiseId = ({ id, productId }: { id: string; productId: string
             handlePush(`/my-shop/${id}/merchandise`)
         })
     }
+
+    console.log("productById: ", productById)
 
     const attrs = useMemo(() => {
         return productById?.attributeList || []
@@ -113,12 +135,19 @@ export const MerchandiseId = ({ id, productId }: { id: string; productId: string
                             <span>Опубликовать</span>
                             <img src="/svg/globe-06.svg" alt="globe-06" width={20} height={20} />
                         </button>
-                    ) : null}
+                    ) : (
+                        <article>
+                            <p>
+                                Для того, что-бы опубликовать ваш товар, вам не хватает некоторой информации о товаре, а именно:{" "}
+                                <Link href={{ pathname: `/my-shop/${id}/merchandise/${productId}/change` }}>{dataNotCategory}</Link>
+                            </p>
+                        </article>
+                    )}
                     {productById?.draft ? (
-                        <button data-black-border onClick={handleChange}>
+                        <Link data-black-border href={{ pathname: `/my-shop/${id}/merchandise/${productId}/change` }}>
                             <span>Редактировать</span>
                             <img src="/svg/replace.svg" alt="replace" width={20} height={20} />
-                        </button>
+                        </Link>
                     ) : null}
                     <button data-delete={!!productById?.draft} onClick={handleDelete}>
                         <span>{productById?.draft ? "Удалить" : "В архив"}</span>

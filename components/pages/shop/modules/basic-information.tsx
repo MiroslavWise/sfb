@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import Image from "next/image"
 import { useQuery } from "@apollo/client"
 
@@ -7,13 +8,10 @@ import type { IShopById } from "@/types/shop"
 
 import { cx } from "@/helpers/lib/cx"
 import { queryShopById } from "@/apollo/query-"
-import { usePush } from "@/helpers/hooks/usePush"
 
 import styles from "../styles/modules.module.scss"
 
 export const BasicInformation = ({ id }: { id: string }) => {
-    const { handlePush } = usePush()
-
     const { data } = useQuery<IShopById>(queryShopById, {
         variables: { shopId: id },
     })
@@ -38,8 +36,7 @@ export const BasicInformation = ({ id }: { id: string }) => {
                         ) : (
                             <p>
                                 <img src="/svg/x-circle-red.svg" alt="check-verified" width={15} height={15} /> Магазин не прошёл
-                                верификацию и не имеет приоритета продаж, а так-же гарантии оказываемых услуг на
-                                нашей торговой площадке
+                                верификацию и не имеет приоритета продаж, а так-же гарантии оказываемых услуг на нашей торговой площадке
                             </p>
                         )}
                     </div>
@@ -54,13 +51,13 @@ export const BasicInformation = ({ id }: { id: string }) => {
                 </article>
             </section>
             <footer>
-                <button
-                    onClick={() => {
-                        handlePush(`/my-shop/${id}/change`)
+                <Link
+                    href={{
+                        pathname: `/my-shop/${id}/change`,
                     }}
                 >
                     <span>Изменить инфорацию</span>
-                </button>
+                </Link>
             </footer>
         </div>
     )

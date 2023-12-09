@@ -11,11 +11,12 @@
             align-items: center;
             justify-content: space-between;
             gap: 8px;
-            max-width: 460px;
+            max-width: 520px;
             width: 100%;
             font-size: 16px;
 
             & > p {
+                white-space: nowrap;
                 font-weight: 600;
                 color: var(--main-black);
             }
@@ -27,6 +28,7 @@
             }
 
             & > span {
+                white-space: nowrap;
                 color: var(--gray-600);
                 font-weight: 500;
             }

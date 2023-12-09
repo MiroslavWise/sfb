@@ -108,4 +108,28 @@
             }
         }
     }
+
+    [data-verification] {
+        padding: 8px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
+        border-radius: 7px;
+        border: 1px solid var(--gray-300);
+
+        &[data-verification="false"] {
+            cursor: pointer;
+        }
+
+        & > p {
+            color: var(--gray-500);
+            text-align: justify;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 500;
+            letter-spacing: -0.3px;
+        }
+    }
 }

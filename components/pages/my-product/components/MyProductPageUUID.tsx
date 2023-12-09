@@ -1,27 +1,27 @@
 "use client"
 
+import Link from "next/link"
 import { useMemo, useState } from "react"
 import { useMutation, useQuery } from "@apollo/client"
 
-import type { IPhotoProductData, IProductRoot } from "@/types/types"
+import type { IProductRoot } from "@/types/types"
 import type { IItemTab } from "@/components/common/tabs-details/types"
 
 import { ProposalsMeUUID } from "./ProposalsMeUUID"
 import { Outline } from "@/components/common/outline"
 import { TabsDetails } from "@/components/common/tabs-details"
 import { PhotoStage } from "@/components/common/PhotoStage"
-import { ButtonBack } from "@/components/common/button-back"
 import { TagCategory } from "../../proposals/components/TagCategory"
 
 import { ITEMS_TABS } from "../constants/tabs"
 import { usePush } from "@/helpers/hooks/usePush"
-import { queryProductById, queryPhotosProductById } from "@/apollo/query"
+import { queryProductById } from "@/apollo/query"
 import { mutateUpdateProductDraft, mutationProductDelete } from "@/apollo/mutation"
 
 import styles from "../styles/page-uuid.module.scss"
 
 export const MyProductPageUUID = ({ id }: { id: string }) => {
-    const { handlePush, handleReplace } = usePush()
+    const { handlePush } = usePush()
     const [tab, setTab] = useState<IItemTab>(ITEMS_TABS[0])
 
     const [mutateDraft] = useMutation(mutateUpdateProductDraft)
@@ -30,16 +30,9 @@ export const MyProductPageUUID = ({ id }: { id: string }) => {
     })
 
     const { data, refetch } = useQuery<IProductRoot>(queryProductById, {
-        variables: { id: id },
+        variables: { id },
     })
     const { productById } = data ?? {}
-    const { data: dataPhotos } = useQuery<IPhotoProductData>(queryPhotosProductById, {
-        variables: { id: id },
-    })
-
-    function handleChange() {
-        handlePush(`/my-products/${id}/change`)
-    }
 
     function handlePublish() {
         if (productById?.draft) {
@@ -54,25 +47,48 @@ export const MyProductPageUUID = ({ id }: { id: string }) => {
     }
 
     const images = useMemo(() => {
-        if (!dataPhotos?.productById || !Array.isArray(dataPhotos?.productById?.photoListUrl)) {
+        if (!productById || !Array.isArray(productById?.photoListUrl)) {
             return []
         }
-        return dataPhotos?.productById?.photoListUrl
+        return productById?.photoListUrl
             ?.filter((item) => item.photoUrl)
             ?.map((item, index) => ({
                 item: item,
                 index: index,
             }))
-    }, [dataPhotos?.productById])
+    }, [productById])
 
     const isDataFull = useMemo(() => {
-        const item = data?.productById
-        return !!item?.category?.id && !!item?.name && !!item?.description && !!item?.price && !!item?.photoListUrl?.length
-    }, [data?.productById])
+        const boolean = [
+            !!productById?.category?.id,
+            !!productById?.name,
+            !!productById?.description,
+            !!productById?.price,
+            !!productById?.photoListUrl?.length,
+        ].every((item) => item === true)
+        return boolean
+    }, [productById])
+
+    const dataNotCategory = useMemo(() => {
+        if (isDataFull) {
+            return null
+        }
+        const obj = {
+            category: !productById?.category?.id ? `категории` : null,
+            name: !productById?.name ? `названия` : null,
+            description: !productById?.description ? `описания` : null,
+            price: !productById?.price ? `не установлена цена` : null,
+            photoListUrl: !productById?.photoListUrl?.length ? `фотографии` : null,
+        }
+
+        return Object.values(obj)
+            .filter((item) => !!item)
+            .join(", ")
+    }, [productById, isDataFull])
 
     function handleDelete() {
         deleteProduct().finally(() => {
-            handleReplace("/my-products")
+            handlePush("/my-products")
         })
     }
 
@@ -85,17 +101,15 @@ export const MyProductPageUUID = ({ id }: { id: string }) => {
     return (
         <div className={styles.wrapper}>
             <header>
-                <ButtonBack
-                    onClick={() => {
-                        handleReplace(`/my-products`)
-                    }}
-                />
+                <Link href={`/my-products`}>
+                    <img src="/svg/arrow-left.svg" alt="chevron" width={24} height={24} />
+                </Link>
                 <h3>{productById?.name}</h3>
             </header>
             <TabsDetails items={ITEMS_TABS} set={setTab} current={tab} />
             {tab.value === "main" ? (
                 <section>
-                    <PhotoStage images={images} />
+                    <PhotoStage images={images!} />
                     <article>
                         <Outline label="Краткое описание">
                             <h2>{productById?.description}</h2>
@@ -136,12 +150,19 @@ export const MyProductPageUUID = ({ id }: { id: string }) => {
                                     <span>Опубликовать</span>
                                     <img src="/svg/globe-06.svg" alt="globe-06" width={20} height={20} />
                                 </button>
-                            ) : null}
+                            ) : (
+                                <article>
+                                    <p>
+                                        Для того, что-бы опубликовать ваш товар, вам не хватает некоторой информации о товаре, а именно:{" "}
+                                        <Link href={{ pathname: `/my-products/${id}/change` }}>{dataNotCategory}</Link>
+                                    </p>
+                                </article>
+                            )}
                             {productById?.draft ? (
-                                <button data-black-border onClick={handleChange}>
+                                <Link data-black-border href={{ pathname: `/my-products/${id}/change` }}>
                                     <span>Редактировать</span>
                                     <img src="/svg/replace.svg" alt="replace" width={20} height={20} />
-                                </button>
+                                </Link>
                             ) : null}
                             <button data-delete={!!productById?.draft} onClick={handleDelete}>
                                 <span>{productById?.draft ? "Удалить" : "В архив"}</span>

@@ -8,15 +8,12 @@ import { IProductOfferItem } from "@/types/types"
 
 import { ComponentAddress, ComponentArea, ComponentCity } from "@/components/common/component-regions"
 
-import { useAuth } from "@/store/state/useAuth"
 import { usePush } from "@/helpers/hooks/usePush"
 
 import styles from "../styles/item-proposal.module.scss"
 
 const $ItemProposal = (props: IProductOfferItem) => {
-    const user = useAuth(({ user }) => user)
     const { id, product, productRequest, createdAt } = props ?? {}
-    const { id: userId } = user ?? {}
     const [state, setState] = useState(0)
     const { handleReplace } = usePush()
 

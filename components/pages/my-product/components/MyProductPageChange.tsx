@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useForm } from "react-hook-form"
 import { ChangeEvent, useEffect, useMemo, useState } from "react"
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client"
@@ -97,31 +98,38 @@ export const MyProductChange = ({ id }: { id: string }) => {
         } else {
             create({
                 variables: { ...data },
-            }).then((response) => {
-                const id = response?.data?.productCreate?.product?.id
-                Promise.all([
-                    ...files.map((item) =>
-                        uploadFile(item, {
-                            type: "product/photo-upload/",
-                            id: id!,
-                            idType: "product_id",
-                        }),
-                    ),
-                    ...attrs.map((item) =>
-                        updateAttr({
-                            variables: {
-                                productId: id,
-                                attrId: Number(item.id),
-                                attrValueId: Number(item.value),
-                            },
-                        }),
-                    ),
-                ])
-                    .then((responses) => {
-                        console.log("responses: ", responses)
-                    })
-                    .finally(cancel)
             })
+                .then((response) => {
+                    const id = response?.data?.productCreate?.product?.id
+                    Promise.all([
+                        ...files.map((item) =>
+                            uploadFile(item, {
+                                type: "product/photo-upload/",
+                                id: id!,
+                                idType: "product_id",
+                            }),
+                        ),
+                        ...attrs.map((item) =>
+                            updateAttr({
+                                variables: {
+                                    productId: id,
+                                    attrId: Number(item.id),
+                                    attrValueId: Number(item.value),
+                                },
+                            }),
+                        ),
+                    ])
+                        .then((responses) => {
+                            console.log("responses: ", responses)
+                        })
+                        .finally(() => {
+                            handlePush(`/my-products/${id}/`)
+                        })
+                })
+                .catch((error) => {
+                    console.warn(`ERROR CREATE PRODUCT: `, error)
+                    cancel()
+                })
         }
     }
 
@@ -383,9 +391,9 @@ export const MyProductChange = ({ id }: { id: string }) => {
                         <button data-primary type="submit">
                             <span>Сохранить</span>
                         </button>
-                        <button data-default onClick={cancel} type="button">
+                        <Link data-default href={{ pathname: id && id !== "new" ? `/my-products/${id}/` : `/my-products` }}>
                             <span>Отмена</span>
-                        </button>
+                        </Link>
                     </footer>
                 </form>
             </section>

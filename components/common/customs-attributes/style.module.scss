@@ -13,14 +13,27 @@
         flex-direction: column;
         gap: 16px;
 
-        & > [data-set] {
+        & > ul {
             width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, calc(33.3% - 8px));
+            gap: 12px 12px;
+
+            @media screen and (max-width: 1140px) {
+                grid-template-columns: repeat(2, calc(50% - 6px));
+            }
+
+            & > [data-set],
+            & > li {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
         }
 
-        height: 100%;
+        height: fit-content;
         transition: var(--transition);
         transition-property: max-height, opacity, visibility;
 

@@ -6,10 +6,11 @@ import type { UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-
 
 import type { IProductAttributeList } from "@/types/types"
 
+import { CustomSelector } from "../custom-selector"
+
 import { queryProductAttributesByCategoryId } from "@/apollo/attribute"
 
 import styles from "./style.module.scss"
-import { CustomSelector } from "../custom-selector"
 
 export function CustomsAttributes(props: IProps) {
     const [isList, setIsList] = useState(false)
@@ -40,25 +41,29 @@ export function CustomsAttributes(props: IProps) {
                 </a>
             ) : null}
             <section data-is-open={isList}>
-                {listAttributes &&
-                    listAttributes?.map((item) => (
-                        <div key={`${item.id}-${item.slug}`} {...register(`${item.id}:attr`, { required: false })}>
-                            <CustomSelector
-                                label={item.name}
-                                valueTag={item?.enumGroup?.values?.find((_) => `${_?.id}` === watch(`${item.id}:attr` as string))?.value}
-                                placeholder={item.description}
-                                onClick={(value) => {
-                                    setValue(`${item.id!}:attr`, value)
-                                }}
-                                list={
-                                    item?.enumGroup?.values?.map((item_) => ({
-                                        id: item_.id,
-                                        p: item_.value,
-                                    })) || []
-                                }
-                            />
-                        </div>
-                    ))}
+                <ul>
+                    {listAttributes &&
+                        listAttributes?.map((item) => (
+                            <li key={`${item.id}-${item.slug}`} {...register(`${item.id}:attr`, { required: false })}>
+                                <CustomSelector
+                                    label={item.name}
+                                    valueTag={
+                                        item?.enumGroup?.values?.find((_) => `${_?.id}` === watch(`${item.id}:attr` as string))?.value
+                                    }
+                                    placeholder={item.description}
+                                    onClick={(value) => {
+                                        setValue(`${item.id!}:attr`, value)
+                                    }}
+                                    list={
+                                        item?.enumGroup?.values?.map((item_) => ({
+                                            id: item_.id,
+                                            p: item_.value,
+                                        })) || []
+                                    }
+                                />
+                            </li>
+                        ))}
+                </ul>
             </section>
         </div>
     )

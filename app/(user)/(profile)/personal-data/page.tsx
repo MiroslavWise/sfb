@@ -106,6 +106,19 @@ export default function PageProfile() {
                     onChange={(event) => setValue("email", event.target.value)}
                     error={errors?.email ? "Обязательное поле" : null}
                 />
+                <div data-verification={data?.me?.isPaid}>
+                    <img
+                        src={data?.me?.isPaid ? "/svg/check-verified-03.svg" : "/svg/x-circle-red.svg"}
+                        alt="isPaid"
+                        width={36}
+                        height={26}
+                    />
+                    <p>
+                        {data?.me?.isPaid
+                            ? "Ваш аккаунт прошёл верификацию и может использовать больше ресурсов нашего сервиса, а так-же имеет подлинность продаваемых товаров"
+                            : "Ваш аккаунт не имеет подтверждения на нашем сервисе, что-бы иметь гарантию продаваемых товаров и ваших запросов. Что-бы получить данный статус, пришлите некоторую информацию о вас, что-бы пройти модерацию профиля"}
+                    </p>
+                </div>
                 <footer>
                     <button type="submit">
                         <span>Сохранить изменения</span>

@@ -15,14 +15,21 @@
         background-color: #fff;
         border-radius: 7px;
 
-        & > h1 {
+        & > a {
+            padding: 4px !important;
+            cursor: pointer;
+            & > img {
+                width: 24px;
+                height: 24px;
+            }
+        }
+
+        & > h3 {
             color: var(--main-black);
-            font-size: 36px;
             font-style: normal;
             font-weight: 500;
-            line-height: 110%;
-            letter-spacing: -0.5px;
             white-space: nowrap;
+            letter-spacing: -0.2px;
         }
     }
 
@@ -98,8 +105,28 @@
             align-items: stretch;
             gap: 8px;
 
-            & > button {
-                padding: 15px 23px;
+            & > article {
+                width: 100%;
+                max-width: 370px;
+
+                & > p {
+                    color: var(--gray-600);
+                    text-align: justify;
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 500;
+                    letter-spacing: -0.6px;
+
+                    & > a {
+                        color: var(--error-600);
+                        font-weight: 400;
+                    }
+                }
+            }
+
+            & > button,
+            & > a {
+                padding: 15px 23px !important;
                 height: 40px;
                 width: 100%;
                 display: flex;

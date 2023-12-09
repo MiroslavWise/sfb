@@ -108,11 +108,6 @@
     box-sizing: border-box;
     -webkit-touch-callout: none;
 
-    // font-family: system, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    //     "Segoe WP", Roboto, Ubuntu, Oxygen, Cantarell, "Fira Sans",
-    //     "Helvetica Neue", Helvetica, "Lucida Grande", "Droid Sans", Tahoma,
-    //     "Microsoft Sans Serif", sans-serif;
-
     [data-regions] {
         display: flex;
         flex-direction: row;
@@ -169,11 +164,11 @@ nav,
 ul,
 article {
     scrollbar-color: rgba(133, 120, 226, 0.7) rgba(255, 255, 255, 0.2) !important;
-    scrollbar-width: 8px;
+    scrollbar-width: 5px;
     &::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-        border-radius: 4px;
+        width: 5px;
+        height: 5px;
+        border-radius: 0px;
         background-color: rgba(255, 255, 255, 0.1);
 
         &:hover {
@@ -181,10 +176,9 @@ article {
         }
     }
     &::-webkit-scrollbar-thumb {
-        border-radius: 4px;
+        border-radius: 0;
         cursor: pointer;
         background-color: rgba(133, 120, 226, 0.5);
-        transition: all 0.2s ease-in-out;
 
         &:hover {
             background-color: rgba(133, 120, 226, 1);

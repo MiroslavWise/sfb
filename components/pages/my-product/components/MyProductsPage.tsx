@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useState } from "react"
 import { useQuery } from "@apollo/client"
 
@@ -11,7 +12,6 @@ import { TabsDetails } from "@/components/common/tabs-details"
 import { ItemProposal } from "../../proposals/components/ItemProposal"
 
 import { useTitle } from "@/helpers/hooks/useTitle"
-import { usePush } from "@/helpers/hooks/usePush"
 import { queryProductOfferList } from "@/apollo/query-offers"
 import { useOrderingProduct } from "@/store/state/useOrderingProduct"
 import { ITEMS_TABS } from "@/app/(user)/(turnover)/my-products/constants"
@@ -24,33 +24,23 @@ export function MyProductsPage() {
             ordering: price,
             offset: 0,
         },
-        partialRefetch: true,
     })
     const { data: dataArchive } = useQuery(queryProductListMeArchive, {
         variables: {
             ordering: price,
             offset: 0,
         },
-        partialRefetch: true,
     })
     useTitle(`Мои товары (${data?.productListMe?.totalCount || 0})`)
     const { data: dataOffers } = useQuery<IProductOfferListRoot>(queryProductOfferList)
-    const [loadingCreate, setLoadingCreate] = useState(false)
-    const { handlePush } = usePush()
     const [tab, setTab] = useState(ITEMS_TABS[0])
     return (
         <>
             <header data-header-main>
-                <button
-                    data-create
-                    onClick={() => {
-                        setLoadingCreate(true)
-                        handlePush(`/my-products/change`)
-                    }}
-                >
+                <Link data-create href={{ pathname: `/my-products/new/change` }}>
                     <span>Создать</span>
-                    <img src="/svg/plus-circle.svg" alt="plus" width={22} height={22} data-loading={loadingCreate} />
-                </button>
+                    <img src="/svg/plus-circle.svg" alt="plus" width={22} height={22} />
+                </Link>
             </header>
             <FilterProduct />
             <TabsDetails items={ITEMS_TABS} current={tab} set={setTab} />

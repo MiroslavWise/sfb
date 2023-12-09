@@ -4,14 +4,14 @@
     flex-direction: column;
     gap: 24px;
 
-    & > [data-header-main="true"] {
+    & > [data-header-main] {
         width: 100%;
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
         gap: 16px;
 
-        & > [data-create="true"] {
+        & > [data-create] {
             width: 180px;
             height: 45px;
             display: flex;
@@ -39,9 +39,6 @@
             }
 
             & > img {
-                &[data-loading="true"] {
-                    animation: rotate 3s ease-in-out infinite;
-                }
                 filter: invert(1);
             }
         }
