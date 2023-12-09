@@ -1,0 +1,96 @@
+.wrapper {
+    max-width: 760px;
+    width: 100%;
+    padding: 12px 24px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    & > h3 {
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 24px;
+    }
+
+    & > form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        input {
+            background: var(--gray-200) !important;
+        }
+
+        & > [data-uploads] {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+            gap: 16px;
+
+            & > span {
+                position: relative;
+                width: min-content;
+                width: 100px;
+                height: 100px;
+                overflow: hidden;
+                border: 2px dashed var(--gray-400);
+                border-radius: 7px;
+                & > input {
+                    opacity: 0;
+                    width: 100px;
+                    height: 100px;
+                    cursor: pointer;
+                }
+
+                & > img {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    pointer-events: none;
+                }
+            }
+
+            & > [data-photo-avatar="true"] {
+                width: 200px;
+                height: 200px;
+                object-fit: cover;
+                border-radius: 7px;
+                border: 2px dashed var(--gray-400);
+                overflow: hidden;
+            }
+        }
+
+        & > footer {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 8px;
+
+            & > button {
+                max-width: 180px;
+                width: 100%;
+                height: 45px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                border-radius: 7px;
+                border: none !important;
+                outline: none !important;
+                background: var(--main-black);
+
+                & > span {
+                    color: #fff;
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: normal;
+                    white-space: nowrap;
+                }
+            }
+        }
+    }
+}

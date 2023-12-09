@@ -11,8 +11,9 @@ import { ItemsProductQuery } from "./ItemsProductQuery"
 import { ItemNotCategory } from "./ItemNotCategory"
 
 export const DataCategories = ({ items }: { items: ICategoriesChildren[] }) => {
-    const categoryId = useSearchParams().get("category-id")
-    const categoryFullId = useSearchParams().get("category-full-id")
+    const searchParams = useSearchParams().get
+    const categoryId = searchParams("category-id")
+    const categoryFullId = searchParams("category-full-id")
 
     const listSecondary = useMemo(() => {
         const main = items?.find((item) => item?.id === categoryId)

@@ -283,10 +283,10 @@ export const queryProductRequestByIdMeta = gql`
 
 export const queryTotalCountProfileAside = gql`
     query {
-        productListMe(isActive: true) {
+        productListMe(isActive: true, draft: false) {
             totalCount
         }
-        productRequestListMe(isActive: true) {
+        productRequestListMe(isActive: true, draft: false) {
             totalCount
         }
         chatList {

@@ -21,13 +21,16 @@ export function generateViewport(): Viewport {
         userScalable: false,
         maximumScale: 1,
         minimumScale: 1,
-        height: "device-height",
-        viewportFit: "cover",
     }
 }
 
 export const metadata: Metadata = {
-    title: "SFB",
+    title: "SFB - Поиск, Находка, Покупка",
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: "all",
+    },
 }
 
 export default function RootLayout({ children }: IChildrenProps) {

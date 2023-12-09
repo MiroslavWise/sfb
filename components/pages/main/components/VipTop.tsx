@@ -27,7 +27,7 @@ export const VipTop = () => {
 
     return (
         <section className={styles.wrapper}>
-            <h3>VIP товары</h3>
+            <h3>VIP ОБЪЯВЛЕНИЯ</h3>
             <ul>
                 {data?.productList &&
                     data?.productList?.results?.map((item) => (

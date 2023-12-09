@@ -12,13 +12,7 @@ export const DataProfile = () => {
         <header data-header-profile>
             {data ? (
                 <>
-                    <Image
-                        src={data?.me?.photo}
-                        alt="avatar"
-                        height={250}
-                        width={250}
-                        unoptimized
-                    />
+                    <Image src={data?.me?.photo} alt="avatar" height={250} width={250} unoptimized />
                     <div data-info>
                         {data?.me?.fullName && (
                             <span data-item>
@@ -26,24 +20,14 @@ export const DataProfile = () => {
                                 <p>{data?.me?.fullName}</p>
                             </span>
                         )}
-                        {data?.me?.area && (
-                            <span data-item>
-                                <label>Область:</label>
-                                <p>{data?.me?.area?.name}</p>
-                            </span>
-                        )}
-                        {data?.me?.city && (
-                            <span data-item>
-                                <label>Город:</label>
-                                <p>{data?.me?.city?.name}</p>
-                            </span>
-                        )}
-                        {data?.me?.address && (
-                            <span data-item>
-                                <label>Адрес:</label>
-                                <p>{data?.me?.address}</p>
-                            </span>
-                        )}
+                        <span data-item>
+                            <label>Адрес:</label>
+                            <p>
+                                {data?.me?.area ? `${data?.me?.area?.name}, ` : ""}
+                                {data?.me?.city ? `${data?.me?.city?.name}, ` : ""}
+                                {data?.me?.address ? `${data?.me?.address}` : ""}
+                            </p>
+                        </span>
                         {data?.me?.email && (
                             <span data-item>
                                 <label>Email:</label>

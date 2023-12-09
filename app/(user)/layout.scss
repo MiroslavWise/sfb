@@ -20,49 +20,102 @@
         & > [data-profile] {
             max-width: 1440px;
             width: 100%;
-            display: flex;
-            flex-direction: row;
-            gap: 16px;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 24px 24px;
 
-            & > [data-header-profile] {
+            & > aside {
                 width: 100%;
-                max-width: 580px;
                 display: flex;
-                flex-direction: row;
-                align-items: flex-start;
-                gap: 16px;
+                flex-direction: column;
+                gap: 8px;
 
-                & > img {
-                    height: 250px;
-                    width: auto;
-                    aspect-ratio: 1/1;
-                    object-fit: cover;
-                    border-radius: 7px;
+                & > a {
+                    position: relative;
+                    width: 100%;
+                    background: #fff;
+                    padding: 8px !important;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 8px;
+                    transition: var(--transition);
+                    transition-property: background;
+                    overflow: hidden;
+
+                    & > [data-icon] {
+                        width: 32px;
+                        height: 32px;
+                        transition: var(--transition);
+                        transition-property: filter;
+                    }
+
+                    & > [data-arrow] {
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        right: -16px;
+                        opacity: 0;
+                        transition: var(--transition);
+                        transition-property: right, opacity;
+                    }
+
+                    & > span {
+                        color: var(--gray-500);
+                        font-size: 18px;
+                        font-style: normal;
+                        font-weight: 500;
+                        letter-spacing: -0.2px;
+                        transition: var(--transition);
+                        transition-property: color;
+                    }
+
+                    &:hover {
+                        background: var(--gray-50);
+
+                        & > [data-arrow] {
+                            opacity: 1;
+                            right: 8px;
+                        }
+                    }
+
+                    &[data-active="true"] {
+                        background: var(--main-black);
+
+                        & > [data-icon] {
+                            filter: invert(1);
+                        }
+
+                        & > span {
+                            color: var(--gray-50);
+                        }
+
+                        & > [data-arrow] {
+                            opacity: 1;
+                            right: 8px;
+                        }
+                    }
                 }
 
-                & > [data-info] {
+                & > [data-out] {
                     width: 100%;
+                    height: calc(32px + 8px + 8px);
+                    border: 2px solid var(--main-black);
                     display: flex;
-                    flex-direction: column;
-                    align-items: flex-start;
-                    gap: 8px;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+                    margin-top: 16px;
+                    cursor: pointer;
 
-                    & > [data-item] {
-                        display: flex;
-                        flex-direction: column;
-                        align-items: flex-start;
-                        gap: 2px;
-
-                        & > label {
-                            color: var(--gray-500);
-                            font-size: 14px;
-                            font-weight: 500;
-                        }
-
-                        & > p {
-                            font-size: 16px;
-                            font-weight: 500;
-                        }
+                    & > p {
+                        color: var(--main-black);
+                        font-size: 18px;
+                        font-style: normal;
+                        font-weight: 500;
+                        letter-spacing: -0.2px;
+                        transition: var(--transition);
+                        transition-property: color;
                     }
                 }
             }

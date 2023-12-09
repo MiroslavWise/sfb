@@ -1,12 +1,12 @@
 import type { IChildrenProps } from "@/types/types"
 
-import { DataProfile } from "@/components/pages/profile/components/DataProfile"
+import { AsideProfile } from "@/components/pages/profile"
 
 export default function LayoutProfile({ children }: IChildrenProps) {
     return (
-        <section data-profile>
-            <DataProfile />
+        <div data-profile>
+            <AsideProfile />
             {children}
-        </section>
+        </div>
     )
 }
