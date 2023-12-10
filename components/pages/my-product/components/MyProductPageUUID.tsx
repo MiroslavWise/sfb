@@ -174,7 +174,7 @@ export const MyProductPageUUID = ({ id }: { id: string }) => {
                     ) : null}
                 </section>
             ) : tab.value === "proposals" ? (
-                <ProposalsMeUUID />
+                <ProposalsMeUUID id={id} />
             ) : tab.value === "testimonials" ? (
                 <div />
             ) : null}

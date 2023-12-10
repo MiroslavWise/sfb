@@ -3,7 +3,6 @@
 import { useMemo } from "react"
 import { motion } from "framer-motion"
 import { useQuery } from "@apollo/client"
-import { useSearchParams } from "next/navigation"
 
 import type { IProductOfferListRoot } from "@/types/types"
 
@@ -13,11 +12,10 @@ import { queryProductOfferList } from "@/apollo/query-offers"
 
 import styles from "../styles/proposals-me-uuid.module.scss"
 
-export const ProposalsMeUUID = () => {
-    const productId = useSearchParams().get("product-id")
+export const ProposalsMeUUID = ({ id }: { id: string }) => {
     const { data } = useQuery<IProductOfferListRoot>(queryProductOfferList, {
         variables: {
-            product_Id: productId,
+            product_Id: id,
         },
     })
 

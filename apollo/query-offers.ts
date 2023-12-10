@@ -26,3 +26,19 @@ export const queryProductOfferList = gql`
         }
     }
 `
+
+export const queryProductOfferByProductId = gql`
+    ${PRODUCT}
+    query ($productId: UUID!) {
+        productOfferByProductId(productId: $productId) {
+            totalCount
+            results {
+                id
+                product {
+                    ...product
+                }
+                updatedAt
+            }
+        }
+    }
+`
