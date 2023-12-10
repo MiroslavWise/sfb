@@ -130,24 +130,26 @@ export const MerchandiseId = ({ id, productId }: { id: string; productId: string
             </section>
             {productById?.isActive ? (
                 <div data-buttons>
-                    {productById?.draft && isDataFull ? (
-                        <button data-black onClick={handlePublish}>
-                            <span>Опубликовать</span>
-                            <img src="/svg/globe-06.svg" alt="globe-06" width={20} height={20} />
-                        </button>
-                    ) : (
-                        <article>
-                            <p>
-                                Для того, что-бы опубликовать ваш товар, вам не хватает некоторой информации о товаре, а именно:{" "}
-                                <Link href={{ pathname: `/my-shop/${id}/merchandise/${productId}/change` }}>{dataNotCategory}</Link>
-                            </p>
-                        </article>
-                    )}
                     {productById?.draft ? (
-                        <Link data-black-border href={{ pathname: `/my-shop/${id}/merchandise/${productId}/change` }}>
-                            <span>Редактировать</span>
-                            <img src="/svg/replace.svg" alt="replace" width={20} height={20} />
-                        </Link>
+                        <>
+                            {isDataFull ? (
+                                <button data-black onClick={handlePublish}>
+                                    <span>Опубликовать</span>
+                                    <img src="/svg/globe-06.svg" alt="globe-06" width={20} height={20} />
+                                </button>
+                            ) : (
+                                <article>
+                                    <p>
+                                        Для того, что-бы опубликовать ваш товар, вам не хватает некоторой информации о товаре, а именно:{" "}
+                                        <Link href={{ pathname: `/my-shop/${id}/merchandise/${productId}/change` }}>{dataNotCategory}</Link>
+                                    </p>
+                                </article>
+                            )}
+                            <Link data-black-border href={{ pathname: `/my-shop/${id}/merchandise/${productId}/change` }}>
+                                <span>Редактировать</span>
+                                <img src="/svg/replace.svg" alt="replace" width={20} height={20} />
+                            </Link>
+                        </>
                     ) : null}
                     <button data-delete={!!productById?.draft} onClick={handleDelete}>
                         <span>{productById?.draft ? "Удалить" : "В архив"}</span>

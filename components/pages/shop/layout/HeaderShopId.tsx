@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useMemo } from "react"
 import { useQuery } from "@apollo/client"
 
@@ -16,6 +17,9 @@ export const HeaderShopId = ({ id }: { id: string }) => {
 
     return (
         <header data-header-name>
+            <Link href={{ pathname: "/my-shop" }} data-back>
+                <img src="/svg/arrow-left.svg" alt="chevron" width={24} height={24} />
+            </Link>
             <h3>{name}</h3>
         </header>
     )

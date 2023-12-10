@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { useForm } from "react-hook-form"
 import { ChangeEvent, useEffect, useMemo, useState } from "react"
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client"
@@ -17,6 +18,7 @@ import { CustomSelector } from "@/components/common/custom-selector"
 import { CustomsAttributes } from "@/components/common/customs-attributes"
 
 import { useAuth } from "@/store/state/useAuth"
+import { mutationProductPhotoDelete } from "@/apollo/delete"
 import { mutationProductAttributeUpdate } from "@/apollo/attribute"
 import { queryCategoriesRoot, queryProductById } from "@/apollo/query"
 import { createProductFull, mutateUpdateProduct } from "@/apollo/mutation"
@@ -30,12 +32,13 @@ export const MyProductChange = ({ id }: { id: string }) => {
     const [filesString, setFilesString] = useState<string[]>([])
     const { data: dataCategories } = useQuery<ICategoriesRoot>(queryCategoriesRoot)
     const { handlePush } = usePush()
-    const [use, { data }] = useLazyQuery<IProductRoot>(queryProductById, {
+    const [use, { data, refetch }] = useLazyQuery<IProductRoot>(queryProductById, {
         variables: { id },
     })
     const [delivery, setDelivery] = useState<string[]>([])
     const [updateAttr] = useMutation(mutationProductAttributeUpdate)
     const [update] = useMutation(mutateUpdateProduct)
+    const [deletePhoto] = useMutation(mutationProductPhotoDelete)
     const [create] = useMutation(createProductFull)
     const { productById } = data ?? {}
     const {
@@ -245,6 +248,15 @@ export const MyProductChange = ({ id }: { id: string }) => {
         }
     }, [watch("category"), watch("category_")])
 
+    function handleDeletePhoto(idPhoto: string) {
+        deletePhoto({
+            variables: {
+                productId: id,
+                productPhotoId: idPhoto,
+            },
+        }).finally(refetch)
+    }
+
     if (data?.productById?.author?.id !== user?.id && id !== "new") return null
 
     return (
@@ -254,21 +266,41 @@ export const MyProductChange = ({ id }: { id: string }) => {
                 <form onSubmit={onSubmit}>
                     <section>
                         {Array.isArray(productById?.photoListUrl) && productById?.photoListUrl?.length ? (
-                            <div data-photos>
+                            <div data-photos-change>
                                 {Array.isArray(productById?.photoListUrl)
                                     ? productById?.photoListUrl
                                           ?.filter((item) => item?.photoUrl)
-                                          ?.map((item) => <MiniPhoto src={item.photoUrl} key={item.id + item.photo} />)
+                                          ?.map((item) => (
+                                              <div data-image key={`${item.id}-$++`}>
+                                                  <Image src={item?.photoUrl!} alt={item?.photoUrl!} width={200} height={200} unoptimized />
+                                                  <div data-trash onClick={() => handleDeletePhoto(item.id)}>
+                                                      <img src="/svg/trash-01.svg" alt="trash" width={24} height={24} />
+                                                  </div>
+                                              </div>
+                                          ))
                                     : null}
                             </div>
                         ) : null}
-                        <div data-photos>
+                        <div data-photos-change>
                             <div data-input-file>
                                 <input {...register("files")} type="file" multiple onChange={handleImageChange} />
                                 <img src="/svg/plus.svg" alt="plus" width={80} height={80} />
                             </div>
                             {filesString?.length && files?.length
-                                ? filesString?.map((item, index) => <MiniPhoto src={item} key={`${index}-${item}`} />)
+                                ? filesString?.map((item, index) => (
+                                      <div data-image key={`${index}-$--uploaded`}>
+                                          <Image src={item} alt="load-file" width={200} height={200} unoptimized />
+                                          <div
+                                              data-trash
+                                              onClick={() => {
+                                                  setFiles((prev) => prev.filter((_, _i) => index !== _i))
+                                                  setFilesString((prev) => prev.filter((_, _i) => index !== _i))
+                                              }}
+                                          >
+                                              <img src="/svg/trash-01.svg" alt="trash" width={24} height={24} />
+                                          </div>
+                                      </div>
+                                  ))
                                 : null}
                         </div>
                         <i {...register("is_files", { required: true })}>

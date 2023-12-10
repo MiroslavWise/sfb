@@ -7,6 +7,10 @@
     & > header {
         width: 100%;
         padding: 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
     }
 
     & > nav {

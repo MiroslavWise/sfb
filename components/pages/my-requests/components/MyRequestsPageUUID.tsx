@@ -98,7 +98,7 @@ export const MyRequestsPageUUID = ({ id }: { id: string }) => {
     return (
         <div className={styles.wrapper}>
             <header>
-                <Link href={{ pathname: `/my-requests` }}>
+                <Link href={{ pathname: `/my-requests` }} data-back>
                     <img src="/svg/arrow-left.svg" alt="chevron" width={24} height={24} />
                 </Link>
                 <h3>{productRequestById?.name}</h3>
@@ -148,24 +148,26 @@ export const MyRequestsPageUUID = ({ id }: { id: string }) => {
                         ) : null}
                     </article>
                     <div data-buttons>
-                        {productRequestById?.draft && isDataFull ? (
-                            <button data-black onClick={handlePublish}>
-                                <span>Опубликовать</span>
-                                <img src="/svg/globe-06.svg" alt="globe-06" width={20} height={20} />
-                            </button>
-                        ) : (
-                            <article>
-                                <p>
-                                    Для того, что-бы опубликовать ваш запрос, вам не хватает некоторой информации о запросе, а именно:{" "}
-                                    <Link href={{ pathname: `/my-products/${id}/change` }}>{dataNotCategory}</Link>
-                                </p>
-                            </article>
-                        )}
                         {productRequestById?.draft ? (
-                            <Link data-black-border href={{ pathname: `/my-requests/${id}/change` }}>
-                                <span>Редактировать</span>
-                                <img src="/svg/replace.svg" alt="replace" width={20} height={20} />
-                            </Link>
+                            <>
+                                {isDataFull ? (
+                                    <button data-black onClick={handlePublish}>
+                                        <span>Опубликовать</span>
+                                        <img src="/svg/globe-06.svg" alt="globe-06" width={20} height={20} />
+                                    </button>
+                                ) : (
+                                    <article>
+                                        <p>
+                                            Для того, что-бы опубликовать ваш запрос, вам не хватает некоторой информации о запросе, а
+                                            именно: <Link href={{ pathname: `/my-products/${id}/change` }}>{dataNotCategory}</Link>
+                                        </p>
+                                    </article>
+                                )}
+                                <Link data-black-border href={{ pathname: `/my-requests/${id}/change` }}>
+                                    <span>Редактировать</span>
+                                    <img src="/svg/replace.svg" alt="replace" width={20} height={20} />
+                                </Link>
+                            </>
                         ) : null}
                         <button data-delete={!!productRequestById?.draft} onClick={handleDelete}>
                             <span>Удалить</span>

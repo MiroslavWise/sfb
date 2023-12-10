@@ -105,7 +105,7 @@
                 align-items: center;
                 gap: 8px;
 
-                & > [data-count] {
+                [data-count] {
                     position: absolute;
                     top: -4px;
                     left: calc(24px - 10px);
@@ -265,6 +265,7 @@
 
                 & > [data-notification] > [data-svg],
                 & > [data-svg] {
+                    position: relative;
                     width: 24px;
                     height: 24px;
                     cursor: pointer;
@@ -319,7 +320,7 @@
                         transition: color var(--transition);
                     }
 
-                    & > [data-count="true"] {
+                    [data-count] {
                         position: absolute;
                         top: -6px;
                         right: -6px;

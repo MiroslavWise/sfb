@@ -15,15 +15,6 @@
         border-radius: 7px;
         background-color: #fff;
 
-        & > a {
-            padding: 4px !important;
-            cursor: pointer;
-            & > img {
-                width: 24px;
-                height: 24px;
-            }
-        }
-
         & > h3 {
             color: var(--main-black);
             font-style: normal;

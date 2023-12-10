@@ -1,13 +1,13 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { useForm } from "react-hook-form"
 import { ChangeEvent, useEffect, useMemo, useState } from "react"
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client"
 
 import type { ICategoriesRoot, IRequestProductRoot } from "@/types/types"
 
-import { MiniPhoto } from "../../proposals"
 import { Input } from "@/components/common/input"
 import { TextArea } from "@/components/common/text-area"
 import { CustomSelector } from "@/components/common/custom-selector"
@@ -15,6 +15,7 @@ import { CustomsAttributes } from "@/components/common/customs-attributes"
 
 import { usePush } from "@/helpers/hooks/usePush"
 import { uploadFile } from "@/helpers/services/fetch"
+import { mutationProductRequestPhotoDelete } from "@/apollo/delete"
 import { mutationProductRequestAttributeUpdate } from "@/apollo/attribute"
 import { queryCategoriesRoot, queryProductRequestById } from "@/apollo/query"
 import { createProductRequestFull, mutateUpdateProductRequest } from "@/apollo/mutation"
@@ -26,11 +27,12 @@ export const MyRequestsPageChange = ({ id }: { id: string | "new" }) => {
     const [filesString, setFilesString] = useState<string[]>([])
     const { data: dataCategories } = useQuery<ICategoriesRoot>(queryCategoriesRoot)
     const { handlePush } = usePush()
-    const [use, { data }] = useLazyQuery<IRequestProductRoot>(queryProductRequestById, {
+    const [use, { data, refetch }] = useLazyQuery<IRequestProductRoot>(queryProductRequestById, {
         variables: { id },
     })
     const [updateAttr] = useMutation(mutationProductRequestAttributeUpdate)
     const [update] = useMutation(mutateUpdateProductRequest)
+    const [deletePhoto] = useMutation(mutationProductRequestPhotoDelete)
     const [create] = useMutation(createProductRequestFull)
     const { productRequestById } = data ?? {}
     const {
@@ -203,6 +205,12 @@ export const MyRequestsPageChange = ({ id }: { id: string | "new" }) => {
         }
     }, [listAttrs])
 
+    function handleDeletePhoto(idPhoto: string) {
+        deletePhoto({
+            variables: { productRequestId: id, productRequestPhotoId: idPhoto },
+        }).finally(refetch)
+    }
+
     if (!productRequestById && id !== "new") return null
 
     return (
@@ -211,22 +219,42 @@ export const MyRequestsPageChange = ({ id }: { id: string | "new" }) => {
                 <h1>Редактировать запрос</h1>
                 <form onSubmit={onSubmit}>
                     <section>
-                        {Array.isArray(productRequestById?.photoListUrl) && productRequestById?.photoListUrl.length ? (
-                            <div data-photos>
-                                {productRequestById?.photoListUrl
-                                    ?.filter((item) => item?.photoUrl)
-                                    ?.map((item) => (
-                                        <MiniPhoto src={item.photoUrl} key={item.id + item.photo + "---343"} />
-                                    ))}
+                        {Array.isArray(productRequestById?.photoListUrl) && productRequestById?.photoListUrl?.length ? (
+                            <div data-photos-change>
+                                {Array.isArray(productRequestById?.photoListUrl)
+                                    ? productRequestById?.photoListUrl
+                                          ?.filter((item) => item?.photoUrl)
+                                          ?.map((item) => (
+                                              <div data-image key={`${item.id}-$++`}>
+                                                  <Image src={item?.photoUrl!} alt={item?.photoUrl!} width={200} height={200} unoptimized />
+                                                  <div data-trash onClick={() => handleDeletePhoto(item.id)}>
+                                                      <img src="/svg/trash-01.svg" alt="trash" width={24} height={24} />
+                                                  </div>
+                                              </div>
+                                          ))
+                                    : null}
                             </div>
                         ) : null}
-                        <div data-photos>
+                        <div data-photos-change>
                             <div data-input-file>
                                 <input {...register("files")} type="file" multiple onChange={handleImageChange} />
                                 <img src="/svg/plus.svg" alt="plus" width={80} height={80} />
                             </div>
                             {filesString?.length && files?.length
-                                ? filesString?.map((item, index) => <MiniPhoto src={item} key={`${index}-${item}-1234`} />)
+                                ? filesString?.map((item, index) => (
+                                      <div data-image key={`${index}-$--uploaded`}>
+                                          <Image src={item} alt="load-file" width={200} height={200} unoptimized />
+                                          <div
+                                              data-trash
+                                              onClick={() => {
+                                                  setFiles((prev) => prev.filter((_, _i) => index !== _i))
+                                                  setFilesString((prev) => prev.filter((_, _i) => index !== _i))
+                                              }}
+                                          >
+                                              <img src="/svg/trash-01.svg" alt="trash" width={24} height={24} />
+                                          </div>
+                                      </div>
+                                  ))
                                 : null}
                         </div>
                     </section>

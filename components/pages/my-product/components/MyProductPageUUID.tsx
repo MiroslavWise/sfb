@@ -101,7 +101,7 @@ export const MyProductPageUUID = ({ id }: { id: string }) => {
     return (
         <div className={styles.wrapper}>
             <header>
-                <Link href={`/my-products`}>
+                <Link href={`/my-products`} data-back>
                     <img src="/svg/arrow-left.svg" alt="chevron" width={24} height={24} />
                 </Link>
                 <h3>{productById?.name}</h3>
@@ -145,24 +145,26 @@ export const MyProductPageUUID = ({ id }: { id: string }) => {
                     </article>
                     {productById?.isActive ? (
                         <div data-buttons>
-                            {productById?.draft && isDataFull ? (
-                                <button data-black onClick={handlePublish}>
-                                    <span>Опубликовать</span>
-                                    <img src="/svg/globe-06.svg" alt="globe-06" width={20} height={20} />
-                                </button>
-                            ) : (
-                                <article>
-                                    <p>
-                                        Для того, что-бы опубликовать ваш товар, вам не хватает некоторой информации о товаре, а именно:{" "}
-                                        <Link href={{ pathname: `/my-products/${id}/change` }}>{dataNotCategory}</Link>
-                                    </p>
-                                </article>
-                            )}
                             {productById?.draft ? (
-                                <Link data-black-border href={{ pathname: `/my-products/${id}/change` }}>
-                                    <span>Редактировать</span>
-                                    <img src="/svg/replace.svg" alt="replace" width={20} height={20} />
-                                </Link>
+                                <>
+                                    {isDataFull ? (
+                                        <button data-black onClick={handlePublish}>
+                                            <span>Опубликовать</span>
+                                            <img src="/svg/globe-06.svg" alt="globe-06" width={20} height={20} />
+                                        </button>
+                                    ) : (
+                                        <article>
+                                            <p>
+                                                Для того, что-бы опубликовать ваш товар, вам не хватает некоторой информации о товаре, а
+                                                именно: <Link href={{ pathname: `/my-products/${id}/change` }}>{dataNotCategory}</Link>
+                                            </p>
+                                        </article>
+                                    )}
+                                    <Link data-black-border href={{ pathname: `/my-products/${id}/change` }}>
+                                        <span>Редактировать</span>
+                                        <img src="/svg/replace.svg" alt="replace" width={20} height={20} />
+                                    </Link>
+                                </>
                             ) : null}
                             <button data-delete={!!productById?.draft} onClick={handleDelete}>
                                 <span>{productById?.draft ? "Удалить" : "В архив"}</span>

@@ -1,0 +1,16 @@
+* {
+    [data-back] {
+        width: 32px;
+        height: 32px;
+        padding: 4px !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+
+        & > img {
+            width: 24px;
+            height: 24px;
+        }
+    }
+}

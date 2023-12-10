@@ -207,7 +207,9 @@ export const MessagesChatUUID = () => {
     useEffect(() => {
         if (data?.chatMessageByChatId?.totalCount) {
             allRead().finally(() => {
-                useLazyCount()
+                setTimeout(() => {
+                    useLazyCount()
+                }, 150)
             })
         }
     }, [data?.chatMessageByChatId?.totalCount])

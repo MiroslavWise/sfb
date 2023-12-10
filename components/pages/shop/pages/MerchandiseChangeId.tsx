@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { useForm } from "react-hook-form"
 import { ChangeEvent, useEffect, useMemo, useState } from "react"
 import { useMutation, useQuery } from "@apollo/client"
@@ -19,6 +20,7 @@ import { useAuth } from "@/store/state/useAuth"
 import { usePush } from "@/helpers/hooks/usePush"
 import { uploadFile } from "@/helpers/services/fetch"
 import { mutateUpdateProduct } from "@/apollo/mutation"
+import { mutationProductPhotoDelete } from "@/apollo/delete"
 import { mutationProductAttributeUpdate } from "@/apollo/attribute"
 import { queryCategoriesRoot, queryProductById } from "@/apollo/query"
 
@@ -32,10 +34,11 @@ export const MerchandiseChangeId = ({ id, productId }: { id: string; productId: 
     const [delivery, setDelivery] = useState<string[]>([])
     const [loadingF, setLoadingF] = useState(false)
     const { data: dataCategories } = useQuery<ICategoriesRoot>(queryCategoriesRoot)
-    const { data } = useQuery<IProductRoot>(queryProductById, {
+    const { data, refetch } = useQuery<IProductRoot>(queryProductById, {
         variables: { id: productId },
     })
     const [update] = useMutation(mutateUpdateProduct)
+    const [deletePhoto] = useMutation(mutationProductPhotoDelete)
     const [updateAttr] = useMutation(mutationProductAttributeUpdate)
     const { productById } = data ?? {}
     const {
@@ -48,6 +51,8 @@ export const MerchandiseChangeId = ({ id, productId }: { id: string; productId: 
         defaultValues: {
             is_files: false,
         },
+        reValidateMode: "onChange",
+        mode: "onChange",
     })
 
     function submit(values: IValues | { [key: string]: string }) {
@@ -189,6 +194,10 @@ export const MerchandiseChangeId = ({ id, productId }: { id: string; productId: 
         }
     }, [listAttrs])
 
+    function handleDeletePhoto(idPhoto: string) {
+        deletePhoto({ variables: { productId, productPhotoId: idPhoto } }).finally(refetch)
+    }
+
     if (data?.productById?.author?.id !== user?.id) return null
 
     return (
@@ -197,21 +206,41 @@ export const MerchandiseChangeId = ({ id, productId }: { id: string; productId: 
             <form onSubmit={onSubmit}>
                 <section>
                     {Array.isArray(productById?.photoListUrl) && productById?.photoListUrl?.length ? (
-                        <div data-photos>
+                        <div data-photos-change>
                             {Array.isArray(productById?.photoListUrl)
                                 ? productById?.photoListUrl
                                       ?.filter((item) => item?.photoUrl)
-                                      ?.map((item) => <MiniPhoto loaded src={item.photoUrl} key={item.id + item.photoUrl + "asdf"} />)
+                                      ?.map((item) => (
+                                          <div data-image key={item.id}>
+                                              <Image src={item?.photoUrl!} alt={item?.photoUrl!} width={200} height={200} unoptimized />
+                                              <div data-trash onClick={() => handleDeletePhoto(item.id)}>
+                                                  <img src="/svg/trash-01.svg" alt="trash" width={24} height={24} />
+                                              </div>
+                                          </div>
+                                      ))
                                 : null}
                         </div>
                     ) : null}
-                    <div data-photos>
+                    <div data-photos-change>
                         <div data-input-file>
-                            <input type="file" multiple onChange={handleImageChange} />
+                            <input {...register("files")} type="file" multiple onChange={handleImageChange} />
                             <img src="/svg/plus.svg" alt="plus" width={80} height={80} />
                         </div>
                         {filesString?.length && files?.length
-                            ? filesString?.map((item, index) => <MiniPhoto src={item} key={`${index}-${item}-1qw2r3we4rq`} />)
+                            ? filesString?.map((item, index) => (
+                                  <div data-image key={`${index}-$--uploaded`}>
+                                      <Image src={item} alt="load-file" width={200} height={200} unoptimized />
+                                      <div
+                                          data-trash
+                                          onClick={() => {
+                                              setFiles((prev) => prev.filter((_, _i) => index !== _i))
+                                              setFilesString((prev) => prev.filter((_, _i) => index !== _i))
+                                          }}
+                                      >
+                                          <img src="/svg/trash-01.svg" alt="trash" width={24} height={24} />
+                                      </div>
+                                  </div>
+                              ))
                             : null}
                     </div>
                     <i {...register("is_files", { required: true })}>
@@ -244,8 +273,8 @@ export const MerchandiseChangeId = ({ id, productId }: { id: string; productId: 
                             error={errors.price ? "Заполните цену товарa" : null}
                             min={0}
                             type="number"
-                            {...register("price", { required: true })}
-                            onChange={(event) => setValue("price", event.target.value)}
+                            {...register("price", { required: true, validate: (value) => (Number(value) > 0 ? true : false) })}
+                            onChange={(event) => setValue("price", Number(event.target.value))}
                         />
                         <Input
                             value={watch("quantity")!}
